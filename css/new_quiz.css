@@ -1,0 +1,32 @@
+*{
+  padding: 0%;
+  margin: 0%;
+  
+}
+body{
+    background-color: #2f3542;
+    position: absolute;
+	align-items: center;
+	flex-direction: column;
+    align-content: center;
+   
+}
+.form_group{
+    width:60%;
+    height: 50%;
+    background-color:#ffffff;
+    border:5%;
+    position: relative;
+    top: 10%;
+    left:50%;
+
+}
+input,label,select,a{
+    padding: 12px 20px;
+    margin: 8px 0;
+    display:inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    
+}
