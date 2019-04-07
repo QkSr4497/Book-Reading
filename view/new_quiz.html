@@ -8,19 +8,27 @@
     <link rel="stylesheet" href="../css/new_quiz.css">
 </head>
 <body>
-    <div class="form_group">   
-      <form action="" >
-       <label for="">Enter quiz name</label>
-       <input type="text">
-       <label for="">Language</label>
-       <select name="" id="">
-           <option value="">Arabic</option>
-           <option value="">Hebrow</option>
-           <option value="">English</option>
-       </select>
-       <a href="parent_profile.html">cancel</a> 
-       <a href="../view/quiz_profile.html">save</a>
-     </form> 
-    </div>
+ <section class="form">
+        <form action="" class="form_group" >
+            <h2>Let's Create A New Quiz</h2>
+                <input type="text" placeholder="Enter quiz name"> 
+                <div class="image_upload_section">
+                        <label class="image_button">
+                                <span><input type="file" id="image-upload" placeholder="" accept="image/gif, image/jpeg, image/jpg, image/svg+xml, image/svg, image/png, image/x-png, image/pjpeg"></span>
+                                <label for="">Add image</label>
+                        </label>
+                </div>                  
+                
+                <br>
+                <label for="">Language</label>
+                <select name="" id="">
+                    <option value="">Arabic</option>
+                    <option value="">Hebrow</option>
+                    <option value="">English</option>
+                </select>
+                <a href="parent_profile.html">cancel</a> 
+                <a href="../view/quiz_profile.html">save</a>
+              </form>      
+ </section>   
 </body>
 </html>

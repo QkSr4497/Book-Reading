@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../css/trello.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+<style>
+    *{
+        font-family: 'Poppins', sans-serif;
+    }
+    #div1, #div2, #div3 {
+    float: left;
+    width: 200px;
+    height: 500px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #706fd3;
+    background-color: #706fd3;
+    align-items: center;
+    text-align: center;
+    overflow: scroll
+  }
+  .div_title{
+      padding: 0;
+       margin-top: 0;
+       width:100%;
+       height: 10%;
+       align-items: center;
+       text-align: center;
+
+  }
+  /* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+a{
+    background: #555;
+    width:100%;
+}
+</style>
+</head>
+<body>       
+    <h2>&#128218; My Books Board</h2>
+   
+    <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="div_title">
+                    <h4>Books I want to read</h4>
+             </div>
+             <a href="" draggable="true" ondragstart="drag(event)" id="drag4"><span>Cindrellla</span></a>
+             <a href="" draggable="true" ondragstart="drag(event)" id="drag4"><span>Cindrellla</span></a>
+    </div>
+    
+    <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)">
+       <div class="div_title">
+            <h4>Books I am reading</h4>
+            <a href="" draggable="true" ondragstart="drag(event)" id="drag4">
+                <span>Cindrellla</span>
+            </a>
+        
+       </div> 
+    </div>
+    
+    <div id="div3" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <div class="div_title">
+           <h4>Books I have read</h4>
+        </div>
+            
+    </div>
+
+
+    <script>
+            function allowDrop(ev) {
+              ev.preventDefault();
+            }
+            
+            function drag(ev) {
+              ev.dataTransfer.setData("text", ev.target.id);
+            }
+            
+            function drop(ev) {
+              ev.preventDefault();
+              var data = ev.dataTransfer.getData("text");
+              ev.target.appendChild(document.getElementById(data));
+            }
+            </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+#div1, #div2, #div3 {
+    float: left;
+    width: 300px;
+    height: 600px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid;
+    background-color: rgba(236, 240, 241, 1);
+  }
