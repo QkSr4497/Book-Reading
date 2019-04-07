@@ -102,6 +102,7 @@ CREATE TABLE Friend (
 CREATE TABLE Teaches (
  	teacherID INTEGER REFERENCES Teacher (teacherID),
 	kidID INTEGER REFERENCES Kid (KidID),
+	groupName TEXT NOT NULL,
 	PRIMARY KEY (teacherID, kidID)									   
 );
 							
@@ -149,13 +150,6 @@ CREATE TABLE WritesNote (
 	personID INTEGER REFERENCES Person (personID) UNIQUE,
 	PRIMARY KEY (bookID, noteID)									   
 );
-
-CREATE TABLE WritesReview (
-	bookID INTEGER REFERENCES Book (bookID),
-	personID INTEGER REFERENCES Person (personID),
-	noteID INTEGER REFERENCES Note (noteID) UNIQUE,
-	PRIMARY KEY (bookID, personID)									   
-);
 							
 CREATE TABLE BookHas (
 	bookID INTEGER REFERENCES Book (bookID),
@@ -166,7 +160,7 @@ CREATE TABLE BookHas (
 CREATE TABLE WritesQuiz (
 	bookID INTEGER REFERENCES Book (bookID),
 	quizID INTEGER REFERENCES Quiz (quizID),
-	teacherID INTEGER REFERENCES Teacher (teacherID) UNIQUE,
+	personID INTEGER REFERENCES Person (personID) UNIQUE,
 	PRIMARY KEY (bookID, quizID)									   
 );								
 
@@ -175,5 +169,14 @@ CREATE TABLE BookAssigned (
 	teacherID INTEGER REFERENCES Teacher (teacherID),
 	kidID INTEGER REFERENCES Kid (kidID),
 	PRIMARY KEY (bookID, teacherID, kidID)									   
-);									
+);
+							
+CREATE TABLE KidBook (
+	kidID INTEGER REFERENCES Kid (KidID),
+	bookID INTEGER REFERENCES Book (bookID),
+	type TEXT CHECK (type IN ('intrested', 'reading', 'finished')) NOT NULL,
+	review TEXT,
+	rating INTEGER CHECK ( rating >= 1 && rating <= 5 ),						  
+	PRIMARY KEY (kidID, bookID)								   
+);							
 							
