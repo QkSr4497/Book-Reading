@@ -6,6 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="../../css/card_detail.css">
+    <link rel="import" href="../view/kid_profile.html">
+
+    <script>
+      var link = document.querySelector('link[rel="import"]');
+      var content = link.import;
+      var el = content.querySelector('.put-include-here');
+      document.body.appendChild(el.cloneNode(true));
+    </script>
 </head>
 <body>
 
@@ -16,27 +24,30 @@
 
 
   <!-- Header-->
-    <header> 
+    <header>
+    
       <section class="title">
-        <h1>Books</h1>
+        <h1>Games</h1>
       </section>
     </header>
 
  <!-- cards-->
 
 <div class="main">
-    {#Book}
+    {#Game}
     <div class="cards">
         <article class="card">
-          <img src="/public/img/icons/book_5.png" alt="Sample photo">
+          <img src="/pix/samples/23m.jpg" alt="Sample photo">
           <div class="text">
-            <h3> {bookID}</h3>
+            <h3> {gameId}</h3>
             <p>{name}</p>
-            <button id={bookID}>I Want To Read</button>
+            <button>Add to card</button>
           </div>
         </article>
       </div>
-      {/Book}
-    </div>      
+      {/Game}
+    </div>
+
+      
 </body>
 </html>

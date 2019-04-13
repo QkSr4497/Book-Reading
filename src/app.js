@@ -7,8 +7,8 @@ const express = require('express'),
     app = express();
 
 const pool = new pg.Pool({
-    user: "qksr",
-    password: "qksrpassword",
+    user: "mk",
+    password: "admin",
     host: "localhost",
     port: 5432,
     database: "kidBookReadingDB"
@@ -45,7 +45,31 @@ app.get('/', function (req, res) {
             }
         });
     });
+    // games
+    pool.connect((err, client, done) => {
+        if (err) throw err
+        client.query('SELECT * FROM Game', (error, result) => {
+            if (error) {
+                console.log(error.stack);
+            } else { 
+                done();  
+                res.render('game', { Game: result.rows });
+            }
+        });
+    });
 
+// kid's book by status
+    pool.connect((err, client, done) => {
+        if (err) throw err
+        client.query('SELECT * FROM Game', (error, result) => {
+            if (error) {
+                console.log(error.stack);
+            } else { 
+                done();  
+                res.render('game', { Game: result.rows });
+            }
+        });
+    });
 });
 
 

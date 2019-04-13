@@ -1,10 +1,9 @@
 *{
   padding: 0%;
   margin: 0%;  
+  font-family: 'Poppins', sans-serif;
 }
-body{
 
-}
 .form{
     background-color: #2f3542;
     width: 100%;
@@ -13,10 +12,11 @@ body{
 	flex-direction: column;
     align-content: center;
     position: absolute;
+    text-align: center;
 }
 .form_group{
-    width:35%;
-    height: 50%;
+    width:30%;
+    height: 70%;
     background-color:#ffffff;
     border-radius: 5%;
     box-shadow:0px 1px 40px 10px rgba(247, 216, 148, 0.144);
@@ -34,7 +34,7 @@ input,label,select,a{
     position:relative;
     
 }
-
+/* 
 .image_upload_section{
     width: 20%;
     height: 30%;
@@ -50,4 +50,13 @@ input,label,select,a{
     opacity: 0;
     cursor: pointer;
     _cursor: hand;
+} */
+li{
+    list-style-type: none;
 }
+@media screen and (max-width:400px) {
+ 
+    .form_group{
+        widows: 100%;
+    }
+  }

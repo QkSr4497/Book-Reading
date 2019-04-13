@@ -176,7 +176,7 @@ CREATE TABLE KidBook (
 	bookID INTEGER REFERENCES Book (bookID),
 	type TEXT CHECK (type IN ('intrested', 'reading', 'finished')) NOT NULL,
 	review TEXT,
-	rating INTEGER CHECK ( rating >= 1 && rating <= 5 ),						  
+	rating INTEGER ,						  
 	PRIMARY KEY (kidID, bookID)								   
 );							
 							
