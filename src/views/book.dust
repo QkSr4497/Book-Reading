@@ -30,8 +30,9 @@
         <article class="card">
           <img src="/public/img/icons/book_5.png" alt="Sample photo">
           <div class="text">
-            <h3> {bookID}</h3>
-            <p>{name}</p>
+            <h3>book id: {bookID} </h3>
+            <p>book name: {bookName}</p>
+            <p>book pic: {pic}</p>
             <button id={bookID}>I Want To Read</button>
           </div>
         </article>

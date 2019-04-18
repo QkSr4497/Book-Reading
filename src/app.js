@@ -36,15 +36,16 @@ app.get('/', function (req, res) {
     // callback - checkout a client
     pool.connect((err, client, done) => {
         if (err) throw err
-        client.query('SELECT * FROM Book', (error, result) => {
+        client.query('SELECT * FROM "Book"', (error, result) => {
             if (error) {
                 console.log(error.stack);
             } else { 
                 done();  
-                res.render('book', { Book: result.rows });
+                res.render('book', { "Book": result.rows });
             }
         });
     });
+    /*
     // games
     pool.connect((err, client, done) => {
         if (err) throw err
@@ -70,6 +71,7 @@ app.get('/', function (req, res) {
             }
         });
     });
+    */
 });
 
 
