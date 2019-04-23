@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Register to Kid Read</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<!-- JQuery  -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+	<!-- for date format  -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+
+	<!-- MATERIAL DESIGN ICONIC FONT -->
+	<link rel="stylesheet" href="/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
+
+	<!-- STYLE CSS -->
+	<link rel="stylesheet" href="/css/signUp.css">
+
+	
+
+</head>
+
+<body>
+	<div class="wrapper" style="background-image: url('/img/SignUp-bg.jpg');">
+		<div class="inner">
+			<form method="POST" name="myForm" action="/signUpNewUser">
+				<h3>Registration Form</h3>
+				<div class="form-wrapper">
+					<p>Role *
+						<span class="validation-remark" id="roleException"></span>
+					</p>
+					<select id="role" class="form-control" name="role">
+						<option value="none" default selected>Select Your Role</option>
+						<option value="kid">Kid</option>
+						<option value="teacher">Teacher</option>
+						<option value="supervisor">Supervisor</option>
+					</select>
+				</div>
+
+				<div class="form-wrapper">
+					<p>First Name *
+						<span class="validation-remark" id="firstNameException"></span>
+					</p>
+					<input type="text" id="firstName" name="firstName" class="form-control" placeholder="First Name...">
+				</div>
+				<div class="form-wrapper">
+					<p>Last Name *
+						<span class="validation-remark" id="lastNameException"></span>
+					</p>
+					<input type="text" id="lastName" name="lastName" class="form-control" placeholder="Last Name...">
+				</div>
+				<div class="form-wrapper">
+					<p>Email *
+						<span class="validation-remark" id="emailException"></span>
+					</p>
+					<input type="text" id="email" name="email" class="form-control"
+						placeholder="Email address. for example: johndoe@gmail.com">
+				</div>
+				<div class="form-wrapper">
+					<p>User Name *
+						<span class="validation-remark" id="userNameException"></span>
+					</p>
+					<input type="text" id="userName" name="userName"  class="form-control" placeholder="Username...">
+				</div>
+
+				<div class="form-wrapper">
+					<p id="birthdateTitle">Brithdate *
+						<span class="validation-remark" id="birthDateException"></span>
+					</p>
+					<span class="input-group-addon"><i class="fas fa-user"></i></span>
+					<input type="date" class="form-control" id="birthdate" name="birthdate" name="birthdate" data-date=""
+						data-date-format="DD MMMM YYYY" value="2019-08-01" required="" value="">
+				</div>
+
+				<div class="form-wrapper">
+						<p id="phoneTitle">Phone *
+							<span class="validation-remark" id="phoneException"></span>
+						</p>
+						<input type="text" id="phone" name="phone" class="form-control" placeholder="Phone Number...">
+					</div>
+
+				<div class="form-wrapper">
+					<p>Password *
+						<span class="validation-remark" id="pass1Exception"></span>
+					</p>
+					<input type="password" id="pass1" name="pwd" class="form-control" placeholder="**********">
+				</div>
+				<div class="form-wrapper">
+					<p>Confirm Password *
+						<span class="validation-remark" id="pass2Exception"></span>
+					</p>
+					<input type="password" id="pass2" class="form-control" placeholder="**********">
+				</div>
+				<button type="button" onclick=" return checkAllInputs()">Register Now</button>
+			</form>
+		</div>
+	</div>
+
+	
+	<!-- Javascripts  -->
+	<!-- placing the script at the end makes sure that the script runs after all the elemnts are available -->
+	<script type="text/javascript" src="/js/signUp-scripts.js"></script>
+</body>
+
+</html>
