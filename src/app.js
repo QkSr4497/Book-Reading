@@ -112,7 +112,7 @@ app.post('/signUpNewUser', function (req, res) {
                                 client.query('INSERT INTO "Teacher"("teacherID", "phone") VALUES($1, $2)',
                                     [result.rows[0].personID, req.body.phone]);
                            }
-                           else if (req.body.role == 'teacher') {
+                           else if (req.body.role == 'supervisor') {
                             client.query('INSERT INTO "Supervisor"("supervisorID", "phone") VALUES($1, $2)',
                                 [result.rows[0].personID, req.body.phone]); 
                             }
@@ -147,9 +147,9 @@ app.get('/checkEmailDplicates/:email', function(req, res) {
                 else {
                     res.send({status: 'free'});
                 }  
-            }
-            done();
+            } 
         });
+        done();
     });
 });
 
@@ -175,9 +175,9 @@ app.get('/checkUserplicates/:user', function(req, res) {
                 else {
                     res.send({status: 'free'});
                 }  
-            }
-            done();
+            } 
         });
+        done();
     });
 });
 
