@@ -15,14 +15,13 @@
     <header>
         <div class="topnav" id="myTopnav">
             <a href="" class="active" class="openbtn" alt="" onclick="openNav()"><i class="fa fa-fw fa-user"></i></a>
-            <a href="" class="Logo" alt="" class="tablinks" onclick="openDiv(event,'home')">2READ</a>
-            <a href=""  onclick="openDiv(event, 'books')">Books</a>
-            <a href="" onclick="openDiv(event, 'games')">Games</a>
+            <a  class="tablinks" onclick="openDiv(event,'home')">2READ</a>
+            <a  class="tablinks" onclick="openDiv(event, 'books')">Books</a>
+            <a  class="tablinks" onclick="openDiv(event, 'games')">Games</a>
             <a href="javascript:void(0);" class="icon" onclick="myFunction()">
               <i class="fa fa-bars"></i>
             </a>
         </div>
-
 
 
         <div id="mySidenav" class="sidenav">
@@ -32,7 +31,7 @@
                 <button class="tablinks" onclick="openDiv(event, 'my-profile')">&#128102; My Profile</button>
                 <button class="tablinks" onclick="openDiv(event, 'my-books')">&#128218; My Books</button>
                 <button class="tablinks" onclick="openDiv(event, 'my-notes')">📄 My Notes</button>
-                <button class="tablinks" onclick="openDiv(event, 'games')">🎮 My Games</button>
+                <button class="tablinks" onclick="openDiv(event, 'my-games')">🎮 My Games</button>
                 <button class="tablinks" onclick="openDiv(event, 'my-groups')">👨‍👩‍👧‍👦  My Groups</button>
                 <button class="tablinks" onclick="openDiv(event, 'my-friends')">👨‍👩‍  My Friends</button>
                 <button class="tablinks" onclick="openDiv(event, 'my-account')">&#128179; My Account</button>
@@ -75,12 +74,12 @@
               <div class="card">
                 <a href="{{link}}">
                 <img src={{pic}} alt="Avatar" style="width:100%">
+                 </a>
                 <div class="container">
                   <h4><b>{{gameName}}</b></h4>
                   <p>{{price}}</p>
                   <button id="{{gameID}}" onclick="addToCartFunc()">Add To Cart</button>
-                </div>
-                </a>
+                </div>              
              </div>
              {{/Game}}
             </div>
