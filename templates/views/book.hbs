@@ -25,19 +25,19 @@
  <!-- cards-->
 
 <div class="main">
-    {#Book}
+    {{#Book}}
     <div class="cards">
         <article class="card">
           <img src="/public/img/icons/book_5.png" alt="Sample photo">
           <div class="text">
-            <h3>book id: {bookID} </h3>
-            <p>book name: {bookName}</p>
-            <p>book pic: {pic}</p>
-            <button id={bookID}>I Want To Read</button>
+            <h3>book id: {{bookID}} </h3>
+            <p>book name: {{bookName}}</p>
+            <p>book pic: {{pic}}</p>
+            <button id={{bookID}}>I Want To Read</button>
           </div>
         </article>
       </div>
-      {/Book}
+      {{/Book}}
     </div>      
 </body>
 </html>

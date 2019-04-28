@@ -1,11 +1,31 @@
 const express = require('express'),
     path = require('path'),
     bodyParser = require('body-parser'),
-    cons = require('consolidate'),
-    dust = require('dustjs-helpers'),
+    hbs = require('hbs'),
     pg = require('pg'),
     app = express();
+// Define paths for Express config
+const publicDirectoryPath = path.join(__dirname, '../public');
+const viewsPath = path.join(__dirname, '../templates/views'); // absolute path to the new templates/views folder (which is instead the previous default folder called views)
+const partialsPath = path.join(__dirname, '../templates/partials');                          
+              
 
+// Setup handlebars engine and views location
+app.set('view engine', 'hbs');  // telling express which templating engine we installed
+                                // 2 arguments: the key is the setting name and the value we want to set for the setting
+                                // express expects all the views (here the handlebars views) in a "views" folder in the root of the project
+                                // to use view pages we need to setup a route
+
+app.set('views', viewsPath);    //changing the path for views
+hbs.registerPartials(partialsPath); // changing the path to the partials
+
+app.use(express.static(publicDirectoryPath));  // use is a way to customize our server to serve up the folder
+                                               // static takes a path to the folder we want to serve up
+                                               // here the server serves the static assets which are in public directory
+                                               // static means no matter how many times we refresh the page, the assets won't change (for example the picture)
+                                               // now when visiting the root of our website we will get index.html
+
+                                               
 const pool = new pg.Pool({
     user: "mk",
     password: "admin",
@@ -13,18 +33,6 @@ const pool = new pg.Pool({
     port: 5432,
     database: "kidBookReadingDB"
 });
-
-// Assign Dust Enging to .dust Files
-app.engine('dust', cons.dust);
-
-//  Set Default Ext .dust
-app.set('view engine', 'dust');
-app.set('views', __dirname + '/..' + '/views');
-
-const publicPagesDirectoryPath = path.join(__dirname, '..', 'public');
-
-// Set public Folder
-app.use(express.static(publicPagesDirectoryPath));
 
 // Body Parser Middleware
 app.use(bodyParser.json());
