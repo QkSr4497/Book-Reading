@@ -38,6 +38,8 @@ const pool = new pg.Pool({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+
+//===========================================================
 app.get('/', function (req, res) {
     // the pool with emit an error on behalf of any idle clients
     // it contains if a backend error or network partition happens
@@ -55,38 +57,97 @@ app.get('/', function (req, res) {
             } else {
                 done();
                 // res.redirect('/signUp.html');
-                res.render('book', { "Book": result.rows });
+                res.render('kid-page', { "Book": result.rows });
             }
         });
-    });
-    /*
-    // games
-    pool.connect((err, client, done) => {
-        if (err) throw err
-        client.query('SELECT * FROM Game', (error, result) => {
-            if (error) {
-                console.log(error.stack);
-            } else { 
-                done();  
-                res.render('game', { Game: result.rows });
-            }
-        });
+        
     });
 
-// kid's book by status
+});
+
+//-----------------------------------------------------
+app.get('/', function (req, res) {
+    // the pool with emit an error on behalf of any idle clients
+    // it contains if a backend error or network partition happens
+    pool.on('error', (err, client) => {
+        console.error('Unexpected error on idle client', err)
+        process.exit(-1)
+    })
+
+    // callback - checkout a client
     pool.connect((err, client, done) => {
         if (err) throw err
-        client.query('SELECT * FROM Game', (error, result) => {
+        client.query('SELECT * FROM "Game"', (error, result) => {
             if (error) {
                 console.log(error.stack);
-            } else { 
-                done();  
-                res.render('game', { Game: result.rows });
+            } else {
+                done();
+                // res.redirect('/signUp.html');
+                res.render('kid-page', { "Game": result.rows });
             }
         });
+        
     });
-    */
+
 });
+
+
+//==========================================
+
+app.get('/', function (req, res) {
+    // the pool with emit an error on behalf of any idle clients
+    // it contains if a backend error or network partition happens
+    pool.on('error', (err, client) => {
+        console.error('Unexpected error on idle client', err)
+        process.exit(-1)
+    })
+
+    // callback - checkout a client
+    pool.connect((err, client, done) => {
+        if (err) throw err
+        client.query('SELECT * FROM "Friend" ', (error, result) => {
+            if (error) {
+                console.log(error.stack);
+            } else {
+                done();
+                // res.redirect('/signUp.html');
+                res.render('kid-page', { "Friend" : result.rows });
+            }
+        });
+        
+    });
+
+});
+
+//-------------------------------
+
+app.get('/', function (req, res) {
+    // the pool with emit an error on behalf of any idle clients
+    // it contains if a backend error or network partition happens
+    pool.on('error', (err, client) => {
+        console.error('Unexpected error on idle client', err)
+        process.exit(-1)
+    })
+
+    // callback - checkout a client
+    pool.connect((err, client, done) => {
+        if (err) throw err
+        client.query('SELECT * FROM "HasGames" ', (error, result) => {
+            if (error) {
+                console.log(error.stack);
+            } else {
+                done();
+                // res.redirect('/signUp.html');
+                res.render('kid-page', { "HasGames" : result.rows });
+            }
+        });
+        
+    });
+
+});
+
+
+
 
 
 
@@ -189,6 +250,29 @@ app.get('/checkUserplicates/:user', function(req, res) {
     });
 });
 
+
+app.get('/kid-page', function (req, res) {
+    // the pool with emit an error on behalf of any idle clients
+    // it contains if a backend error or network partition happens
+    pool.on('error', (err, client) => {
+        console.error('Unexpected error on idle client', err)
+        process.exit(-1)
+    })
+
+    // callback - checkout a client
+    pool.connect((err, client, done) => {
+        if (err) throw err
+        client.query('SELECT * FROM "Book"', (error, result) => {
+            if (error) {
+                console.log(error.stack);
+            } else {
+                done();
+                // res.redirect('/signUp.html');
+                res.render('kid-page', { "Book": result.rows });
+            }
+        });
+    });
+});
 
 // Server
 app.listen(3000, function () {

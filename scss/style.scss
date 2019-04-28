@@ -1,0 +1,15 @@
+@import 'reset';
+body{
+    margin: 0;
+    padding: 0%;
+    background-color: #e8e8e8;
+    box-sizing: border-box;
+   } 
+@import 'navbar';
+
+@import 'my-books-style';
+
+@import 'card-style';
+
+@import 'home-style';
+@import 'my-notes-style'

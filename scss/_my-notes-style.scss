@@ -1,0 +1,33 @@
+.my-notes-style{
+    .dropbtn {
+        background-color: white;
+        color: black;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        width:90%;
+      }
+      
+       .dropbtn:hover {
+        background-color: grey;
+      }
+      
+      .dropdown {
+        position: relative;
+        display: inline-block;
+        width:100%;
+        align-items: center;
+        text-align: center; 
+      }
+      
+      .dropdown-content {
+        display: none;
+        width: 90%;
+        padding: 50px 0;
+        text-align: left;
+        background-color:white;
+        color: black;
+        margin-left: 5%;
+      }
+}
