@@ -1,0 +1,25 @@
+.my-account-style{
+    .total_account{
+        font-size: 120%;
+        margin-top: 2%;
+    }
+    hr{
+        border-top: 7px solid;
+    }
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 80%;
+        background-color: #fff;
+      }
+      
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+      th{
+          background-color: rgba(129, 88, 252, 0.5);
+      }
+      
+}

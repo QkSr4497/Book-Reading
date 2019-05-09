@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="Stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+</head>
+
+<body>
+<div class="navbar" >
+        <div id="main">
+
+          <div id="games" class="tabcontent">
+            <div class="card-style">
+             <div class="title">
+                <h2>🎲 Games List</h2>
+            </div>
+            <div class="cards">
+               {{#Game}}
+              <div class="card">
+                <a href="{{link}}">
+                <img src={{pic}} alt="Avatar" style="width:100%">
+                 </a>
+                <div class="container">
+                  <h4><b>{{gameName}}</b></h4>
+                  <p>{{price}}</p>
+                  <button id="{{gameID}}" onclick="addToCartFunc()">Add To Cart</button>
+                </div>
+             </div>
+             {{/Game}}
+            </div>
+            </div>
+          </div>
+      </div>
+  </body>
+</html>

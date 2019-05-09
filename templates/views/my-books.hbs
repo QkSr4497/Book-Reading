@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="Stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+</head>
+
+<body>
+<div class="navbar" >
+        <div class="topnav" id="myTopnav">
+            <a href="" class="active" class="openbtn" alt="" onclick="openNav()"><i class="fa fa-fw fa-user"></i></a>
+            <a  class="tablinks" onclick="openDiv(event,'home')">2READ</a>
+            <a  href="/books" class="tablinks" >Books</a>
+            <a  href="/games" class="tablinks">Games</a>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+              <i class="fa fa-bars"></i>
+            </a>
+        </div>
+
+
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <div class="tab">
+                <button class="tablinks" onclick="openDiv(event, '/kid-page')" id="defaultOpen">🏠 Home</button>
+                <button class="tablinks" onclick="openDiv(event, 'my-profile')">&#128102; My Profile</button>
+                <button class="tablinks" onclick="openDiv(event, 'my-books')" action="/my-books">&#128218; My Books</button>
+                <button class="tablinks" onclick="openDiv(event, 'my-notes')">📄 My Notes</button>
+                <button class="tablinks" onclick="openDiv(event, 'my-games')">🎮 My Games</button>
+                <button class="tablinks" onclick="openDiv(event, 'my-groups')">👨‍👩‍👧‍👦  My Groups</button>
+                <button class="tablinks" onclick="openDiv(event, 'my-friends')">👨‍👩‍  My Friends</button>
+                <button class="tablinks" onclick="openDiv(event, 'my-account')">&#128179; My Account</button>
+                <button class="tablinks" onclick="openDiv(event, 'my-card')">🛒 My Cart</button>
+                <button class="tablinks" onclick="openDiv(event, 'settings')">&#128295; Settings</button>
+                <button class="tablinks" onclick="openDiv(event, 'log-out')">&#127939; Log Out</button>
+            </div>
+        </div>
+
+    <div id="main">
+        <div id="my-books" class="tabcontent" >
+          <div class="my-books-style">
+            <div class="title">
+                <h2>&#128218; My Books Board</h2>
+            </div>
+
+            <div class="my-books">
+                    <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="div_title">
+                           <h4>Books I want to read</h4>
+                        </div>
+                          <a href="" draggable="true" ondragstart="drag(event)" id="drag1">
+                          <span>Cindrellla</span>
+                          </a>
+                    </div>
+
+                    <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)">
+                      <div class="div_title">
+                         <h4>Books I am reading</h4>
+                       </div>
+                       {{#MyReadingBook}}
+                       <a href="" draggable="true" ondragstart="drag(event)" id="{{bookID}}">
+                           <span>{{bookName}}</span>
+                       </a>
+                       {{/MyReadingBook}}
+                     </div>
+
+                    <div id="div3" ondrop="drop(event)" ondragover="allowDrop(event)">
+                       <div class="div_title">
+                          <h4>Books I have read</h4>
+                        </div>
+                        <a href="" draggable="true" ondragstart="drag(event)" id="drag3">
+                            <span>Cindrellla</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+
+    </div>
+  </body>
+</html>
+
