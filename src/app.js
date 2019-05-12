@@ -26,12 +26,14 @@ app.use(express.static(publicDirectoryPath));  // use is a way to customize our 
                                                // now when visiting the root of our website we will get index.html
 
                                                
+require('dotenv').config(); // using env file
+
 const pool = new pg.Pool({
-    user: "mk",
-    password: "admin",
-    host: "localhost",
-    port: 5432,
-    database: "kidBookReadingDB"
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    database: process.env.DB_NAME
 });
 
 // Body Parser Middleware
@@ -186,27 +188,28 @@ app.post('/signUpNewUser', function (req, res) {
     // callback - checkout a client
     pool.connect((err, client, done) => {
         if (err) throw err
-        client.query('INSERT INTO "Person"("userName", "firstName", "lastName", email, pwd) VALUES($1, $2, $3, $4, $5)',
+        client.query('INSERT INTO "Person"("userName", "firstName", "lastName", email, pwd) VALUES($1, $2, $3, $4, $5)',    // inserting into person
             [req.body.userName, req.body.firstName, req.body.lastName, req.body.email, req.body.pwd], (error) => {
                 if (error) {
                     console.log(error.stack);
                 } 
                 else {
-                    client.query('SELECT * FROM "Person" p WHERE p."userName" = $1', [req.body.userName], (error, result) => {
+                    client.query('SELECT * FROM "Person" p WHERE p."userName" = $1', [req.body.userName], (error, result) => {  // getting the id of the new person for the purppose
+                                                                                                                                // of inserting this id as foriegn key for subtype table
                         if (error) {
                             console.log(error.stack);
                         } 
                         else {
                             if (req.body.role == 'kid') {
-                                client.query('INSERT INTO "Kid"("kidID", "birthDate") VALUES($1, $2)',
+                                client.query('INSERT INTO "Kid"("kidID", "birthDate") VALUES($1, $2)',  // inserting into kid
                                     [result.rows[0].personID, req.body.birthdate]);
                             } 
                            else if (req.body.role == 'teacher') {
-                                client.query('INSERT INTO "Teacher"("teacherID", "phone") VALUES($1, $2)',
+                                client.query('INSERT INTO "Teacher"("teacherID", "phone") VALUES($1, $2)',  // inserting into teacher
                                     [result.rows[0].personID, req.body.phone]);
                            }
                            else if (req.body.role == 'supervisor') {
-                            client.query('INSERT INTO "Supervisor"("supervisorID", "phone") VALUES($1, $2)',
+                            client.query('INSERT INTO "Supervisor"("supervisorID", "phone") VALUES($1, $2)',  // inserting into supervisor
                                 [result.rows[0].personID, req.body.phone]); 
                             }
                         }
