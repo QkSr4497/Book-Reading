@@ -101,6 +101,51 @@
             </div>
           </div>
         </div>
+        <div id="my-profile" class="tabcontent">
+          <div class="card-style">
+            <div class="title">
+              <h2>🎮 My Profile</h2>
+            </div>
+            <div class="my-profile-style">
+                  <div class="profile-content">
+      <form class="" action="index.html" method="post">
+        <div class="img-container">
+          <img src="img1.png" alt="Avatar" class="avatar">
+          <button type="button" name="button" id="editImgBtn">	<i class='fas fa-edit'></i> Edit profile</button>
+        </div>
+        <div class="detail-container">
+          <table>
+            <tr>
+              <td><label for="">User Name</label></td>
+              <td><input type="text" name="" value=""></td>
+            </tr>
+            <tr>
+              <td><label for="">First Name</label></td>
+              <td><input type="text" name="" value=""></td>
+            </tr>
+            <tr>
+              <td><label for="">Last Name:</label></td>
+              <td><input type="text" name="" value=""></td>
+            </tr>
+            <tr>
+              <td><label for="">Birthdate:</label></td>
+              <td><input type="text" name="" value=""></td>
+            </tr>
+            <tr>
+              <td> <label for="">Password:</label></td>
+              <td><input type="text" name="" value=""></td>
+            </tr>
+          </table>
+        </div>
+        <button type="button" name="button" id="editProfileBtn">	<i class='fas fa-edit'></i> Edit profile</button>
+      </form>
+    </div>
+            </div>
+          </div>
+        </div>
+
+
+
 
         <div id="my-books" class="tabcontent">
           <div class="my-books-style">
@@ -139,27 +184,63 @@
           </div>
         </div>
 
-
-        <div id="my-notes" class="tabcontent">
-          <div class="title">
+    <div id="my-notes" class="tabcontent">
+        <div class="title">
             <h2>📄 My Notes</h2>
-          </div>
-          <div class="my-notes-style">
-            <button id="addnotebtn" class="addbtn" type="button" name="button"
-              onclick="document.getElementById('id01').style.display='block'">
-              Add New Note
+        </div> 
+        <div class="my-notes-style">
+
+            <button id="addnotebtn" class="addbtn" type="button" name="button"  onclick="document.getElementById('id01').style.display='block'">
+            Add New Note
             </button>
+
+            <input type="text" id="myInput" onkeyup="myNoteSearch()"  placeholder="🔍Search.." title="Type in a name">
             <div class="dropdown">
-              <button onclick="dropdownFunc()" class="dropbtn" id="dropbutton">
-                <span>Note Tilte </span><span>Book Name </span>
-              </button>
-              <div id="myDropdown" class="dropdown-content">
+            <button onclick="dropdownFunc()" class="dropbtn" id="dropbutton">
+            <span>Note Tilte </span><span>Book Name </span>
+            </button>
+            <div id="myDropdown" class="dropdown-content">
+                <form action="">
                 <button>Remove</button>
                 <button>Update</button>
-              </div>
+                </form>
             </div>
-          </div>
+            </div>  
+
+
+        <div id="id01" class="modal">
+
+        <form class="" action="">
+            <label for="nname">Note Name</label>
+            <input type="text" id="nname" name="notename" placeholder="Your Note Name..">
+
+            <input type="radio" name="type" value="general" onclick="if(this.checked){hideBooks()}"> general note<br>
+            <input type="radio" name="type" value="book"  onclick="if(this.checked){showBooks()}"> book's note<br>
+
+            <div id="book-options" >
+            <label for="book-name">Book Name</label>
+            <select id="my-books-options" name="my-books-op">
+            <option value="australia">Australia</option>
+            </select>
+            </div>  
+
+            <label for="subject">Subject</label>
+            <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+
+            <button>Add new note</button>
+
+
+            <div class="container" style="background-color:#f1f1f1">
+            <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">
+                Cancel
+            </button>
+            </div>
+        </form>
+        </div> 
+
+
         </div>
+    </div>
 
         <div id="my-games" class="tabcontent">
           <div class="card-style">
@@ -331,23 +412,6 @@
 
           <!-- main -->
         </div>
-
-
-        {{!
-             <div id="id01" class="modal">
-               <form class="modal-content animate" action="">
-                 <label for="">Title</label>
-                 <input type="text" name="" value="">
-                 <label for="">Note kind</label>
-                 <input type="checkbox" name="" value="">
-                 <label for="">my thoughts:</label>
-                 <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
-                 <label for="">my drawings</label>
-                 <input type="file" name="pic" accept="image/*">
-                 <button type="button" name="button">Add</button>
-                <button type="button" name="button">Cancel</button>
-               </form>
-             </div> }}
 
 
 
