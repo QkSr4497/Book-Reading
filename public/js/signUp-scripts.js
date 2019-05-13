@@ -61,7 +61,7 @@ function checkDuplicates() {
         if (userData == 'taken') {
             userExceptionText = "User Name is taken.";
             window.alert("Please Correct all Inputs with red comment");
-            document.getElementById("userNameException").innerHTML = userExceptionText;    
+            document.getElementById("userNameException").innerHTML = userExceptionText;  
         }
         else if (userData == 'free') {
             userExceptionText = "";
@@ -84,7 +84,7 @@ function checkDuplicates() {
 }
 
 const checkEmailDuplicates = (email, callback) => {
-    var url = '/checkEmailDplicates/' + email;
+    var url = '/signUp/checkEmailDplicates/' + email;
     $.ajax({
         url: url,
         type:'GET',
@@ -104,7 +104,7 @@ const checkEmailDuplicates = (email, callback) => {
 }
 
 const checkUserDuplicates = (userName, callback) => {
-    var url = '/checkUserplicates/' + userName;
+    var url = '/signUp/checkUserplicates/' + userName;
     $.ajax({
         url: url,
         type:'GET',

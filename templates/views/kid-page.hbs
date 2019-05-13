@@ -15,313 +15,304 @@
 
 <body>
   <div class="navbar">
-    <header>
-      <div class="topnav" id="myTopnav">
-        <a href="" class="active" class="openbtn" alt="" onclick="openNav()"><i class="fa fa-fw fa-user"></i></a>
-        <a class="tablinks" onclick="openDiv(event,'home')">2READ</a>
-        <a class="tablinks" onclick="openDiv(event, 'books')">Books</a>
-        <a class="tablinks" onclick="openDiv(event, 'games')">Games</a>
-        <a href="pages/Login/login.html">Sign In</a>
-        <a href="pages/signUp.html">Sign Up</a>
-        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-          <i class="fa fa-bars"></i>
-        </a>
+    {{> header }}
+
+
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <div class="tab">
+        <button class="tablinks" onclick="openDiv(event, 'home')" id="defaultOpen">🏠 Home</button>
+        <button class="tablinks" onclick="openDiv(event, 'my-profile')">&#128102; My Profile</button>
+        <button class="tablinks" onclick="openDiv(event, 'my-books')">&#128218; My Books</button>
+        <button class="tablinks" onclick="openDiv(event, 'my-notes')">📄 My Notes</button>
+        <button class="tablinks" onclick="openDiv(event, 'my-games')">🎮 My Games</button>
+        <button class="tablinks" onclick="openDiv(event, 'my-groups')">👨‍👩‍👧‍👦 My Groups</button>
+        <button class="tablinks" onclick="openDiv(event, 'my-friends')">👨‍👩‍ My Friends</button>
+        <button class="tablinks" onclick="openDiv(event, 'my-account')">&#128179; My Account</button>
+        <button class="tablinks" onclick="openDiv(event, 'my-card')">🛒 My Cart</button>
+        <button class="tablinks" onclick="openDiv(event, 'settings')">&#128295; Settings</button>
+        <button class="tablinks" onclick="openDiv(event, 'log-out')">&#127939; Log Out</button>
       </div>
+    </div>
 
+    <div id="main">
 
-      <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <div class="tab">
-          <button class="tablinks" onclick="openDiv(event, 'home')" id="defaultOpen">🏠 Home</button>
-          <button class="tablinks" onclick="openDiv(event, 'my-profile')">&#128102; My Profile</button>
-          <button class="tablinks" onclick="openDiv(event, 'my-books')">&#128218; My Books</button>
-          <button class="tablinks" onclick="openDiv(event, 'my-notes')">📄 My Notes</button>
-          <button class="tablinks" onclick="openDiv(event, 'my-games')">🎮 My Games</button>
-          <button class="tablinks" onclick="openDiv(event, 'my-groups')">👨‍👩‍👧‍👦 My Groups</button>
-          <button class="tablinks" onclick="openDiv(event, 'my-friends')">👨‍👩‍ My Friends</button>
-          <button class="tablinks" onclick="openDiv(event, 'my-account')">&#128179; My Account</button>
-          <button class="tablinks" onclick="openDiv(event, 'my-card')">🛒 My Cart</button>
-          <button class="tablinks" onclick="openDiv(event, 'settings')">&#128295; Settings</button>
-          <button class="tablinks" onclick="openDiv(event, 'log-out')">&#127939; Log Out</button>
-        </div>
-      </div>
-
-      <div id="main">
-
-        <div id="books" class="tabcontent">
-          <div class="card-style">
-            <div class="title">
-              <h2>📘 Books List</h2>
-            </div>
-            <div class="cards">
-              {{#Book}}
-              <div class="card">
-                <a href="#" onclick="openDiv(event, 'book-profile')">
-                  <img src="" alt="Avatar" style="width:100%">
-                  <div class="container">
-                    <h4><b> {{bookName}}</b></h4>
-                    <p></p>
-                  </div>
-                </a>
-              </div>
-              {{/Book}}
-            </div>
+      <div id="books" class="tabcontent">
+        <div class="card-style">
+          <div class="title">
+            <h2>📘 Books List</h2>
           </div>
-        </div>
-
-        <div id="games" class="tabcontent">
-          <div class="card-style">
-            <div class="title">
-              <h2>🎲 Games List</h2>
-            </div>
-            <div class="cards">
-              {{#Game}}
-              <div class="card">
-                <a href="{{link}}">
-                  <img src={{pic}} alt="Avatar" style="width:100%">
-                </a>
+          <div class="cards">
+            {{#Book}}
+            <div class="card">
+              <a href="#" onclick="openDiv(event, 'book-profile')">
+                <img src="" alt="Avatar" style="width:100%">
                 <div class="container">
-                  <h4><b>{{gameName}}</b></h4>
-                  <p>{{price}}</p>
-                  <button id="{{gameID}}" onclick="addToCartFunc()">Add To Cart</button>
+                  <h4><b> {{bookName}}</b></h4>
+                  <p></p>
                 </div>
-              </div>
-              {{/Game}}
+              </a>
             </div>
+            {{/Book}}
           </div>
         </div>
+      </div>
 
-        <div id="home" class="tabcontent">
-          <div class="home-style">
-            <div class="home-container">
-              <h2>What will you read today?</h2>
-              <form class="search-container">
-                <input type="text" name="search" placeholder="🔍Search..">
+      <div id="games" class="tabcontent">
+        <div class="card-style">
+          <div class="title">
+            <h2>🎲 Games List</h2>
+          </div>
+          <div class="cards">
+            {{#Game}}
+            <div class="card">
+              <a href="{{link}}">
+                <img src={{pic}} alt="Avatar" style="width:100%">
+              </a>
+              <div class="container">
+                <h4><b>{{gameName}}</b></h4>
+                <p>{{price}}</p>
+                <button id="{{gameID}}" onclick="addToCartFunc()">Add To Cart</button>
+              </div>
+            </div>
+            {{/Game}}
+          </div>
+        </div>
+      </div>
+
+      <div id="home" class="tabcontent">
+        <div class="home-style">
+          <div class="home-container">
+            <h2>What will you read today?</h2>
+            <form class="search-container">
+              <input type="text" name="search" placeholder="🔍Search..">
+            </form>
+          </div>
+        </div>
+      </div>
+      <div id="my-profile" class="tabcontent">
+        <div class="card-style">
+          <div class="title">
+            <h2>🎮 My Profile</h2>
+          </div>
+          <div class="my-profile-style">
+            <div class="profile-content">
+              <form class="" action="index.html" method="post">
+                <div class="img-container">
+                  <img src="img1.png" alt="Avatar" class="avatar">
+                  <button type="button" name="button" id="editImgBtn"> <i class='fas fa-edit'></i> Edit profile</button>
+                </div>
+                <div class="detail-container">
+                  <table>
+                    <tr>
+                      <td><label for="">User Name</label></td>
+                      <td><input type="text" name="" value=""></td>
+                    </tr>
+                    <tr>
+                      <td><label for="">First Name</label></td>
+                      <td><input type="text" name="" value=""></td>
+                    </tr>
+                    <tr>
+                      <td><label for="">Last Name:</label></td>
+                      <td><input type="text" name="" value=""></td>
+                    </tr>
+                    <tr>
+                      <td><label for="">Birthdate:</label></td>
+                      <td><input type="text" name="" value=""></td>
+                    </tr>
+                    <tr>
+                      <td> <label for="">Password:</label></td>
+                      <td><input type="text" name="" value=""></td>
+                    </tr>
+                  </table>
+                </div>
+                <button type="button" name="button" id="editProfileBtn"> <i class='fas fa-edit'></i> Edit
+                  profile</button>
               </form>
             </div>
           </div>
         </div>
-        <div id="my-profile" class="tabcontent">
-          <div class="card-style">
-            <div class="title">
-              <h2>🎮 My Profile</h2>
+      </div>
+
+
+
+
+      <div id="my-books" class="tabcontent">
+        <div class="my-books-style">
+          <div class="title">
+            <h2>&#128218; My Books Board</h2>
+          </div>
+
+          <div class="my-books">
+            <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+              <div class="div_title">
+                <h4>Books I want to read</h4>
+              </div>
+              <a href="" draggable="true" ondragstart="drag(event)" id="drag1">
+                <span>Cindrellla</span>
+              </a>
             </div>
-            <div class="my-profile-style">
-                  <div class="profile-content">
-      <form class="" action="index.html" method="post">
-        <div class="img-container">
-          <img src="img1.png" alt="Avatar" class="avatar">
-          <button type="button" name="button" id="editImgBtn">	<i class='fas fa-edit'></i> Edit profile</button>
-        </div>
-        <div class="detail-container">
-          <table>
-            <tr>
-              <td><label for="">User Name</label></td>
-              <td><input type="text" name="" value=""></td>
-            </tr>
-            <tr>
-              <td><label for="">First Name</label></td>
-              <td><input type="text" name="" value=""></td>
-            </tr>
-            <tr>
-              <td><label for="">Last Name:</label></td>
-              <td><input type="text" name="" value=""></td>
-            </tr>
-            <tr>
-              <td><label for="">Birthdate:</label></td>
-              <td><input type="text" name="" value=""></td>
-            </tr>
-            <tr>
-              <td> <label for="">Password:</label></td>
-              <td><input type="text" name="" value=""></td>
-            </tr>
-          </table>
-        </div>
-        <button type="button" name="button" id="editProfileBtn">	<i class='fas fa-edit'></i> Edit profile</button>
-      </form>
-    </div>
+
+            <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)">
+              <div class="div_title">
+                <h4>Books I have read</h4>
+              </div>
+              <a href="" draggable="true" ondragstart="drag(event)" id="drag2">
+                <span>Cindrellla</span>
+              </a>
+            </div>
+
+            <div id="div3" ondrop="drop(event)" ondragover="allowDrop(event)">
+              <div class="div_title">
+                <h4>Books I have read</h4>
+              </div>
+              <a href="" draggable="true" ondragstart="drag(event)" id="drag3">
+                <span>Cindrellla</span>
+              </a>
             </div>
           </div>
         </div>
+      </div>
 
-
-
-
-        <div id="my-books" class="tabcontent">
-          <div class="my-books-style">
-            <div class="title">
-              <h2>&#128218; My Books Board</h2>
-            </div>
-
-            <div class="my-books">
-              <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
-                <div class="div_title">
-                  <h4>Books I want to read</h4>
-                </div>
-                <a href="" draggable="true" ondragstart="drag(event)" id="drag1">
-                  <span>Cindrellla</span>
-                </a>
-              </div>
-
-              <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)">
-                <div class="div_title">
-                  <h4>Books I have read</h4>
-                </div>
-                <a href="" draggable="true" ondragstart="drag(event)" id="drag2">
-                  <span>Cindrellla</span>
-                </a>
-              </div>
-
-              <div id="div3" ondrop="drop(event)" ondragover="allowDrop(event)">
-                <div class="div_title">
-                  <h4>Books I have read</h4>
-                </div>
-                <a href="" draggable="true" ondragstart="drag(event)" id="drag3">
-                  <span>Cindrellla</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-    <div id="my-notes" class="tabcontent">
+      <div id="my-notes" class="tabcontent">
         <div class="title">
-            <h2>📄 My Notes</h2>
-        </div> 
+          <h2>📄 My Notes</h2>
+        </div>
         <div class="my-notes-style">
 
-            <button id="addnotebtn" class="addbtn" type="button" name="button"  onclick="document.getElementById('id01').style.display='block'">
+          <button id="addnotebtn" class="addbtn" type="button" name="button"
+            onclick="document.getElementById('id01').style.display='block'">
             Add New Note
-            </button>
+          </button>
 
-            <input type="text" id="myInput" onkeyup="myNoteSearch()"  placeholder="🔍Search.." title="Type in a name">
-            <div class="dropdown">
+          <input type="text" id="myInput" onkeyup="myNoteSearch()" placeholder="🔍Search.." title="Type in a name">
+          <div class="dropdown">
             <button onclick="dropdownFunc()" class="dropbtn" id="dropbutton">
-            <span>Note Tilte </span><span>Book Name </span>
+              <span>Note Tilte </span><span>Book Name </span>
             </button>
             <div id="myDropdown" class="dropdown-content">
-                <form action="">
+              <form action="">
                 <button>Remove</button>
                 <button>Update</button>
-                </form>
-            </div>
-            </div>  
-
-
-        <div id="id01" class="modal">
-
-        <form class="" action="">
-            <label for="nname">Note Name</label>
-            <input type="text" id="nname" name="notename" placeholder="Your Note Name..">
-
-            <input type="radio" name="type" value="general" onclick="if(this.checked){hideBooks()}"> general note<br>
-            <input type="radio" name="type" value="book"  onclick="if(this.checked){showBooks()}"> book's note<br>
-
-            <div id="book-options" >
-            <label for="book-name">Book Name</label>
-            <select id="my-books-options" name="my-books-op">
-            <option value="australia">Australia</option>
-            </select>
-            </div>  
-
-            <label for="subject">Subject</label>
-            <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
-
-            <button>Add new note</button>
-
-
-            <div class="container" style="background-color:#f1f1f1">
-            <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">
-                Cancel
-            </button>
-            </div>
-        </form>
-        </div> 
-
-
-        </div>
-    </div>
-
-        <div id="my-games" class="tabcontent">
-          <div class="card-style">
-            <div class="title">
-              <h2>🎮 My Games</h2>
-            </div>
-            <div class="cards">
-              {{#HasGames}}
-              <div class="card">
-                <a href="#" onclick="openDiv(event, 'book-profile')">
-                  <img src="" alt="Avatar" style="width:100%">
-                  <div class="container">
-                    <h4><b> {{gameID}}</b></h4>
-                    <p></p>
-                  </div>
-                </a>
-              </div>
-              {{/HasGames}}
+              </form>
             </div>
           </div>
-        </div>
 
-        <div id="my-groups" class="tabcontent">
-          <div class="card-style">
-            <div class="title">
-              <h2>👨‍👩‍👧‍👦 &nbsp; My Groups</h2>
-            </div>
-            <div class="cards">
-              {{#Book}}
-              <div class="card">
-                <a href="#" onclick="openDiv(event, 'book-profile')">
-                  <img src="" alt="Avatar" style="width:100%">
-                  <div class="container">
-                    <h4><b> {{bookName}}</b></h4>
-                    <p></p>
-                  </div>
-                </a>
+
+          <div id="id01" class="modal">
+
+            <form class="" action="">
+              <label for="nname">Note Name</label>
+              <input type="text" id="nname" name="notename" placeholder="Your Note Name..">
+
+              <input type="radio" name="type" value="general" onclick="if(this.checked){hideBooks()}"> general note<br>
+              <input type="radio" name="type" value="book" onclick="if(this.checked){showBooks()}"> book's note<br>
+
+              <div id="book-options">
+                <label for="book-name">Book Name</label>
+                <select id="my-books-options" name="my-books-op">
+                  <option value="australia">Australia</option>
+                </select>
               </div>
-              {{/Book}}
-            </div>
-          </div>
-        </div>
 
-        <div id="my-friends" class="tabcontent">
-          <div class="card-style">
-            <div class="title">
-              <h2>👨‍👩‍ My Friends</h2>
-            </div>
-            <div class="cards">
-              {{#Friend }}
-              <div class="card">
-                <a href="#" onclick="openDiv(event, 'book-profile')">
-                  <img src="" alt="Avatar" style="width:100%">
-                  <div class="container">
-                    <h4><b> {{friendOfA}}</b></h4>
-                    <p></p>
-                  </div>
-                </a>
+              <label for="subject">Subject</label>
+              <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+
+              <button>Add new note</button>
+
+
+              <div class="container" style="background-color:#f1f1f1">
+                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">
+                  Cancel
+                </button>
               </div>
-              {{/Friend}}
-            </div>
+            </form>
           </div>
-        </div>
 
-        <div id="my-account" class="tabcontent">
+
+        </div>
+      </div>
+
+      <div id="my-games" class="tabcontent">
+        <div class="card-style">
           <div class="title">
-              <h2>&#128218; Games Purchased History</h2>
+            <h2>🎮 My Games</h2>
+          </div>
+          <div class="cards">
+            {{#HasGames}}
+            <div class="card">
+              <a href="#" onclick="openDiv(event, 'book-profile')">
+                <img src="" alt="Avatar" style="width:100%">
+                <div class="container">
+                  <h4><b> {{gameID}}</b></h4>
+                  <p></p>
+                </div>
+              </a>
             </div>
-          <div id="make-3D-space">
-            <div id="product-card">
-              <div id="product-front">
-                <div class="shadow"></div>
-                <img src="/img/games/flappy-bird.jpg" alt="" />
-                <div class="image_overlay"></div>
-                <div id="view_details">View details</div>
-                <div class="stats">
-                  <div class="stats-container">
-                    <span class="product_price">500 tokens</span>
-                    <span class="product_name">Flappy Bird</span>
-                    <p>Flappy Bird is a game where you tap the screen to make the bird fly</p>
-{{!-- 
+            {{/HasGames}}
+          </div>
+        </div>
+      </div>
+
+      <div id="my-groups" class="tabcontent">
+        <div class="card-style">
+          <div class="title">
+            <h2>👨‍👩‍👧‍👦 &nbsp; My Groups</h2>
+          </div>
+          <div class="cards">
+            {{#Book}}
+            <div class="card">
+              <a href="#" onclick="openDiv(event, 'book-profile')">
+                <img src="" alt="Avatar" style="width:100%">
+                <div class="container">
+                  <h4><b> {{bookName}}</b></h4>
+                  <p></p>
+                </div>
+              </a>
+            </div>
+            {{/Book}}
+          </div>
+        </div>
+      </div>
+
+      <div id="my-friends" class="tabcontent">
+        <div class="card-style">
+          <div class="title">
+            <h2>👨‍👩‍ My Friends</h2>
+          </div>
+          <div class="cards">
+            {{#Friend }}
+            <div class="card">
+              <a href="#" onclick="openDiv(event, 'book-profile')">
+                <img src="" alt="Avatar" style="width:100%">
+                <div class="container">
+                  <h4><b> {{friendOfA}}</b></h4>
+                  <p></p>
+                </div>
+              </a>
+            </div>
+            {{/Friend}}
+          </div>
+        </div>
+      </div>
+
+      <div id="my-account" class="tabcontent">
+        <div class="title">
+          <h2>&#128218; Games Purchased History</h2>
+        </div>
+        <div id="make-3D-space">
+          <div id="product-card">
+            <div id="product-front">
+              <div class="shadow"></div>
+              <img src="/img/games/flappy-bird.jpg" alt="" />
+              <div class="image_overlay"></div>
+              <div id="view_details">View details</div>
+              <div class="stats">
+                <div class="stats-container">
+                  <span class="product_price">500 tokens</span>
+                  <span class="product_name">Flappy Bird</span>
+                  <p>Flappy Bird is a game where you tap the screen to make the bird fly</p>
+                  {{!-- 
                     <div class="product-options">
                       <strong>SIZES</strong>
                       <span>XS, S, M, L, XL, XXL</span>
@@ -333,312 +324,310 @@
                         <div class="c-green"><span></span></div>
                       </div>
                     </div> --}}
+                </div>
+              </div>
+            </div>
+            <div id="product-back">
+              <div class="shadow"></div>
+              <div id="carousel">
+                <ul>
+                  <li><img src="/img/games/flappy-bird.jpg" alt="" /></li>
+                </ul>
+                <div class="arrows-perspective">
+                  <div class="carouselPrev">
+                    <div class="y"></div>
+                    <div class="x"></div>
+                  </div>
+                  <div class="carouselNext">
+                    <div class="y"></div>
+                    <div class="x"></div>
                   </div>
                 </div>
               </div>
-              <div id="product-back">
-                <div class="shadow"></div>
-                <div id="carousel">
-                  <ul>
-                    <li><img src="/img/games/flappy-bird.jpg" alt="" /></li>
-                  </ul>
-                  <div class="arrows-perspective">
-                    <div class="carouselPrev">
-                      <div class="y"></div>
-                      <div class="x"></div>
-                    </div>
-                    <div class="carouselNext">
-                      <div class="y"></div>
-                      <div class="x"></div>
-                    </div>
-                  </div>
-                </div>
-                <div id="flip-back">
-                  <div id="cy"></div>
-                  <div id="cx"></div>
-                </div>
+              <div id="flip-back">
+                <div id="cy"></div>
+                <div id="cx"></div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div id="my-cart" class="tabcontent">
-          <div class="title">
-            <h2> My Cart</h2>
-          </div>
-          <div class="cart-list">
-            <ul class="">
-              <li class="w3-bar">
-                <span onclick="this.parentElement.style.display='none'"
-                  class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span>
-                <img src="" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
-                <div class="w3-bar-item">
-                  <span class="w3-large">Mike</span><br>
-                  <span>Web Designer</span>
-                </div>
-              </li>
+      <div id="my-cart" class="tabcontent">
+        <div class="title">
+          <h2> My Cart</h2>
+        </div>
+        <div class="cart-list">
+          <ul class="">
+            <li class="w3-bar">
+              <span onclick="this.parentElement.style.display='none'"
+                class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span>
+              <img src="" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+              <div class="w3-bar-item">
+                <span class="w3-large">Mike</span><br>
+                <span>Web Designer</span>
+              </div>
+            </li>
 
-              <li class="w3-bar">
-                <span onclick="this.parentElement.style.display='none'"
-                  class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span>
-                <img src="" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
-                <div class="w3-bar-item">
-                  <span class="w3-large">Jill</span><br>
-                  <span>Support</span>
-                </div>
-              </li>
+            <li class="w3-bar">
+              <span onclick="this.parentElement.style.display='none'"
+                class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span>
+              <img src="" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+              <div class="w3-bar-item">
+                <span class="w3-large">Jill</span><br>
+                <span>Support</span>
+              </div>
+            </li>
 
-              <li class="w3-bar">
-                <span onclick="this.parentElement.style.display='none'"
-                  class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span>
-                <img src="" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
-                <div class="w3-bar-item">
-                  <span class="w3-large">Jane</span><br>
-                  <span>Accountant</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-
+            <li class="w3-bar">
+              <span onclick="this.parentElement.style.display='none'"
+                class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span>
+              <img src="" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+              <div class="w3-bar-item">
+                <span class="w3-large">Jane</span><br>
+                <span>Accountant</span>
+              </div>
+            </li>
+          </ul>
         </div>
 
-
-
-        <div id="book-profile" class="tabcontent">
-          <h2>Book Name</h2>
-          <button type="button" name="button" onclick="document.getElementById('id01').style.display='block'">Add
-            Notes</button>
-          <button type="button" name="button"></button>
-
-          <!-- main -->
-        </div>
+      </div>
 
 
 
+      <div id="book-profile" class="tabcontent">
+        <h2>Book Name</h2>
+        <button type="button" name="button" onclick="document.getElementById('id01').style.display='block'">Add
+          Notes</button>
+        <button type="button" name="button"></button>
 
-
+        <!-- main -->
+      </div>
 
 
 
 
-        <script>
-          //responsive navbar
-          function myFunction() {
-            var x = document.getElementById("myTopnav");
-            if (x.className === "topnav") {
-              x.className += " responsive";
-            } else {
-              x.className = "topnav";
-            }
+
+
+
+
+
+      <script>
+        //responsive navbar
+        function myFunction() {
+          var x = document.getElementById("myTopnav");
+          if (x.className === "topnav") {
+            x.className += " responsive";
+          } else {
+            x.className = "topnav";
           }
-        </script>
+        }
+      </script>
 
 
 
 
-        <script>
-          // to open and close left side navbar
-          function openNav() {
-            document.getElementById("mySidenav").style.width = "200px";
-            document.getElementById("main").style.marginLeft = "200px";
+      <script>
+        // to open and close left side navbar
+        function openNav() {
+          document.getElementById("mySidenav").style.width = "200px";
+          document.getElementById("main").style.marginLeft = "200px";
+        }
+
+        function closeNav() {
+          document.getElementById("mySidenav").style.width = "0";
+          document.getElementById("main").style.marginLeft = "20px";
+        }
+      </script>
+
+      <script>
+        function open(divName) {
+          var i;
+          var x = document.getElementsByClassName("city");
+          for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
           }
+          document.getElementById(divName).style.display = "block";
+        }
+      </script>
 
-          function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-            document.getElementById("main").style.marginLeft = "20px";
+
+
+      <script>
+        function openDiv(evt, divName) {
+          console.log("div clicked: " + divName);
+          var i, tabcontent, tablinks;
+          tabcontent = document.getElementsByClassName("tabcontent");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
           }
-        </script>
-
-        <script>
-          function open(divName) {
-            var i;
-            var x = document.getElementsByClassName("city");
-            for (i = 0; i < x.length; i++) {
-              x[i].style.display = "none";
-            }
-            document.getElementById(divName).style.display = "block";
+          tablinks = document.getElementsByClassName("tablinks");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
           }
-        </script>
+          document.getElementById(divName).style.display = "block";
+          evt.currentTarget.className += " active";
+        }
+
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+      </script>
 
 
 
-        <script>
-          function openDiv(evt, divName) {
-            console.log("div clicked: " + divName);
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-              tabcontent[i].style.display = "none";
-            }
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-              tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            document.getElementById(divName).style.display = "block";
-            evt.currentTarget.className += " active";
+
+
+      <script>
+        function allowDrop(ev) {
+          ev.preventDefault();
+        }
+
+        function drag(ev) {
+          ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+          ev.preventDefault();
+          var data = ev.dataTransfer.getData("text");
+          ev.target.appendChild(document.getElementById(data));
+        }
+      </script>
+
+
+
+
+      <script>
+        // Get the modal
+        var modal = document.getElementById('id01');
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
           }
-
-          // Get the element with id="defaultOpen" and click on it
-          document.getElementById("defaultOpen").click();
-        </script>
+        }
+      </script>
 
 
-
-
-
-        <script>
-          function allowDrop(ev) {
-            ev.preventDefault();
+      <script>
+        function dropdownFunc() {
+          var x = document.getElementById("myDropdown");
+          var btn = document.getElementById("dropbutton");
+          if (x.style.display === "block") {
+            x.style.display = "none";
+            btn.style.background = "white";
+          } else {
+            x.style.display = "block";
+            btn.style.background = "grey";
           }
+        }
+      </script>
 
-          function drag(ev) {
-            ev.dataTransfer.setData("text", ev.target.id);
-          }
+      <script>
+        $(document).ready(function () {
 
-          function drop(ev) {
-            ev.preventDefault();
-            var data = ev.dataTransfer.getData("text");
-            ev.target.appendChild(document.getElementById(data));
-          }
-        </script>
-
-
-
-
-        <script>
-          // Get the modal
-          var modal = document.getElementById('id01');
-
-          // When the user clicks anywhere outside of the modal, close it
-          window.onclick = function (event) {
-            if (event.target == modal) {
-              modal.style.display = "none";
-            }
-          }
-        </script>
-
-
-        <script>
-          function dropdownFunc() {
-            var x = document.getElementById("myDropdown");
-            var btn = document.getElementById("dropbutton");
-            if (x.style.display === "block") {
-              x.style.display = "none";
-              btn.style.background = "white";
-            } else {
-              x.style.display = "block";
-              btn.style.background = "grey";
-            }
-          }
-        </script>
-
-        <script>
-          $(document).ready(function () {
-
-            // Lift card and show stats on Mouseover
-            $('#product-card').hover(function () {
-              $(this).addClass('animate');
-              $('div.carouselNext, div.carouselPrev').addClass('visible');
-            }, function () {
-              $(this).removeClass('animate');
-              $('div.carouselNext, div.carouselPrev').removeClass('visible');
-            });
-
-            // Flip card to the back side
-            $('#view_details').click(function () {
-              $('div.carouselNext, div.carouselPrev').removeClass('visible');
-              $('#product-card').addClass('flip-10');
-              setTimeout(function () {
-                $('#product-card').removeClass('flip-10').addClass('flip90').find('div.shadow').show().fadeTo(80, 1, function () {
-                  $('#product-front, #product-front div.shadow').hide();
-                });
-              }, 50);
-
-              setTimeout(function () {
-                $('#product-card').removeClass('flip90').addClass('flip190');
-                $('#product-back').show().find('div.shadow').show().fadeTo(90, 0);
-                setTimeout(function () {
-                  $('#product-card').removeClass('flip190').addClass('flip180').find('div.shadow').hide();
-                  setTimeout(function () {
-                    $('#product-card').css('transition', '100ms ease-out');
-                    $('#cx, #cy').addClass('s1');
-                    setTimeout(function () { $('#cx, #cy').addClass('s2'); }, 100);
-                    setTimeout(function () { $('#cx, #cy').addClass('s3'); }, 200);
-                    $('div.carouselNext, div.carouselPrev').addClass('visible');
-                  }, 100);
-                }, 100);
-              }, 150);
-            });
-
-            // Flip card back to the front side
-            $('#flip-back').click(function () {
-
-              $('#product-card').removeClass('flip180').addClass('flip190');
-              setTimeout(function () {
-                $('#product-card').removeClass('flip190').addClass('flip90');
-
-                $('#product-back div.shadow').css('opacity', 0).fadeTo(100, 1, function () {
-                  $('#product-back, #product-back div.shadow').hide();
-                  $('#product-front, #product-front div.shadow').show();
-                });
-              }, 50);
-
-              setTimeout(function () {
-                $('#product-card').removeClass('flip90').addClass('flip-10');
-                $('#product-front div.shadow').show().fadeTo(100, 0);
-                setTimeout(function () {
-                  $('#product-front div.shadow').hide();
-                  $('#product-card').removeClass('flip-10').css('transition', '100ms ease-out');
-                  $('#cx, #cy').removeClass('s1 s2 s3');
-                }, 100);
-              }, 150);
-
-            });
-
-
-            /* ----  Image Gallery Carousel   ---- */
-
-            var carousel = $('#carousel ul');
-            var carouselSlideWidth = 335;
-            var carouselWidth = 0;
-            var isAnimating = false;
-
-            // building the width of the casousel
-            $('#carousel li').each(function () {
-              carouselWidth += carouselSlideWidth;
-            });
-            $(carousel).css('width', carouselWidth);
-
-            // Load Next Image
-            $('div.carouselNext').on('click', function () {
-              var currentLeft = Math.abs(parseInt($(carousel).css("left")));
-              var newLeft = currentLeft + carouselSlideWidth;
-              if (newLeft == carouselWidth || isAnimating === true) { return; }
-              $('#carousel ul').css({
-                'left': "-" + newLeft + "px",
-                "transition": "300ms ease-out"
-              });
-              isAnimating = true;
-              setTimeout(function () { isAnimating = false; }, 300);
-            });
-
-            // Load Previous Image
-            $('div.carouselPrev').on('click', function () {
-              var currentLeft = Math.abs(parseInt($(carousel).css("left")));
-              var newLeft = currentLeft - carouselSlideWidth;
-              if (newLeft < 0 || isAnimating === true) { return; }
-              $('#carousel ul').css({
-                'left': "-" + newLeft + "px",
-                "transition": "300ms ease-out"
-              });
-              isAnimating = true;
-              setTimeout(function () { isAnimating = false; }, 300);
-            });
+          // Lift card and show stats on Mouseover
+          $('#product-card').hover(function () {
+            $(this).addClass('animate');
+            $('div.carouselNext, div.carouselPrev').addClass('visible');
+          }, function () {
+            $(this).removeClass('animate');
+            $('div.carouselNext, div.carouselPrev').removeClass('visible');
           });
-        </script>
 
-    </header>
-  </div>
+          // Flip card to the back side
+          $('#view_details').click(function () {
+            $('div.carouselNext, div.carouselPrev').removeClass('visible');
+            $('#product-card').addClass('flip-10');
+            setTimeout(function () {
+              $('#product-card').removeClass('flip-10').addClass('flip90').find('div.shadow').show().fadeTo(80, 1, function () {
+                $('#product-front, #product-front div.shadow').hide();
+              });
+            }, 50);
+
+            setTimeout(function () {
+              $('#product-card').removeClass('flip90').addClass('flip190');
+              $('#product-back').show().find('div.shadow').show().fadeTo(90, 0);
+              setTimeout(function () {
+                $('#product-card').removeClass('flip190').addClass('flip180').find('div.shadow').hide();
+                setTimeout(function () {
+                  $('#product-card').css('transition', '100ms ease-out');
+                  $('#cx, #cy').addClass('s1');
+                  setTimeout(function () { $('#cx, #cy').addClass('s2'); }, 100);
+                  setTimeout(function () { $('#cx, #cy').addClass('s3'); }, 200);
+                  $('div.carouselNext, div.carouselPrev').addClass('visible');
+                }, 100);
+              }, 100);
+            }, 150);
+          });
+
+          // Flip card back to the front side
+          $('#flip-back').click(function () {
+
+            $('#product-card').removeClass('flip180').addClass('flip190');
+            setTimeout(function () {
+              $('#product-card').removeClass('flip190').addClass('flip90');
+
+              $('#product-back div.shadow').css('opacity', 0).fadeTo(100, 1, function () {
+                $('#product-back, #product-back div.shadow').hide();
+                $('#product-front, #product-front div.shadow').show();
+              });
+            }, 50);
+
+            setTimeout(function () {
+              $('#product-card').removeClass('flip90').addClass('flip-10');
+              $('#product-front div.shadow').show().fadeTo(100, 0);
+              setTimeout(function () {
+                $('#product-front div.shadow').hide();
+                $('#product-card').removeClass('flip-10').css('transition', '100ms ease-out');
+                $('#cx, #cy').removeClass('s1 s2 s3');
+              }, 100);
+            }, 150);
+
+          });
+
+
+          /* ----  Image Gallery Carousel   ---- */
+
+          var carousel = $('#carousel ul');
+          var carouselSlideWidth = 335;
+          var carouselWidth = 0;
+          var isAnimating = false;
+
+          // building the width of the casousel
+          $('#carousel li').each(function () {
+            carouselWidth += carouselSlideWidth;
+          });
+          $(carousel).css('width', carouselWidth);
+
+          // Load Next Image
+          $('div.carouselNext').on('click', function () {
+            var currentLeft = Math.abs(parseInt($(carousel).css("left")));
+            var newLeft = currentLeft + carouselSlideWidth;
+            if (newLeft == carouselWidth || isAnimating === true) { return; }
+            $('#carousel ul').css({
+              'left': "-" + newLeft + "px",
+              "transition": "300ms ease-out"
+            });
+            isAnimating = true;
+            setTimeout(function () { isAnimating = false; }, 300);
+          });
+
+          // Load Previous Image
+          $('div.carouselPrev').on('click', function () {
+            var currentLeft = Math.abs(parseInt($(carousel).css("left")));
+            var newLeft = currentLeft - carouselSlideWidth;
+            if (newLeft < 0 || isAnimating === true) { return; }
+            $('#carousel ul').css({
+              'left': "-" + newLeft + "px",
+              "transition": "300ms ease-out"
+            });
+            isAnimating = true;
+            setTimeout(function () { isAnimating = false; }, 300);
+          });
+        });
+      </script>
+    </div>
 </body>
 
 </html>
