@@ -10,16 +10,25 @@
 
 <body>
     <div class="topnav" id="myTopnav">
-        <a href="" class="active" class="openbtn" alt="" onclick="openNav()"><i class="fa fa-fw fa-user"></i></a>
-        <a class="tablinks" onclick="openDiv(event,'home')">2READ</a>
-        <a class="tablinks" onclick="openDiv(event, 'books')">Books</a>
-        <a class="tablinks" onclick="openDiv(event, 'games')">Games</a>
-        <a href="pages/Login/login.html">Sign In</a>
-        <a href="pages/signUp.html">Sign Up</a>
+        <a href="/">home</a>
+        <a href="login">Login</a>
+        <a href="signUp">Sign Up</a>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">
             <i class="fa fa-bars"></i>
         </a>
     </div>
+
+    <script>
+        //responsive navbar
+        function myFunction() {
+          var x = document.getElementById("myTopnav");
+          if (x.className === "topnav") {
+            x.className += " responsive";
+          } else {
+            x.className = "topnav";
+          }
+        }
+      </script>
 
 </body>
 

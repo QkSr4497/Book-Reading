@@ -7,9 +7,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<!-- Bootstrap -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<!-- JQuery  -->
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
 	<!-- for date format  -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
@@ -17,14 +19,20 @@
 	<!-- MATERIAL DESIGN ICONIC FONT -->
 	<link rel="stylesheet" href="/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
 
-	<!-- STYLE CSS -->
+	<!-- signUp page STYLE CSS -->
 	<link rel="stylesheet" href="/css/signUp.css">
 
-	
+	<!-- STYLE CSS -->
+	 <link rel="Stylesheet" href="/css/style.css" />
+
+
 
 </head>
 
 <body>
+	<div class="navbar">
+		{{> header }}
+	</div>
 	<div class="wrapper" style="background-image: url('/img/SignUp-bg.jpg');">
 		<div class="inner">
 			<form method="POST" name="myForm" action="/signUp/signUpNewUser">
@@ -64,7 +72,7 @@
 					<p>User Name *
 						<span class="validation-remark" id="userNameException"></span>
 					</p>
-					<input type="text" id="userName" name="userName"  class="form-control" placeholder="Username...">
+					<input type="text" id="userName" name="userName" class="form-control" placeholder="Username...">
 				</div>
 
 				<div class="form-wrapper">
@@ -72,16 +80,16 @@
 						<span class="validation-remark" id="birthDateException"></span>
 					</p>
 					<span class="input-group-addon"><i class="fas fa-user"></i></span>
-					<input type="date" class="form-control" id="birthdate" name="birthdate" name="birthdate" data-date=""
-						data-date-format="DD MMMM YYYY" value="2019-08-01" required="" value="">
+					<input type="date" class="form-control" id="birthdate" name="birthdate" name="birthdate"
+						data-date="" data-date-format="DD MMMM YYYY" value="2019-08-01" required="" value="">
 				</div>
 
 				<div class="form-wrapper">
-						<p id="phoneTitle">Phone *
-							<span class="validation-remark" id="phoneException"></span>
-						</p>
-						<input type="text" id="phone" name="phone" class="form-control" placeholder="Phone Number...">
-					</div>
+					<p id="phoneTitle">Phone *
+						<span class="validation-remark" id="phoneException"></span>
+					</p>
+					<input type="text" id="phone" name="phone" class="form-control" placeholder="Phone Number...">
+				</div>
 
 				<div class="form-wrapper">
 					<p>Password *
@@ -100,7 +108,7 @@
 		</div>
 	</div>
 
-	
+
 	<!-- Javascripts  -->
 	<!-- placing the script at the end makes sure that the script runs after all the elemnts are available -->
 	<script type="text/javascript" src="/js/signUp-scripts.js"></script>

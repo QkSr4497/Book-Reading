@@ -229,6 +229,15 @@ app.get('/my-friends', function (req, res) {
 
 });
 
+app.get('/login', function (req, res) {
+    res.render('login');
+});
+
+app.get('/signUp', function (req, res) {
+    res.render('signUpPage');
+});
+
+
 app.use('/signUp', index);
 
 

@@ -18,7 +18,6 @@ router.get('/hi', function (req, res, next) {
 //=============================================================
 
 
-
 router.post('/signUpNewUser', function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
