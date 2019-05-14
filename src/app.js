@@ -1,33 +1,43 @@
 const express = require('express'),
-    path = require('path'),
-    bodyParser = require('body-parser'),
-    hbs = require('hbs'),
-    app = express();
+  path = require('path'),
+  bodyParser = require('body-parser'),
+  hbs = require('hbs'),
+  cookieParser = require('cookie-parser'),
+  app = express();
 
-var index = require('./routes/index');  
+// Authentication Packages
+var session = require('express-session');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var pgSession = require('connect-pg-simple')(session);
+var bycrypt = require('bcrypt');
+
+// importing my files
+var index = require('./routes/index');
+
 
 // Define paths for Express config
 const publicDirectoryPath = path.join(__dirname, '../public');
 const viewsPath = path.join(__dirname, '../templates/views'); // absolute path to the new templates/views folder (which is instead the previous default folder called views)
-const partialsPath = path.join(__dirname, '../templates/partials');                          
-              
+const partialsPath = path.join(__dirname, '../templates/partials');
+
 
 // Setup handlebars engine and views location
 app.set('view engine', 'hbs');  // telling express which templating engine we installed
-                                // 2 arguments: the key is the setting name and the value we want to set for the setting
-                                // express expects all the views (here the handlebars views) in a "views" folder in the root of the project
-                                // to use view pages we need to setup a route
+// 2 arguments: the key is the setting name and the value we want to set for the setting
+// express expects all the views (here the handlebars views) in a "views" folder in the root of the project
+// to use view pages we need to setup a route
 
 app.set('views', viewsPath);    //changing the path for views
 hbs.registerPartials(partialsPath); // changing the path to the partials
 
 app.use(express.static(publicDirectoryPath));  // use is a way to customize our server to serve up the folder
-                                               // static takes a path to the folder we want to serve up
-                                               // here the server serves the static assets which are in public directory
-                                               // static means no matter how many times we refresh the page, the assets won't change (for example the picture)
-                                               // now when visiting the root of our website we will get index.html
+// static takes a path to the folder we want to serve up
+// here the server serves the static assets which are in public directory
+// static means no matter how many times we refresh the page, the assets won't change (for example the picture)
+// now when visiting the root of our website we will get index.html
 
-                                               
+
 require('dotenv').config(); // using env file
 
 const pool = require('./db.js');    // postgresql database connection pool
@@ -36,214 +46,71 @@ const pool = require('./db.js');    // postgresql database connection pool
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// authentication middleware
+app.use(cookieParser());
+app.use(session({
+  store: new pgSession({
+    pool: pool,                // Connection pool
+    tableName: 'UserSessions'   // Use another table-name than the default "session" one
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,   // when true a cookie and a session will be created whenver a user visits the page even when not logged in
+  // cookie: { secure: true } // enable to true when using https
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 //==================================================================
 
+app.use('/', index);
 
-app.get('/', function (req, res) {
-    // the pool with emit an error on behalf of any idle clients
-    // it contains if a backend error or network partition happens
-    pool.on('error', (err, client) => {
-        console.error('Unexpected error on idle client', err)
-        process.exit(-1)
-    })
+passport.use(new LocalStrategy(
+  function (username, password, done) {
 
-    // callback - checkout a client
-    pool.connect((err, client, done) => {
-        if (err) throw err
-        client.query('SELECT * FROM "Book"', (error, result) => {
-            if (error) {
-                console.log(error.stack);
-            } else {
-                done();
-                // res.redirect('/signUp.html');
-                res.render('kid-page', { "Book": result.rows });
-            }
-        });
-        
-    });
-
-});
-
-
-
-app.get('/books', function (req, res) {
-    // the pool with emit an error on behalf of any idle clients
-    // it contains if a backend error or network partition happens
-    pool.on('error', (err, client) => {
-        console.error('Unexpected error on idle client', err)
-        process.exit(-1)
-    })
+    console.log('username: ' + username);
+    console.log('passowrd: ' + password);
 
     // callback - checkout a client
-    pool.connect((err, client, done) => {
-        if (err) throw err
-        client.query('SELECT * FROM "Book"', (error, result) => {
-            if (error) {
-                console.log(error.stack);
-            } else {
-                done();
-                // res.redirect('/signUp.html');
-                res.render('books', { "Book": result.rows });
+    pool.connect((err, client, poolDone) => {
+      if (err) throw err;
+
+      client.query('SELECT * FROM "Person" p WHERE p."userName" = $1', [username], (error, result) => {  // getting the id of the person trying to login
+        if (error) {  // error on connecting to the database
+          done(error);
+        }
+        // const personID = result.rows[0].personID;
+        if (result.rowCount === 0) {
+          done(null, false);
+        }
+        else {
+          const hash = result.rows[0].pwd  // the hashed password of the user that is trying to login
+          const userID = result.rows[0].personID;
+          console.log('hash: ' + hash);
+
+          bycrypt.compare(password, hash, function (err, response) {
+            if (response === true) {
+              return done(null, userID);
             }
-        });
-        
-    });
-
-});
-//===========================================================
-
-app.get('/games', function (req, res) {
-    // the pool with emit an error on behalf of any idle clients
-    // it contains if a backend error or network partition happens
-    pool.on('error', (err, client) => {
-        console.error('Unexpected error on idle client', err)
-        process.exit(-1)
-    })
-
-    // callback - checkout a client
-    pool.connect((err, client, done) => {
-        if (err) throw err
-        client.query('SELECT * FROM "Game"', (error, result) => {
-            if (error) {
-                console.log(error.stack);
-            } else {
-                done();
-          
-                res.render('games', { "Game": result.rows });
+            else {
+              return done(null, false); // Authentication request failed (the password is incorrect)
             }
-        });
+
+          });
+
+        }
+
+
+      });
+
+      poolDone();
     });
-});
-//---------------------------------------------------
-app.get('/my-books', function (req, res) {
-    // the pool with emit an error on behalf of any idle clients
-    // it contains if a backend error or network partition happens
-    pool.on('error', (err, client) => {
-        console.error('Unexpected error on idle client', err)
-        process.exit(-1)
-    })
-
-    // callback - checkout a client
-    pool.connect((err, client, done) => {
-        if (err) throw err
-        client.query('SELECT b.* FROM "Book" b INNER JOIN "KidBook" kb ON b."bookID" = kb."bookID" WHERE kb."kidID"=$1 AND kb."type"= $2',[1,'reading'], (error, result) => {
-            if (error) {
-                console.log(error.stack);
-            } else {
-                done();
-                // res.redirect('/signUp.html');
-                res.render('kid-page', { "MyReadingBook": result.rows });
-            }
-        });
-        
-    });
-
-});
-//--------------------------------
-
-
-app.get('/my-games', function (req, res) {
-    // the pool with emit an error on behalf of any idle clients
-    // it contains if a backend error or network partition happens
-    pool.on('error', (err, client) => {
-        console.error('Unexpected error on idle client', err)
-        process.exit(-1)
-    })
-
-    // callback - checkout a client
-    pool.connect((err, client, done) => {
-        if (err) throw err
-        client.query('SELECT g.* FROM "Game" g INNER JOIN "HasGames" hg ON g."gameID" = hg."gameID" WHERE "kidID"=1', (error, result) => {
-            if (error) {
-                console.log(error.stack);
-            } else {
-                done();
-                // res.redirect('/signUp.html');
-                res.render('kid-page', { "MyGame": result.rows });
-            }
-        });
-        
-    });
-
-});
-//========================================
-
-
-//====================================================
-
-
-app.get('/my-notes', function (req, res) {
-    // the pool with emit an error on behalf of any idle clients
-    // it contains if a backend error or network partition happens
-    pool.on('error', (err, client) => {
-        console.error('Unexpected error on idle client', err)
-        process.exit(-1)
-    })
-
-    // callback - checkout a client
-    pool.connect((err, client, done) => {
-        if (err) throw err
-        client.query('SELECT * FROM "Book"', (error, result) => {
-            if (error) {
-                console.log(error.stack);
-            } else {
-                done();
-                // res.redirect('/signUp.html');
-                res.render('my-notes', { "Book": result.rows });
-            }
-        });
-        
-    });
-
-});
-//================================================
-
-//===========================================
-
-
-
-
-app.get('/my-friends', function (req, res) {
-    // the pool with emit an error on behalf of any idle clients
-    // it contains if a backend error or network partition happens
-    pool.on('error', (err, client) => {
-        console.error('Unexpected error on idle client', err)
-        process.exit(-1)
-    })
-
-    // callback - checkout a client
-    pool.connect((err, client, done) => {
-        if (err) throw err
-        client.query('SELECT * FROM "Friend" ', (error, result) => {
-            if (error) {
-                console.log(error.stack);
-            } else {
-                done();
-                // res.redirect('/signUp.html');
-                res.render('kid-page', { "Friend" : result.rows });
-            }
-        });
-        
-    });
-
-});
-
-app.get('/login', function (req, res) {
-    res.render('login');
-});
-
-app.get('/signUp', function (req, res) {
-    res.render('signUpPage');
-});
-
-
-app.use('/signUp', index);
-
-
+  }
+));
 
 
 // Server
 app.listen(3000, function () {
-    console.log('Server Started On Port 3000')
+  console.log('Server Started On Port 3000')
 });

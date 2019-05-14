@@ -84,7 +84,7 @@ function checkDuplicates() {
 }
 
 const checkEmailDuplicates = (email, callback) => {
-    var url = '/signUp/checkEmailDplicates/' + email;
+    var url = '/signUp/checkEmailDuplicates/' + email;
     $.ajax({
         url: url,
         type:'GET',
@@ -104,7 +104,7 @@ const checkEmailDuplicates = (email, callback) => {
 }
 
 const checkUserDuplicates = (userName, callback) => {
-    var url = '/signUp/checkUserplicates/' + userName;
+    var url = '/signUp/checkUserDuplicates/' + userName;
     $.ajax({
         url: url,
         type:'GET',

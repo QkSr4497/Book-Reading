@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+var passport = require('passport');
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;  // the number of rounds that the module will go through to hash your data
@@ -9,16 +10,46 @@ require('dotenv').config(); // using env file
 
 const pool = require('./../db.js'); // postgresql database connection pool
 
-/* GET home page. */
-router.get('/hi', function (req, res, next) {
-  res.send('hello there');
-});
-
 
 //=============================================================
 
 
-router.post('/signUpNewUser', function (req, res) {
+
+router.get('/', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  console.log('user: ['+ req.user + ']  , isAuthenticated: ' + req.isAuthenticated());
+  pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+  })
+
+  // callback - checkout a client
+  pool.connect((err, client, done) => {
+      if (err) throw err
+      client.query('SELECT * FROM "Book"', (error, result) => {
+          if (error) {
+              console.log(error.stack);
+          } else {
+              done();
+              // res.redirect('/signUp.html');
+              res.render('kid-page', { "Book": result.rows });
+          }
+      });
+      
+  });
+
+});
+
+router.get('/login', function (req, res) {
+  res.render('login');
+});
+
+router.get('/signUp/signUpPage', function (req, res) {
+  res.render('signUpPage');
+});
+
+router.post('/signUp/signUpNewUser', function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
   pool.on('error', (err, client) => {
@@ -34,7 +65,7 @@ router.post('/signUpNewUser', function (req, res) {
 
   // callback - checkout a client
   pool.connect((err, client, done) => {
-    if (err) throw err
+    if (err) throw err;
     bcrypt.hash(pwd, saltRounds, function (err, hash) { // auto-gen a salt and hash with bcrypt
       client.query('INSERT INTO "Person"("userName", "firstName", "lastName", email, pwd) VALUES($1, $2, $3, $4, $5)',    // inserting into person
         [userName, firstName, lastName, email, hash], (error) => {
@@ -43,37 +74,46 @@ router.post('/signUpNewUser', function (req, res) {
           }
           else {
             client.query('SELECT * FROM "Person" p WHERE p."userName" = $1', [userName], (error, result) => {  // getting the id of the new person for the purppose
-              // of inserting this id as foriegn key for subtype table
+                                                                                                               // of inserting this id as foriegn key for subtype table
               if (error) {
                 console.log(error.stack);
               }
               else {
+                const personID = result.rows[0].personID;
                 if (req.body.role == 'kid') {
                   const birthdate = req.body.birthdate;
                   client.query('INSERT INTO "Kid"("kidID", "birthDate") VALUES($1, $2)',  // inserting into kid
-                    [result.rows[0].personID, birthdate]);
+                    [personID, birthdate]);
                 }
                 else if (req.body.role == 'teacher') {
                   const phone = req.body.phone;
                   client.query('INSERT INTO "Teacher"("teacherID", "phone") VALUES($1, $2)',  // inserting into teacher
-                    [result.rows[0].personID, phone]);
+                    [personID, phone]);
                 }
                 else if (req.body.role == 'supervisor') {
                   const birthdate = req.body.birthdate;
                   client.query('INSERT INTO "Supervisor"("supervisorID", "phone") VALUES($1, $2)',  // inserting into supervisor
-                    [result.rows[0].personID, birthdate]);
+                    [personID, birthdate]);
                 }
+                console.log('new user-id: ' + personID);
+                req.login(personID, function (err) {  // storing personID to the session using the function in passport.serializeUser
+                  res.redirect('/');
+                });
               }
             });
           }
         });
     });
     done();
-    // res.redirect('/');
   });
 });
 
-router.get('/checkEmailDplicates/:email', function (req, res) {
+router.post('/login', passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/login'
+}));
+
+router.get('/signUp/checkEmailDuplicates/:email', function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
   pool.on('error', (err, client) => {
@@ -101,7 +141,7 @@ router.get('/checkEmailDplicates/:email', function (req, res) {
   });
 });
 
-router.get('/checkUserplicates/:user', function (req, res) {
+router.get('/signUp/checkUserDuplicates/:user', function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
   pool.on('error', (err, client) => {
@@ -128,5 +168,188 @@ router.get('/checkUserplicates/:user', function (req, res) {
     done();
   });
 });
+
+
+router.get('/books',authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+  })
+
+  // callback - checkout a client
+  pool.connect((err, client, done) => {
+      if (err) throw err
+      client.query('SELECT * FROM "Book"', (error, result) => {
+          if (error) {
+              console.log(error.stack);
+          } else {
+              done();
+              // res.redirect('/signUp.html');
+              res.render('books', { "Book": result.rows });
+          }
+      });
+      
+  });
+
+});
+//===========================================================
+
+router.get('/games', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+  })
+
+  // callback - checkout a client
+  pool.connect((err, client, done) => {
+      if (err) throw err
+      client.query('SELECT * FROM "Game"', (error, result) => {
+          if (error) {
+              console.log(error.stack);
+          } else {
+              done();
+        
+              res.render('games', { "Game": result.rows });
+          }
+      });
+  });
+});
+//---------------------------------------------------
+router.get('/my-books', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+  })
+
+  // callback - checkout a client
+  pool.connect((err, client, done) => {
+      if (err) throw err
+      client.query('SELECT b.* FROM "Book" b INNER JOIN "KidBook" kb ON b."bookID" = kb."bookID" WHERE kb."kidID"=$1 AND kb."type"= $2',[1,'reading'], (error, result) => {
+          if (error) {
+              console.log(error.stack);
+          } else {
+              done();
+              // res.redirect('/signUp.html');
+              res.render('kid-page', { "MyReadingBook": result.rows });
+          }
+      });
+      
+  });
+
+});
+//--------------------------------
+
+
+router.get('/my-games', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+  })
+
+  // callback - checkout a client
+  pool.connect((err, client, done) => {
+      if (err) throw err
+      client.query('SELECT g.* FROM "Game" g INNER JOIN "HasGames" hg ON g."gameID" = hg."gameID" WHERE "kidID"=1', (error, result) => {
+          if (error) {
+              console.log(error.stack);
+          } else {
+              done();
+              // res.redirect('/signUp.html');
+              res.render('kid-page', { "MyGame": result.rows });
+          }
+      });
+      
+  });
+
+});
+//========================================
+
+
+//====================================================
+
+
+router.get('/my-notes', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+  })
+
+  // callback - checkout a client
+  pool.connect((err, client, done) => {
+      if (err) throw err
+      client.query('SELECT * FROM "Book"', (error, result) => {
+          if (error) {
+              console.log(error.stack);
+          } else {
+              done();
+              // res.redirect('/signUp.html');
+              res.render('my-notes', { "Book": result.rows });
+          }
+      });
+      
+  });
+
+});
+//================================================
+
+//===========================================
+
+
+
+
+router.get('/my-friends', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+  })
+
+  // callback - checkout a client
+  pool.connect((err, client, done) => {
+      if (err) throw err
+      client.query('SELECT * FROM "Friend" ', (error, result) => {
+          if (error) {
+              console.log(error.stack);
+          } else {
+              done();
+              // res.redirect('/signUp.html');
+              res.render('kid-page', { "Friend" : result.rows });
+          }
+      });
+      
+  });
+
+});
+
+
+
+
+passport.serializeUser(function (personID, done) { // for writing user data to user session
+  done(null, personID);
+});
+
+passport.deserializeUser(function (personID, done) { // for retriving data from user session
+done(null, personID);
+});
+
+function authenticationMiddleware() { // this function will be used to restrict page access to unlogged users
+	return (req, res, next) => {
+		console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}`);
+
+	    if (req.isAuthenticated()) return next(); // only if the user is authenticated we will go to the next function which will render the wanted page 
+	    res.redirect('/login'); // if not authenticated then redirect to login page  
+	}
+}
 
 module.exports = router;

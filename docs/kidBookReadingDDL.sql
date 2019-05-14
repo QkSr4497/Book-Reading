@@ -178,5 +178,14 @@ CREATE TABLE "KidBook" (
 	review TEXT,
 	rating INTEGER ,						  
 	PRIMARY KEY ("kidID", "bookID")								   
-);							
+);		
+
+-- a table for session to store sessions persistently
+CREATE TABLE "UserSessions" ( 
+  	"sid" varchar NOT NULL COLLATE "default",
+	"sess" json NOT NULL,
+	"expire" timestamp(6) NOT NULL
+)
+WITH (OIDS=FALSE);
+ALTER TABLE "UserSessions" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;					
 							
