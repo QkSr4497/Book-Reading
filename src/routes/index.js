@@ -18,7 +18,7 @@ const pool = require('./../db.js'); // postgresql database connection pool
 router.get('/', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
-  console.log('user: ['+ req.user + ']  , isAuthenticated: ' + req.isAuthenticated());
+  //console.log('user: ['+ req.user + ']  , isAuthenticated: ' + req.isAuthenticated());
   pool.on('error', (err, client) => {
       console.error('Unexpected error on idle client', err)
       process.exit(-1)
@@ -108,10 +108,19 @@ router.post('/signUp/signUpNewUser', function (req, res) {
   });
 });
 
-router.post('/login', passport.authenticate('local', {
+router.post('/login', passport.authenticate('local', {  // LocalStrategy function is defined in app.js file within passport.use
   successRedirect: '/',
-  failureRedirect: '/login'
+  failureRedirect: '/login',
+  failureFlash: true
 }));
+
+router.get('/logout', function (req, res) {
+  console.log(`Logout: User #${req.user}`);
+  req.logout(); // logging out the user 
+  req.session.destroy();  // deleting the session in the database
+  res.redirect('login');
+});
+
 
 router.get('/signUp/checkEmailDuplicates/:email', function (req, res) {
   // the pool with emit an error on behalf of any idle clients
@@ -345,7 +354,7 @@ done(null, personID);
 
 function authenticationMiddleware() { // this function will be used to restrict page access to unlogged users
 	return (req, res, next) => {
-		console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}`);
+		console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}, trying to access restricted page`);
 
 	    if (req.isAuthenticated()) return next(); // only if the user is authenticated we will go to the next function which will render the wanted page 
 	    res.redirect('/login'); // if not authenticated then redirect to login page  

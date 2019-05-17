@@ -55,7 +55,8 @@ app.use(session({
   }),
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: false,   // when true a cookie and a session will be created whenver a user visits the page even when not logged in
+  saveUninitialized: false,   // when true a cookie and a session will be created whenever a user visits the page even when not logged in
+  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
   // cookie: { secure: true } // enable to true when using https
 }));
 app.use(passport.initialize());
@@ -63,14 +64,19 @@ app.use(passport.session());
 
 
 //==================================================================
+app.use( function(req, res, next) {
+  res.locals.isAuthenticated = req.isAuthenticated(); // this data will be passed to every view automatically
+                                                      // guide on how to use: https://www.youtube.com/watch?v=mFVqL5aIjSE&t=1s
+  next();
+});
 
 app.use('/', index);
 
 passport.use(new LocalStrategy(
-  function (username, password, done) {
+  function (username, password, done) { // we can access username and password because the inputs in the front end page have exactly the same name
 
-    console.log('username: ' + username);
-    console.log('passowrd: ' + password);
+    // console.log('username: ' + username);
+    // console.log('passowrd: ' + password);
 
     // callback - checkout a client
     pool.connect((err, client, poolDone) => {
@@ -82,28 +88,26 @@ passport.use(new LocalStrategy(
         }
         // const personID = result.rows[0].personID;
         if (result.rowCount === 0) {
-          done(null, false);
+          done(null, false, { message: 'User Name does not exist' });
         }
         else {
           const hash = result.rows[0].pwd  // the hashed password of the user that is trying to login
           const userID = result.rows[0].personID;
-          console.log('hash: ' + hash);
+          //console.log('hash: ' + hash);
 
           bycrypt.compare(password, hash, function (err, response) {
             if (response === true) {
+              console.log(`Login: User #${userID}`);
               return done(null, userID);
             }
             else {
-              return done(null, false); // Authentication request failed (the password is incorrect)
+              return done(null, false, { message: 'Incorrect password.' }); // Authentication request failed (the password is incorrect)
             }
 
           });
-
         }
 
-
       });
-
       poolDone();
     });
   }
