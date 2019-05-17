@@ -23,8 +23,8 @@
 	<!--===============================================================================================-->
 
 	<!-- STYLE CSS -->
-	 <link rel="Stylesheet" href="/css/style.css" />
-	 
+	<link rel="Stylesheet" href="/css/style.css" />
+
 </head>
 
 <body>
@@ -33,9 +33,13 @@
 	</div>
 
 
+
 	<div class="limiter">
+
 		<div class="container-login100">
+
 			<div class="wrap-login100">
+
 				<div class="login100-pic js-tilt" data-tilt>
 					<img src="pages/Login/images/img-01.png" alt="IMG">
 				</div>
@@ -60,6 +64,12 @@
 							<i class="fa fa-lock" aria-hidden="true"></i>
 						</span>
 					</div>
+
+					{{#if message}}
+						<div class="alert alert-warning input-feedback" role="alert">
+							<h1>{{message}}</h1>
+						</div>
+					{{/if}}
 
 					<div class="container-login100-form-btn">
 						<button class="login100-form-btn">

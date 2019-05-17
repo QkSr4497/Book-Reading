@@ -460,3 +460,9 @@ iframe {
     opacity: 1;
   }
 }
+
+
+/*---------------------------------------------*/
+.input-feedback {
+  border-radius: 25px;
+}

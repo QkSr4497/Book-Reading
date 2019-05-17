@@ -42,7 +42,7 @@ router.get('/', authenticationMiddleware(), function (req, res) {
 });
 
 router.get('/login', function (req, res) {
-  res.render('login');
+  res.render('login', { message: req.flash('loginMessage') });
 });
 
 router.get('/signUp/signUpPage', function (req, res) {

@@ -3,6 +3,7 @@ const express = require('express'),
   bodyParser = require('body-parser'),
   hbs = require('hbs'),
   cookieParser = require('cookie-parser'),
+  flash = require('connect-flash'),
   app = express();
 
 // Authentication Packages
@@ -59,6 +60,8 @@ app.use(session({
   cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
   // cookie: { secure: true } // enable to true when using https
 }));
+
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -72,8 +75,8 @@ app.use( function(req, res, next) {
 
 app.use('/', index);
 
-passport.use(new LocalStrategy(
-  function (username, password, done) { // we can access username and password because the inputs in the front end page have exactly the same name
+passport.use(new LocalStrategy({passReqToCallback : true
+}, function (req, username, password, done) { // we can access username and password because the inputs in the front end page have exactly the same name
 
     // console.log('username: ' + username);
     // console.log('passowrd: ' + password);
@@ -88,7 +91,7 @@ passport.use(new LocalStrategy(
         }
         // const personID = result.rows[0].personID;
         if (result.rowCount === 0) {
-          done(null, false, { message: 'User Name does not exist' });
+          done(null, false, req.flash('loginMessage', 'User Name does not exist.'));
         }
         else {
           const hash = result.rows[0].pwd  // the hashed password of the user that is trying to login
@@ -98,10 +101,10 @@ passport.use(new LocalStrategy(
           bycrypt.compare(password, hash, function (err, response) {
             if (response === true) {
               console.log(`Login: User #${userID}`);
-              return done(null, userID);
+              return done(null, userID, req.flash('loginMessage', 'You are now logged in.'));
             }
             else {
-              return done(null, false, { message: 'Incorrect password.' }); // Authentication request failed (the password is incorrect)
+              return done(null, false, req.flash('loginMessage', 'Incorrect password.')); // Authentication request failed (the password is incorrect)
             }
 
           });
