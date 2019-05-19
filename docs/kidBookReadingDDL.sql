@@ -8,7 +8,8 @@ CREATE TABLE "Person" (
 ); 
 
 CREATE TABLE "Admin" (
-	"adminID" INTEGER REFERENCES "Person" ("personID") PRIMARY KEY
+	"adminID" INTEGER REFERENCES "Person" ("personID") PRIMARY KEY,
+	phone TEXT NOT NULL
 ); 
 
 CREATE TABLE "Avatar" (
