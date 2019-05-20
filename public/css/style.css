@@ -71,15 +71,26 @@ body {
     padding: 14px 16px;
     text-decoration: none;
     font-size: 17px; }
-    .navbar .topnav h1 {
+    .navbar .topnav #welcomeTitle {
       float: left;
       display: block;
       color: #fbff00;
+      background-color: #2c86aa;
       text-align: center;
       padding: 14px 16px;
       text-decoration: none;
       font-size: 19px;
       font-weight: bold; }
+      .navbar .topnav #pointsTitle {
+        float: right;
+        display: block;
+        color: #98fa3d;
+        background-color: #2c86aa;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 19px;
+        font-weight: bold; }
   .navbar .topnav a:hover {
     background-color: #82589F;
     cursor: hand; }
