@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title> </title>
+  <link rel="Stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="navigation-style">
+
+    </div>
+      <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeSideNav()">&times;</a>
+        <a href="#">🏠 Home</a>
+        <a href="#">&#128102; My Profile</a>
+        <a href="#">&#128218; My Books</a>
+        <a href="#">⏱️ My Quizes</a>
+        <a href="#">📄 My Notes</a>
+        <a href="#">🎮 My Games</a>
+        <a href="#">👨‍👩‍👧‍👦 My Groups</a>
+        <a href="#">👨‍👩‍ My Friends</a>
+        <a href="#">&#128179; My Account</a>
+         <a href="#">🛒 My Cart</a>
+        <a href="#">&#128295; Settings</a>
+        <a href="#">&#127939; Log Out</a>
+      </div>
+
+    <div id="main">
+    <div class="topnav" id="myTopnav">
+      <a href="#" id="openNav" class="active "  onclick="openSideNav()">&#9776; open</a>
+      <a href="#news">2READ</a>
+      <a href="#contact">Books</a>
+      <a href="#about">Store</a>
+      <div class="search-container">
+        <form action="/action_page.php">
+          <input type="text" placeholder="Search.." name="search">
+          <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+     </div>
+
+
+      <a href="javascript:void(0);" class="icon" onclick="responsiveNav()">
+        <i class="fa fa-bars"></i>
+      </a>
+    </div>
+    {{+body /}}
+
+
+
+  </div>
+
+<script type="text/javascript" src="/public/js/openNavigation.js"></script>
+</body>
+
+</html>

@@ -2,10 +2,11 @@
 body{
     margin: 0;
     padding: 0%;
-    background-color: #e8e8e8;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f1f1f1;
     box-sizing: border-box;
-   } 
-@import 'navbar';
+   }
+@import 'navigation-style';
 
 @import 'my-books-style';
 

@@ -43,4 +43,5 @@ INSERT INTO "Kid"("kidID", "birthDate") VALUES('10', '2012-12-27');
 --************ /Kid table *************************************
 
 
-
+INSERT INTO "Game"("gameName","price") VALUES('Jewel Mahjongg', '3000');
+INSERT INTO "Game"("gameName","price") VALUES('Catch the Thief', '3400');

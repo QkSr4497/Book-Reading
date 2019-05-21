@@ -36,7 +36,7 @@
 
        <div class="topnav" id="myTopnav">
           {{#if userData.points}}
-            <a class="tablinks" id="pointsTitle">My points: {{userData.points}}</a>
+              <a class="tablinks" id="pointsTitle">My points: {{userData.points}}</a>
           {{/if}}
           <a href="#" id="openNav" class="active "  key="open" onclick="openSideNav()">&#9776; open</a>
           <a class="tablinks" id="welcomeTitle">Welcome {{userData.userName}}</a>
@@ -50,33 +50,46 @@
           </a>
        </div>
 
-       <div id="games" class="card-style">    
-        <h2 key="gamesList"> Games List 🎲</h2>
-         {{#Game}}
-          <div class="cards">     
-            <div class="card">
-              <a href="#" onclick="openDiv(event, 'book-profile')">
-                <img src="" alt="Avatar" style="width:100%">
-                <div class="container">
-                <h4><b>{{gameName}}</b></h4>
-                <p>{{price}}</p>
-                <button id="{{gameID}}" onclick="addToCartFunc()" key="addToCart">Add To Cart</button>
+
+          <div class="my-books-style">
+           <h2>&#128218; My Books Board</h2>
+            <div class="my-books">
+                    <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="div_title">
+                           <h4>Books I want to read</h4>
+                        </div>
+                          <a href="" draggable="true" ondragstart="drag(event)" id="drag1">
+                          <span>Cindrellla</span>
+                          </a>
+                    </div>
+
+                    <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)">
+                      <div class="div_title">
+                         <h4>Books I am reading</h4>
+                       </div>
+                       {{#MyReadingBook}}
+                       <a href="" draggable="true" ondragstart="drag(event)" id="{{bookID}}">
+                           <span>{{bookName}}</span>
+                       </a>
+                       {{/MyReadingBook}}
+                     </div>
+
+                    <div id="div3" ondrop="drop(event)" ondragover="allowDrop(event)">
+                       <div class="div_title">
+                          <h4>Books I have read</h4>
+                        </div>
+                        <a href="" draggable="true" ondragstart="drag(event)" id="drag3">
+                            <span>Cindrellla</span>
+                        </a>
+                    </div>
                 </div>
-              </a>
             </div>
-         
-          </div>
-           {{/Game}}
-      </div>
 
 
-
-       
   </div>
 </div>
 
 <script type="text/javascript" src="js/navigation.js"></script>
-<script type="text/javascript" src="js/language.js"></script>
 </body>
 
 </html>

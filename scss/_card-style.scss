@@ -1,9 +1,18 @@
 .card-style{
-    
+    h2{
+      font-size: 120%;
+      text-align: right;
+      padding: 2% 2% 1% 0%;
+      margin-right: 2%;
+    }
   .cards {
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
+    float: right;
+    text-align: right;
+    margin-right: 10%;
+
   }
   .cards a {
     text-decoration: none;
