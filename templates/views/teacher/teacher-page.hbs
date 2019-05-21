@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="Stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="navigation-style">
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeSideNav()">&times;</a>
+      <a href="home" key="home"> Home 🏠</a>
+      <a href="my-profile" key="myProfile">My Profile 👩🏻‍🏫</a>
+      <a href="my-quizes" key="myQuizes">My Quizes ⏱️</a>
+      <a href="my-notes" key="myNotes">My Notes  📄</a>
+      <a href="my-groups" key="myGroups"> My Groups 👨‍👩‍👧‍👦</a>
+      <a href="my-friends">👨‍👩‍ My Friends</a>
+      <a href="my-reports">📊 My Reports</a>
+      <a href="settings" key="settings">Settings 🔧</a>
+      <a href="logout" key="logOut">Log Out 🏃</a>
+    </div>
+      <div id="main">
+
+
+       <div class="topnav" id="myTopnav">
+          <a href="#" id="openNav" class="active "  key="open" onclick="openSideNav()">&#9776; open</a>
+          <a class="tablinks" id="welcomeTitle">Welcome {{userData.userName}}</a>
+          <a href="#news" key="2read">2READ</a>
+          <a href="books" key="books">Books</a>
+          <a href="#contact"  onclick="document.getElementById('newquiz').style.display='block'">create new quiz</a>
+         <a href="#about"  onclick="document.getElementById('newgroup').style.display='block'">create new group</a>
+          <a href="#" class="translate" id="arb">Arabic</a>
+          <a href="#" class="translate" id="heb">Hebrew</a> 
+          <a href="javascript:void(0);" class="icon" onclick="responsiveNav()">
+            <i class="fa fa-bars"></i>
+          </a>
+       </div>
+
+    <div class="modal-style">
+    <div id="newquiz" class="modal">
+      <form class="modal-content animate" action="/">
+        <div class="container">
+          <h3>Create A New Quiz 📝</h3>
+          <hr>
+          <label for="qname"><b>Quiz Title</b></label>
+          <input type="text" placeholder="Enter Quiz Title" name="qname" required>
+
+          <label for="lang"><b>Language</b></label>
+          <select name="qlanguage" id="qlanguage" required>
+              <option value="">Arabic</option>
+              <option value="">Hebrow</option>
+              <option value="">English</option>
+          </select>
+
+          <label for="time"><b>Time</b></label>
+          <select name="time" id="time" required>
+              <option value="">1 min</option>
+              <option value="">2 min</option>
+              <option value="">5 min</option>
+          </select>
+
+          <label for="file"><b>Title Image</b></label>
+          <input type="file" id="title-image" placeholder="Add a title image" accept="image/gif, image/jpeg, image/jpg, image/svg+xml, image/svg, image/png, image/x-png, image/pjpeg">
+          <button type="button" onclick="document.getElementById('newquiz').style.display='none'" class="cancelbtn">Cancel</button>
+          <button type="submit" name="button" class="okbtn" id="quizadd">Create</button>
+        </div>
+      </form>
+    </div>
+</div>
+<div class="modal-style">
+    <div id="newgroup" class="modal">
+      <form class="modal-content animate" action="/">
+        <div class="container">
+          <h3>Create A New Group 👨‍👩‍👦‍👦</h3>
+          <hr>
+          <label for="gname"><b>Group Name</b></label>
+          <input type="text" placeholder="Enter Group Name" name="gname" required>
+
+          <label for="file"><b>Group Image</b></label>
+          <input type="file" id="group-image" placeholder="Add a title image" accept="image/gif, image/jpeg, image/jpg, image/svg+xml, image/svg, image/png, image/x-png, image/pjpeg">
+
+          <label for="text"><b>Add Members</b></label>
+          <select name="member" id="member" required>
+              <option value="">Arabic</option>
+              <option value="">Hebrow</option>
+              <option value="">English</option>
+          </select>
+
+          <button type="button" onclick="document.getElementById('newgroup').style.display='none'" class="cancelbtn">Cancel</button>
+          <button type="submit" name="button" class="okbtn">Add new book</button>
+        </div>
+      </form>
+    </div>
+</div>
+
+
+
+
+
+
+
+  </div>
+</div>
+
+<script type="text/javascript" src="js/navigation.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
+    <script type="text/javascript" src="open-modal.js"></script>
+</body>
+
+</html>
