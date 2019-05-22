@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="Stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="navigation-style">
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeSideNav()">&times;</a>
+      <a href="home" key="home"> Home 🏠</a>
+      <a href="profile" key="myProfile">My Profile 👦</a>
+      <a href="books" key="myBooks"> My Books 📚</a>
+      <a href="quizes" key="myQuizes">My Quizes ⏱️</a>
+      <a href="notes" key="myNotes">My Notes  📄</a>
+      <a href="games" key="myGames">My Games 🎮</a>
+      <a href="groups" key="myGroups"> My Groups 👨‍👩‍👧‍👦</a>
+      <a href="friends" key="myFriends"> My Friends 👨‍👩‍</a>
+      <a href="account" key="myAccount">My Account  💳</a>
+      <a href="cart" key="myCart"> My Cart 🛒</a>
+      <a href="settings" key="settings">Settings 🔧</a>
+      <a href="logout" key="logOut">Log Out 🏃</a>
+    </div>
+
+      <div id="main">
+
+
+       <div class="topnav" id="myTopnav">
+          {{#if userData.points}}
+            <a class="tablinks" id="pointsTitle">My points: {{userData.points}}</a>
+          {{/if}}
+          <a href="#" id="openNav" class="active "  key="open" onclick="openSideNav()">&#9776; open</a>
+          <a class="tablinks" id="welcomeTitle">Welcome {{userData.userName}}</a>
+          <a href="#news" key="2read">2READ</a>
+          <a href="books" key="books">Books</a>
+          <a href="games" key="store">Store</a>
+          <a href="#" class="translate" id="arb">Arabic</a>
+          <a href="#" class="translate" id="heb">Hebrew</a> 
+          <a href="javascript:void(0);" class="icon" onclick="responsiveNav()">
+            <i class="fa fa-bars"></i>
+          </a>
+       </div>
+
+
+    <div class="cart-style">
+        <div class="my-cart-container">
+        <h2>🛒 My Shopping Cart</h2>
+        <div class="row">
+          <div class="col-75">
+            <div class="container">
+              <ul>
+                  {{#myCart}}
+                <li class="row">
+                <div class="col-25">
+                    <img src="kidRead2.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+                </div>
+                <div class="col-25">
+                  <p class="w3-large">Mike</p><br>
+                </div>
+                <div class="col-25">
+                  <button type="button" name="button">move to wish list</button>
+                  <button type="button" name="button">remove</button>
+                </div>
+                <div class="col-25">
+                  <p>{{gameID}}</p>
+                </div>
+              </li>
+                {{/myCart}}
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-25">
+            <div class="account-container">
+              <p>You have in you account <span class="price">$15</span></p>
+              <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b>4</b></span></h4>
+              <p><a href="#">Product 1</a> <span class="price">$15</span></p>
+              <p><a href="#">Product 2</a> <span class="price">$5</span></p>
+              <p><a href="#">Product 3</a> <span class="price">$8</span></p>
+              <p><a href="#">Product 4</a> <span class="price">$2</span></p>
+              <hr>
+              <p>Total <span class="price" style="color:black"><b>$30</b></span></p>
+              <button type="button" name="button">Buy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+
+       
+  </div>
+</div>
+
+<script type="text/javascript" src="js/navigation.js"></script>
+</body>
+
+</html>
