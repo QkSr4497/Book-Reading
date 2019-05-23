@@ -34,18 +34,21 @@ router.get('/', authenticationMiddleware(), function (req, res) {
       client.query('SELECT * FROM "Book"', (error, result) => {
         if (error) {
           console.log(error.stack);
-        } else {
+        } 
+        else {
           done();
           // res.redirect('/signUp.html');
-          res.render('kid-page', { "Book": result.rows, userData });
+          if (userData.userType === 'kid') {
+            res.render('kid-page', { "Book": result.rows, userData });
+          }
+          else if (userData.userType === 'teacher' || userData.userType === 'supervisor' || userData.userType === 'admin') {
+            res.render('teacher/teacher-homepage', { userData });
+          }  
         }
       });
 
     });
   });
-
- 
-
 });
 
 router.get('/login', function (req, res) {
@@ -189,9 +192,6 @@ router.get('/signUp/checkUserDuplicates/:user', function (req, res) {
 });
 
 
-
-
-
 router.get('/books', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -292,9 +292,9 @@ router.get('/kid/books', authenticationMiddleware(), function (req, res) {
   });
 
 });
+
+
 //--------------------------------
-
-
 router.get('/kid/games', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens

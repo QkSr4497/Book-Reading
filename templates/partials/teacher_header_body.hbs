@@ -1,0 +1,41 @@
+<ul id="gn-menu" class="gn-menu-main">
+    <li class="gn-trigger">
+        <a class="gn-icon gn-icon-menu"><span>Menu</span></a>
+        <nav class="gn-menu-wrapper">
+            <div class="gn-scroller">
+                <ul class="gn-menu">
+					<li class="gn-search-item"></li><a class="navbar-item"><i class="fas fa-search" ></i><span> <input placeholder="search" type="search" class="gn-search" style="margin-left: -65px;"></span></a></li>
+
+                    {{!-- <li class="gn-search-item">
+                        <input placeholder="Search" type="search" class="gn-search">
+                        <a class="gn-icon gn-icon-search"><span>Search</span></a>
+					</li> --}}
+                    <li>
+                    <li><a class="navbar-item" href="about"><span class="icon"><i class="fas fa-file-download"></i></span><span> Downloads</span></a></li>
+                        <ul class="gn-submenu">
+                            <li><a class="navbar-item" href="about"><span class="icon"><i class="fas fa-ice-cream"></i></span><span> Vector Illustrations</span></a></li>
+                            <li><a class="navbar-item" href="about"><span class="icon"><i class="fas fa-ice-cream"></i></span><span> Photoshop files</span></a></li>
+                        </ul>
+                    </li>
+                    <li><a class="navbar-item" href="about"><span class="icon"><i class="fas fa-ice-cream"></i></span><span> Settings</span></a></li>
+                    <li><a class="navbar-item" href="about"><span class="icon"><i class="fas fa-ice-cream"></i></span><span> Help</span></a></li>
+                    <li>
+
+                        <li><a class="navbar-item" href="about"><span class="icon"><i class="fas fa-caret-square-up"></i></span><span> Archive</span></a></li>
+
+                        <ul class="gn-submenu">
+                            <li><a class="navbar-item" href="about"><span class="icon"><i class="fas fa-caret-square-up"></i></span><span> Articles</span></a></li>
+                            <li><a class="navbar-item" href="about"><span class="icon"><i class="far fa-question-circle"></i></span><span> About</span></a></li>
+                            <li><a class="navbar-item" href="about"><span class="icon"><i class="far fa-question-circle"></i></span><span> Photos</span></a></li>
+                            <li><a class="navbar-item" href="about"><span class="icon"><i class="far fa-question-circle"></i></span><span> Video</span></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /gn-scroller -->
+        </nav>
+    </li>
+    <li><a href="/" class="fas fa-home" style="padding-top:20px"> Home</a></li>
+    <li><a class="fas fa-sign-out-alt" href="logout" style="padding-top:20px"><span> Logout</span></a></li>
+    <li id="welcomeTitle"><a class="fas fa-user" style="padding-top:20px"><span> Welcome {{userData.userName}}</span></a></li>
+</ul>
+

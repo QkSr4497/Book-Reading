@@ -22,6 +22,7 @@ const publicDirectoryPath = path.join(__dirname, '../public');
 const viewsPath = path.join(__dirname, '../templates/views'); // absolute path to the new templates/views folder (which is instead the previous default folder called views)
 const partialsPath = path.join(__dirname, '../templates/partials');
 
+
 // Setup handlebars engine and views location
 app.set('view engine', 'hbs');  // telling express which templating engine we installed
 // 2 arguments: the key is the setting name and the value we want to set for the setting
@@ -46,7 +47,6 @@ const pool = require('./db.js');    // postgresql database connection pool
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-console.log("secret "+  process.env.SESSION_SECRET);
 // authentication middleware
 app.use(cookieParser());
 app.use(session({
@@ -75,9 +75,7 @@ app.use( function(req, res, next) {
 
 app.use('/', index);
 
-passport.use(new LocalStrategy({passReqToCallback : true
-}, function (req, username, password, done) { // we can access username and password because the inputs in the front end page have exactly the same name
-
+passport.use(new LocalStrategy({passReqToCallback : true}, function (req, username, password, done) { // we can access username and password because the inputs in the front end page have exactly the same name
     // console.log('username: ' + username);
     // console.log('passowrd: ' + password);
 
