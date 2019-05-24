@@ -40,11 +40,6 @@ CREATE TABLE "Post" (
  	content TEXT NOT NULL
 ); 
 
-CREATE TABLE "Note" (
- 	"noteID" SERIAL PRIMARY KEY,
- 	content TEXT NOT NULL,
-	type TEXT CHECK (type IN ('public','private')) NOT NULL
-);
 
 CREATE TABLE "Category" (
  	"categoryID" SERIAL PRIMARY KEY,
@@ -124,6 +119,14 @@ CREATE TABLE "HasGames" (
 	"gameID" INTEGER REFERENCES "Game" ("gameID"),
 	PRIMARY KEY ("kidID", "gameID")									   
 );							   
+CREATE TABLE "Note" (
+ 	"noteID" SERIAL PRIMARY KEY,
+	"personID" INTEGER REFERENCES "Person" ("personID") NOT NULL,
+	"bookID" INTEGER REFERENCES "Book" ("bookID"),
+	title TEXT NOT NULL,
+ 	content TEXT NOT NULL,
+	type TEXT CHECK (type IN ('public','private')) NOT NULL
+);
 					 
 CREATE TABLE "WritesPost" (
 	"personID" INTEGER REFERENCES "Person" ("personID"),
@@ -149,7 +152,7 @@ CREATE TABLE "WritesNote" (
 	"bookID" INTEGER REFERENCES "Book" ("bookID"),
 	"noteID" INTEGER REFERENCES "Note" ("noteID"),
 	"personID" INTEGER REFERENCES "Person" ("personID") UNIQUE,
-	PRIMARY KEY ("bookID", "noteID")									   
+	PRIMARY KEY ("personID", "noteID")									   
 );
 							
 CREATE TABLE "BookHas" (

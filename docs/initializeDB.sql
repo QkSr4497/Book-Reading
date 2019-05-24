@@ -42,6 +42,15 @@ INSERT INTO "Kid"("kidID", "birthDate") VALUES('9', '2013-07-26');
 INSERT INTO "Kid"("kidID", "birthDate") VALUES('10', '2012-12-27');
 --************ /Kid table *************************************
 
+INSERT INTO "Book"("bookName","pic") VALUES('ماذا تأكل الشّمس؟', 'aaaaaaaaaaa');
+INSERT INTO "Book"("bookName","pic") VALUES('قصة آثار على الثّلج', 'aaaaaaaaaaa');
+INSERT INTO "Book"("bookName","pic") VALUES('رحلة الألوان – اللّون الأخضر', '../public/img/books/colorsStory.jpg');
+INSERT INTO "Book"("bookName","pic") VALUES('7', 'aaaaaaaaaaaaa');
 
-INSERT INTO "Game"("gameName","price") VALUES('Jewel Mahjongg', '3000');
-INSERT INTO "Game"("gameName","price") VALUES('Catch the Thief', '3400');
+
+
+
+INSERT INTO "Game"("gameName","pic","price","link") VALUES('Jewel Mahjongg','aaaaaaaaaa', '3000','aaaaaaaaa');
+
+--*********************/Kid notes ****************
+INSERT INTO "Note"("personID","title","content","type") VALUES('7','أول تجربة لي في القراءة','عندما بدأت بقراءة الكتاب, لم افهم في البداية عما تدور القصة لكت كلما تقدمت احببت القصة أكثر فأكثر','private');
