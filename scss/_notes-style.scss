@@ -1,0 +1,64 @@
+.notes-style{
+    h2{
+        float: right;
+        margin-right: 3%;
+        display: block;
+        padding: 3% 0% 3% 0%;
+        margin-left: 3%;
+
+    }
+    #add-note-btn{
+        background-color: #eccc68;;
+        border: none;
+        color: black;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: block;
+        font-size: 16px;
+        float: right;
+        margin-top: 2%;
+        
+    }
+    .collapsible {
+    background-color: #bdc3c7;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 90%;
+    border: none;
+    text-align: right;
+    outline: none;
+    font-size: 15px;
+    float: right;
+    margin-right: 3%;
+    }
+
+    .active, .collapsible:hover {
+    background-color: #555;
+    }
+    table{
+        width: 100%;
+    }
+    th{
+        color:white;
+    }
+    .content {
+    padding: 0 18px;
+    display: none;
+    width: 90%;
+    overflow: hidden;
+    background-color: #f1f1f1;
+    text-align: right;
+    float: right;
+    margin-right: 3%;
+    padding: 2%;
+    }
+
+
+    #bookname{
+    width:100%;
+    height: 30px;
+    }
+
+}

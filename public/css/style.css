@@ -196,7 +196,7 @@ body {
   border: 1px solid #7189bf; }
 
 .my-books-style #div1, .my-books-style #div2, .my-books-style #div3 {
-  float: left;
+  float: right;
   width: 270px;
   height: 500px;
   margin: 10px;
@@ -507,13 +507,21 @@ body {
 .my-profile-style #editProfileBtn:hover {
   background-color: #6c5ce7; }
 
-.modal-style .modal input[type=text], .modal-style input[type=number], .modal-style input[type=file], .modal-style select {
+.modal-style .modal input[type=text], .modal-style input[type=number], .modal-style input[type=file], .modal-style select, .modal-style textarea {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
   display: inline-block;
   border: 1px solid #ccc;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  text-align: right; }
+
+.modal-style label {
+  float: right; }
+
+.modal-style h3 {
+  text-align: right;
+  float: right; }
 
 .modal-style .modal button:hover {
   opacity: 0.8; }
@@ -541,17 +549,12 @@ body {
 
 .modal-style .modal {
   display: none;
-  /* Hidden by default */
   position: fixed;
-  /* Stay in place */
   z-index: 1;
-  /* Sit on top */
   left: 0;
   top: 0;
   width: 100%;
-  /* Full width */
   height: 100%;
-  /* Full height */
   overflow: auto;
   background-color: black;
   background-color: rgba(0, 0, 0, 0.4);
@@ -584,3 +587,94 @@ body {
     width: 100%; }
   .modal-style .okbtn {
     width: 100%; } }
+
+.cart-style {
+  /* Clear floats after the columns */ }
+  .cart-style .column25 {
+    float: left;
+    width: 20%;
+    padding: 10px;
+    margin-left: 3%;
+    margin-top: 3%;
+    background-color: #f1f2f6; }
+  .cart-style .column75 {
+    float: left;
+    width: 70%;
+    padding: 10px;
+    margin-left: 3%;
+    margin-top: 3%; }
+  .cart-style .row:after {
+    content: "";
+    display: table;
+    clear: both;
+    margin-left: 3%; }
+  .cart-style .container {
+    padding: 5px 20px 15px 20px;
+    border-radius: 3px;
+    text-align: right; }
+  .cart-style .avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 3%; }
+  .cart-style li {
+    border: solid #ced6e0;
+    background-color: #f1f2f6;
+    margin-bottom: 2%; }
+
+.notes-style h2 {
+  float: right;
+  margin-right: 3%;
+  display: block;
+  padding: 3% 0% 3% 0%;
+  margin-left: 3%; }
+
+.notes-style #add-note-btn {
+  background-color: #eccc68;
+  border: none;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 16px;
+  float: right;
+  margin-top: 2%; }
+
+.notes-style .collapsible {
+  background-color: #bdc3c7;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 90%;
+  border: none;
+  text-align: right;
+  outline: none;
+  font-size: 15px;
+  float: right;
+  margin-right: 3%; }
+
+.notes-style .active, .notes-style .collapsible:hover {
+  background-color: #555; }
+
+.notes-style table {
+  width: 100%; }
+
+.notes-style th {
+  color: white; }
+
+.notes-style .content {
+  padding: 0 18px;
+  display: none;
+  width: 90%;
+  overflow: hidden;
+  background-color: #f1f1f1;
+  text-align: right;
+  float: right;
+  margin-right: 3%;
+  padding: 2%; }
+
+.notes-style #bookname {
+  width: 100%;
+  height: 30px; }

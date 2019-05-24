@@ -28,7 +28,7 @@
       <a href="account" key="myAccount">My Account  💳</a>
       <a href="cart" key="myCart"> My Cart 🛒</a>
       <a href="settings" key="settings">Settings 🔧</a>
-      <a href="logout" key="logOut">Log Out 🏃</a>
+      <a href="../logout" key="logOut">Log Out 🏃</a>
     </div>
 
       <div id="main">
@@ -51,57 +51,46 @@
        </div>
 
 
-    <div class="cart-style">
-        <div class="my-cart-container">
-        <h2>🛒 My Shopping Cart</h2>
+      <div class="cart-style">
         <div class="row">
-          <div class="col-75">
-            <div class="container">
+        <div class="column25" >
+          <div class="container">
+            <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b>4</b></span></h4>
+            <p><a href="#">Product 1</a> <span class="price">$15</span></p>
+            <p><a href="#">Product 2</a> <span class="price">$5</span></p>
+            <p><a href="#">Product 3</a> <span class="price">$8</span></p>
+            <p><a href="#">Product 4</a> <span class="price">$2</span></p>
+            <hr>
+            <p>Total <span class="price" style="color:black"><b>$30</b></span></p>
+          </div>
+        </div>
+
+
+        <div class="column75">
+          <div class="container">
               <ul>
                   {{#myCart}}
-                <li class="row">
-                <div class="col-25">
-                    <img src="kidRead2.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
-                </div>
-                <div class="col-25">
-                  <p class="w3-large">Mike</p><br>
-                </div>
-                <div class="col-25">
-                  <button type="button" name="button">move to wish list</button>
-                  <button type="button" name="button">remove</button>
-                </div>
-                <div class="col-25">
+                <li >
+                    <button type="button" name="button">remove</button>
+                    <img src={{pic}} alt="Avatar" class="avatar">
+        
                   <p>{{gameID}}</p>
-                </div>
+                  <p class="w3-large">{{gameName}}</p><br>               
               </li>
                 {{/myCart}}
               </ul>
-            </div>
-          </div>
-
-          <div class="col-25">
-            <div class="account-container">
-              <p>You have in you account <span class="price">$15</span></p>
-              <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b>4</b></span></h4>
-              <p><a href="#">Product 1</a> <span class="price">$15</span></p>
-              <p><a href="#">Product 2</a> <span class="price">$5</span></p>
-              <p><a href="#">Product 3</a> <span class="price">$8</span></p>
-              <p><a href="#">Product 4</a> <span class="price">$2</span></p>
-              <hr>
-              <p>Total <span class="price" style="color:black"><b>$30</b></span></p>
-              <button type="button" name="button">Buy</button>
-            </div>
           </div>
         </div>
-      </div>
-</div>
-
-
-       
+      </div>      
   </div>
+
+
+  {{!-- main --}}
 </div>
+
 
 <script type="text/javascript" src="js/navigation.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
 </body>
 
 </html>
