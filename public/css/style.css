@@ -63,7 +63,7 @@ body {
   background-color: #6a60a9; }
 
 .topnav a {
-  float: right;
+  float: left;
   display: block;
   color: #f2f2f2;
   text-align: center;
@@ -105,6 +105,36 @@ body {
     float: none;
     display: block;
     text-align: left; } }
+
+.right-nav {
+  float: right; }
+
+.dropdown {
+  position: relative;
+  display: inline-block; }
+
+.dropdown-content {
+  display: none;
+  height: auto;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1; }
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left; }
+
+.dropdown-content a:hover {
+  background-color: #ddd; }
+
+.dropdown:hover .dropdown-content {
+  display: block; }
 
 /*-------------------------------------------*/
 .topnav .search-container {
@@ -244,9 +274,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
-  float: right;
-  text-align: right;
-  margin-right: 10%; }
+  text-align: right; }
 
 .card-style .cards a {
   text-decoration: none;
@@ -480,10 +508,7 @@ body {
   box-shadow: 0px 2px 10px 0px #888888; }
 
 .my-profile-style .detail-container {
-  width: 55%;
-  position: relative;
-  left: 50%;
-  transform: translate(-50%, 70%); }
+  width: 55%; }
 
 .my-profile-style .detail-container input {
   padding: 4px 10px;
@@ -590,13 +615,18 @@ body {
 
 .cart-style {
   /* Clear floats after the columns */ }
+  .cart-style h2 {
+    float: right;
+    margin-top: 2%;
+    margin-right: 2%; }
   .cart-style .column25 {
     float: left;
     width: 20%;
     padding: 10px;
     margin-left: 3%;
-    margin-top: 3%;
-    background-color: #f1f2f6; }
+    margin-top: 8%;
+    background-color: #ffff;
+    box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3); }
   .cart-style .column75 {
     float: left;
     width: 70%;
@@ -619,9 +649,9 @@ body {
     border-radius: 50%;
     margin-right: 3%; }
   .cart-style li {
-    border: solid #ced6e0;
-    background-color: #f1f2f6;
-    margin-bottom: 2%; }
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3); }
 
 .notes-style h2 {
   float: right;
@@ -678,3 +708,27 @@ body {
 .notes-style #bookname {
   width: 100%;
   height: 30px; }
+
+.account-style .my-account-container {
+  margin-left: 3%;
+  margin-right: 3%; }
+
+.account-style .my-account-container p {
+  font-size: 120%;
+  margin: 2% 0% 2% 0%; }
+
+.account-style .my-account-container hr {
+  border-top: 1.5px solid; }
+
+.account-style .my-account-container table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%; }
+
+.account-style .my-account-container td, .account-style th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px; }
+
+.account-style .my-account-container th {
+  background-color: rgba(129, 88, 252, 0.5); }

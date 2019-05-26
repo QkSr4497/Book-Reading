@@ -9,7 +9,6 @@
   <link rel="Stylesheet" href="/css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
 
@@ -54,37 +53,50 @@
           <div class="my-books-style">
            <h2>&#128218; My Books Board</h2>
             <div class="my-books">
-                <div id="div1" ondrop="drop(event)" ondragover="allowDropToRead(event)">
+                <div id="wantToReadDiv" ondrop="drop(event)" ondragover="allowDropToRead(event)">
                     <div class="div_title">
                       <h4>Books I want to read</h4>
                     </div>
-                    {{#ToReadBook}}
-                      <a href="" draggable="true" ondragstart="drag(event)" id="drag1">
-                      Cindrellla
-                      </a>
-                      {{/ToReadBook}}
+                      {{#each bookDataByTypes.intrestedBooks}}
+   
+                      <a href="" draggable="true" ondragstart="drag(event)" id="{{bookID}}">
+                      {{bookName}}
+                       {{type}}
+                      </a>    
+                       {{/each }}
+                              
                 </div>
 
-                <div id="div2" ondrop="drop(event)" ondragover="allowDropReading(event)">
+                <div id="readingNowDiv" ondrop="drop(event)" ondragover="allowDropReading(event)">
                   <div class="div_title">
                       <h4>Books I am reading</h4>
                     </div>
-                    {{#MyReadingBook}}
-                    <a href="" draggable="true" ondragstart="drag(event)" id="{{bookID}}">
-                       {{bookName}}
-                    </a>
-                    {{/MyReadingBook}}
+                      {{#each bookDataByTypes.readingBooks}}
+   
+                      <a href="" draggable="true" ondragstart="drag(event)" id="{{bookID}}">
+                      {{bookName}}
+                       {{type}}
+                      </a>    
+                       {{/each }}
+          
                   </div>
 
-                    <div id="div3" ondrop="drop(event)" ondragover="allowDropFinish(event)">
+                    <div id="finishedReadingDiv" ondrop="drop(event)" ondragover="allowDropFinish(event)">
                        <div class="div_title">
                           <h4>Books I have read</h4>
                         </div>
-                        <a href="" draggable="true" ondragstart="drag(event)" id="drag3">
-                          {{bookName}}
-                        </a>
+                      {{#each bookDataByTypes.finishedBooks}}
+   
+                      <a href="" draggable="true" ondragstart="drag(event)" id="{{bookID}}">
+                      {{bookName}}
+                       {{type}}
+                      </a>    
+                       {{/each }}
                        
                     </div>
+
+
+                    
                 </div>
             </div>
 
@@ -94,18 +106,27 @@
 
 <script>
   function allowDropToRead(ev) {
+    if(ev.target.nodeName!=="A"){
     ev.preventDefault();
+    }
+
   }
 
   function allowDropReading(ev) {
+     if(ev.target.nodeName!=="A"){
     ev.preventDefault();
+    console.log('trying: '+ev.dataTransfer.getData("text"));
+    }
   }
     function allowDropFinish(ev) {
+      if(ev.target.nodeName!=="A"){
     ev.preventDefault();
+    }
   }
 
   function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
+     console.log('drag: '+ev.dataTransfer.getData("text"));
   }
 
   function drop(ev) {

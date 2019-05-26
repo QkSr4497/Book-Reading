@@ -172,6 +172,54 @@ const deleteUser = (request, response) => {
     })
 }
 
+const getMyIntrestedBooks = (userID, callback) => {
+    pool.query(`SELECT * 
+    FROM "KidBook" kb INNER JOIN "Book" b ON kb."bookID" = b."bookID"
+    WHERE kb."kidID" = $1 AND kb."type"='intrested'`, [userID], (error, results) => {
+    if (error) {
+        throw error
+    }
+    callback(results.rows);
+ });
+}
+
+const getMyReadingBooks = (userID, callback) => {
+    pool.query(`SELECT * 
+    FROM "KidBook" kb INNER JOIN "Book" b ON kb."bookID" = b."bookID"
+    WHERE kb."kidID" = $1 AND kb."type"='reading'`, [userID], (error, results) => {
+    if (error) {
+        throw error
+    }
+    callback(results.rows);
+ });
+}
+const getMyFinishedBooks = (userID, callback) => {
+    pool.query(`SELECT * 
+    FROM "KidBook" kb INNER JOIN "Book" b ON kb."bookID" = b."bookID"
+    WHERE kb."kidID" = $1 AND kb."type"='finished'`, [userID], (error, results) => {
+    if (error) {
+        throw error
+    }
+    callback(results.rows);
+ });
+}
+
+const getBooksAccordingToTypes= (userID, callback) => {
+    getMyIntrestedBooks(userID,(intrestedBooks)=>{ 
+        getMyReadingBooks(userID,(readingBooks)=>{ 
+            getMyFinishedBooks(userID,(finishedBooks)=>{ 
+                callback({
+                    intrestedBooks,
+                    readingBooks,
+                    finishedBooks
+
+                });
+            });
+          });  
+    });
+}
+
+
 module.exports = {
     getUsers,
     getUserTypeById,
@@ -179,4 +227,8 @@ module.exports = {
     createUser,
     updateUser,
     deleteUser,
+    getMyIntrestedBooks,
+    getMyReadingBooks,
+    getMyFinishedBooks,
+    getBooksAccordingToTypes,
 }

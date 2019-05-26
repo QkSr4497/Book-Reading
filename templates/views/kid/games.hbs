@@ -52,21 +52,20 @@
 
        <div id="kid-games" class="card-style">    
         <h2 key="myGames"> My Games</h2>
-         
+
           <div class="cards"> 
-              {{#MyGames}}       
+              {{#MyGames}}      
             <div class="card">
               <a href={{link}} onclick="">
                 <img src={{pic}} alt="Avatar" style="width:100%">
                 <div class="container">
                   <h4><b> {{gameName}}</b></h4>
-                  <p></p>
+                  <p>{{price}}</p>
                 </div>
               </a>
             </div>
-             {{/MyGames}}
-          </div>
-          
+            {{/MyGames}}  
+          </div>  
       </div>
 
 

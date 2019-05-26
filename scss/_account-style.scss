@@ -1,0 +1,29 @@
+.account-style{
+    .my-account-container{
+        margin-left:3%;
+        margin-right: 3%;
+      }
+      
+      .my-account-container p{
+          font-size: 120%;
+          margin: 2% 0% 2% 0%;
+      }
+      
+      .my-account-container hr{
+          border-top: 1.5px solid;
+      }
+      .my-account-container table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .my-account-container td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+      .my-account-container  th{
+          background-color: rgba(129, 88, 252, 0.5);
+        }
+      
+}

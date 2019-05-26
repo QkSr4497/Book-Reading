@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 var passport = require('passport');
-
+var hbs = require('hbs');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;  // the number of rounds that the module will go through to hash your data
 // higher means slower
@@ -221,6 +221,7 @@ router.get('/books', authenticationMiddleware(), function (req, res) {
 router.get('/games', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
   pool.on('error', (err, client) => {
     console.error('Unexpected error on idle client', err)
     process.exit(-1)
@@ -229,7 +230,7 @@ router.get('/games', authenticationMiddleware(), function (req, res) {
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err
-    client.query('SELECT * FROM "Game"', (error, result) => {
+    client.query('SELECT * FROM "Game" g WHERE g."gameID" NOT IN (SELECT hg."gameID" FROM "HasGames" hg WHERE hg."kidID"=$1)',[userData.userID], (error, result) => {
       if (error) {
         console.log(error.stack);
       } else {
@@ -240,11 +241,13 @@ router.get('/games', authenticationMiddleware(), function (req, res) {
     });
   });
 });
+});
 
-//--------------------------------------------
-router.get('/kid/profile', authenticationMiddleware(), function (req, res) {
+//kid add this game from Store
+router.get('/games/addToCart', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
   pool.on('error', (err, client) => {
     console.error('Unexpected error on idle client', err)
     process.exit(-1)
@@ -253,7 +256,32 @@ router.get('/kid/profile', authenticationMiddleware(), function (req, res) {
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err
-    client.query(' ', (error, result) => {
+    client.query('INSERT INTO "HasGame"("kidID", "gameID") VALUES($1, $2)',[userData.userID,], (error, result) => {
+      if (error) {
+        console.log(error.stack);
+      } else {
+        done();
+
+        res.render('kid/cart', { "myCart": result.rows });
+      }
+    });
+  });
+});
+});
+//--------------------------------------------
+router.get('/kid/profile', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
+  pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err)
+    process.exit(-1)
+  })
+
+  // callback - checkout a client
+  pool.connect((err, client, done) => {
+    if (err) throw err
+    client.query('SELECT p.*,k.*,a.* FROM "Person" p INNER JOIN "Kid" k ON p."personID"=k."kidID" INNER JOIN "Avatar" a ON k."avatarID"=a."avatarID" WHERE p."personID"=$1',[userData.userID], (error, result) => {
       if (error) {
         console.log(error.stack);
       } else {
@@ -264,33 +292,42 @@ router.get('/kid/profile', authenticationMiddleware(), function (req, res) {
     });
 
   });
-
+});
 });
 
 //---------------------------------------------------
+
 router.get('/kid/books', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
   pool.on('error', (err, client) => {
     console.error('Unexpected error on idle client', err)
     process.exit(-1)
   })
 
   // callback - checkout a client
-  pool.connect((err, client, done) => {
-    if (err) throw err
-    client.query('SELECT b.* FROM "Book" b', (error, result) => {
-      if (error) {
-        console.log(error.stack);
-      } else {
-        done();
-        // res.redirect('/signUp.html');
-        res.render('kid/books', { "MyReadingBook": result.rows });
-      }
-    });
+  // pool.connect((err, client, done) => {
+  //   if (err) throw err
+  //   client.query('SELECT b.* ,kb.* FROM "Book" b INNER JOIN "KidBook" kb ON b."bookID"=kb."bookID" WHERE kb."kidID"=$1',[userData.userID], (error, result) => {
+  //     if (error) {
+  //       console.log(error.stack);
+  //     } else {
+  //       done();
+  //       // res.redirect('/signUp.html');
+  //       console.log(result.rows);
+  //       res.render('kid/books', { "MyBookData": result.rows });
+  //     }
+  //   });
 
-  });
+  // });
 
+  queries.getBooksAccordingToTypes(userData.userID,(bookDataByTypes)=>{
+    console.log(bookDataByTypes);
+    res.render('kid/books', { bookDataByTypes });
+    
+  })
+});
 });
 
 
@@ -353,7 +390,7 @@ router.get('/kid/notes', authenticationMiddleware(), function (req, res) {
   });
 });
 
-router.get('/kid/notes/add', authenticationMiddleware(), function (req, res) {
+router.post('/kid/notes/add', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
   queries.getUserById(req.user, (userData) => {
@@ -365,7 +402,7 @@ router.get('/kid/notes/add', authenticationMiddleware(), function (req, res) {
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err
-    client.query('INSERT INTO "Note"("personID", "title", "content","type" ) VALUES($1, $2,$3,$4)',[userData.userID, req.body.title, req.body.content, 'private'], (error, result) => {
+    client.query('INSERT INTO "Note"("personID", "title", "content","type" ) VALUES($1, $2,$3,$4)',[userData.userID, req.title, req.content, 'private'], (error, result) => {
       if (error) {
         console.log(error.stack);
       } else {
@@ -466,6 +503,36 @@ router.get('/kid/cart', authenticationMiddleware(), function (req, res) {
   });
 });
 });
+
+//---------------------------------------------------------------
+router.get('/kid/account', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
+  pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err)
+    process.exit(-1)
+  })
+
+  // callback - checkout a client
+  pool.connect((err, client, done) => {
+    if (err) throw err
+    client.query('SELECT a.* FROM "Account" a INNER JOIN "Game" g ON a."gameID"=g."gameID" WHERE c."kidID"=$1' ,[userData.userID], (error, result) => {
+      if (error) {
+        console.log(error.stack);
+      } else {
+        done();
+        // res.redirect('/signUp.html');
+        res.render('kid/cart', { "myCart": result.rows });
+      }
+    });
+
+  });
+});
+});
+
+
+
 
 
 /**//////////////////////////////////////////////////////////////////////////////////////////// */

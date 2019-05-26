@@ -4,14 +4,15 @@ body {
   background-color: #f1f1f1;
 }
 
+
 .topnav {
   overflow: hidden;
-  box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
+    box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
   background-color: #6a60a9;
 }
 
 .topnav a {
-  float: right;
+  float: left;
   display: block;
   color: #f2f2f2;
   text-align: center;
@@ -59,6 +60,40 @@ body {
     display: block;
     text-align: left;
   }
+}
+
+.right-nav{
+  float: right;
+}
+.dropdown{
+  position: relative;
+  display: inline-block;
+}
+.dropdown-content {
+  display: none;
+  height: auto;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
 }
 /*-------------------------------------------*/
 .topnav .search-container {
@@ -140,8 +175,8 @@ body {
   transition: margin-right .5s;
   padding: 0;
   margin-right: 240px;
-  }
 
+  }
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}

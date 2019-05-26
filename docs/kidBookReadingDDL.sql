@@ -113,7 +113,15 @@ CREATE TABLE "Cart" (
 	"gameID" INTEGER REFERENCES "Game" ("gameID"),
 	PRIMARY KEY ("kidID", "gameID")									   
 );					 
-						   
+	
+
+CREATE TABLE "Account" (
+	"kidID" INTEGER REFERENCES "Kid" ("kidID"),
+	"gameID" INTEGER REFERENCES "Game" ("gameID"),
+	"quizID" INTEGER REFERENCES "Quiz" ("quizID"),
+	type TEXT CHECK (type IN ('in', 'out')) NOT NULL							   
+);	
+
 CREATE TABLE "HasGames" (
 	"kidID" INTEGER REFERENCES "Kid" ("kidID"),
 	"gameID" INTEGER REFERENCES "Game" ("gameID"),

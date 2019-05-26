@@ -1,12 +1,19 @@
 .cart-style{
 
+  h2{
+    float: right;
+    margin-top: 2%;
+    margin-right: 2%;
+  }
 .column25{
   float: left;
   width: 20%;
   padding: 10px;
   margin-left: 3%;
-  margin-top: 3%;
-  background-color:#f1f2f6;
+  margin-top: 8%;
+  background-color:#ffff;
+ 
+  box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
 }
 .column75{
   float: left;
@@ -27,6 +34,7 @@
   padding: 5px 20px 15px 20px;
   border-radius: 3px;
   text-align:right;
+  
 }
 .avatar {
   vertical-align: middle;
@@ -36,8 +44,8 @@
   margin-right: 3%;
 }
 li{
-  border: solid #ced6e0;
-  background-color:#f1f2f6;
-  margin-bottom: 2%;
+  background-color:#fff;
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
 }
 }
