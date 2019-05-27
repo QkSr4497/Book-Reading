@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="arb" dir="rtl">
 
 <head>
   <meta charset="UTF-8">
@@ -54,16 +54,20 @@
         <h2 key="bookList"> Books List 📘</h2>
          
           <div class="cards"> 
-              {{#Book}}       
-            <div class="card">
-              <a href="#" onclick="">
-                <img src={{pic}} alt="Avatar" style="width:100%">
-                <div class="container">
-                  <h4><b> {{bookName}}</b></h4>
-                  <p></p>
-                </div>
-              </a>
-            </div>
+              {{#Book}}  
+            <form method="POST" action="/kid/books/add">   
+              <div class="flip-card">
+              <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                  <img src={{pic}} alt="Avatar" style="width:300px;height:300px;">
+                  </div>
+                  <div class="flip-card-back">
+                  <h1>{{bookName}}</h1> 
+                  <button>I want to read</button>
+                  </div>
+              </div>
+              </div>
+            </form>  
              {{/Book}}
           </div>
           
