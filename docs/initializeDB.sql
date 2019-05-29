@@ -42,10 +42,13 @@ INSERT INTO "Kid"("kidID", "birthDate") VALUES('9', '2013-07-26');
 INSERT INTO "Kid"("kidID", "birthDate") VALUES('10', '2012-12-27');
 --************ /Kid table *************************************
 
-INSERT INTO "Book"("bookName","pic") VALUES('ماذا تأكل الشّمس؟', 'aaaaaaaaaaa');
-INSERT INTO "Book"("bookName","pic") VALUES('قصة آثار على الثّلج', 'aaaaaaaaaaa');
-INSERT INTO "Book"("bookName","pic") VALUES('رحلة الألوان – اللّون الأخضر', '../public/img/books/colorsStory.jpg');
-INSERT INTO "Book"("bookName","pic") VALUES('7', 'aaaaaaaaaaaaa');
+------ Book table ------------------------------
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('האיש הקטן', 'אריך', 'קסטנר', '../img/books/the-little-man.png');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('ماذا تأكل الشّمس؟', 'ل الشّ', 'تأكل', 'aa1aaaaaaaaa');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('قصة آثار على الثّلج', 'ل الشّ', 'تأكل', 'a2aaaaaaaaaa');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('رحلة الألوان – اللّون الأخضر', 'ل الشّ', 'تأكل', '../img/books/colorsStory.jpg');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('قخضى الثّلج', 'ل الشّ', 'تأكل', 'aaaaaa3aaaaa');
+--************ /Book table *************************************
 
 
 

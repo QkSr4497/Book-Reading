@@ -49,7 +49,9 @@ CREATE TABLE "Category" (
 CREATE TABLE "Book" (
  	"bookID" SERIAL PRIMARY KEY,
  	"bookName" TEXT NOT NULL,
-	pic TEXT NOT NULL
+	"authorFirstName" TEXT NOT NULL,
+	"authorLastName" TEXT NOT NULL,
+	pic TEXT UNIQUE NOT NULL
 );
 					 
 CREATE TABLE "Game" (

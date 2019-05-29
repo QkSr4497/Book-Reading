@@ -23,11 +23,12 @@ SELECT *
 FROM "Person" p INNER JOIN "Admin" a ON p."personID" = a."adminID";
 
 /*
--- be careful this will delete entire DB
+-- be careful this will delete all users and sessions
 DELETE FROM "Supervisor";	-- delete all rows from Supervisor
 DELETE FROM "Teacher";	-- delete all rows from Teacher
 DELETE FROM "Kid";	-- delete all rows from Kid
 DELETE FROM "Admin";	-- delete all rows from Admin
+DELETE FROM "UserSessions";	-- delete all rows from UserSessions
 DELETE FROM "Person";	-- delete all rows from Person
 */
 
