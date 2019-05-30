@@ -547,7 +547,7 @@ router.get('/teacher/books', authenticationMiddleware(), function (req, res) {
     // callback - checkout a client
     pool.connect((err, client, done) => {
       if (err) throw err
-      client.query('SELECT * FROM "Book"', (error, result) => {
+      client.query(`SELECT * FROM "Book"`, (error, result) => {
         if (error) {
           console.log(error.stack);
         } else {
@@ -555,7 +555,34 @@ router.get('/teacher/books', authenticationMiddleware(), function (req, res) {
           // res.redirect('/signUp.html');
           // console.log("json: "+ JSON.stringify(result.rows));
           // console.log("regular: "+result.rows);
-          res.render('teacher/books', { "Books": result.rows, userData });
+          res.render('teacher/books', { "books": result.rows, userData });
+        }
+      });
+    });
+  });
+});
+
+router.get('/teacher/single-book-page/:bookID', function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+
+    // callback - checkout a client
+    pool.connect((err, client, done) => {
+      if (err) throw err
+      console.log("req.params.bookID = " + req.params.bookID);
+      client.query(`SELECT * FROM "Book" b WHERE b."bookID" = $1`, [req.params.bookID], (error, result) => {
+        if (error) {
+          console.log(error.stack);
+        }
+        else {
+          done();
+          console.log(result.rows[0]);
+          res.render('teacher/single-book-page', { "bookData": result.rows[0], userData });
         }
       });
 
