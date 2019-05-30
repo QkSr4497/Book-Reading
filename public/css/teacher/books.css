@@ -1,3 +1,7 @@
+header {
+  max-height: 20px;
+}
+
 .cards-list {
   z-index: 0;
   width: 100%;

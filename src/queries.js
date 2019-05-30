@@ -129,8 +129,20 @@ const getUserById = (userID, callback) => {
              });
         }
     });
-
 }
+
+const getAllBooks = (callback) => {
+    pool.query(`SELECT * FROM "Book" b`, (error, results) => {
+        if (error) {
+            throw error
+        }
+        else {
+            callback(results.rows);
+        }
+    });
+}
+
+
 
 
 
@@ -224,6 +236,7 @@ module.exports = {
     getUsers,
     getUserTypeById,
     getUserById,
+    getAllBooks,
     createUser,
     updateUser,
     deleteUser,

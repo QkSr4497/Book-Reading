@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kid-Read: Add a new Quiz</title>
+
+
+    
+
+
+    <!-- Favicon -->
+
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+
+
+    <!-- Stylesheets -->
+
+
+    <!-- Main Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="/css/teacher/add-quiz.css" />
+
+
+    {{> teacher_head}}
+</head>
+
+<body>
+
+    <div class="container">
+        {{> teacher_body}}
+        <header>
+            <h1>Add a New Quiz
+                <span>Here you can add a new quiz that is related to a certain book</span>
+            </h1>
+        </header>
+
+       <div class="wrap">
+	<div class="background">
+		<form>
+			<div id="title">
+			<h1 id="formTitle">Quiz Form</h1>
+			</div>
+			<p class="pTitles">
+                <img src="" alt="" id="bookPic">
+				<select required id="booksList" class="section" >
+                    <option selected="selected" value="title">Choose a book</option>
+                </select>
+                 *Book:
+			</p>
+			<p class="pTitles">
+				<input name="title" type= "text" class="section" placeholder="Quiz Title" required>
+                *Quiz Title:
+			</p>
+           <p class="pTitles">
+				<select required id="quizLang" class="section">
+                    <option selected="selected" value="title">Choose Language</option>
+                    <option value="hebrew">Hebrew</option>
+                    <option value="arabic">Arabic</option>
+                </select>
+                 *Language:
+			</p>
+            <p class="pTitles">
+                <img src="#" alt="" id="quizPic">
+                <input type="file" id="quizPicInput" name="quizPicInput" class="section" accept="image/*" alt="your image"/>
+
+                Quiz Picture:
+			</p>
+			
+			<div class="submit">
+        		<button type="submit" value="Submit">Submit</button>
+      		</div>
+		</form>
+	</div>
+</div>
+
+
+    </div><!-- /container -->
+
+
+
+
+    <!--====== Javascripts & Jquery ======-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="/js/teacher/add-quiz-scripts.js"></script>
+
+    {{> teacher_footer}}
+
+</body>
+
+</html>

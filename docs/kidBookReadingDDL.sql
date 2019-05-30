@@ -63,8 +63,9 @@ CREATE TABLE "Game" (
 );
 					 
 CREATE TABLE "Quiz" (
- 	"quizID" SERIAL PRIMARY KEY,
- 	"quizLanguage" TEXT NOT NULL,
+	"quizID" SERIAL PRIMARY KEY,
+	"quizTitle" TEXT NOT NULL,
+	"quizLanguage" TEXT NOT NULL,
 	pic TEXT NOT NULL,
 	duration INTEGER NOT NULL,
 	"quizEnabled" CHAR(1) CHECK ("quizEnabled" IN ('Y','N')) NOT NULL

@@ -562,6 +562,7 @@ router.get('/teacher/books', authenticationMiddleware(), function (req, res) {
   });
 });
 
+//=======================================================
 router.get('/teacher/single-book-page/:bookID', function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -590,6 +591,33 @@ router.get('/teacher/single-book-page/:bookID', function (req, res) {
   });
 });
 
+
+//=======================================================
+router.get('/teacher/add-quiz', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+
+    res.render('teacher/add-quiz', { userData });
+  });
+});
+
+//=======================================================
+router.get('/query/getAllBooks', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getAllBooks( (books) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+    res.status(200).send(books);
+  });
+});
 
 
 /**//////////////////////////////////////////////////////////////////////////////////////////// */

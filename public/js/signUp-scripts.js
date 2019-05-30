@@ -14,7 +14,6 @@ $(document).ready(function () {
 
 
 //   ==========Changing inputs according to the role ================
-
 $(function () {
     $("#role").change(function () {
         if (this.value == "kid") {
