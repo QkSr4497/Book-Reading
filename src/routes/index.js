@@ -195,6 +195,7 @@ router.get('/signUp/checkUserDuplicates/:user', function (req, res) {
 router.get('/books', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
   pool.on('error', (err, client) => {
     console.error('Unexpected error on idle client', err)
     process.exit(-1)
@@ -203,7 +204,7 @@ router.get('/books', authenticationMiddleware(), function (req, res) {
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err
-    client.query('SELECT * FROM "Book"', (error, result) => {
+    client.query('SELECT b.* FROM "Book" b WHERE b."bookID" NOT IN (SELECT kb."bookID" FROM "KidBook" kb WHERE kb."kidID"=$1)',[userData.userID], (error, result) => {
       if (error) {
         console.log(error.stack);
       } else {
@@ -214,7 +215,7 @@ router.get('/books', authenticationMiddleware(), function (req, res) {
     });
 
   });
-
+});
 });
 
 //===============================================================
@@ -532,6 +533,34 @@ router.get('/kid/cart', authenticationMiddleware(), function (req, res) {
   });
 });
 });
+//=======================================================
+router.delete('/kid/cart/delete/:gameID', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
+  pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err)
+    process.exit(-1)
+  })
+
+  // callback - checkout a client
+  pool.connect((err, client, done) => {
+    if (err) throw err
+    client.query('DELETE FROM "Cart" c WHERE c."kidID"=$1 AND c."gameID"=$2' ,[userData.userID,req.body.gameID], (error, result) => {
+      if (error) {
+        console.log(error.stack);
+      } else {
+        done();
+        // res.redirect('/signUp.html');
+        res.render('kid/cart', { "myCart": result.rows });
+      }
+    });
+
+  });
+});
+});
+
+
 
 //---------------------------------------------------------------
 router.get('/kid/account', authenticationMiddleware(), function (req, res) {
