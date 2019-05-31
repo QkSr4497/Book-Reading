@@ -1,5 +1,6 @@
 $(document).ready(function () {
     updateBooksList();   // update the books select
+    populateDurationSelect();   // update the duration select
     $("#bookPic").hide();
 });
 
@@ -69,7 +70,25 @@ $("#quizPicInput").change(function(){
     readURL(this);
 });
 
+function populateDurationSelect() { // input minutes options to the duration select
+    var minutes = [];
+    for (var i = 1; i <= 20; i++) {
+        minutes.push(i);
+    }
 
+    var list = $("#timeMinSelect");
+    $.each(minutes, function (index, item) {
+        list.append(new Option(item, item.value));
+    });
+}
+
+$('#timeMinSelect').on('change', function() {
+    $("#timeMinSelect option[value='title']").remove();
+  });
+
+$('#langSelect').on('change', function() {
+    $("#langSelect option[value='title']").remove();
+  });
   
 
 // $('#booksList').on({
