@@ -1,51 +1,17 @@
 .cart-style{
+  li{
+    background-color: #ffff;
 
-  h2{
-    float: right;
-    margin-top: 2%;
-    margin-right: 2%;
   }
-.column25{
-  float: left;
-  width: 20%;
-  padding: 10px;
-  margin-left: 3%;
-  margin-top: 8%;
-  background-color:#ffff;
- 
-  box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
-}
-.column75{
-  float: left;
-  width: 70%;
-  padding: 10px;
-  margin-left: 3%;
-  margin-top: 3%;
- 
-}
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-  margin-left: 3%;
-}
-.container {
-  padding: 5px 20px 15px 20px;
-  border-radius: 3px;
-  text-align:right;
-  
-}
-.avatar {
-  vertical-align: middle;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 3%;
-}
-li{
-  background-color:#fff;
-  border: 1px solid #ccc;
-  box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
-}
+  ul{
+    width:90%;
+    float: center;
+  }
+  img{
+    vertical-align: middle;
+    width: 100px;
+    height: 90px;
+    border-radius: 50%;
+    margin-left: 5%;
+  }
 }

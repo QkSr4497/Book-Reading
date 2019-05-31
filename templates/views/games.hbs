@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 
 <head>
   <meta charset="UTF-8">
@@ -55,18 +55,22 @@
   
           <div class="cards">  
             {{#Game}}   
-            <div class="card">
-              <a href=""onclick="">
-                <img src={{pic}} alt="Avatar" style="width:100%">
-                <div class="container">
-                <h4><b>{{gameName}}</b></h4>
-                <p>{{price}}</p>
-                <button id="{{gameID}}" onclick="addToCartFunc()" key="addToCart">Add To Cart</button>
-                </div>
-              </a>
-            </div>
-         
-          
+              <form method="POST" action="/games/addToCart">   
+              <div  class="flip-card">
+              <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                  <img src={{pic}} alt="Avatar" style="width:300px;height:300px;">
+                  </div>
+                  <div class="flip-card-back">
+                  <h1 name="gameName">{{gameName}}</h1> 
+                  <h2 name="price">{{price}}</h2>
+                  <input type="text" name="gameID" value={{gameID}} style="display: none">
+                    <input type="submit" class="btn btn-primary" value="Add to Cart" />
+                  {{!-- <button type="submit" value="save" name={{gameID}}> Add to Cart</button> --}}
+                  </div>
+              </div>
+              </div>
+            </form>    
           {{/Game}}
           </div>
       </div>

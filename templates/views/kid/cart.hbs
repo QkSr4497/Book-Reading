@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 
 <head>
   <meta charset="UTF-8">
@@ -11,6 +11,8 @@
   <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 
 <body>
@@ -49,50 +51,124 @@
             <i class="fa fa-bars"></i>
           </a>
        </div>
-
-
-      <div class="cart-style">
-        <h2>My Shopping Cart</h2>
-        <div class="row">
-        <div class="column25" >
-          <div class="container">
-           
-            {{#myCart}}
-            <p><span class="price">{{price}} points</span></p>
-             {{/myCart}}
-            <hr>
-           
-            <p>Total <span class="price" style="color:black"><b>   </b></span></p>
-             <button>Buy</button>
-          </div>
-        </div>
-
-
-        <div class="column75">
-          <div class="container">
-              <ul>
-                  {{#myCart}}
-                <li >
-                    <button type="button" name="button">remove</button>
-                    <img src={{pic}} alt="Avatar" class="avatar">
-        
-                  <p>{{price}}</p>
-                  <p class="w3-large">{{gameName}}</p><br>               
-              </li>
-                {{/myCart}}
+     <h1>Shopping Cart</h1>
+          <div class="cart-style">  
+     
+              <div class="w3-container">
+              <ul class="w3-ul w3-card-4">
+                {{#myCart}}
+                <li class="w3-bar">
+                  <span onclick="this.parentElement.style.display='none'" class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span>
+                  <img src={{pic}} class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+                  <div class="w3-bar-item">
+                    <span class="w3-large">{{gameName}}</span><br>
+                    <span>{{price}}</span>
+                  </div>
+                </li>
+                 {{/myCart}}
               </ul>
-          </div>
-        </div>
-      </div>      
-  </div>
+            </div>
+            <div>
+              
+            {{#if userData.points}}
+              <p>Your Points: {{userData.points}}</p>
+             {{/if}}
 
+              <p>Total Amount: </p>
+              <button>checkout</button>
+              <p></p>
+            </div>
 
+</div>
   {{!-- main --}}
 </div>
 
 
 <script type="text/javascript" src="js/navigation.js"></script>
 <script type="text/javascript" src="js/language.js"></script>
+
+
+
+
+<script>
+  /* Set rates + misc */
+var taxRate = 0.05;
+var shippingRate = 15.00; 
+var fadeTime = 300;
+
+
+/* Assign actions */
+$('.product-quantity input').change( function() {
+  updateQuantity(this);
+});
+
+$('.product-removal button').click( function() {
+  removeItem(this);
+});
+
+
+/* Recalculate cart */
+function recalculateCart()
+{
+  var subtotal = 0;
+  
+  /* Sum up row totals */
+  $('.product').each(function () {
+    subtotal += parseFloat($(this).children('.product-line-price').text());
+  });
+  
+  /* Calculate totals */
+  var tax = subtotal * taxRate;
+  var shipping = (subtotal > 0 ? shippingRate : 0);
+  var total = subtotal + tax + shipping;
+  
+  /* Update totals display */
+  $('.totals-value').fadeOut(fadeTime, function() {
+    $('#cart-subtotal').html(subtotal.toFixed(2));
+    $('#cart-tax').html(tax.toFixed(2));
+    $('#cart-shipping').html(shipping.toFixed(2));
+    $('#cart-total').html(total.toFixed(2));
+    if(total == 0){
+      $('.checkout').fadeOut(fadeTime);
+    }else{
+      $('.checkout').fadeIn(fadeTime);
+    }
+    $('.totals-value').fadeIn(fadeTime);
+  });
+}
+
+
+/* Update quantity */
+function updateQuantity(quantityInput)
+{
+  /* Calculate line price */
+  var productRow = $(quantityInput).parent().parent();
+  var price = parseFloat(productRow.children('.product-price').text());
+  var quantity = $(quantityInput).val();
+  var linePrice = price * quantity;
+  
+  /* Update line price display and recalc cart totals */
+  productRow.children('.product-line-price').each(function () {
+    $(this).fadeOut(fadeTime, function() {
+      $(this).text(linePrice.toFixed(2));
+      recalculateCart();
+      $(this).fadeIn(fadeTime);
+    });
+  });  
+}
+
+
+/* Remove item from cart */
+function removeItem(removeButton)
+{
+  /* Remove row from DOM and recalc cart total */
+  var productRow = $(removeButton).parent().parent();
+  productRow.slideUp(fadeTime, function() {
+    productRow.remove();
+    recalculateCart();
+  });
+}
+</script>
 </body>
 
 </html>

@@ -216,6 +216,33 @@ router.get('/books', authenticationMiddleware(), function (req, res) {
   });
 
 });
+
+//===============================================================
+router.post('/kid/books/add', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
+  pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err)
+    process.exit(-1)
+  })
+
+  // callback - checkout a client
+  pool.connect((err, client, done) => {
+    if (err) throw err
+    client.query('INSERT INTO "KidBook"("kidID", "bookID","type" ) VALUES($1, $2,$3)',[userData.userID, req.body.bookID , 'intrested'], (error, result) => {
+      if (error) {
+        console.log(error.stack);
+      } else {
+        done();
+        // res.redirect('/signUp.html');
+        res.render('kid/books', {bookDataByTypes});
+      }
+    });
+
+     });
+    });
+});
 //===========================================================
 
 router.get('/games', authenticationMiddleware(), function (req, res) {
@@ -244,7 +271,7 @@ router.get('/games', authenticationMiddleware(), function (req, res) {
 });
 
 //kid add this game from Store
-router.get('/games/addToCart', authenticationMiddleware(), function (req, res) {
+router.post('/games/addToCart', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
   queries.getUserById(req.user, (userData) => {
@@ -256,13 +283,13 @@ router.get('/games/addToCart', authenticationMiddleware(), function (req, res) {
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err
-    client.query('INSERT INTO "HasGame"("kidID", "gameID") VALUES($1, $2)',[userData.userID,], (error, result) => {
+    client.query('INSERT INTO "Cart" ("kidID", "gameID") VALUES($1, $2)',[userData.userID,req.body.gameID], (error, result) => {
       if (error) {
         console.log(error.stack);
       } else {
         done();
-
-        res.render('kid/cart', { "myCart": result.rows });
+        res.redirect('/kid/cart');
+        res.render('kid/cart');
       }
     });
   });
@@ -283,7 +310,7 @@ router.get('/kid/profile', authenticationMiddleware(), function (req, res) {
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err
-    client.query('SELECT p.*,k.*,a.* FROM "Person" p INNER JOIN "Kid" k ON p."personID"=k."kidID" INNER JOIN "Avatar" a ON k."avatarID"=a."avatarID" WHERE p."personID"=$1',[userData.userID], (error, result) => {
+    client.query('SELECT p.*,k.* FROM "Person" p INNER JOIN "Kid" k ON p."personID"=k."kidID" WHERE p."personID"=$1',[userData.userID], (error, result) => {
       if (error) {
         console.log(error.stack);
       } else {

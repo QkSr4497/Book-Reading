@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 
 <head>
   <meta charset="UTF-8">
@@ -55,15 +55,16 @@
 
           <div class="cards"> 
               {{#MyGames}}      
-            <div class="card">
-              <a href={{link}} onclick="">
-                <img src={{pic}} alt="Avatar" style="width:100%">
-                <div class="container">
-                  <h4><b> {{gameName}}</b></h4>
-                  <p>{{price}}</p>
-                </div>
-              </a>
-            </div>
+              <div class="flip-card">
+              <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                  <img src={{pic}} alt="Avatar" style="width:300px;height:300px;">
+                  </div>
+                  <div class="flip-card-back">
+                  <h1>{{gameName}}</h1> 
+                  </div>
+              </div>
+              </div>
             {{/MyGames}}  
           </div>  
       </div>

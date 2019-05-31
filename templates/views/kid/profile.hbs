@@ -1,109 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
   <link rel="Stylesheet" href="/css/style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <title>Document</title>
 </head>
-
 <body>
-  <div class="navigation-style">
-    <div id="mySidenav" class="sidenav">
-      <a href="javascript:void(0)" class="closebtn" onclick="closeSideNav()">&times;</a>
-      <a href="home" key="home"> Home 🏠</a>
-      <a href="profile" key="myProfile">My Profile 👦</a>
-      <a href="books" key="myBooks"> My Books 📚</a>
-      <a href="quizes" key="myQuizes">My Quizes ⏱️</a>
-      <a href="notes" key="myNotes">My Notes  📄</a>
-      <a href="games" key="myGames">My Games 🎮</a>
-      <a href="groups" key="myGroups"> My Groups 👨‍👩‍👧‍👦</a>
-      <a href="friends" key="myFriends"> My Friends 👨‍👩‍</a>
-      <a href="account" key="myAccount">My Account  💳</a>
-      <a href="cart" key="myCart"> My Cart 🛒</a>
-      <a href="settings" key="settings">Settings 🔧</a>
-      <a href="../logout" key="logOut">Log Out 🏃</a>
-    </div>
+  <div class="my-profile-style">
+    <div class="container">
+     
+      {{#kidProfile}}
+      <form action="">
+       <div class="img-container">
 
-      <div id="main">
-
-
-       <div class="topnav" id="myTopnav">
-          {{#if userData.points}}
-            <a class="tablinks" id="pointsTitle">My points: {{userData.points}}</a>
-          {{/if}}
-          <a href="#" id="openNav" class="active "  key="open" onclick="openSideNav()">&#9776; open</a>
-          <a class="tablinks" id="welcomeTitle">Welcome {{userData.userName}}</a>
-          <a href="#news" key="2read">2READ</a>
-          <a href="../books" key="books">Books</a>
-          <a href="../games" key="store">Store</a>
-          <a href="#" class="translate" id="arb">Arabic</a>
-          <a href="#" class="translate" id="heb">Hebrew</a> 
-          <a href="javascript:void(0);" class="icon" onclick="responsiveNav()">
-            <i class="fa fa-bars"></i>
-          </a>
+       
+         <img src="/img/icons/kidreads.png" alt="Avatar" class="avatar">
+         <br>
+        <input id="profile-image-upload" class="hidden" type="file">
+        <!--Upload Image Js And Css-->
        </div>
 
 
+       <div class="detail-container">
+         <table>
+           <tr>
+             <td><label for="">User Name</label></td>
+             <td><input type="text" name="" value="{{userName}}"></td>
+           </tr>
+            <tr>
+             <td><label for="">First Name</label></td>
+             <td><input type="text" name="" value="{{firstName}}"></td>
+           </tr>
+            <tr>
+             <td><label for="">Last Name</label></td>
+             <td><input type="text" name="" value="{{lastName}}"></td>
+           </tr>
+            <tr>
+             <td><label for="">Birth Date</label></td>
+             <td><input type="text"></td>
+           </tr>
+            <tr>
+             <td><label for="">Password</label></td>
+              <td><input type="text" name="" value="{{password}}"></td>
+           </tr>
+         </table>
+          <button id="profileUpdatebtn">Update</button>
 
-        <div id="myProfile" class="profile-style">
-        <div class="profile-content">
-        <div class="img-container">
-          <img src={{pic}} alt="Avatar" class="avatar">
-          <button type="button" name="button" id="editProfileBtn">	<i class='fas fa-edit'></i> Edit profile</button>
-        </div>
-        {{#kidProfile}}
-            <div class="detail-container">
-                <table>
-                    <tr>
-                    <td><input type="text" name="" value="">{{userName}}</td>
-                    <td><label for="">User Name</label></td>
-                    </tr>
 
-                    <tr>
-                    <td><input type="text" name="" value="">{{firstName}}</td>
-                    <td><label for="">First Name</label></td>
-                    </tr>
-
-                    <tr>
-                    <td><input type="text" name="" value="">{{lastName}}</td>
-                    <td><label for="">Last Name</label></td>
-                    </tr>
-
-                    <tr>
-                    <td><input type="text" name="" value="">{{birthDate}}</td>
-                    <td><label for="">Birthdate</label></td>
-                    </tr>
-
-                    <tr>
-                    <td><input type="text" name="" value="">{{pwd}}</td>
-                    <td> <label for="">Password</label></td>
-                    </tr>
-                    
-                </table>
-                </div>
-         {{/kidProfile}}
-        </div>
+       </div>
+      </form>
+      
+      {{/kidProfile}}
     </div>
-
-
-
-
-
-
-
-       
   </div>
-</div>
-
-<script type="text/javascript" src="js/navigation.js"></script>
-<script type="text/javascript" src="js/language.js"></script>
 </body>
-
 </html>
+
+
+
+
+
+
+

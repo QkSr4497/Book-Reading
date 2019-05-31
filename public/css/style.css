@@ -264,51 +264,65 @@ body {
   color: black;
   border: none; }
 
-.card-style h2 {
-  font-size: 120%;
-  text-align: right;
-  padding: 2% 2% 1% 0%;
-  margin-right: 2%; }
-
 .card-style .cards {
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
-  text-align: right; }
+  margin-right: 2%;
+  margin-top: 6%; }
 
-.card-style .cards a {
+.card-style .flip-card {
+  background-color: transparent;
+  width: 300px;
+  height: 300px;
+  perspective: 1000px;
+  text-align: center; }
+
+.card-style h1 {
+  font-size: 150%;
+  padding: 70px 0; }
+
+.card-style .flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); }
+
+.card-style .flip-card-inner button {
+  background-color: #eccc68;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
   text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer; }
+
+.card-style .flip-card-inner button:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4); }
+
+.card-style .flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg); }
+
+.card-style .flip-card-front, .card-style .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden; }
+
+.card-style .flip-card-front {
+  background-color: #bbb;
   color: black; }
 
-.card-style .card {
-  background-color: #fff;
-  flex: 0 0 200px;
-  margin: 10px;
-  border: 1px solid #ccc;
-  box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
-  transition: 0.3s;
-  height: 230px; }
-
-.card-style .card img {
-  max-width: 100%;
-  height: 50%; }
-
-.card-style .card button {
-  background-color: #f7b633;
-  border: 0;
+.card-style .flip-card-back {
+  background-color: rgba(106, 96, 169, 0.4);
   color: white;
-  padding: 10px;
-  width: 100%; }
-
-.card-style .card button:hover {
-  background-color: #f7b633;
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1); }
-
-.card-style .card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5); }
-
-.card-style .container {
-  padding: 2px 10px; }
+  transform: rotateY(180deg); }
 
 .home-style .home-container {
   align-items: center;
@@ -478,59 +492,44 @@ body {
 .my-account-style th {
   background-color: rgba(129, 88, 252, 0.5); }
 
-.my-profile-style .profile-content {
-  width: 40%;
-  height: 500px;
-  background-color: #ffff;
-  border-radius: 2%;
-  box-shadow: 0px 2px 10px 0px #888888; }
-
-.my-profile-style .img-container {
-  width: 100%;
-  height: 150px;
-  background-color: #6c5ce7; }
-
-.my-profile-style .editImgBtn {
-  position: relative;
-  top: 60%;
-  left: 80%; }
-
-.my-profile-style .avatar {
-  vertical-align: middle;
-  width: 150px;
-  height: 150px;
-  background-color: #fff;
-  border-radius: 50%;
-  align-items: center;
-  position: relative;
-  left: 50%;
-  transform: translate(-50%, 50%);
-  box-shadow: 0px 2px 10px 0px #888888; }
-
-.my-profile-style .detail-container {
-  width: 55%; }
-
-.my-profile-style .detail-container input {
-  padding: 4px 10px;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  text-align: center; }
-
-.my-profile-style #editProfileBtn {
-  width: 140px;
-  height: 30px;
-  margin-top: 30%;
-  margin-left: 50%;
-  transform: translate(-50%, 30%);
-  background-color: #ffff;
-  box-shadow: 0px 2px 10px 0px #888888;
-  border-radius: 5px;
-  border: none; }
-
-.my-profile-style #editProfileBtn:hover {
-  background-color: #6c5ce7; }
+.my-profile-style {
+  /* When the input field gets focus, change its width to 100% */ }
+  .my-profile-style .avatar {
+    vertical-align: middle;
+    width: 200px;
+    height: 200px; }
+  .my-profile-style .container {
+    width: 50%;
+    height: auto;
+    text-align: center;
+    margin-right: 3%;
+    margin-top: 3%;
+    box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3); }
+  .my-profile-style .detail-container {
+    text-align: center;
+    background-color: #ffff;
+    padding: 2%; }
+  .my-profile-style .img-container {
+    background-color: #7189bf;
+    padding: 2%; }
+  .my-profile-style #profileUpdatebtn {
+    margin-top: 1%;
+    width: 35%;
+    background-color: #7189bf;
+    /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px; }
+  .my-profile-style input[type=text] {
+    width: 200px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out; }
+  .my-profile-style input[type=text]:focus {
+    width: 150%; }
 
 .modal-style .modal input[type=text], .modal-style input[type=number], .modal-style input[type=file], .modal-style select, .modal-style textarea {
   width: 100%;
@@ -613,45 +612,19 @@ body {
   .modal-style .okbtn {
     width: 100%; } }
 
-.cart-style {
-  /* Clear floats after the columns */ }
-  .cart-style h2 {
-    float: right;
-    margin-top: 2%;
-    margin-right: 2%; }
-  .cart-style .column25 {
-    float: left;
-    width: 20%;
-    padding: 10px;
-    margin-left: 3%;
-    margin-top: 8%;
-    background-color: #ffff;
-    box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3); }
-  .cart-style .column75 {
-    float: left;
-    width: 70%;
-    padding: 10px;
-    margin-left: 3%;
-    margin-top: 3%; }
-  .cart-style .row:after {
-    content: "";
-    display: table;
-    clear: both;
-    margin-left: 3%; }
-  .cart-style .container {
-    padding: 5px 20px 15px 20px;
-    border-radius: 3px;
-    text-align: right; }
-  .cart-style .avatar {
-    vertical-align: middle;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 3%; }
-  .cart-style li {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3); }
+.cart-style li {
+  background-color: #ffff; }
+
+.cart-style ul {
+  width: 90%;
+  float: center; }
+
+.cart-style img {
+  vertical-align: middle;
+  width: 100px;
+  height: 90px;
+  border-radius: 50%;
+  margin-left: 5%; }
 
 .notes-style h2 {
   float: right;
