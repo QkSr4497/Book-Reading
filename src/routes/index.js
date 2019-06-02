@@ -237,7 +237,8 @@ router.post('/kid/books/add', authenticationMiddleware(), function (req, res) {
       } else {
         done();
         // res.redirect('/signUp.html');
-        res.render('kid/books', {bookDataByTypes});
+        res.redirect('/kid/books');
+        //res.render('kid/books');
       }
     });
 
@@ -289,7 +290,7 @@ router.post('/games/addToCart', authenticationMiddleware(), function (req, res) 
         console.log(error.stack);
       } else {
         done();
-        res.redirect('/kid/cart');
+       res.redirect('/kid/cart');
         res.render('kid/cart');
       }
     });
@@ -318,6 +319,30 @@ router.get('/kid/profile', authenticationMiddleware(), function (req, res) {
         done();
         // res.redirect('/signUp.html');
         res.render('kid/profile', { "kidProfile": result.rows });
+      }
+    });
+
+  });
+});
+});
+
+router.post('/kid/profile/edit', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
+  pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err)
+    process.exit(-1)
+  })
+
+  // callback - checkout a client
+  pool.connect((err, client, done) => {
+    if (err) throw err
+    client.query('UPDATE "Person"  SET "userName" = $1, "firstName" = $2 WHERE "peronID" = $3 ',[body.req.userName,body.req.firstName,userData.userID], (error, result) => {
+      if (error) {
+        console.log(error.stack);
+      } else {
+        done();
       }
     });
 
@@ -360,7 +385,40 @@ router.get('/kid/books', authenticationMiddleware(), function (req, res) {
 });
 });
 
+router.post('/kid/books/edit', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  var bookID = req.body.bookID;
+  var bookType = req.body.bookType;
+  console.log('bookID ' + bookID);
+  console.log('bookType: ' + bookType );
 
+
+  queries.getUserById(req.user, (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+  
+    // callback - checkout a client
+    pool.connect((err, client, done) => {
+      
+      if (err) throw err
+      client.query(' UPDATE "KidBook" SET "type" = $1 WHERE "kidID" = $2 AND "bookID"=$3',[bookType,userData.userID,bookID], (error, result) => {
+        if (error) {
+          res.send({ status: 'error' });
+          console.log(error.stack);
+        } else {
+          res.send({ status: 'success' });
+          done();
+        }
+
+      });
+  
+    });
+
+  });
+});
 //--------------------------------
 router.get('/kid/games', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
@@ -432,12 +490,11 @@ router.post('/kid/notes/add', authenticationMiddleware(), function (req, res) {
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err
-    client.query('INSERT INTO "Note"("personID", "title", "content","type" ) VALUES($1, $2,$3,$4)',[userData.userID, req.title, req.content, 'private'], (error, result) => {
+    client.query('INSERT INTO "Note"("personID", "title", "content","type" ) VALUES($1, $2,$3,$4)',[userData.userID, req.body.title, req.body.content, 'private'], (error, result) => {
       if (error) {
         console.log(error.stack);
       } else {
         done();
-        // res.redirect('/signUp.html');
         res.render('kid/notes', { "myNotes": result.rows });
       }
     });

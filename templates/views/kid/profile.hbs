@@ -12,11 +12,9 @@
     <div class="container">
      
       {{#kidProfile}}
-      <form action="">
+      <form method="POST" action="/kid/profile/edit">
        <div class="img-container">
-
-       
-         <img src="/img/icons/kidreads.png" alt="Avatar" class="avatar">
+      <img src="/img/icons/kidreads.png" alt="Avatar" class="avatar">
          <br>
         <input id="profile-image-upload" class="hidden" type="file">
         <!--Upload Image Js And Css-->
@@ -27,23 +25,23 @@
          <table>
            <tr>
              <td><label for="">User Name</label></td>
-             <td><input type="text" name="" value="{{userName}}"></td>
+             <td><input type="text" name="userName" value="{{userName}}"></td>
            </tr>
             <tr>
              <td><label for="">First Name</label></td>
-             <td><input type="text" name="" value="{{firstName}}"></td>
+             <td><input type="text" name="firstName" value="{{firstName}}"></td>
            </tr>
             <tr>
              <td><label for="">Last Name</label></td>
-             <td><input type="text" name="" value="{{lastName}}"></td>
+             <td><input type="text" name="lastName" value="{{lastName}}"></td>
            </tr>
             <tr>
              <td><label for="">Birth Date</label></td>
-             <td><input type="text"></td>
+             <td><input type="text" name="birthDate" value={{birthDate}}></td>
            </tr>
             <tr>
              <td><label for="">Password</label></td>
-              <td><input type="text" name="" value="{{password}}"></td>
+              <td><input type="text" name="" value={{password}}></td>
            </tr>
          </table>
           <button id="profileUpdatebtn">Update</button>

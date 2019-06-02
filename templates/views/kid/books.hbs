@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 
 <head>
   <meta charset="UTF-8">
@@ -10,6 +10,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!--====== Javascripts & Jquery ======-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
 </head>
 
 <body>
@@ -52,74 +55,90 @@
 
           <div class="my-books-style">
            <h2>&#128218; My Books Board</h2>
-            <div class="my-books">
-                <div id="wantToReadDiv" ondrop="drop(event)" ondragover="allowDropToRead(event)">
+            <div class="row">
+
+                <div id="intrested" class="intrested column" ondrop="drop(event)" ondragover="allowDropIntrested(event)">
                     <div class="div_title">
                       <h4>Books I want to read</h4>
                     </div>
                       {{#each bookDataByTypes.intrestedBooks}}
-   
-                      <a href="" draggable="true" ondragstart="drag(event)" id="{{bookID}}">
-                      {{bookName}}
-                       {{type}}
-                      </a>    
+                      <form method="POST" action="/kid/books/edit">
+                      <a class="a" name={{bookName}}  draggable="true" ondragstart="drag(event)" id={{bookID}}>
+                        {{bookName}} 
+                      </a> 
+                    </form>
                        {{/each }}
-                              
                 </div>
+           
 
-                <div id="readingNowDiv" ondrop="drop(event)" ondragover="allowDropReading(event)">
-                  <div class="div_title">
+
+
+
+
+                
+                <div id="reading" class="reading column" ondrop="drop(event)" ondragover="allowDropReading(event)">
+                    <form id="readingForm" method="POST" action="/kid/books/edit"></form>
+                    <div class="div_title">
                       <h4>Books I am reading</h4>
                     </div>
                       {{#each bookDataByTypes.readingBooks}}
-   
-                      <a href="" draggable="true" ondragstart="drag(event)" id="{{bookID}}">
-                      {{bookName}}
-                       {{type}}
-                      </a>    
+                      
+                      <a class="a" draggable="true" ondragstart="drag(event)" id="{{bookID}}">
+                        {{bookName}}
+                      </a> 
+              
                        {{/each }}
-          
-                  </div>
-
-                    <div id="finishedReadingDiv" ondrop="drop(event)" ondragover="allowDropFinish(event)">
-                       <div class="div_title">
-                          <h4>Books I have read</h4>
-                        </div>
-                      {{#each bookDataByTypes.finishedBooks}}
-   
-                      <a href="" draggable="true" ondragstart="drag(event)" id="{{bookID}}">
-                      {{bookName}}
-                       {{type}}
-                      </a>    
-                       {{/each }}
-                       
-                    </div>
-
-
-                    
+                    </form>
                 </div>
-            </div>
 
 
+
+
+
+
+
+                <div id="finished" class="finished column"  ondrop="drop(event)" ondragover="allowDropFinish(event)">
+                  <div class="div_title">
+                    <h4>Books I have read</h4>
+                  </div>
+                    {{#each bookDataByTypes.finishedBooks}}
+   
+                      <a class="a" draggable="false" id="{{bookID}}">
+                        {{bookName}} 
+                      </a>  
+                    {{/each }}
+                </div>
+              </div>
+          </div>
+
+{{!-- main --}}
   </div>
 </div>
 
+
+
+
+
+
 <script>
-  function allowDropToRead(ev) {
-    if(ev.target.nodeName!=="A"){
+  function allowDropIntrested(ev) {
+    if(ev.target.id==="intrested"){
     ev.preventDefault();
     }
 
   }
 
   function allowDropReading(ev) {
-     if(ev.target.nodeName!=="A"){
+    console.log('allowDropReading '+ ev.target.id )
+     if(ev.target.id === "reading"){
+      console.log('prevented moving : '+ev.dataTransfer.getData("text") + 'to: ' + ev.target.id );
     ev.preventDefault();
-    console.log('trying: '+ev.dataTransfer.getData("text"));
+    ev.stopPropagation();
+
     }
   }
     function allowDropFinish(ev) {
-      if(ev.target.nodeName!=="A"){
+       if(ev.target.id === 'finished'){
     ev.preventDefault();
     }
   }
@@ -129,19 +148,54 @@
      console.log('drag: '+ev.dataTransfer.getData("text"));
   }
 
+
+    const updateBookType = ( (bookID, bookType, callback) => {
+      var bookData = {};
+      bookData.bookID = bookID;
+      bookData.bookType = bookType;
+      console.log('new object ' +JSON.stringify(bookData));
+      var url = '/kid/books/edit';
+      $.ajax({
+        url: url,
+        type: 'POST',
+        data: bookData,
+        success: function (result) {
+            callback(undefined , result.status);
+       },
+      error: function (err) {
+            callback('error updating book type', undefined);
+       }
+    });
+      });
+  
+
   function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
     ev.target.appendChild(document.getElementById(data));
+    console.log('movigng book : '+ev.dataTransfer.getData("text"));
+    console.log('to '+ev.target.id);
+
+    var bookID=ev.dataTransfer.getData("text");
+    var bookType=ev.target.id;
+    updateBookType(bookID, bookType, (error, result) => {
+      if (error) {
+        console.log(error);
+      }
+      else {
+          console.log('status: ' + result);
+      }
+      
+    });
   }
 </script>
-
 
 
 
 <script type="text/javascript" src="js/navigation.js"></script>
 <script type="text/javascript" src="js/language.js"></script>
 <script type="text/javascript" src="js/myBooks-scripts.js"></script>
+
 </body>
 
 </html>

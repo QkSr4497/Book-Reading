@@ -11,6 +11,8 @@
   <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -78,13 +80,13 @@
           <br>
           <hr>
           <label for="title"><b>Note Title</b></label>
-          <input type="text" placeholder="Enter Title" name="title" required>
+          <input type="text" placeholder="Enter Title" name="title" required value="">
 
           <label for="title"><b>Note Content</b></label>
-          <textarea name="content" rows="8" cols="100" placeholder="Enter your thoughts"  required></textarea>
+          <textarea name="content" rows="8" cols="100" placeholder="Enter your thoughts"  required value=""></textarea>
 
           <label for="file"><b>upload your drawings 🎨</b></label>
-          <input type="file" id="group-image" name="img" placeholder="Add a title image" accept="image/gif, image/jpeg, image/jpg, image/svg+xml, image/svg, image/png, image/x-png, image/pjpeg">
+          <input value="" type="file" id="group-image" name="img" placeholder="Add a title image" accept="image/gif, image/jpeg, image/jpg, image/svg+xml, image/svg, image/png, image/x-png, image/pjpeg">
 
 
 
@@ -97,10 +99,13 @@
 
 
 
-
        
   </div>
 </div>
+
+
+
+
     <script>
     var coll = document.getElementsByClassName("collapsible");
     var i;
