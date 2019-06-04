@@ -7,10 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kid-Read: Add a new Quiz</title>
 
-
-    
-
-
     <!-- Favicon -->
 
     <!-- Google Font -->
@@ -29,7 +25,7 @@
 
 <body>
 
-    <div class="container">
+    <div class="container" id="quizContainer">
         {{> teacher_body}}
         <header>
             <h1>Add a New Quiz
@@ -37,56 +33,131 @@
             </h1>
         </header>
 
-       <div class="wrap">
-	<div class="background">
-		<form>
-			<div id="title">
-			<h1 id="formTitle">Quiz Form</h1>
-			</div>
-			<p class="pTitles">
-                <img src="" alt="" id="bookPic">
-				<select required id="booksList" class="section" >
-                    <option selected="selected" value="title">Choose a book</option>
-                </select>
-                 *Book:
-			</p>
-			<p class="pTitles">
-				<input name="title" type= "text" class="section" placeholder="Quiz Title" required>
-                *Quiz Title:
-			</p>
-           <p class="pTitles">
-				<select required id="langSelect" class="section">
-                    <option selected="selected" value="title">Choose Language</option>
-                    <option value="hebrew">Hebrew</option>
-                    <option value="arabic">Arabic</option>
-                </select>
-                 *Language:
-			</p>
-            <p class="pTitles">
-                <img src="#" alt="" id="quizPic">
-                <input type="file" id="quizPicInput" name="quizPicInput" class="section" accept="image/*" alt="your image"/>
+        <form id="quizForm">
+            {{!------------ Quiz details -----------------------}}
+            <div class="wrap">
+                <div class="background">
+                    <div id="title">
+                        <h1 id="formTitle">Quiz Details</h1>
+                    </div>
+                    <p class="pTitles">
+                        <img src="" alt="" id="bookPic">
+                        <select required id="booksList" class="section">
+                            <option selected="selected" value="title">Choose a book</option>
+                        </select>
+                        *Book:
+                    </p>
+                    <p class="pTitles">
+                        <input name="title" type="text" class="section" placeholder="Quiz Title" required>
+                        *Quiz Title:
+                    </p>
+                    <p class="pTitles">
+                        <select required id="langSelect" class="section">
+                            <option selected="selected" value="title">Choose Language</option>
+                            <option value="hebrew">Hebrew</option>
+                            <option value="arabic">Arabic</option>
+                        </select>
+                        *Language:
+                    </p>
+                    <p class="pTitles">
+                        <img src="#" alt="" id="quizPic">
+                        <input type="file" id="quizPicInput" name="quizPicInput" class="section" accept="image/*"
+                            alt="your image" />
 
-                Quiz Picture:
-			</p>
+                        Quiz Picture:
+                    </p>
 
-            <p class="pTitles">
-				<select required id="timeMinSelect" class="section">
-                    <option selected="selected" value="title">Choose duration</option>
-                </select>
-                 *Duration in minutes:
-			</p>
-			
-			<div class="submit">
-        		<button type="submit" value="Submit">Submit</button>
-      		</div>
-		</form>
-	</div>
-</div>
+                    <p class="pTitles">
+                        <select required id="timeMinSelect" class="section">
+                            <option selected="selected" value="title">Choose duration</option>
+                        </select>
+                        *Duration in minutes:
+                    </p>
+                </div>
+            </div>
+
+            {{!------------ questions -----------------------}}
+            <div class="wrap question" id="q1">
+                <div class="background">
+                    <div class="questionTitle">
+                        <h1 class="qTitle" id="q1-title">Question 1</h1>
+                    </div>
+
+                    <p class="pTitles">
+                        <input name="q1" type="text" class="section" placeholder="Question Content" required>
+                        *Content:
+                    </p>
+
+                    <p class="pTitles">
+                        <img src="#" alt="" id="q1Pic">
+                        <input type="file" id="q1PicInput" name="q1PicInput" class="section" accept="image/*"
+                            alt="your image" style="width: 50%;" />
+                        Q1 Picture:
+                    </p>
+
+                    <p class="pTitles">
+                        <select required id="q1Type" class="section questionTypeClass">
+                            <option selected="selected"  value="single">Single Choice Question</option>
+                            <option value="multi">Multiple Choice Question</option>
+                        </select>
+                        *Question Type:
+                    </p>
+
+                    <div id="q1ans1">
+                        <p class="pTitles">
+                            <input name="q1ans1" type="text" class="section" placeholder="Answer 1 Content" required>
+                            *Answer 1:
+                        </p>
+
+                        <p class="pTitles">
+                            <img src="#" alt="" id="q1Ans1Pic">
+                            <input type="file" id="q1Ans1PicInput" name="q1Ans1PicInput" class="section"
+                                accept="image/*" alt="your image" style="width: 50%;" />
+                            Answer 1 Picture:
+                        </p>
+                    </div>
+
+                    <div id="q1ans2">
+                        <p class="pTitles">
+                            <input name="q1ans2" type="text" class="section" placeholder="Answer 2 Content" required>
+                            *Answer 2:
+                        </p>
+
+                        <p class="pTitles">
+                            <img src="#" alt="" id="q1Ans2Pic">
+                            <input type="file" id="q1Ans2PicInput" name="q1Ans2PicInput" class="section"
+                                accept="image/*" alt="your image" style="width: 50%;" />
+                            Answer 2 Picture:
+                        </p>
+                    </div>
+
+                  
+
+                        <button type="button" class="btn btn-info btn-circle btn-xl" id="addAnsBtn"
+                            title="Add Option"><i class="fas fa-plus"></i>
+                        </button>
+                        <button type="button" class="btn btn-danger btn-circle btn-xl" id="removeAnsBtn"
+                        title="Remove Option"><i class="fas fa-minus"></i>
+                    </button>
+
+                    
+                </div>
+
+            </div>
+            
+            <button type="button" class="btn btn-danger btn-add-question" id="removeQuestionBtn" title="remove Question"> Remove
+                Question <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-warning btn-add-question" id="addQuestionBtn" title="Add Question"> Add
+                Question <i class="fas fa-plus"></i>
+            </button>
 
 
-    </div><!-- /container -->
+            <div class="submit">
 
-
+        </form>
+        <button type="submit" value="Submit" id="submintBtn">Add Quiz</button>
+    </div> <!-- /container -->
 
 
     <!--====== Javascripts & Jquery ======-->

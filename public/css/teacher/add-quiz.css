@@ -7,6 +7,8 @@ body{
 
 
 .wrap{
+	margin-top: 10px;
+	margin-bottom: 10px;
     width:110%;
     min-width:20em;
 }
@@ -77,12 +79,41 @@ select, input {
 
 }
 
-#bookPic, #quizPic{
+.pTitles img{
     margin-right: 40px;
     margin-top: 20px;
     height: 150px;
     width: auto;
 }
+
+input[type=radio], input.radio {
+  margin-right: 50px;
+  height: 1.2em;
+  width: 3%;
+
+}
+
+input[type=checkbox] {
+  height: 1.5em;
+  width: 100%;
+  margin:20px;
+
+  
+}
+
+input[type=checkbox] label {
+	display: block;
+	padding-left: 15px;
+	text-indent: -15px;
+  }
+
+/* Might want to wrap a span around your checkbox text */
+.checkboxtext {
+  /* Checkbox text */
+  font-size: 100%;
+
+}
+
 .section:focus{
 	border: .1em solid #0198E1;
 }
@@ -100,15 +131,17 @@ select, input {
 .submit{
  width: 100%;
 }
-button{
+#submintBtn {
 	width:50%;
-	margin-left: 25%;
+	margin-left: 30%;
+	margin-bottom: 10%;
+	margin-top: 10%;
 	padding:1em;
 	font-family: 'Open Sans', sans-serif;
 	cursor:pointer;
 	background-color: #0198E1;
 	color: #000;
-	font-size: 1em;
+	font-size: 2em;
 	font-weight: 400;
 	border: none;
 	min-width: 10em;
@@ -119,11 +152,67 @@ button:focus , button:hover {
 	font-weight: 600; 
 }
 
+.questionTitle {
+	width:100%;
+	margin:0;
+	padding: .5em 0;
+	background-color: rgb(182, 110, 27);
+}
+
+.questionTitle .qTitle {
+	text-align: center;
+	color:#000;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1.5em;
+  font-weight:400;
+  line-height: 0.3em;
+  margin-top: .3em;
+
+}
+
+.question .section {
+	width: 80%;
+}
+
+.btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 24px;
+	line-height: 1.33;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    padding: 6px 0px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+	line-height: 1.42857;
+	position: relative;
+	left: 50%;
+	margin-right: 10px;
+}
+
+#addQuestionBtn, #removeQuestionBtn {
+    padding: 6px 0px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 24px;
+	line-height: 1.42857;
+	position: relative;
+	left: 50%;
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
 @media only screen and (max-width: 1100px) {
     .section {
         background-color: rgba(187, 153, 125, 0.459);
     }
-    #bookPic, #quizPic{
+    .pTitles img{
         margin-right: 5px;
         margin-top: 5px;
         height: 80px;
@@ -137,3 +226,11 @@ button:focus , button:hover {
         font-size: 1.5em;
     }
   }
+
+
+
+
+
+
+
+

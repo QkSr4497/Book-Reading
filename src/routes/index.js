@@ -688,6 +688,7 @@ router.get('/teacher/single-book-page/:bookID', function (req, res) {
     // callback - checkout a client
     pool.connect((err, client, done) => {
       if (err) throw err
+      console.log('req params ' + JSON.stringify(req.params));
       console.log("req.params.bookID = " + req.params.bookID);
       client.query(`SELECT * FROM "Book" b WHERE b."bookID" = $1`, [req.params.bookID], (error, result) => {
         if (error) {
@@ -695,7 +696,7 @@ router.get('/teacher/single-book-page/:bookID', function (req, res) {
         }
         else {
           done();
-          console.log(result.rows[0]);
+          console.log('book chosen: ' + JSON.stringify(result.rows[0]));
           res.render('teacher/single-book-page', { "bookData": result.rows[0], userData });
         }
       });
