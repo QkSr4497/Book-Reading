@@ -447,7 +447,32 @@ router.get('/kid/games', authenticationMiddleware(), function (req, res) {
   });
 });
 //========================================
+router.post('/kid/games/add:gameID', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+    console.error('gameID '+ req.params.gameID)
+    // callback - checkout a client
+    pool.connect((err, client, done) => {
+      if (err) throw err
+      client.query('INSERT INTO "HasGames" ("kidID", "gameID") VALUES($1, $2)',[userData.userID,req.params.gameID], (error, result) => {
+        if (error) {
+          console.log(error.stack);
+        } else {
+          done();
+          // res.redirect('/signUp.html');
+          res.render('kid/games', { "MyGames": result.rows });
+        }
+      });
+  
+    });
 
+  });
+});
 
 //====================================================
 
@@ -565,6 +590,7 @@ router.get('/kid/friends', authenticationMiddleware(), function (req, res) {
 });
 
 //=======================================================
+//=======================================================
 router.get('/kid/cart', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -583,14 +609,15 @@ router.get('/kid/cart', authenticationMiddleware(), function (req, res) {
       } else {
         done();
         // res.redirect('/signUp.html');
-        res.render('kid/cart', { "myCart": result.rows });
+        res.render('kid/cart', { "myCart": result.rows,userData });
       }
     });
 
   });
 });
 });
-//=======================================================
+//================================================================
+
 router.delete('/kid/cart/delete/:gameID', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -603,7 +630,7 @@ router.delete('/kid/cart/delete/:gameID', authenticationMiddleware(), function (
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err
-    client.query('DELETE FROM "Cart" c WHERE c."kidID"=$1 AND c."gameID"=$2' ,[userData.userID,req.body.gameID], (error, result) => {
+    client.query('DELETE FROM "Cart" c WHERE c."kidID"=$1 AND c."gameID"=$2' ,[userData.userID,req.params.gameID], (error, result) => {
       if (error) {
         console.log(error.stack);
       } else {
@@ -616,7 +643,6 @@ router.delete('/kid/cart/delete/:gameID', authenticationMiddleware(), function (
   });
 });
 });
-
 
 
 //---------------------------------------------------------------
