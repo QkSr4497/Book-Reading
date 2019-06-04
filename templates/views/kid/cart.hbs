@@ -62,7 +62,7 @@
                   <img src={{pic}} class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
                   <div class="w3-bar-item">
                     <span class="w3-large gameName">{{gameName}}</span><br>
-                    <span class="itemPrice">{{price}}</span>
+                    <span id="price">{{price}}</span>
                   </div>
                 </li>
                  {{/myCart}}
@@ -96,17 +96,33 @@
 
 
 <script>
-    var subtotal=0 ;
-    var text;
+    var price;
+    var totalCart=0;
   /* Sum up row totals */
-  $('.product').each(function () {
-   subtotal += parseFloat($(this).children('.itemPrice').text());
-     //subtotal +=$(this).children('.itemPrice').text();
-    console.log('subtotal'+ subtotal);
-  });
+
+  var myNodelist = document.getElementsByTagName("LI");
+  var i;
+  for (i = 0; i < myNodelist.length; i++) {
+    console.log('i'+ i);
+    var price=document.getElementById('price').textContent;
+    console.log('price'+ price);
+    totalCart+=Number(price);
+    console.log('totalCart'+ totalCart);
+
+  }
+
+ 
+ // $('.product').each(function () {
+    // subtotal += parseFloat($(this).children('.itemPrice').text());
+  //   price=document.getElementById('price').textContent;
+   //   console.log('price'+ price);
+   //  totalCart+=Number(price);
+  //   console.log('totalCart'+ totalCart);
+
+
+ // });
   
-  //$('#cart-total').html(subtotal.toFixed(2));
-  console.log('total'+ subtotal);
+  $('#cart-total').html(totalCart.toFixed(2));
 </script>
 
 

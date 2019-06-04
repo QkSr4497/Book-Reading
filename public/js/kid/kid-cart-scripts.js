@@ -22,18 +22,20 @@ $(document).ready(function() {
 
 //=================================================================
 function checkoutFunction(){
-    var total=10;//document.getElementById('cart-total');
-     //var totaltext=total.textContent;
-     //var totalCart=Number(totaltext);
-     console.log(total);
+    var total=document.getElementById('cart-total');
+     var totaltext=total.textContent;
+     var totalCart=Number(totaltext);
+     console.log(totalCart);
 
    var points=document.getElementById('kidPoints');
    var pointsText=points.textContent;
    var kidPoints=Number(pointsText);
    console.log(kidPoints);
   
-   
-   if(kidPoints<total){
+   var leftOver=kidPoints-totalCart;
+   console.log('leftOver'+leftOver);
+
+   if(kidPoints<totalCart){
        userExceptionText = "You don't have enough points 😔";
        document.getElementById("userNameException").innerHTML = userExceptionText; 
    } 
@@ -41,9 +43,10 @@ function checkoutFunction(){
         $('.product').each(function () {
          var id =$(this).children('.deleteItem').data('id');
          console.log('id'+ id);
-         removeFromCart(id);
-         //editKidPoints();
-         addToMyGames(id);
+         editKidPoints(leftOver);
+        // removeFromCart(id);      
+        // addToMyGames(id);
+
 
        });     
     }   
@@ -88,9 +91,10 @@ function addToMyGames(id)
 }
 
 /* add games to kid's games */
-function editKidPoints()
+function editKidPoints(points)
 {
-    var url = '/kid/points';
+   // var newPoits=points;
+    var url = '/kid/points/edit' + points;
     // if (confirm('Delete Game?')) {    // confirming the delete
          $.ajax({
              url: url,
