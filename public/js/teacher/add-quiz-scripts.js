@@ -11,7 +11,7 @@ $(document).ready(function () {
 
     var numOfQuestions = quizQuestions.length;
     var ansNum = quizQuestions[numOfQuestions - 1].ansNum;
-    var selectedType = $( `#q${numOfQuestions}Type` ).val();
+    var selectedType = $( `#q${numOfQuestions}type` ).val();
     updateCorrectAns(numOfQuestions, ansNum, selectedType);
 
     // console.log('quizQuestions :' + JSON.stringify(quizQuestions));
@@ -25,17 +25,45 @@ var quizQuestions = []; // holds the questions structure of the quiz
 var removeAnsBtnElement, removeQuestionBtnElement;
 
 
+$('#submintBtn').on('click', function () {
+    checkAllInputs();
+});
+
+
+
+//   ==========Check all inputs for valid info ================
+function checkAllInputs() {
+    // var check1 = something();
+    
+    // if (!check1 || !check2 || !check3 || !check4 || !check5 || !check6 || !check7 || !check8) {
+    //     window.alert("Please Correct all Inputs with red comment");
+    // }
+    // else {
+    //     $("#formId").submit();
+    // }
+
+    $('#booksList option').val(function(){  // sending the bookID and not the name 
+        return $(this).attr('bookID');
+     });
+
+    $("#quizForm").submit();
+}
+
+
 function updateBooksList() {    // update the books select
     requestAllBooks((error, books) => {
         booksArray = books;
+        console.log(JSON.stringify(books));
         var $mySelect = $('#booksList');
         $.each(books, function (key, value) {  // each item in books array
             var $option = $("<option/>", {
                 value: key,
-                text: value.bookName
+                text: value.bookName,
+                bookID: value.bookID
             });
             $mySelect.append($option);  //  appending option to the select
         });
+       
         // console.log('books recieved: ' + JSON.stringify(books)); 
     });
 }
@@ -63,6 +91,13 @@ $('#booksList').on('change', function () {
     $("#booksList option[value='title']").remove();
     $('#bookPic').show();
     $("#formTitle").text("Creating Quiz for: " + chosenBookName);
+    
+
+    $("#booksList option").each(function () {
+        console.log($(this).attr('bookID'))
+    });
+
+
 });
 
 $('#bookPic').on('error', function (e) {
@@ -129,7 +164,7 @@ $(document.body).on('change','.questionTypeClass', function() {
     console.log('clicked');
     var numOfQuestions = quizQuestions.length;
     var ansNum = quizQuestions[numOfQuestions - 1].ansNum;
-    var selectedType = $( `#q${numOfQuestions}Type` ).val();
+    var selectedType = $( `#q${numOfQuestions}type` ).val();
     updateCorrectAns(numOfQuestions, ansNum, selectedType);
 });
 
@@ -138,7 +173,7 @@ $('#addAnsBtn').click(function () {
     var numOfQuestions = quizQuestions.length;
     quizQuestions[numOfQuestions - 1].ansNum++;
     var ansNum = quizQuestions[numOfQuestions - 1].ansNum;
-    var selectedType = $( `#q${numOfQuestions}Type` ).val();
+    var selectedType = $( `#q${numOfQuestions}type` ).val();
     
     console.log('numOfQuestions ' + numOfQuestions);
     console.log('quizQuestions :' + JSON.stringify(quizQuestions));
@@ -191,7 +226,7 @@ $('#removeAnsBtn').click(function () {
 
         quizQuestions[numOfQuestions - 1].ansNum--;
     }
-    var selectedType = $( `#q${numOfQuestions}Type` ).val();
+    var selectedType = $( `#q${numOfQuestions}type` ).val();
     updateCorrectAns(numOfQuestions, ansNum - 1, selectedType);
 
     console.log('numOfQuestions ' + numOfQuestions);
@@ -214,19 +249,19 @@ $('#addQuestionBtn').click(function () {
                     </div>
 
                     <p class="pTitles">
-                        <input name="q${numOfQuestions}" type="text" class="section" placeholder="Question Content" required>
+                        <input name="q${numOfQuestions}content" type="text" class="section" placeholder="Question Content" required>
                         *Content:
                     </p>
 
                     <p class="pTitles">
-                        <img src="#" alt="" id="q${numOfQuestions}Pic">
-                        <input type="file" id="q${numOfQuestions}PicInput" name="q${numOfQuestions}PicInput" class="section" accept="image/*"
+                        <img src="#" alt="" id="q${numOfQuestions}pic">
+                        <input type="file" id="q${numOfQuestions}picInput" name="q${numOfQuestions}picInput" class="section" accept="image/*"
                             alt="your image" style="width: 50%;" />
                         Q${numOfQuestions} Picture:
                     </p>
 
                     <p class="pTitles">
-                        <select required id="q${numOfQuestions}Type" class="section questionTypeClass">
+                        <select required id="q${numOfQuestions}type" class="section questionTypeClass" name="q${numOfQuestions}type" form="quizForm">
                             <option selected="selected"  value="single">Single Choice Question</option>
                             <option value="multi">Multiple Choice Question</option>
                         </select>
@@ -240,8 +275,8 @@ $('#addQuestionBtn').click(function () {
                         </p>
 
                         <p class="pTitles">
-                            <img src="#" alt="" id="q${numOfQuestions}Ans1Pic">
-                            <input type="file" id="q${numOfQuestions}Ans1PicInput" name="q${numOfQuestions}Ans1PicInput" class="section"
+                            <img src="#" alt="" id="q${numOfQuestions}ans1Pic">
+                            <input type="file" id="q${numOfQuestions}ans1PicInput" name="q${numOfQuestions}ans1PicInput" class="section"
                                 accept="image/*" alt="your image" style="width: 50%;" />
                             Answer 1 Picture:
                         </p>
@@ -254,8 +289,8 @@ $('#addQuestionBtn').click(function () {
                         </p>
 
                         <p class="pTitles">
-                            <img src="#" alt="" id="q${numOfQuestions}Ans2Pic">
-                            <input type="file" id="q${numOfQuestions}Ans2PicInput" name="q${numOfQuestions}Ans2PicInput" class="section"
+                            <img src="#" alt="" id="q${numOfQuestions}ans2Pic">
+                            <input type="file" id="q${numOfQuestions}ans2PicInput" name="q${numOfQuestions}ans2PicInput" class="section"
                                 accept="image/*" alt="your image" style="width: 50%;" />
                             Answer 2 Picture:
                         </p>
@@ -266,7 +301,7 @@ $('#addQuestionBtn').click(function () {
     `;
     $('#quizForm').append(myString);
 
-    var selectedType = $( `#q${numOfQuestions}Type` ).val();
+    var selectedType = $( `#q${numOfQuestions}type` ).val();
     console.log('adding question selectedType:' + selectedType)
     updateCorrectAns(numOfQuestions, ansNum, selectedType);
 

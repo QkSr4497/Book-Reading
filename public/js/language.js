@@ -1,6 +1,6 @@
 var  arrLang={
     'arb':{
-      'home':'Home',
+      'home':'الصفحة الرئيسية',
       'myProfile':'حسابي الشخصي',
       'myBooks':'كتبي',
       'myQuizes':'اختباراتي',
@@ -28,6 +28,7 @@ var  arrLang={
       'settings':'خروج'
     }
   };
+
   $(function(){
     $('.translate').click(function(){
       var lang=$(this).attr('id');
@@ -35,5 +36,5 @@ var  arrLang={
         $(this).text(arrLang[lang][$(this).attr('key')]);
       })
     })
-  })
+  });
   

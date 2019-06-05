@@ -259,7 +259,7 @@ router.get('/games', authenticationMiddleware(), function (req, res) {
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err
-    client.query('SELECT * FROM "Game" g WHERE g."gameID" NOT IN (SELECT hg."gameID" FROM "HasGames" hg WHERE hg."kidID"=$1)',[userData.userID], (error, result) => {
+    client.query('SELECT * FROM "Game" g WHERE g."gameID" NOT IN (SELECT hg."gameID" FROM "HasGames" hg WHERE hg."kidID"=$1) AND g."gameID" NOT IN (SELECT c."gameID" FROM "Cart" c WHERE c."kidID"=$1)',[userData.userID], (error, result) => {
       if (error) {
         console.log(error.stack);
       } else {
@@ -291,7 +291,6 @@ router.post('/games/addToCart', authenticationMiddleware(), function (req, res) 
       } else {
         done();
        res.redirect('/kid/cart');
-        res.render('kid/cart');
       }
     });
   });
@@ -350,6 +349,32 @@ router.post('/kid/profile/edit', authenticationMiddleware(), function (req, res)
 });
 });
 
+
+router.get('/kid/points/edit:points', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
+  pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err)
+    process.exit(-1)
+  })
+  console.log(req.params.points);
+  // callback - checkout a client
+  pool.connect((err, client, done) => {
+    if (err) throw err
+    client.query('UPDATE "Kid" SET "points" = $1 WHERE "kidID" = $2' ,[req.params.points,userData.userID], (error, result) => {
+      if (error) {
+        console.log(error.stack);
+      } else {
+        done();
+         res.redirect('/kid/cart');
+        // res.render('kid/games', { "myGames": result.rows });
+      }
+    });
+
+  });
+});
+});
 //---------------------------------------------------
 
 router.get('/kid/books', authenticationMiddleware(), function (req, res) {
@@ -447,7 +472,32 @@ router.get('/kid/games', authenticationMiddleware(), function (req, res) {
   });
 });
 //========================================
+router.post('/kid/games/add:gameID', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+    console.error('gameID '+ req.params.gameID)
+    // callback - checkout a client
+    pool.connect((err, client, done) => {
+      if (err) throw err
+      client.query('INSERT INTO "HasGames" ("kidID", "gameID") VALUES($1, $2)',[userData.userID,req.params.gameID], (error, result) => {
+        if (error) {
+          console.log(error.stack);
+        } else {
+          done();
+          // res.redirect('/signUp.html');
+          res.render('kid/games', { "MyGames": result.rows });
+        }
+      });
+  
+    });
 
+  });
+});
 
 //====================================================
 
@@ -565,6 +615,7 @@ router.get('/kid/friends', authenticationMiddleware(), function (req, res) {
 });
 
 //=======================================================
+//=======================================================
 router.get('/kid/cart', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -583,14 +634,15 @@ router.get('/kid/cart', authenticationMiddleware(), function (req, res) {
       } else {
         done();
         // res.redirect('/signUp.html');
-        res.render('kid/cart', { "myCart": result.rows });
+        res.render('kid/cart', { "myCart": result.rows,userData });
       }
     });
 
   });
 });
 });
-//=======================================================
+//================================================================
+
 router.delete('/kid/cart/delete/:gameID', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -603,7 +655,7 @@ router.delete('/kid/cart/delete/:gameID', authenticationMiddleware(), function (
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err
-    client.query('DELETE FROM "Cart" c WHERE c."kidID"=$1 AND c."gameID"=$2' ,[userData.userID,req.body.gameID], (error, result) => {
+    client.query('DELETE FROM "Cart" c WHERE c."kidID"=$1 AND c."gameID"=$2' ,[userData.userID,req.params.gameID], (error, result) => {
       if (error) {
         console.log(error.stack);
       } else {
@@ -616,7 +668,6 @@ router.delete('/kid/cart/delete/:gameID', authenticationMiddleware(), function (
   });
 });
 });
-
 
 
 //---------------------------------------------------------------
@@ -731,6 +782,43 @@ router.get('/query/getAllBooks', authenticationMiddleware(), function (req, res)
     })
     res.status(200).send(books);
   });
+});
+
+
+
+
+
+
+//=======================================================
+router.post('/query/addNewQuiz', function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+ // it contains if a backend error or network partition happens
+ queries.getUserById(req.user, (userData) => {
+   pool.on('error', (err, client) => {
+     console.error('Unexpected error on idle client', err)
+     process.exit(-1)
+   })
+   console.log(req.body);
+   res.render('teacher/home');
+
+   // // callback - checkout a client
+   // pool.connect((err, client, done) => {
+   //   if (err) throw err
+   //   console.log('req params ' + JSON.stringify(req.params));
+   //   console.log("req.params.bookID = " + req.params.bookID);
+   //   client.query(`SELECT * FROM "Book" b WHERE b."bookID" = $1`, [req.params.bookID], (error, result) => {
+   //     if (error) {
+   //       console.log(error.stack);
+   //     }
+   //     else {
+   //       done();
+   //       console.log('book chosen: ' + JSON.stringify(result.rows[0]));
+   //       res.render('teacher/single-book-page', { "bookData": result.rows[0], userData });
+   //     }
+   //   });
+
+   // });
+ });
 });
 
 
