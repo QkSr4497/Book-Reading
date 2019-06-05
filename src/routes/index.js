@@ -350,7 +350,7 @@ router.post('/kid/profile/edit', authenticationMiddleware(), function (req, res)
 });
 
 
-router.get('/kid/points/edit:points', authenticationMiddleware(), function (req, res) {
+router.post('/kid/points/edit:points', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
   queries.getUserById(req.user, (userData) => {

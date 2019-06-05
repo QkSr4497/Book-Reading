@@ -11,8 +11,6 @@
   <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -53,23 +51,16 @@
      <div class="notes-style">
       <h2 key="myNotes"> My Notes 📝</h2>
       <button type="button" name="button" id="add-note-btn" key="add-note-btn" onclick="document.getElementById('newnote').style.display='block'">Add new note</button>
-      
+         {{#myNotes}}     
       <div class="container">
-        {{#myNotes}}
-        <button class="collapsible">
-          <table>
-          <tr>
-            {{!-- <th>{{type}}</th> --}}
-            <th>{{title}}</th>
-          </tr>
-          </table>
-        </button>
+
+        <button class="collapsible">{{title}}</button>
         <div class="content">
           <p>{{content}}</p>
         </div>
       </div>
-    {{/myNotes}}
     </div>
+       {{/myNotes}}
 
 
       <div class="modal-style">
@@ -127,7 +118,7 @@
 
 <script type="text/javascript" src="js/navigation.js"></script>
 <script type="text/javascript" src="js/language.js"></script>
-<script type="text/javascript" src="js/open-modal.js"></script>
+<script type="text/javascript" src="/js/open-modal.js"></script>
 </body>
 
 </html>

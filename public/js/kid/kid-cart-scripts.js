@@ -44,8 +44,8 @@ function checkoutFunction(){
          var id =$(this).children('.deleteItem').data('id');
          console.log('id'+ id);
          editKidPoints(leftOver);
-        // removeFromCart(id);      
-        // addToMyGames(id);
+          removeFromCart(id);      
+          addToMyGames(id);
 
 
        });     
@@ -101,6 +101,7 @@ function editKidPoints(points)
              method: 'POST',
              success: function(result) {
                  console.log('Updating Kid Points...');
+                 window.location.href = '/kid/cart'; // redirection
              },
              error: function(err) {
                  console.log(err);

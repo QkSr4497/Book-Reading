@@ -6,13 +6,13 @@
 
   }
   .container{
-    width:50%;
+    width:70%;
     height: auto;
     text-align: center;
     margin-right: 3%;
     margin-top: 3%;
     box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
-
+    border-radius: 2%;
   }
   .detail-container{
     text-align: center;
@@ -20,14 +20,14 @@
     padding: 2%;
   }
   .img-container{
-    background-color: #7189bf;
+    background-color: rgba(106,96,169, 0.8);
     padding: 2%;
   }
 
   #profileUpdatebtn {
     margin-top: 1%;
     width:35%;
-    background-color: #7189bf; /* Green */
+    background-color: rgba(106,96,169, 0.8); 
     border: none;
     color: white;
     padding: 15px 32px;

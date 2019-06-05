@@ -507,24 +507,24 @@ body {
     width: 200px;
     height: 200px; }
   .my-profile-style .container {
-    width: 50%;
+    width: 70%;
     height: auto;
     text-align: center;
     margin-right: 3%;
     margin-top: 3%;
-    box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3); }
+    box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
+    border-radius: 2%; }
   .my-profile-style .detail-container {
     text-align: center;
     background-color: #ffff;
     padding: 2%; }
   .my-profile-style .img-container {
-    background-color: #7189bf;
+    background-color: rgba(106, 96, 169, 0.8);
     padding: 2%; }
   .my-profile-style #profileUpdatebtn {
     margin-top: 1%;
     width: 35%;
-    background-color: #7189bf;
-    /* Green */
+    background-color: rgba(106, 96, 169, 0.8);
     border: none;
     color: white;
     padding: 15px 32px;
@@ -539,68 +539,62 @@ body {
   .my-profile-style input[type=text]:focus {
     width: 150%; }
 
-.modal-style .modal input[type=text], .modal-style input[type=number], .modal-style input[type=file], .modal-style select, .modal-style textarea {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  text-align: right; }
-
-.modal-style label {
-  float: right; }
-
-.modal-style h3 {
-  text-align: right;
-  float: right; }
-
-.modal-style .modal button:hover {
-  opacity: 0.8; }
-
-.modal-style .cancelbtn {
-  background-color: #fdd043;
-  color: black;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: auto; }
-
-.modal-style .okbtn {
-  background-color: #e4e7ec;
-  color: black;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: auto; }
-
-.modal-style .container {
-  padding: 16px; }
-
-.modal-style .modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: black;
-  background-color: rgba(0, 0, 0, 0.4);
-  padding-top: 60px; }
-
-.modal-style .modal-content {
-  background-color: #fefefe;
-  margin: 5% auto 15% auto;
-  border: 1px solid #888;
-  width: 60%; }
-
-.modal-style .animate {
-  -webkit-animation: animatezoom 0.6s;
-  animation: animatezoom 0.6s; }
+.modal-style {
+  /* Center the avatar image inside this container */
+  /* Avatar image */ }
+  .modal-style .modal input[type=text], .modal-style input[type=number], .modal-style input[type=file], .modal-style select, .modal-style textarea {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    text-align: right; }
+  .modal-style label {
+    float: right; }
+  .modal-style h3 {
+    text-align: right;
+    float: right; }
+  .modal-style .modal button:hover {
+    opacity: 0.8; }
+  .modal-style .cancelbtn {
+    background-color: #fdd043;
+    color: black;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: auto; }
+  .modal-style .okbtn {
+    background-color: #e4e7ec;
+    color: black;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: auto; }
+  .modal-style .container {
+    padding: 16px; }
+  .modal-style .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px; }
+  .modal-style .modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto;
+    border: 1px solid #888;
+    width: 60%; }
+  .modal-style .animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s; }
 
 @-webkit-keyframes animatezoom {
   from {
@@ -613,12 +607,18 @@ body {
     transform: scale(0); }
   to {
     transform: scale(1); } }
-
-@media screen and (max-width: 300px) {
-  .modal-style .cancelbtn {
-    width: 100%; }
-  .modal-style .okbtn {
-    width: 100%; } }
+  @media screen and (max-width: 300px) {
+    .modal-style .cancelbtn {
+      width: 100%; }
+    .modal-style .okbtn {
+      width: 100%; } }
+  .modal-style .imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0; }
+  .modal-style img.avatar {
+    width: 30%;
+    border-radius: 50%;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); }
 
 .cart-style li {
   background-color: #ffff; }

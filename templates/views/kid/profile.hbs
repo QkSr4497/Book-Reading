@@ -12,11 +12,10 @@
     <div class="container">
      
       {{#kidProfile}}
-      <form method="POST" action="/kid/profile/edit">
        <div class="img-container">
       <img src="/img/icons/kidreads.png" alt="Avatar" class="avatar">
          <br>
-        <input id="profile-image-upload" class="hidden" type="file">
+        {{!-- <input id="profile-image-upload" class="hidden" type="file"> --}}
         <!--Upload Image Js And Css-->
        </div>
 
@@ -25,34 +24,65 @@
          <table>
            <tr>
              <td><label for="">User Name</label></td>
-             <td><input type="text" name="userName" value="{{userName}}"></td>
+             <td>{{userName}}</td>
            </tr>
             <tr>
              <td><label for="">First Name</label></td>
-             <td><input type="text" name="firstName" value="{{firstName}}"></td>
+             <td>{{firstName}}</td>
            </tr>
             <tr>
              <td><label for="">Last Name</label></td>
-             <td><input type="text" name="lastName" value="{{lastName}}"></td>
+             <td>{{lastName}}</td>
            </tr>
             <tr>
              <td><label for="">Birth Date</label></td>
-             <td><input type="text" name="birthDate" value={{birthDate}}></td>
+             <td>{{birthDate}}</td>
            </tr>
             <tr>
              <td><label for="">Password</label></td>
-              <td><input type="text" name="" value={{password}}></td>
+              <td>{{password}}</td>
            </tr>
          </table>
-          <button id="profileUpdatebtn">Update</button>
+          <button id="profileUpdatebtn" onclick="document.getElementById('editProfile').style.display='block'"> Update</button>
 
 
-       </div>
-      </form>
-      
+       </div>    
       {{/kidProfile}}
     </div>
   </div>
+
+
+     <div class="modal-style">
+      <div id="editProfile" class="modal">
+      <form class="modal-content animate" method="POST" action="/kid/profile/edit">
+        <div class="container">
+          <h3 key="addNote"> New Note ✍🏻</h3>
+          <div class="imgcontainer">
+            <img src="/img/icons/kidreads.png" alt="Avatar" class="avatar">
+          </div>
+          <label for="title"><b>User name</b></label>
+          <input type="text" placeholder="Enter Title" name="title" required value="">
+          <label for="title"><b>First name</b></label>
+          <input type="text" placeholder="Enter Title" name="title" required value="">
+          <label for="title"><b>Last name</b></label>
+          <input type="text" placeholder="Enter Title" name="title" required value="">
+          <label for="title"><b>Birth Date</b></label>
+          <input type="text" placeholder="Enter Title" name="title" required value="">
+          <label for="title"><b>Password</b></label>
+          <input type="text" placeholder="Enter Title" name="title" required value="">
+          <label for="title"><b>Password</b></label>
+          <input type="date" placeholder="Enter Title" name="title" required value="">
+          <button type="submit" name="button" class="okbtn">Add new book</button>
+          <button type="button" onclick="document.getElementById('editProfile').style.display='none'" class="cancelbtn">Cancel</button>
+
+         </div>
+       </form>
+     </div>
+   </div>
+
+<script type="text/javascript" src="js/navigation.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
+<script type="text/javascript" src="/js/open-modal.js"></script>
 </body>
 </html>
 
