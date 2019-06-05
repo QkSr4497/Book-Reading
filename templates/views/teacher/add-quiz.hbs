@@ -33,7 +33,7 @@
             </h1>
         </header>
 
-        <form id="quizForm">
+        <form method="POST" id="quizForm" name="quizForm" action="/query/addNewQuiz">
             {{!------------ Quiz details -----------------------}}
             <div class="wrap">
                 <div class="background">
@@ -42,17 +42,17 @@
                     </div>
                     <p class="pTitles">
                         <img src="" alt="" id="bookPic">
-                        <select required id="booksList" class="section">
+                        <select required id="booksList" class="section" name="quizBookID" form="quizForm">
                             <option selected="selected" value="title">Choose a book</option>
                         </select>
                         *Book:
                     </p>
                     <p class="pTitles">
-                        <input name="title" type="text" class="section" placeholder="Quiz Title" required>
+                        <input name="quizTitle" type="text" class="section" placeholder="Quiz Title" required>
                         *Quiz Title:
                     </p>
                     <p class="pTitles">
-                        <select required id="langSelect" class="section">
+                        <select required id="langSelect" class="section" name="quizLang" form="quizForm">
                             <option selected="selected" value="title">Choose Language</option>
                             <option value="hebrew">Hebrew</option>
                             <option value="arabic">Arabic</option>
@@ -68,8 +68,8 @@
                     </p>
 
                     <p class="pTitles">
-                        <select required id="timeMinSelect" class="section">
-                            <option selected="selected" value="title">Choose duration</option>
+                        <select required id="timeMinSelect" class="section" name="quizTime" form="quizForm">
+                            <option selected="selected" value="title" name="quizTime">Choose duration</option>
                         </select>
                         *Duration in minutes:
                     </p>
@@ -84,19 +84,19 @@
                     </div>
 
                     <p class="pTitles">
-                        <input name="q1" type="text" class="section" placeholder="Question Content" required>
+                        <input name="q1content" type="text" class="section" placeholder="Question Content" required>
                         *Content:
                     </p>
 
                     <p class="pTitles">
-                        <img src="#" alt="" id="q1Pic">
-                        <input type="file" id="q1PicInput" name="q1PicInput" class="section" accept="image/*"
+                        <img src="#" alt="" id="q1pic">
+                        <input type="file" id="q1picInput" name="q1picInput" class="section" accept="image/*"
                             alt="your image" style="width: 50%;" />
                         Q1 Picture:
                     </p>
 
                     <p class="pTitles">
-                        <select required id="q1Type" class="section questionTypeClass">
+                        <select required id="q1type" class="section questionTypeClass" name="q1type" form="quizForm">
                             <option selected="selected"  value="single">Single Choice Question</option>
                             <option value="multi">Multiple Choice Question</option>
                         </select>
@@ -110,8 +110,8 @@
                         </p>
 
                         <p class="pTitles">
-                            <img src="#" alt="" id="q1Ans1Pic">
-                            <input type="file" id="q1Ans1PicInput" name="q1Ans1PicInput" class="section"
+                            <img src="#" alt="" id="q1ans1Pic">
+                            <input type="file" id="q1ans1PicInput" name="q1ans1PicInput" class="section"
                                 accept="image/*" alt="your image" style="width: 50%;" />
                             Answer 1 Picture:
                         </p>
@@ -124,8 +124,8 @@
                         </p>
 
                         <p class="pTitles">
-                            <img src="#" alt="" id="q1Ans2Pic">
-                            <input type="file" id="q1Ans2PicInput" name="q1Ans2PicInput" class="section"
+                            <img src="#" alt="" id="q1ans2Pic">
+                            <input type="file" id="q1ans2PicInput" name="q1ans2PicInput" class="section"
                                 accept="image/*" alt="your image" style="width: 50%;" />
                             Answer 2 Picture:
                         </p>

@@ -785,6 +785,43 @@ router.get('/query/getAllBooks', authenticationMiddleware(), function (req, res)
 });
 
 
+
+
+
+
+//=======================================================
+router.post('/query/addNewQuiz', function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+ // it contains if a backend error or network partition happens
+ queries.getUserById(req.user, (userData) => {
+   pool.on('error', (err, client) => {
+     console.error('Unexpected error on idle client', err)
+     process.exit(-1)
+   })
+   console.log(req.body);
+   res.render('teacher/home');
+
+   // // callback - checkout a client
+   // pool.connect((err, client, done) => {
+   //   if (err) throw err
+   //   console.log('req params ' + JSON.stringify(req.params));
+   //   console.log("req.params.bookID = " + req.params.bookID);
+   //   client.query(`SELECT * FROM "Book" b WHERE b."bookID" = $1`, [req.params.bookID], (error, result) => {
+   //     if (error) {
+   //       console.log(error.stack);
+   //     }
+   //     else {
+   //       done();
+   //       console.log('book chosen: ' + JSON.stringify(result.rows[0]));
+   //       res.render('teacher/single-book-page', { "bookData": result.rows[0], userData });
+   //     }
+   //   });
+
+   // });
+ });
+});
+
+
 /**//////////////////////////////////////////////////////////////////////////////////////////// */
 
 passport.serializeUser(function (personID, done) { // for writing user data to user session
