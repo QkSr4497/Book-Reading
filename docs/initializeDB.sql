@@ -41,19 +41,26 @@ INSERT INTO "Kid"("kidID", "birthDate") VALUES('8', '2012-03-25');
 INSERT INTO "Kid"("kidID", "birthDate") VALUES('9', '2013-07-26');
 INSERT INTO "Kid"("kidID", "birthDate") VALUES('10', '2012-12-27');
 --************ /Kid table *************************************
+INSERT INTO "Book"("bookName","pic") VALUES('أسنان كشكش', '/img/games/1.png');
+INSERT INTO "Book"("bookName","pic") VALUES('بيت ميس', '/img/games/2.jpg');
+INSERT INTO "Book"("bookName","pic") VALUES('كريم وفرشاة الأسنان', '/img/games/3.jpg');
+INSERT INTO "Book"("bookName","pic") VALUES('ملك الفواكه', '/img/games/4.jpg');
+INSERT INTO "Book"("bookName","pic") VALUES('الفراشات الثلاثة', '/img/games/5.jpg');
+INSERT INTO "Book"("bookName","pic") VALUES('ماذا تأكل الشّمس؟', '/img/games/12.png');
+INSERT INTO "Book"("bookName","pic") VALUES('قصة آثار على الثّلج', '/img/games/11.png');
+INSERT INTO "Book"("bookName","pic") VALUES('رحلة الألوان – اللّون الأخضر', '/img/games/12.png');
+INSERT INTO "Book"("bookName","pic") VALUES('أسنان كشكش', '/img/games/1.png');
 
------- Book table ------------------------------
-INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('האיש הקטן', 'אריך', 'קסטנר', '/img/books/the-little-man.png');
-INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('ماذا تأكل الشّمس؟', 'ل الشّ', 'تأكل', 'aa1aaaaaaaaa');
-INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('قصة آثار على الثّلج', 'ل الشّ', 'تأكل', 'a2aaaaaaaaaa');
-INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('رحلة الألوان – اللّون الأخضر', 'ل الشّ', 'تأكل', '/img/books/colorsStory.jpg');
-INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('قخضى الثّلج', 'ل الشّ', 'تأكل', 'aaaaaa3aaaaa');
---************ /Book table *************************************
 
 
+INSERT INTO "Game"("gameName","pic","price","link") VALUES('HexGL','/funGames/HexGL/hexgl.jpg', '5000','/funGames/HexGL/index.html');
+INSERT INTO "Game"("gameName","pic","price","link") VALUES('Hextris', '/funGames/Hextris/hextris.png','3000','/funGames/Hextris/index.html');
+INSERT INTO "Game"("gameName","pic","price","link") VALUES('React simon says','/funGames/react-simon-says/react.png', '2500','/funGames/react-simon-says/public/index.html');
+INSERT INTO "Game"("gameName","pic","price","link") VALUES('Pacman','/funGames/Pacman/pacman.png', '3000','/funGames/Pacman/index.html');
+INSERT INTO "Game"("gameName","pic","price","link") VALUES('Racer','/funGames/Racer/racer.png', '4000','/funGames/Racer/index.html');
+INSERT INTO "Game"("gameName","pic","price","link") VALUES('Radius','/funGames/Radius/radius.png', '4000','/funGames/Radius/index.html');
+INSERT INTO "Game"("gameName","pic","price","link") VALUES('Tower Bulding','/funGames/tower_game/towerBuilding.png', '3500','/funGames/tower_game/index.html');
 
-
-INSERT INTO "Game"("gameName","pic","price","link") VALUES('Jewel Mahjongg','aaaaaaaaaa', '3000','aaaaaaaaa');
 
 --*********************/Kid notes ****************
 INSERT INTO "Note"("personID","title","content","type") VALUES('7','أول تجربة لي في القراءة','عندما بدأت بقراءة الكتاب, لم افهم في البداية عما تدور القصة لكت كلما تقدمت احببت القصة أكثر فأكثر','private');

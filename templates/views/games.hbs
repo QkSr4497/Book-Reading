@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
 </head>
 
 <body>
@@ -51,7 +52,7 @@
        </div>
 
        <div id="games" class="card-style">    
-        <h2 key="gamesList"> Games List 🎲</h2>
+        <h1 key="gamesList"> Games Store 🎲</h1>
   
           <div class="cards">  
             {{#Game}}   
@@ -62,22 +63,19 @@
                   <img src={{pic}} alt="Avatar" style="width:300px;height:300px;">
                   </div>
                   <div class="flip-card-back">
+                    <div class="details">
                   <h1 name="gameName">{{gameName}}</h1> 
                   <h2 name="price">{{price}}</h2>
                   <input type="text" name="gameID" value={{gameID}} style="display: none">
-                    <input type="submit" class="btn btn-primary" value="Add to Cart" />
-                  {{!-- <button type="submit" value="save" name={{gameID}}> Add to Cart</button> --}}
+                  <input type="submit" class="btn btn-primary" value="Add to Cart" />
+                  </div>
                   </div>
               </div>
               </div>
             </form>    
           {{/Game}}
           </div>
-      </div>
-
-
-
-       
+      </div>       
   </div>
 </div>
 

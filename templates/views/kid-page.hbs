@@ -10,14 +10,15 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
 
 <body>
   <div  class="navigation-style">
     <div id="mySidenav" class="sidenav">
       <a href="javascript:void(0)" class="closebtn" onclick="closeSideNav()">&times;</a>
-      <a href="/" key="home"> Home 🏠</a>
-      <a href="kid/profile" key="myProfile">My Profile 👦</a>
+      <a href="/" class="lang" key="home"> Home 🏠</a>
+      <a href="kid/profile" class="lang" key="myProfile">My Profile 👦</a>
       <a href="kid/books" key="myBooks"> My Books 📚</a>
       <a href="kid/quizes" key="myQuizes">My Quizes ⏱️</a>
       <a href="kid/notes" key="myNotes">My Notes  📄</a>
@@ -46,8 +47,8 @@
             <div class="dropdown">
               <a class="dropbtn">Language<i class="fa fa-caret-down"></i></a>
               <div class="dropdown-content">
-                <a href="#" class="translate" id="arb">Arabic</a>
-                <a href="#" class="translate" id="heb">Hebrew</a> 
+                <a  class="translate" id="arb">Arabic</a>
+                <a  class="translate" id="heb">Hebrew</a> 
               </div>
             </div> 
 
@@ -96,14 +97,16 @@
       'settings':'خروج'
     }
   };
-  $(function(){
+  $(document).ready(function() {
     $('.translate').click(function(){
       var lang=$(this).attr('id');
-      $('.lang').each(function(index,element){
+      console.log(lang.length)
+      $('.lang').each(function(index ,element){
+        console.log('aaaaaaaaaa');
         $(this).text(arrLang[lang][$(this).attr('key')]);
-      })
-    })
-  })
+      });
+    });
+  });
   
 </script>
 </body>

@@ -228,6 +228,12 @@ body {
 .my-books-style {
   /* Create three equal columns that floats next to each other */
   /* Clear floats after the columns */ }
+  .my-books-style h1 {
+    margin-right: 3%;
+    margin-top: 2%; }
+  .my-books-style button {
+    width: 88%;
+    margin-right: 3%; }
   .my-books-style .column {
     float: left;
     width: 25%;
@@ -276,19 +282,41 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
-  margin-right: 2%;
-  margin-top: 6%; }
+  margin-right: 3%;
+  padding: 3%; }
 
 .card-style .flip-card {
   background-color: transparent;
   width: 300px;
   height: 300px;
-  perspective: 1000px;
+  perspective: 500px;
   text-align: center; }
 
 .card-style h1 {
+  margin-right: 3%; }
+
+.card-style .details {
   font-size: 150%;
   padding: 70px 0; }
+
+.card-style .details h1 {
+  padding: 20px 0; }
+
+.card-style .details input[type=submit] {
+  width: 80%;
+  padding: 20px 0;
+  background-color: #eccc68;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); }
+
+.card-style .details input[type=submit]:hover {
+  width: 85%;
+  transform: scale(1.09, 1.09); }
 
 .card-style .flip-card-inner {
   position: relative;

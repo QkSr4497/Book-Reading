@@ -3,8 +3,9 @@
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
-    margin-right: 2%;
-    margin-top: 6%;
+    margin-right: 3%;
+    padding: 3%;
+
 
   }
 
@@ -12,12 +13,36 @@
     background-color: transparent;
     width: 300px;
     height: 300px;
-    perspective: 1000px;
+    perspective: 500px;
     text-align: center;
   }
   h1{
+    margin-right: 3%;
+  }
+  .details{
     font-size: 150%;
     padding: 70px 0;
+  }
+  .details h1{
+    padding: 20px 0;
+  }
+  .details input[type=submit]{
+    width: 80%;
+    padding: 20px 0;
+    background-color: #eccc68;
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  }
+  .details input[type=submit]:hover{
+    width: 85%;
+    transform: scale(1.09, 1.09);
+
+
   }
   .flip-card-inner {
     position: relative;

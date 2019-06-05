@@ -436,6 +436,7 @@ router.post('/kid/books/edit', authenticationMiddleware(), function (req, res) {
         } else {
           res.send({ status: 'success' });
           done();
+          res.redirect('/kid/books');
         }
 
       });
