@@ -1,0 +1,28 @@
+    <div  class="topnav" id="myTopnav">
+    <div class="left-nav"> 
+    <a class="tablinks" class="lang" key="welcome"id="welcomeTitle">Welcome {{userData.userName}}</a><span></span>
+    {{#if userData.points}}
+    <a class="tablinks" class="lang" key="myPoints" id="pointsTitle">My points: {{userData.points}}</a>
+    {{/if}}
+    </div>
+    
+    <a href="#" id="openNav" class="active" onclick="openSideNav()"><i class='far fa-user'></i></a>     
+    <a href="#">KidsRead</a>
+    <a href="../books" class="lang" key="books">Books</a>
+    <a href="../games" class="lang" key="store">Store</a>
+    <a href="#" class="notification"><i class="fa fa-bell"></i>
+        <span class="badge">3</span>
+    </a>
+    <div class="dropdown">
+      <button class="dropbtn lang " key="language">Language 
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content">
+        <a  class="translate lang" id="arb"  key="arabic">Arabic</a>
+        <a  class="translate lang" id="heb"  key="hebrew">Hebrew</a>
+      </div>
+    </div> 
+    <a href="javascript:void(0);" class="icon" onclick="responsiveNav()">
+    <i class="fa fa-bars"></i>
+    </a>
+    </div>

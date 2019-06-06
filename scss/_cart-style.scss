@@ -1,11 +1,18 @@
 .cart-style{
+  h1{
+    margin-right:6%;
+    margin-top: 2%; 
+    margin-bottom: 2%;
+  }
   li{
     background-color: #ffff;
+
 
   }
   ul{
     width:90%;
     float: center;
+    margin-right: 3%;
   }
   img{
     vertical-align: middle;
@@ -38,4 +45,25 @@
     color: red;
     font-size: 120%;
   }
+.checkClass{
+  margin-right:6%;
+  margin-top: 2%; 
+  margin-bottom: 2%;
+  font-size: 120%;
+}
+.checkout{
+  background-color: #ffc048;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 10px;
+}
+.checkout:hover{
+  transform: scale(1.1,1.1);
+}
+
 }

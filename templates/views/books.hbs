@@ -6,11 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <link rel="Stylesheet" href="/css/style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    {{> kid_head}}
+      <!-- Main Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="/css/teacher/books.css" />
 </head>
 
 <body>
@@ -31,29 +29,43 @@
       <a href="logout" key="logOut">Log Out 🏃</a>
     </div>
 
-      <div id="main">
 
-
-       <div class="topnav" id="myTopnav">
-          {{#if userData.points}}
-            <a class="tablinks" id="pointsTitle">My points: {{userData.points}}</a>
-          {{/if}}
-          <a href="#" id="openNav" class="active "  key="open" onclick="openSideNav()">&#9776; open</a>
-          <a class="tablinks" id="welcomeTitle">Welcome {{userData.userName}}</a>
-          <a href="#news" key="2read">2READ</a>
-          <a href="books" key="books">Books</a>
-          <a href="games" key="store">Store</a>
-          <a href="#" class="translate" id="arb">Arabic</a>
-          <a href="#" class="translate" id="heb">Hebrew</a> 
-          <a href="javascript:void(0);" class="icon" onclick="responsiveNav()">
-            <i class="fa fa-bars"></i>
-          </a>
-       </div>
-
-       <div id="books" class="card-style">    
-        <h2 key="bookList"> Books List 📘</h2>
-         
-          <div class="cards"> 
+    <div id="main">
+    <div  class="topnav" id="myTopnav">
+    <div class="left-nav"> 
+    <a class="tablinks" class="lang" key="welcome"id="welcomeTitle">Welcome {{userData.userName}}</a><span></span>
+    {{#if userData.points}}
+    <a class="tablinks" class="lang" key="myPoints" id="pointsTitle">My points: {{userData.points}}</a>
+    {{/if}}
+    </div>
+    
+    <a href="#" id="openNav" class="active" onclick="openSideNav()"><i class='far fa-user'></i></a>     
+    <a href="#">KidsRead</a>
+    <a href="books" class="lang" key="books">Books</a>
+    <a href="games" class="lang" key="store">Store</a>
+    <div class="dropdown">
+      <button class="dropbtn lang" key="language">Language 
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content">
+        <a  class="translate" id="arb" class="lang" key="arabic">Arabic</a>
+        <a  class="translate" id="heb" class="lang" key="hebrew">Hebrew</a>
+      </div>
+    </div> 
+    <a href="javascript:void(0);" class="icon" onclick="responsiveNav()">
+    <i class="fa fa-bars"></i>
+    </a>
+    </div>
+    <div class="home-style">
+        <div class="home-container">
+            <h2 class="lang" key="readingToday">?What will you read today</h2>
+          <form class="search-container">
+          <input type="text" name="search" id="searchInput"  onkeyup="myFunction()" placeholder="🔍">
+          </form>
+        </div>
+      </div>
+  
+          {{!-- <div class="cards"> 
               {{#Book}}  
             <form method="POST" action="/kid/books/add">   
               <div class="flip-card">
@@ -69,18 +81,47 @@
               </div>
               </div>
             </form>  
-             {{/Book}}
+             {{/Book}} 
+           </div> --}}
+
+
+      <div class="cards-list" id="myUL">
+      {{#Book}}
+      <a href="single-book-page/{{bookID}}">
+        <div class="card {{bookID}}" style="border-radius: 40px ;background-color: black">
+          <div class="card_image"> <img src="{{pic}}"
+              onerror="this.onerror=null;this.src='/img/books/default-book.gif';" /></div>
+          <div class="card_title title-white">
+            <p>{{bookName}}</p>
           </div>
-          
-      </div>
+        </div>
+        <br><br>
+      </a>
+      {{/Book}}
+    </div>
 
-
-
-       
-  </div>
+    </div> {{!-- main --}}
 </div>
 
-<script type="text/javascript" src="js/navigation.js"></script>
+<script type="text/javascript" src="/js/navigation.js"></script>
+<script>
+function myFunction() {
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myUL");
+    li = ul.getElementsByTagName("a");
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("p")[0];
+        txtValue = a.textContent || a.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+</script>
 </body>
 
 </html>

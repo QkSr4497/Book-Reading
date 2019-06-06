@@ -210,7 +210,7 @@ router.get('/books', authenticationMiddleware(), function (req, res) {
       } else {
         done();
         // res.redirect('/signUp.html');
-        res.render('books', { "Book": result.rows });
+        res.render('books', { "Book": result.rows ,userData});
       }
     });
 
@@ -265,7 +265,7 @@ router.get('/games', authenticationMiddleware(), function (req, res) {
       } else {
         done();
 
-        res.render('games', { "Game": result.rows });
+        res.render('games', { "Game": result.rows ,userData});
       }
     });
   });
@@ -317,7 +317,7 @@ router.get('/kid/profile', authenticationMiddleware(), function (req, res) {
       } else {
         done();
         // res.redirect('/signUp.html');
-        res.render('kid/profile', { "kidProfile": result.rows });
+        res.render('kid/profile', { "kidProfile": result.rows ,userData});
       }
     });
 
@@ -404,7 +404,7 @@ router.get('/kid/books', authenticationMiddleware(), function (req, res) {
 
   queries.getBooksAccordingToTypes(userData.userID,(bookDataByTypes)=>{
     console.log(bookDataByTypes);
-    res.render('kid/books', { bookDataByTypes });
+    res.render('kid/books', { bookDataByTypes,userData });
     
   })
 });
@@ -436,7 +436,6 @@ router.post('/kid/books/edit', authenticationMiddleware(), function (req, res) {
         } else {
           res.send({ status: 'success' });
           done();
-          res.redirect('/kid/books');
         }
 
       });
@@ -464,7 +463,7 @@ router.get('/kid/games', authenticationMiddleware(), function (req, res) {
         } else {
           done();
           // res.redirect('/signUp.html');
-          res.render('kid/games', { "MyGames": result.rows });
+          res.render('kid/games', { "MyGames": result.rows ,userData});
         }
       });
   
@@ -491,7 +490,7 @@ router.post('/kid/games/add:gameID', authenticationMiddleware(), function (req, 
         } else {
           done();
           // res.redirect('/signUp.html');
-          res.render('kid/games', { "MyGames": result.rows });
+          res.render('kid/games', { "MyGames": result.rows,userData });
         }
       });
   
@@ -520,7 +519,7 @@ router.get('/kid/notes', authenticationMiddleware(), function (req, res) {
         } else {
           done();
           // res.redirect('/signUp.html');
-          res.render('kid/notes', { "myNotes": result.rows });
+          res.render('kid/notes', { "myNotes": result.rows,userData });
         }
       });
   
@@ -546,7 +545,7 @@ router.post('/kid/notes/add', authenticationMiddleware(), function (req, res) {
         console.log(error.stack);
       } else {
         done();
-        res.render('kid/notes', { "myNotes": result.rows });
+        res.render('kid/notes', { "myNotes": result.rows ,userData});
       }
     });
 
@@ -572,7 +571,7 @@ router.get('/kid/groups', authenticationMiddleware(), function (req, res) {
         } else {
           done();
           // res.redirect('/signUp.html');
-          res.render('kid/groups', { "myGroups": result.rows });
+          res.render('kid/groups', { "myGroups": result.rows ,userData});
         }
       });
   
@@ -607,7 +606,7 @@ router.get('/kid/friends', authenticationMiddleware(), function (req, res) {
       } else {
         done();
         // res.redirect('/signUp.html');
-        res.render('kid/friends', { "myFriend": result.rows });
+        res.render('kid/friends', { "myFriend": result.rows ,userData});
       }
     });
 
@@ -662,7 +661,7 @@ router.delete('/kid/cart/delete/:gameID', authenticationMiddleware(), function (
       } else {
         done();
         // res.redirect('/signUp.html');
-        res.render('kid/cart', { "myCart": result.rows });
+        res.render('kid/cart', { "myCart": result.rows,userData });
       }
     });
 
@@ -690,7 +689,7 @@ router.get('/kid/account', authenticationMiddleware(), function (req, res) {
       } else {
         done();
         // res.redirect('/signUp.html');
-        res.render('kid/cart', { "myCart": result.rows });
+        res.render('kid/cart', { "myCart": result.rows ,userData});
       }
     });
 

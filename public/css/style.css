@@ -63,7 +63,7 @@ body {
   background-color: #6a60a9; }
 
 .topnav a {
-  float: left;
+  float: right;
   display: block;
   color: #f2f2f2;
   text-align: center;
@@ -106,16 +106,29 @@ body {
     display: block;
     text-align: left; } }
 
-.right-nav {
-  float: right; }
+.left-nav {
+  float: left; }
 
 .dropdown {
-  position: relative;
-  display: inline-block; }
+  float: right;
+  overflow: hidden; }
+
+.dropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0; }
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: #dedcee;
+  color: black; }
 
 .dropdown-content {
   display: none;
-  height: auto;
   position: absolute;
   background-color: #f9f9f9;
   min-width: 160px;
@@ -137,27 +150,25 @@ body {
   display: block; }
 
 /*-------------------------------------------*/
-.topnav .search-container {
-  float: left; }
+.notification {
+  color: white;
+  text-decoration: none;
+  padding: 15px 26px;
+  position: relative;
+  display: inline-block;
+  border-radius: 2px; }
 
-.topnav input[type=text] {
-  padding: 6px;
-  margin-top: 8px;
-  font-size: 17px;
-  border: none; }
+.notification:hover {
+  background: #f1f1f1; }
 
-.topnav .search-container button {
-  float: right;
-  padding: 6px 10px;
-  margin-top: 8px;
-  margin-right: 16px;
-  background: #ddd;
-  font-size: 17px;
-  border: none;
-  cursor: pointer; }
-
-.topnav .search-container button:hover {
-  background: #ccc; }
+.notification .badge {
+  position: absolute;
+  top: 0;
+  right: -10px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background: red;
+  color: white; }
 
 /* ------------------------ */
 .sidenav {
@@ -173,7 +184,7 @@ body {
   overflow-y: auto; }
 
 .sidenav a {
-  padding: 8px 34px 8px 8px;
+  padding: 15px 34px 8px 8px;
   text-decoration: none;
   font-size: 18px;
   color: #ffff;
@@ -185,8 +196,9 @@ body {
 .sidenav a:hover {
   color: #f1f1f1;
   font-size: 20px;
-  text-decoration: underline;
-  transition: 0.3s; }
+  transition: 0.3s;
+  border: 1px solid #dedcee;
+  box-shadow: inset 0 0 6px #dedcee; }
 
 .sidenav .closebtn {
   position: absolute;
@@ -199,13 +211,19 @@ body {
   position: absolute;
   top: 0;
   right: 25px;
-  font-size: 36px;
-  margin-left: 50px; }
+  font-size: 42px;
+  margin-left: 50px;
+  border: none;
+  box-shadow: none; }
 
 #main {
   transition: margin-right .5s;
   padding: 0;
   margin-right: 240px; }
+
+#main h1 {
+  font-size: 160%;
+  font-weight: bold; }
 
 @media screen and (max-height: 450px) {
   .sidenav {
@@ -363,7 +381,9 @@ body {
 .home-style .home-container {
   align-items: center;
   text-align: center;
-  font-size: 30px; }
+  font-size: 30px;
+  margin-top: 3%;
+  margin-bottom: 3%; }
 
 .home-style .home-container h2 {
   padding-bottom: 20px; }
@@ -376,11 +396,11 @@ body {
   border-radius: 4px;
   font-size: 16px;
   background-color: white;
-  background-image: url("searchicon.png");
   background-position: 10px 10px;
   background-repeat: no-repeat;
   padding: 12px 20px 12px 10px;
-  box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.1); }
+  box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.1);
+  font-size: 110%; }
 
 .my-notes-style {
   /* Full-width input fields */
@@ -648,12 +668,18 @@ body {
     border-radius: 50%;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); }
 
+.cart-style h1 {
+  margin-right: 6%;
+  margin-top: 2%;
+  margin-bottom: 2%; }
+
 .cart-style li {
   background-color: #ffff; }
 
 .cart-style ul {
   width: 90%;
-  float: center; }
+  float: center;
+  margin-right: 3%; }
 
 .cart-style img {
   vertical-align: middle;
@@ -684,61 +710,77 @@ body {
   color: red;
   font-size: 120%; }
 
-.notes-style h2 {
-  float: right;
-  margin-right: 3%;
-  display: block;
-  padding: 3% 0% 3% 0%;
-  margin-left: 3%; }
+.cart-style .checkClass {
+  margin-right: 6%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  font-size: 120%; }
 
-.notes-style #add-note-btn {
-  background-color: #eccc68;
+.cart-style .checkout {
+  background-color: #ffc048;
   border: none;
-  color: black;
+  color: white;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
-  display: block;
+  display: inline-block;
   font-size: 16px;
-  float: right;
-  margin-top: 2%; }
+  margin-top: 10px; }
+
+.cart-style .checkout:hover {
+  transform: scale(1.1, 1.1); }
+
+.notes-style h1 {
+  margin-right: 3%;
+  display: block;
+  margin-top: 3%;
+  margin-bottom: 3%; }
+
+.notes-style .notesContainer {
+  width: 90%;
+  margin-right: 3%; }
 
 .notes-style .collapsible {
-  background-color: #bdc3c7;
-  color: white;
+  background-color: #f5f6fa;
+  color: black;
   cursor: pointer;
   padding: 18px;
-  width: 90%;
+  width: 100%;
   border: none;
   text-align: right;
   outline: none;
   font-size: 15px;
-  float: right;
-  margin-right: 3%; }
+  border: 1px solid #dcdde1;
+  float: right; }
+
+.notes-style .arrow {
+  margin-left: 2px; }
 
 .notes-style .active, .notes-style .collapsible:hover {
-  background-color: #555; }
-
-.notes-style table {
-  width: 100%; }
-
-.notes-style th {
-  color: white; }
+  background-color: #dcdde1; }
 
 .notes-style .content {
   padding: 0 18px;
   display: none;
-  width: 90%;
   overflow: hidden;
-  background-color: #f1f1f1;
-  text-align: right;
-  float: right;
-  margin-right: 3%;
-  padding: 2%; }
+  background-color: #ffff;
+  margin-bottom: 5px;
+  border: 1px solid #dcdde1; }
 
-.notes-style #bookname {
-  width: 100%;
-  height: 30px; }
+.notes-style #add-note-btn {
+  margin-right: 3%;
+  background-color: #ffc048;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  box-shadow: 0px 0px 10px 2px #dcdde1; }
+
+.notes-style #add-note-btn:hover {
+  transform: scale(1.1, 1.1); }
 
 .account-style .my-account-container {
   margin-left: 3%;

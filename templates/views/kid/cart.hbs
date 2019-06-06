@@ -1,64 +1,29 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <link rel="Stylesheet" href="/css/style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <title>Kid Cart</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  {{> kid_head}}
 
 </head>
-
 <body>
-  <div class="navigation-style">
-    <div id="mySidenav" class="sidenav">
-      <a href="javascript:void(0)" class="closebtn" onclick="closeSideNav()">&times;</a>
-      <a href="home" key="home">  🏠</a>
-      <a href="profile" key="myProfile">My Profile 👦</a>
-      <a href="books" key="myBooks"> My Books 📚</a>
-      <a href="quizes" key="myQuizes">My Quizes ⏱️</a>
-      <a href="notes" key="myNotes">My Notes  📄</a>
-      <a href="games" key="myGames">My Games 🎮</a>
-      <a href="groups" key="myGroups"> My Groups 👨‍👩‍👧‍👦</a>
-      <a href="friends" key="myFriends"> My Friends 👨‍👩‍</a>
-      <a href="account" key="myAccount">My Account  💳</a>
-      <a href="cart" key="myCart"> My Cart 🛒</a>
-      <a href="settings" key="settings">Settings 🔧</a>
-      <a href="../logout" key="logOut">Log Out 🏃</a>
-    </div>
-
-      <div id="main">
-
-
-       <div class="topnav" id="myTopnav">
+   <div  class="navigation-style">
+      {{> kid_sideNav}}
+    <div  id="main">
+      {{> kid_topNav}}
           {{#if userData.points}}
-            <a class="tablinks" id="pointsTitle">My points: <span id="kidPoints">{{userData.points}}</span></a>
+         <p id="kidPoints" style="display: none">{{userData.points}}</p>
           {{/if}}
-          <a href="#" id="openNav" class="active "  key="open" onclick="openSideNav()">&#9776; open</a>
-          <a class="tablinks" id="welcomeTitle">Welcome {{userData.userName}}</a>
-          <a href="#news" key="2read">2READ</a>
-          <a href="../books" key="books">Books</a>
-          <a href="../games" key="store">Store</a>
-          <a href="#" class="translate" id="arb">Arabic</a>
-          <a href="#" class="translate" id="heb">Hebrew</a> 
-          <a href="javascript:void(0);" class="icon" onclick="responsiveNav()">
-            <i class="fa fa-bars"></i>
-          </a>
-       </div>
-     <h1>Shopping Cart</h1>
-          <div class="cart-style">  
-
-              <div class="w3-container">
+          <div class="cart-style"> 
+              <h1 class="lang" key="shoppingCart">Shopping Cart</h1> 
+              <div class="w3-container ">
               <ul class="w3-ul w3-card-4">
                 {{#myCart}}
                 <li class="w3-bar product" >
                  <span class="w3-bar-item w3-button w3-white w3-xlarge w3-right deleteItem" name="{{gameID}}" data-id="{{gameID}}">x</span>
-                 <span class="tooltiptext">Delete Game</span>
                   <img src={{pic}} class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
                   <div class="w3-bar-item">
                     <span class="w3-large gameName">{{gameName}}</span><br>
@@ -68,68 +33,19 @@
                  {{/myCart}}
               </ul>
             </div>
-            <div>
-              
-              <p>Total Amount: </p>
+
+            <div class="checkClass">             
+              <p class="lang" key="totalAmount">Total Amount: </p>
               <p id="cart-total" class="totals-value"></p>
-              <button onclick="checkoutFunction()"  class="checkout">checkout</button>
-              <p  id="userNameException"></p>
+              <button onclick="checkoutFunction()"  class="checkout lang" key="checkout">checkout</button>
+              <p class="lang" key="enoughMoney" id="userNameException" style="display: none">You don't have enough points 😔</p>
             </div>
 
-<div class="message-style">
-<div id="messageModal" class="modal">
+    </div> {{!-- main --}}
+ </div>
+     
+ {{> kid_footer}}
 
-  <!-- Modal content -->
-  <div class="modal-content">
-    <p>Are you sure you want to delete this item</p>
-    <button onclick="">OK</button>
-    <button onclick=onclick="document.getElementById('messageModal').style.display='none'">Cancel</button>
-  </div>
-</div>
-</div>
-
-
-
-</div>
-  {{!-- main --}}
-</div>
-
-
-<script>
-   // var price;
-    var totalCart=0;
-  /* Sum up row totals */
-
-  var myNodelist = document.getElementsByTagName("LI");
-  var i;
- // for (i = 0; i < myNodelist.length; i++) {
-   // console.log('i'+ i);
-  //  var price=document.getElementById(``).textContent;
-  //  console.log('price'+ price);
-  //  totalCart+=Number(price);
-   // console.log('totalCart'+ totalCart);
-
- // }
-
- var price=0;
-    $('.product .price').each(function () {
-       price +=parseFloat($(this).data('price'));
-     // subtotal += parseFloat($(this).children('.itemPrice').text());
-     // price = document.getElementById('price').textContent;
-      console.log('price' + price);
-      totalCart += Number(price);
-      console.log('totalCart' + totalCart);
-
-
-    });
-  
-  $('#cart-total').html(price.toFixed(2));
-</script>
-
-
-<script src="/js/kid/kid-cart-scripts.js"></script>
-<script src="/js/navigation.js"></script>
-<script src="/js/language.js"></script>
+ <script src="/js/kid/kid-cart-scripts.js"></script>
 </body>
-
 </html>

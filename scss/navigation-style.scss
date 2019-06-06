@@ -7,12 +7,12 @@ body {
 
 .topnav {
   overflow: hidden;
-    box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
+  box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
   background-color: #6a60a9;
 }
 
 .topnav a {
-  float: left;
+  float: right;
   display: block;
   color: #f2f2f2;
   text-align: center;
@@ -62,16 +62,33 @@ body {
   }
 }
 
-.right-nav{
+.left-nav{
+  float: left;
+}
+
+.dropdown {
   float: right;
+  overflow: hidden;
 }
-.dropdown{
-  position: relative;
-  display: inline-block;
+
+.dropdown .dropbtn {
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
 }
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: #dedcee;
+  color: black;
+}
+
 .dropdown-content {
   display: none;
-  height: auto;
   position: absolute;
   background-color: #f9f9f9;
   min-width: 160px;
@@ -96,32 +113,28 @@ body {
   display: block;
 }
 /*-------------------------------------------*/
-.topnav .search-container {
-  float: left;
+.notification {
+  color: white;
+  text-decoration: none;
+  padding: 15px 26px;
+  position: relative;
+  display: inline-block;
+  border-radius: 2px;
 }
 
-.topnav input[type=text] {
-  padding: 6px;
-  margin-top: 8px;
-  font-size: 17px;
-  border: none;
+.notification:hover {
+  background: #f1f1f1;
 }
 
-.topnav .search-container button {
-  float: right;
-  padding: 6px 10px;
-  margin-top: 8px;
-  margin-right: 16px;
-  background: #ddd;
-  font-size: 17px;
-  border: none;
-  cursor: pointer;
+.notification .badge {
+  position: absolute;
+  top: 0;
+  right: -10px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background: red;
+  color: white;
 }
-
-.topnav .search-container button:hover {
-  background: #ccc;
-}
-
 
 /* ------------------------ */
 .sidenav {
@@ -139,7 +152,7 @@ body {
 }
 
 .sidenav a {
-  padding: 8px 34px 8px 8px;
+  padding: 15px 34px 8px 8px;
   text-decoration: none;
   font-size: 18px;
   color: #ffff;
@@ -147,13 +160,15 @@ body {
   transition: 0.3s;
   padding-bottom: 10px;
   text-align: right;
+
 }
 
 .sidenav a:hover {
   color: #f1f1f1;
   font-size: 20px;
-  text-decoration:underline;
   transition: 0.3s;
+  border: 1px solid #dedcee;
+  box-shadow: inset 0 0 6px #dedcee
 }
 
 .sidenav .closebtn {
@@ -162,14 +177,18 @@ body {
   right: 25px;
   font-size: 36px;
   margin-right:150px;
+  
 }
+
 
 .sidenav .closebtn:hover {
   position: absolute;
   top: 0;
   right: 25px;
-  font-size: 36px;
+  font-size: 42px;
   margin-left: 50px;
+  border:none;
+  box-shadow: none;
 }
 #main {
   transition: margin-right .5s;
@@ -177,6 +196,11 @@ body {
   margin-right: 240px;
 
   }
+  #main h1 {
+    font-size: 160%;
+    font-weight: bold;
+  
+    }
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}

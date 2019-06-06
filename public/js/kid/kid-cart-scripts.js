@@ -1,3 +1,17 @@
+var totalCart=0;
+var price=0;
+  $('.product .price').each(function () {
+     price +=parseFloat($(this).data('price'));
+    console.log('price' + price);
+    totalCart += Number(price);
+    console.log('totalCart' + totalCart);
+
+
+  });
+
+$('#cart-total').html(price.toFixed(2));
+
+
 $(document).ready(function() {
     $('.deleteItem').on('click', function() {    // function will run on click
         var id = $(this).data('id');    // gettin the id from the data-id attribute
@@ -25,26 +39,28 @@ function checkoutFunction(){
     var total=document.getElementById('cart-total');
      var totaltext=total.textContent;
      var totalCart=Number(totaltext);
-     console.log(totalCart);
+     console.log('totalCart'+totalCart);
 
    var points=document.getElementById('kidPoints');
    var pointsText=points.textContent;
    var kidPoints=Number(pointsText);
-   console.log(kidPoints);
+   console.log('kidPoints'+kidPoints);
   
    var leftOver=kidPoints-totalCart;
    console.log('leftOver'+leftOver);
 
    if(kidPoints<totalCart){
-       userExceptionText = "You don't have enough points 😔";
-       document.getElementById("userNameException").innerHTML = userExceptionText; 
+    var p= document.getElementById("userNameException");
+    p.style.display = "block";
+      // userExceptionText = "You don't have enough points 😔";
+      // document.getElementById("userNameException").innerHTML = userExceptionText; 
    } 
     else{
         $('.product').each(function () {
          var id =$(this).children('.deleteItem').data('id');
          console.log('id'+ id);
          editKidPoints(leftOver);
-          removeFromCart(id);      
+         removeFromCart(id);      
           addToMyGames(id);
 
 

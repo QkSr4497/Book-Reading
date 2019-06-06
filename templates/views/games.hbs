@@ -5,31 +5,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <link rel="Stylesheet" href="/css/style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-
+  <title>Store</title>
+ {{> kid_head}}
 </head>
 
 <body>
   <div class="navigation-style">
     <div id="mySidenav" class="sidenav">
-      <a href="javascript:void(0)" class="closebtn" onclick="closeSideNav()">&times;</a>
-      <a href="kid/home" key="home"> Home 🏠</a>
-      <a href="kid/profile" key="myProfile">My Profile 👦</a>
-      <a href="kid/books" key="myBooks"> My Books 📚</a>
-      <a href="kid/quizes" key="myQuizes">My Quizes ⏱️</a>
-      <a href="kid/notes" key="myNotes">My Notes  📄</a>
-      <a href="kid/games" key="myGames">My Games 🎮</a>
-      <a href="kid/groups" key="myGroups"> My Groups 👨‍👩‍👧‍👦</a>
-      <a href="kid/friends" key="myFriends"> My Friends 👨‍👩‍</a>
-      <a href="kid/account" key="myAccount">My Account  💳</a>
-      <a href="kid/cart" key="myCart"> My Cart 🛒</a>
-      <a href="kid/settings" key="settings">Settings 🔧</a>
-      <a href="logout" key="logOut">Log Out 🏃</a>
+    <a href="javascript:void(0)" class="closebtn" onclick="closeSideNav()">&times;</a>
+    <a href="/"            class="lang" key="home"> Home </a>
+    <a href="kid/profile"  class="lang" key="myProfile">My Profile</a>
+    <a href="kid/books"    class="lang" key="myBooks"> My Books </a>
+    <a href="kid/quizes"   class="lang" key="myQuizes">My Quizes </a>
+    <a href="kid/notes"    class="lang" key="myNotes">My Notes </a>
+    <a href="kid/games"    class="lang" key="myGames">My Games </a>
+    <a href="kid/groups"   class="lang" key="myGroups"> My Groups </a>
+    <a href="kid/friends"  class="lang" key="myFriends"> My Friends </a>
+    <a href="kid/account"  class="lang" key="myAccount">My Account </a>
+    <a href="kid/cart"     class="lang" key="myCart"> My Cart</a>
+    <a href="kid/settings" class="lang" key="settings">Settings </a>
+    <a href="logout"       class="lang" key="logOut">Log Out </a>
     </div>
 
       <div id="main">
@@ -52,7 +47,7 @@
        </div>
 
        <div id="games" class="card-style">    
-        <h1 key="gamesList"> Games Store 🎲</h1>
+        <h1 class="lang" key="gameStor"> Games Store 🎲</h1>
   
           <div class="cards">  
             {{#Game}}   
@@ -67,7 +62,8 @@
                   <h1 name="gameName">{{gameName}}</h1> 
                   <h2 name="price">{{price}}</h2>
                   <input type="text" name="gameID" value={{gameID}} style="display: none">
-                  <input type="submit" class="btn btn-primary" value="Add to Cart" />
+                  <button type="submit" class="lang" key="addToCart" >Add to Cart</button>
+                  {{!-- <input type="submit" class="lang" key="addToCart" value="Add to Cart" /> --}}
                   </div>
                   </div>
               </div>
@@ -79,8 +75,7 @@
   </div>
 </div>
 
-<script type="text/javascript" src="js/navigation.js"></script>
-<script type="text/javascript" src="js/language.js"></script>
+ {{> kid_footer}}
 </body>
 
 </html>
