@@ -119,6 +119,7 @@ CREATE TABLE "Cart" (
 	
 
 CREATE TABLE "Account" (
+	"operationID" SERIAL PRIMARY KEY,
 	"kidID" INTEGER REFERENCES "Kid" ("kidID"),
 	"gameID" INTEGER REFERENCES "Game" ("gameID"),
 	"quizID" INTEGER REFERENCES "Quiz" ("quizID"),
@@ -132,13 +133,22 @@ CREATE TABLE "HasGames" (
 );							   
 CREATE TABLE "Note" (
  	"noteID" SERIAL PRIMARY KEY,
+	"date" DATE NOT NULL,
 	"personID" INTEGER REFERENCES "Person" ("personID") NOT NULL,
 	"bookID" INTEGER REFERENCES "Book" ("bookID"),
 	title TEXT NOT NULL,
  	content TEXT NOT NULL,
 	type TEXT CHECK (type IN ('public','private')) NOT NULL
 );
-					 
+	CREATE TABLE "Image" (
+	"imageID" SERIAL PRIMARY KEY
+);
+	
+	CREATE TABLE "ImageNote" (
+	"noteID" INTEGER REFERENCES "Note" ("noteID") NOT NULL,
+	"imageID" INTEGER REFERENCES "Image" ("imageID")NOT NULL,
+);
+				 
 CREATE TABLE "WritesPost" (
 	"personID" INTEGER REFERENCES "Person" ("personID"),
 	"postID" INTEGER REFERENCES "Post" ("postID"),
@@ -202,5 +212,17 @@ CREATE TABLE "UserSessions" (
 	"expire" timestamp(6) NOT NULL
 )
 WITH (OIDS=FALSE);
-ALTER TABLE "UserSessions" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;					
-							
+ALTER TABLE "UserSessions" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+	CREATE TABLE "Group" (
+	"groupID" SERIAL NOT NULL PRIMARY KEY,
+	"groupName" varchar NOT NULL ,
+	"pic"  TEXT,
+	"personID" INTEGER REFERENCES "Person" ("personID") NOT NULL					  							   
+);	
+	CREATE TABLE "InGroup" (
+	"groupID" INTEGER REFERENCES "Group" ("groupID"),
+	"personID" INTEGER REFERENCES "Person" ("personID"),
+	type TEXT CHECK (type IN ('kid', 'admin')) NOT NULL,
+	PRIMARY KEY ("groupID", "personID")								   
+);							

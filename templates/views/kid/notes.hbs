@@ -26,6 +26,12 @@
               <div class="content">
                 <p>{{content}}</p>
                 <p></p>
+                <button style="font-size:24px" class="updateNote" name="{{noteID}}" 
+                data-id="{{noteID}}" 
+                data-title="{{title}}"
+                data-content="{{content}}"
+                onclick="document.getElementById('updatenote').style.display='block'"><i class="fa fa-edit"></i></button>
+                <button style="font-size:24px" class="deleteNote" name="{{noteID}}" data-id="{{noteID}}"><i class="fa fa-trash"></i></button>
               </div>   
           {{/myNotes}}
         </div>  
@@ -42,16 +48,39 @@
           <label for="title"><b>Note Title</b></label>
           <input type="text" placeholder="Enter Title" name="title" required value="">
 
-          <label for="title"><b>Note Content</b></label>
+          <label for="content"><b>Note Content</b></label>
           <textarea name="content" rows="8" cols="100" placeholder="Enter your thoughts"  required value=""></textarea>
 
           <label for="file"><b>upload your drawings 🎨</b></label>
           <input value="" type="file" id="group-image" name="img" placeholder="Add a title image" accept="image/gif, image/jpeg, image/jpg, image/svg+xml, image/svg, image/png, image/x-png, image/pjpeg">
 
-
-
           <button type="button" onclick="document.getElementById('newnote').style.display='none'" class="cancelbtn">Cancel</button>
           <button type="submit" name="button" class="okbtn">Add new book</button>
+         </div>
+       </form>
+     </div>
+   </div>
+      <div class="modal-style">
+      <div id="updatenote" class="modal">
+      <form class="modal-content animate" method="POST" action="/kid/notes/edit">
+        <div class="container">
+          <h3 key="updateNote"> Update Note ✍🏻</h3>
+          <br>
+          <hr>
+
+          <input id="updateNoteID" type="text"  value="{{noteID}}">
+          
+          <label for="title"><b>Note Title</b></label>
+          <input id="updateTitle" type="text" placeholder="Enter Title" name="title" required value="">
+
+          <label for="title"><b>Note Content</b></label>
+          <textarea id= "updateContent" name="content" rows="8" cols="100" placeholder="Enter your thoughts"  required value=""></textarea>
+
+          <label for="file"><b>upload your drawings 🎨</b></label>
+          <input  id="updatePictures" value="" type="file" id="group-image" name="img" placeholder="Add a title image" accept="image/gif, image/jpeg, image/jpg, image/svg+xml, image/svg, image/png, image/x-png, image/pjpeg">
+
+          <button type="button" onclick="document.getElementById('updatenote').style.display='none'" class="cancelbtn">Cancel</button>
+          <button type="submit" name="button" class="okbtn">Update</button>
          </div>
        </form>
      </div>
@@ -62,7 +91,37 @@
        
   </div>
 </div>
+<script>
+  $(document).ready(function() {
+    $('.deleteNote').on('click', function() {    // function will run on click
+        var id = $(this).data('id');    // gettin the id from the data-id attribute
+        var url = '/kid/notes/delete/' + id;
+       // if (confirm('Delete Game?')) {    // confirming the delete
+            $.ajax({
+                url: url,
+                type:'DELETE',
+                success: function(result) {
+                    console.log('Deleting Note...');
+                   window.location.href = '/kid/notes'; // redirection
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
+       // recalculateCart();
+      //  }
+    });
 
+});
+
+
+    $(document).ready(function() {$('.updateNote').on('click', function() {
+        $('#updateTitle').val($(this).data('title'));
+        $('#updateContent').val($(this).data('content'));
+        $('#updateNoteID').val($(this).data('id'));
+    });
+  });
+</script>
 
 
 

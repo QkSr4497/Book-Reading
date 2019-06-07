@@ -26,7 +26,7 @@
                     </div>
                       {{#each bookDataByTypes.intrestedBooks}}
                       <form method="POST" action="/kid/books/edit">
-                      <a class="a" name={{bookName}}  draggable="true" ondragstart="drag(event)" id={{bookID}}>
+                      <a href="single-book-page/{{bookID}}" class="a" name={{bookName}}  draggable="true" ondragstart="drag(event)" id={{bookID}}>
                         {{bookName}} 
                       </a> 
                     </form>
@@ -41,7 +41,7 @@
                     </div>
                       {{#each bookDataByTypes.readingBooks}}
                       
-                      <a class="a" draggable="true" ondragstart="drag(event)" id="{{bookID}}">
+                      <a href="single-book-page/{{bookID}}" class="a" draggable="true" ondragstart="drag(event)" id="{{bookID}}">
                         {{bookName}}
                       </a> 
               
@@ -56,7 +56,7 @@
                   </div>
                     {{#each bookDataByTypes.finishedBooks}}
    
-                      <a class="a" draggable="false" id="{{bookID}}">
+                      <a href="single-book-page/{{bookID}}" class="a" draggable="false" id="{{bookID}}">
                         {{bookName}} 
                       </a>  
                     {{/each }}
@@ -71,7 +71,6 @@
 
  {{> kid_footer}}
 <script type="text/javascript" src="/js/kid/kid-book-scripts.js"></script>
-
 </body>
 
 </html>

@@ -30,7 +30,7 @@ function allowDropIntrested(ev) {
       var bookData = {};
       bookData.bookID = bookID;
       bookData.bookType = bookType;
-      console.log('new object ' +JSON.stringify(bookData));
+     // console.log('new object ' +JSON.stringify(bookData));
       var url = '/kid/books/edit';
       $.ajax({
         url: url,

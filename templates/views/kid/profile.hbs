@@ -5,9 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="Stylesheet" href="/css/style.css" />
-  <title>Document</title>
+  <title>Kid Profile</title>
+
+  {{> kid_head}}
 </head>
 <body>
+<div class="navigation-style">
+  {{> kid_sideNav}}
+
+    <div id="main">
+      {{> kid_topNav}}
   <div class="my-profile-style">
     <div class="container">
      
@@ -21,29 +28,17 @@
 
 
        <div class="detail-container">
-         <table>
-           <tr>
-             <td><label for="">User Name</label></td>
-             <td>{{userName}}</td>
-           </tr>
-            <tr>
-             <td><label for="">First Name</label></td>
-             <td>{{firstName}}</td>
-           </tr>
-            <tr>
-             <td><label for="">Last Name</label></td>
-             <td>{{lastName}}</td>
-           </tr>
-            <tr>
-             <td><label for="">Birth Date</label></td>
-             <td>{{birthDate}}</td>
-           </tr>
-            <tr>
-             <td><label for="">Password</label></td>
-              <td>{{password}}</td>
-           </tr>
-         </table>
-          <button id="profileUpdatebtn" onclick="document.getElementById('editProfile').style.display='block'"> Update</button>
+         <p> <span>{{userName}}</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>User Name</span></p>
+         <hr>
+         <p> <span>{{firstName}}</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>First Name</span></p>
+         <hr>
+         <p> <span>{{lastName}}</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>Last Name</span></p>
+         <hr>
+         <p> <span>{{birthDate}}</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>BirthDate</span></p>
+         <hr>
+         <p> <span>{{points}}</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>Points</span></p>
+         <hr>
+        <button id="profileUpdatebtn" onclick="document.getElementById('editProfile').style.display='block'"> Update</button>
 
 
        </div>    
@@ -56,7 +51,6 @@
       <div id="editProfile" class="modal">
       <form class="modal-content animate" method="POST" action="/kid/profile/edit">
         <div class="container">
-          <h3 key="addNote"> New Note ✍🏻</h3>
           <div class="imgcontainer">
             <img src="/img/icons/kidreads.png" alt="Avatar" class="avatar">
           </div>
@@ -70,9 +64,9 @@
           <input type="text" placeholder="Enter Title" name="title" required value="">
           <label for="title"><b>Password</b></label>
           <input type="text" placeholder="Enter Title" name="title" required value="">
-          <label for="title"><b>Password</b></label>
+          <label for="title"><b>BirthDate</b></label>
           <input type="date" placeholder="Enter Title" name="title" required value="">
-          <button type="submit" name="button" class="okbtn">Add new book</button>
+          <button type="submit" name="button" class="okbtn">Update</button>
           <button type="button" onclick="document.getElementById('editProfile').style.display='none'" class="cancelbtn">Cancel</button>
 
          </div>
@@ -80,9 +74,11 @@
      </div>
    </div>
 
-<script type="text/javascript" src="js/navigation.js"></script>
-<script type="text/javascript" src="js/language.js"></script>
-<script type="text/javascript" src="/js/open-modal.js"></script>
+
+
+     </div>
+   </div>
+ {{> kid_footer}}
 </body>
 </html>
 

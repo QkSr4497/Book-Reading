@@ -16,12 +16,12 @@ header {
      box-sizing: border-box;
   }
   #one { 
-      background-color: rgb(190, 255, 252); 
-      background-image: url('/img/backgrounds/blue-science.jpg');
+      background-color: #d1d8e0;
   }
-  #two { background-color: rgb(243, 250, 183);
+  #two { 
    text-align:center;
-   background-image: url('/img/backgrounds/blue-transitioning.jpg');
+   background-color: #d1d8e0;
+   /* background-image:linear-gradient(to left,#dfe6e9,rgb(162,155,254)); */
      
      }
   
@@ -33,10 +33,11 @@ header {
   }
   
    #two h1 {
-      color: aliceblue;
+       padding-top: 30px;
+      color: #2c2c54;
   }
   #author {
-      color: aliceblue;
+      color: #2c2c54;
   }
   
   
@@ -48,4 +49,10 @@ header {
      }
      #one { width: 300px; float: left; }
      #two { margin-left: 200px; }
+  }
+  .checked {
+    color: orange;
+  }
+  .review_section{
+      margin-right: 3%;
   }

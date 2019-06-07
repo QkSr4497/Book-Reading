@@ -1,3 +1,4 @@
+
 var totalCart=0;
 var price=0;
   $('.product .price').each(function () {
@@ -16,20 +17,17 @@ $(document).ready(function() {
     $('.deleteItem').on('click', function() {    // function will run on click
         var id = $(this).data('id');    // gettin the id from the data-id attribute
         var url = '/kid/cart/delete/' + id;
-       // if (confirm('Delete Game?')) {    // confirming the delete
             $.ajax({
                 url: url,
                 type:'DELETE',
                 success: function(result) {
-                    console.log('Deleting Game...');
-                   window.location.href = '/kid/cart'; // redirection
+                console.log('Deleting Game...');
+                  window.location.href = '/kid/cart'; // redirection
                 },
                 error: function(err) {
                     console.log(err);
                 }
             });
-       // recalculateCart();
-      //  }
     });
 
 });
@@ -42,6 +40,10 @@ function checkoutFunction(){
      console.log('totalCart'+totalCart);
 
    var points=document.getElementById('kidPoints');
+   //should check when it is null
+   if(points==null){
+       points=0;
+   }
    var pointsText=points.textContent;
    var kidPoints=Number(pointsText);
    console.log('kidPoints'+kidPoints);
@@ -59,9 +61,9 @@ function checkoutFunction(){
         $('.product').each(function () {
          var id =$(this).children('.deleteItem').data('id');
          console.log('id'+ id);
-         editKidPoints(leftOver);
-         removeFromCart(id);      
-          addToMyGames(id);
+         removeFromCart(id); 
+         editKidPoints(leftOver);              
+        addToMyGames(id);
 
 
        });     
@@ -117,7 +119,7 @@ function editKidPoints(points)
              method: 'POST',
              success: function(result) {
                  console.log('Updating Kid Points...');
-                 window.location.href = '/kid/cart'; // redirection
+                 window.location.href = '/kid/games'; // redirection
              },
              error: function(err) {
                  console.log(err);

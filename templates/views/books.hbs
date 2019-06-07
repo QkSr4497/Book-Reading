@@ -15,19 +15,20 @@
   <div class="navigation-style">
     <div id="mySidenav" class="sidenav">
       <a href="javascript:void(0)" class="closebtn" onclick="closeSideNav()">&times;</a>
-      <a href="kid/home" key="home"> Home 🏠</a>
-      <a href="kid/profile" key="myProfile">My Profile 👦</a>
-      <a href="kid/books" key="myBooks"> My Books 📚</a>
-      <a href="kid/quizes" key="myQuizes">My Quizes ⏱️</a>
-      <a href="kid/notes" key="myNotes">My Notes  📄</a>
-      <a href="kid/games" key="myGames">My Games 🎮</a>
-      <a href="kid/groups" key="myGroups"> My Groups 👨‍👩‍👧‍👦</a>
-      <a href="kid/friends" key="myFriends"> My Friends 👨‍👩‍</a>
-      <a href="kid/account" key="myAccount">My Account  💳</a>
-      <a href="kid/cart" key="myCart"> My Cart 🛒</a>
-      <a href="kid/settings" key="settings">Settings 🔧</a>
-      <a href="logout" key="logOut">Log Out 🏃</a>
+      <a href="kid/home" class="lang" key="home"> Home 🏠</a>
+      <a href="kid/profile" class="lang" key="myProfile">My Profile 👦</a>
+      <a href="kid/books" class="lang" key="myBooks"> My Books 📚</a>
+      <a href="kid/quizes" class="lang" key="myQuizes">My Quizes ⏱️</a>
+      <a href="kid/notes"class="lang" key="myNotes">My Notes  📄</a>
+      <a href="kid/games"class="lang" key="myGames">My Games 🎮</a>
+      <a href="kid/groups"class="lang" key="myGroups"> My Groups 👨‍👩‍👧‍👦</a>
+      <a href="kid/friends"class="lang" key="myFriends"> My Friends 👨‍👩‍</a>
+      <a href="kid/account"class="lang" key="myAccount">My Account  💳</a>
+      <a href="kid/cart" class="lang"key="myCart"> My Cart 🛒</a>
+      <a href="kid/settings"class="lang" key="settings">Settings 🔧</a>
+      <a href="logout" class="lang"key="logOut">Log Out 🏃</a>
     </div>
+
 
 
     <div id="main">
@@ -87,7 +88,7 @@
 
       <div class="cards-list" id="myUL">
       {{#Book}}
-      <a href="single-book-page/{{bookID}}">
+      <a href="kid/single-book-page/{{bookID}}">
         <div class="card {{bookID}}" style="border-radius: 40px ;background-color: black">
           <div class="card_image"> <img src="{{pic}}"
               onerror="this.onerror=null;this.src='/img/books/default-book.gif';" /></div>
@@ -122,6 +123,7 @@ function myFunction() {
     }
 }
 </script>
+{{> kid_footer}}
 </body>
 
 </html>

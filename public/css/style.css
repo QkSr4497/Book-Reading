@@ -555,7 +555,7 @@ body {
     width: 200px;
     height: 200px; }
   .my-profile-style .container {
-    width: 70%;
+    width: 90%;
     height: auto;
     text-align: center;
     margin-right: 3%;
@@ -779,6 +779,10 @@ body {
   font-size: 16px;
   box-shadow: 0px 0px 10px 2px #dcdde1; }
 
+.notes-style button {
+  background-color: transparent;
+  border: none; }
+
 .notes-style #add-note-btn:hover {
   transform: scale(1.1, 1.1); }
 
@@ -847,3 +851,33 @@ body {
     color: #000;
     text-decoration: none;
     cursor: pointer; }
+
+.group-style h1 {
+  margin-right: 3%; }
+
+.group-style .cards {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  margin-right: 3%;
+  padding: 3%; }
+
+.group-style .card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  width: 230px;
+  height: 250px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 1%; }
+
+.group-style .card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  transform: scale(1.1, 1.1); }
+
+.group-style img {
+  border-radius: 5px 5px 0 0;
+  height: 85%; }
+
+.group-style .container {
+  padding: 2px 16px; }

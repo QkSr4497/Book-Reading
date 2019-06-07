@@ -230,8 +230,41 @@ const getBooksAccordingToTypes= (userID, callback) => {
           });  
     });
 }
+//==========================================
+const getBookReviews = (bookID, callback) => {
+    pool.query(`SELECT kb.* ,p.*
+    FROM "KidBook" kb INNER JOIN "Person" p ON kb."kidID"=p."personID"
+    WHERE kb."bookID" = $1 AND kb."review" IS NOT NULL`, [bookID], (error, results) => {
+    if (error) {
+        throw error
+    }
+    callback(results.rows);
+ });
+}
+//==========================================
+const BookByID = (bookID, callback) => {
+    pool.query(`SELECT * 
+    FROM "Book" b 
+    WHERE b."bookID" = $1 `, [bookID], (error, results) => {
+    if (error) {
+        throw error
+    }
+    callback(results.rows);
+ });
+}
 
+const getBookInfoAndReviews= (bookID, callback) => { 
+        getBookReviews(bookID,(bookReviews)=>{ 
+            BookByID(bookID,(bookInfo)=>{ 
+                callback({
+                    bookReviews,
+                    bookInfo
 
+ 
+                });
+            }); 
+    });
+}
 module.exports = {
     getUsers,
     getUserTypeById,
@@ -244,4 +277,7 @@ module.exports = {
     getMyReadingBooks,
     getMyFinishedBooks,
     getBooksAccordingToTypes,
+    getBookReviews,
+    BookByID,
+    getBookInfoAndReviews
 }
