@@ -19,12 +19,14 @@
         <h1>My Groups</h1>   
             <div class="cards"> 
               {{#myGroups}}      
-              <div class="card">
+              <a href="single-group-page/{{groupID}}">
+                <div class="card">
                 <img src="../img/groups/teamwork.png" alt="Avatar" style="width:100%">
                 <div class="container">
                 <h4><b>{{groupName}}</b></h4> 
                 </div>
               </div>
+              </a>
             {{/myGroups}}  
           </div> 
       </div>

@@ -14,13 +14,18 @@ header {
      -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
      box-sizing: border-box;
+      justify-content: center;
   }
   #one { 
       background-color: #d1d8e0;
+      align-items: center;
+      text-align:center;
   }
   #two { 
    text-align:center;
+   align-items: center;
    background-color: #d1d8e0;
+   justify-content: center;
    /* background-image:linear-gradient(to left,#dfe6e9,rgb(162,155,254)); */
      
      }
@@ -55,4 +60,66 @@ header {
   }
   .review_section{
       margin-right: 3%;
+  }
+  #two #addToList{
+    background-color: #ffc048;
+    align-items: center;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+    box-shadow: 0px 0px 10px 2px  rgb(220,221,225);
+    position: relative;
+    right: 30%;
+  }
+   #addToList:hover{
+    transform: scale(1.1,1.1);
+  }
+  .chip {
+    margin-right: 3%;
+    margin-bottom: 10px;
+    box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
+    display: inline-block;
+    width: 90%;
+    height: auto;
+    padding: 0 25px;
+    font-size: 20px;
+    line-height: 20px;
+    border-radius: 25px;
+    background-color: #ffff;
+    
+  }
+  
+  .chip img {
+    float: right;
+  
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+  }
+  #reviewText{
+    margin-right: 30px;
+    padding: 3%;
+  }
+  .titleClass{
+    padding-top: 20px;
+    color: #2c2c54;
+  }
+  #reviewContent{
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  #review{
+    background-color: #ffc048;
+    align-items: center;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    box-shadow: 0px 0px 10px 2px  rgb(220,221,225);
+    margin-bottom: 10px;
   }

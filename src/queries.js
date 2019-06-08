@@ -232,6 +232,7 @@ const getBooksAccordingToTypes= (userID, callback) => {
 }
 //==========================================
 const getBookReviews = (bookID, callback) => {
+    console.log('bookID '+bookID);
     pool.query(`SELECT kb.* ,p.*
     FROM "KidBook" kb INNER JOIN "Person" p ON kb."kidID"=p."personID"
     WHERE kb."bookID" = $1 AND kb."review" IS NOT NULL`, [bookID], (error, results) => {
@@ -243,7 +244,8 @@ const getBookReviews = (bookID, callback) => {
 }
 //==========================================
 const BookByID = (bookID, callback) => {
-    pool.query(`SELECT * 
+    console.log('bookID '+bookID);
+    pool.query(`SELECT b.* 
     FROM "Book" b 
     WHERE b."bookID" = $1 `, [bookID], (error, results) => {
     if (error) {

@@ -57,14 +57,12 @@
 
 
 
-
-
-
-            {{!-- {{#bookData}} --}}
             {{#each bookInfoAndReviews.bookInfo}}
             <div class="wrapper">
                 <div id="one"><img src="{{pic}}"
-                        onerror="this.onerror=null;this.src='/img/books/default-book.gif';" /></div>
+                        onerror="this.onerror=null;this.src='/img/books/default-book.gif';" />
+   
+                </div>
                 <div id="two">
                     <h1>Book Name : {{bookName}} </h1>
                     <span id="author">Author: {{authorFirstName}} {{authorLastName}}</span>
@@ -75,29 +73,33 @@
                         <span class="fa fa-star"></span>
                         <span class="fa fa-star"></span>
                     </p>
+                  {{!-- add to kid list --}}
+                  <button id="addToList" data-id="{{bookID}}">Add To My List </button>    
+
                 </div>
             </div>
-              {{!-- add to kid list --}}
-            <button id="addToList" data-id="{{bookID}}">Add To My List </button>
+
             {{!-- <button id="doQuiz" data-id="{{bookID}}" >Do quiz</button> --}}
             <p id="bookID" style="display: none">{{bookID}}</p>
 
             {{!-- review section --}}
             <div class="review_section">
-                <p>Reivews:</p>
+                <h1 class="titleClass">Reivews:</h1>
                 <form method="POST" action="/kid/book/addReview">
                     <input name="bookID" type="text" value={{bookID}} style="display: none">
                     <textarea name="review" id="reviewContent" cols="80" rows="4" required></textarea>
                     <button type="submit" id="review"> Add Review</button>
                 </form>
             </div>
-            <button id="getReviews" data-id="{{bookID}}" >Show reviews</button>
-                
-          {{!-- {{/bookData}} --}}
+
           {{/each }}
 
           {{#each bookInfoAndReviews.bookReviews}}
-            <p>{{review}}</p>
+          <div class="chip">
+            <img src="../../img/icons/user.png" alt="Person" width="96" height="96">
+            <p id="reviewText">{{review}}</p>
+          </div>
+
           {{/each }}
 
          </div>

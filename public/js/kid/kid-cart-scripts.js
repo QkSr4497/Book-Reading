@@ -62,8 +62,9 @@ function checkoutFunction(){
          var id =$(this).children('.deleteItem').data('id');
          console.log('id'+ id);
          removeFromCart(id); 
+         addToMyGames(id);
          editKidPoints(leftOver);              
-        addToMyGames(id);
+
 
 
        });     
@@ -82,7 +83,7 @@ function removeFromCart(id)
              type:'DELETE',
              success: function(result) {
                  console.log('Deleting Game...');
-                window.location.href = '/kid/cart'; // redirection
+                window.location.href = '/kid/games'; // redirection
              },
              error: function(err) {
                  console.log(err);

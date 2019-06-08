@@ -285,8 +285,8 @@ router.get('/kid/single-book-page/:bookID', authenticationMiddleware(), function
     console.error('Unexpected error on idle client', err)
     process.exit(-1)
   })
-
-  queries.getBookInfoAndReviews(req.params.booID,(bookInfoAndReviews)=>{
+  console.log("query = " + req.params.bookID);
+  queries.getBookInfoAndReviews(req.params.bookID,(bookInfoAndReviews)=>{
     console.log('bookInfoAndReviews '+bookInfoAndReviews);
     //res.render('/kid/single-book-page/'+req.params.bookID, { bookDataAndReviews,userData });
      res.render('kid/single-book-page', {bookInfoAndReviews,userData });
@@ -646,8 +646,9 @@ router.post('/kid/games/add:gameID', authenticationMiddleware(), function (req, 
           console.log(error.stack);
         } else {
           done();
-          // res.redirect('/signUp.html');
-          res.render('kid/games', { "MyGames": result.rows,userData });
+
+         //res.render('kid/games', { "MyGames": result.rows,userData });
+         //res.redirect('/kid/games');
         }
       });
   
@@ -791,8 +792,36 @@ router.get('/kid/groups', authenticationMiddleware(), function (req, res) {
 
   });
 });
+//=============================================
+router.get('/kid/single-group-page/:groupID', function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
 
+    // callback - checkout a client
+    pool.connect((err, client, done) => {
+      if (err) throw err
+      console.log('req params ' + JSON.stringify(req.params));
+      console.log("req.params.groupID = " + req.params.groupID);
+      client.query(`SELECT * FROM "Group" g INNER JOIN "Person" p 
+      ON g."personID"=p."personID" WHERE g."groupID" = $1`, [req.params.groupID], (error, result) => {
+        if (error) {
+          console.log(error.stack);
+        }
+        else {
+          done();
+          console.log('book chosen: ' + JSON.stringify(result.rows[0]));
+          res.render('kid/single-group-page', { "groupData": result.rows[0], userData });
+        }
+      });
 
+    });
+  });
+});
 //===========================================
 
 
@@ -898,8 +927,8 @@ router.post('/kid/points/edit:points', authenticationMiddleware(), function (req
         console.log(error.stack);
       } else {
         done();
-        // res.redirect('/kid/cart');
-        // res.render('kid/games', { "myGames": result.rows });
+        //res.redirect('/kid/games');
+        //res.render('kid/games', { "MyGames": result.rows });
       }
     });
 
