@@ -119,7 +119,6 @@ CREATE TABLE "HasGames" (
 	"gameID" INTEGER REFERENCES "Game" ("gameID"),
 	PRIMARY KEY ("kidID", "gameID")									   
 );							   
-
 								
 CREATE TABLE "Likes" (
 	"personID" INTEGER REFERENCES "Person" ("personID"),
@@ -202,14 +201,15 @@ ALTER TABLE "UserSessions" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT
  	"postID" SERIAL PRIMARY KEY,
 	"postDate" DATE NOT NULL,
  	content TEXT NOT NULL,
-	"groupID" INTEGER REFERENCES "Group" ("groupID"),
-	"personID" INTEGER REFERENCES "Person" ("personID")
+	"groupID" INTEGER REFERENCES "Group" ("groupID") NOT NULL,
+	"personID" INTEGER REFERENCES "Person" ("personID")NOT NULL
 ); 
 	CREATE TABLE "Comment" (
 	"commentID" SERIAL PRIMARY KEY,
 	"postID" INTEGER REFERENCES "Post" ("postID") NOT NULL,
+	"personID" INTEGER REFERENCES "Person" ("personID")NOT NULL,
 	"commentDate" DATE NOT NULL,
-	 content TEXT NOT NULL,
+	 content TEXT NOT NULL
 );	
 	CREATE TABLE "Note" (
  	"noteID" SERIAL PRIMARY KEY,
@@ -218,7 +218,8 @@ ALTER TABLE "UserSessions" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT
 	"bookID" INTEGER REFERENCES "Book" ("bookID"),
 	title TEXT NOT NULL,
  	content TEXT NOT NULL,
-	type TEXT CHECK (type IN ('public','private')) NOT NULL
+	type TEXT CHECK (type IN ('public','private')) NOT NULL,
+	"pic"  TEXT
 );
 	CREATE TABLE "Image" (
 	"imageID" SERIAL PRIMARY KEY

@@ -18,12 +18,12 @@
       <div id="main">
          {{> kid_topNav}}
           <div class="my-books-style">
-           <h1 class="lang" key="myBookBoard"> My Books Board</h1>
+           <h1 class="lang" key="myBookBoard">📚 רשימת הספרים שלי</h1>
             <div class="row">
 
                 <div id="intrested" class="intrested column" ondrop="drop(event)" ondragover="allowDropIntrested(event)">
                     <div class="div_title">
-                      <h4 class="lang" key="booksIWantToRead">Books I want to read</h4>
+                      <h4 class="lang" key="booksIWantToRead">ספרים מעוניין בהם</h4>
                     </div>
                       {{#each bookDataByTypes.intrestedBooks}}
                       <form method="POST" action="/kid/books/edit">
@@ -38,7 +38,7 @@
                 <div id="reading" class="reading column" ondrop="drop(event)" ondragover="allowDropReading(event)">
                     <form id="readingForm" method="POST" action="/kid/books/edit"></form>
                     <div class="div_title">
-                      <h4 class="lang" key="booksIamReading">Books I am reading</h4>
+                      <h4 class="lang" key="booksIamReading">ספרים במהלך הקריאה</h4>
                     </div>
                       {{#each bookDataByTypes.readingBooks}}
                       
@@ -53,7 +53,7 @@
 
                 <div id="finished" class="finished column"  ondrop="drop(event)" ondragover="allowDropFinish(event)">
                   <div class="div_title">
-                    <h4 class="lang" key="finishedBooks">Books I have read</h4>
+                    <h4 class="lang" key="finishedBooks">ספרים סיימתי לקרוא</h4>
                   </div>
                     {{#each bookDataByTypes.finishedBooks}}
    

@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>Kid</title>
     {{> kid_head}}
       <!-- Main Stylesheets -->
     <link rel="stylesheet" type="text/css" href="/css/teacher/books.css" />
@@ -15,18 +15,18 @@
   <div class="navigation-style">
     <div id="mySidenav" class="sidenav">
       <a href="javascript:void(0)" class="closebtn" onclick="closeSideNav()">&times;</a>
-      <a href="kid/home" class="lang" key="home"> Home 🏠</a>
-      <a href="kid/profile" class="lang" key="myProfile">My Profile 👦</a>
-      <a href="kid/books" class="lang" key="myBooks"> My Books 📚</a>
-      <a href="kid/quizes" class="lang" key="myQuizes">My Quizes ⏱️</a>
-      <a href="kid/notes"class="lang" key="myNotes">My Notes  📄</a>
-      <a href="kid/games"class="lang" key="myGames">My Games 🎮</a>
-      <a href="kid/groups"class="lang" key="myGroups"> My Groups 👨‍👩‍👧‍👦</a>
-      <a href="kid/friends"class="lang" key="myFriends"> My Friends 👨‍👩‍</a>
-      <a href="kid/account"class="lang" key="myAccount">My Account  💳</a>
-      <a href="kid/cart" class="lang"key="myCart"> My Cart 🛒</a>
-      <a href="kid/settings"class="lang" key="settings">Settings 🔧</a>
-      <a href="logout" class="lang"key="logOut">Log Out 🏃</a>
+      <a href="/" class="lang" key="home"> 🏠דף הבית </a>
+      <a href="kid/profile" class="lang" key="myProfile">👦פרופיל </a>
+      <a href="kid/books" class="lang" key="myBooks"> 📚רשימת הספרים </a>
+      <a href="kid/quizes" class="lang" key="myQuizes">⏱️ בחנים </a>
+      <a href="kid/notes"class="lang" key="myNotes">📄הערות  </a>
+      <a href="kid/games"class="lang" key="myGames">🎮משחקים </a>
+      <a href="kid/groups"class="lang" key="myGroups">👨‍👩‍👧‍👦 קבוצות </a>
+      <a href="kid/friends"class="lang" key="myFriends">👨‍👩‍ חברים </a>
+      <a href="kid/account"class="lang" key="myAccount">💳חשבון  </a>
+      <a href="kid/cart" class="lang"key="myCart">🛒 סל קניות </a>
+      <a href="kid/settings"class="lang" key="settings">🔧הגדרות </a>
+      <a href="logout" class="lang"key="logOut">🏃יציאה </a>
     </div>
 
 
@@ -34,23 +34,23 @@
     <div id="main">
     <div  class="topnav" id="myTopnav">
     <div class="left-nav"> 
-    <a class="tablinks" class="lang" key="welcome"id="welcomeTitle">Welcome {{userData.userName}}</a><span></span>
+    <a class="tablinks" class="lang" key="welcome"id="welcomeTitle">ברוך הבא {{userData.userName}}</a><span></span>
     {{#if userData.points}}
-    <a class="tablinks" class="lang" key="myPoints" id="pointsTitle">My points: {{userData.points}}</a>
+    <a class="tablinks" class="lang" key="myPoints" id="pointsTitle">נקודות שלי: {{userData.points}}</a>
     {{/if}}
     </div>
     
     <a href="#" id="openNav" class="active" onclick="openSideNav()"><i class='far fa-user'></i></a>     
     <a href="#">KidsRead</a>
-    <a href="books" class="lang" key="books">Books</a>
-    <a href="games" class="lang" key="store">Store</a>
+    <a href="books" class="lang" key="books">ספרייה</a>
+    <a href="games" class="lang" key="store">חנות</a>
     <div class="dropdown">
-      <button class="dropbtn lang" key="language">Language 
+      <button class="dropbtn lang" key="language">שפה 
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-content">
-        <a  class="translate" id="arb" class="lang" key="arabic">Arabic</a>
-        <a  class="translate" id="heb" class="lang" key="hebrew">Hebrew</a>
+        <a  class="translate" id="arb" class="lang" key="arabic">ערבית</a>
+        <a  class="translate" id="heb" class="lang" key="hebrew">עברית</a>
       </div>
     </div> 
     <a href="javascript:void(0);" class="icon" onclick="responsiveNav()">
@@ -59,7 +59,7 @@
     </div>
     <div class="home-style">
         <div class="home-container">
-            <h2 class="lang" key="readingToday">?What will you read today</h2>
+            <h2 class="lang" key="readingToday">מה רוצה לקרוא היום?</h2>
           <form class="search-container">
           <input type="text" name="search" id="searchInput"  onkeyup="myFunction()" placeholder="🔍">
           </form>
@@ -93,7 +93,7 @@
           <div class="card_image"> <img src="{{pic}}"
               onerror="this.onerror=null;this.src='/img/books/default-book.gif';" /></div>
           <div class="card_title title-white">
-            <p>{{bookName}}</p>
+            <p style="color: #2c2c54">{{bookName}}</p>
           </div>
         </div>
         <br><br>

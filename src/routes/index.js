@@ -695,11 +695,12 @@ router.post('/kid/notes/add', authenticationMiddleware(), function (req, res) {
     console.error('Unexpected error on idle client', err)
     process.exit(-1)
   })
-
+  var nowDate = new Date(); 
+  var date = nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate(); 
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err
-    client.query('INSERT INTO "Note"("personID", "title", "content","type" ) VALUES($1, $2,$3,$4)',[userData.userID, req.body.title, req.body.content, 'private'], (error, result) => {
+    client.query('INSERT INTO "Note" ("date","personID", "title", "content","type","pic" ) VALUES($1, $2,$3,$4,$5,$6)',[date,userData.userID, req.body.title, req.body.content, 'private',req.body.pic], (error, result) => {
       if (error) {
         console.log(error.stack);
       } else {

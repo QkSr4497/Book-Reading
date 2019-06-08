@@ -5,6 +5,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no,minimal-ui">
     <title>Tower</title>
+    <link rel="stylesheet" href="../../css/kid/navbar.css">
     <style>
         * {
             margin: 0;
@@ -361,6 +362,17 @@
     </style>
 </head>
 <body>
+        <div id="main">
+                <div  class="topnav" id="myTopnav">   
+                    <a href="#" id="openNav" class="active" onclick="openSideNav()"><i class='far fa-user'></i></a>     
+                    <a href="#">KidsRead</a>
+                    <a href="/" class="lang" key="books">Home</a>
+                    <a href="javascript:void(0);" class="icon" onclick="responsiveNav()">
+                    <i class="fa fa-bars"></i>
+                    </a>
+                    </div>
+        </div>
+
 <canvas id="canvas" class="hide"></canvas>
 <div class="content">
     <div class="loading">

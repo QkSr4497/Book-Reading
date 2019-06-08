@@ -25,7 +25,7 @@
              <button class="collapsible"><span class="arrow"><i class='fas fa-angle-down'></i>&nbsp;&nbsp;&nbsp;</span>{{title}} </button>
               <div class="content">
                 <p>{{content}}</p>
-                <p></p>
+                <img src={{pic}} alt="">
                 <button style="font-size:24px" class="updateNote" name="{{noteID}}" 
                 data-id="{{noteID}}" 
                 data-title="{{title}}"
@@ -52,7 +52,7 @@
           <textarea name="content" rows="8" cols="100" placeholder="Enter your thoughts"  required value=""></textarea>
 
           <label for="file"><b>upload your drawings 🎨</b></label>
-          <input value="" type="file" id="group-image" name="img" placeholder="Add a title image" accept="image/gif, image/jpeg, image/jpg, image/svg+xml, image/svg, image/png, image/x-png, image/pjpeg">
+          <input value=""   type="file" id="group-image" name="pic" placeholder="Add a title image" accept="image/gif, image/jpeg, image/jpg, image/svg+xml, image/svg, image/png, image/x-png, image/pjpeg">
 
           <button type="button" onclick="document.getElementById('newnote').style.display='none'" class="cancelbtn">Cancel</button>
           <button type="submit" name="button" class="okbtn">Add new book</button>
