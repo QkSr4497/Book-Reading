@@ -1,0 +1,140 @@
+header {
+    max-height: 20px;
+  }
+
+.wrapper { 
+    border : 2px  #ccc; padding: 2px;
+     
+  }
+  
+  .wrapper div {
+     width: 100%; 
+     min-height: 250px;
+     padding: 10px;
+     -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+     box-sizing: border-box;
+      justify-content: center;
+  }
+  #one { 
+      background-color: #d1d8e0;
+      align-items: center;
+      text-align:center;
+  }
+  #two { 
+   text-align:center;
+   align-items: center;
+   background-color: #d1d8e0;
+   justify-content: center;
+   /* background-image:linear-gradient(to left,#dfe6e9,rgb(162,155,254)); */
+     
+     }
+  
+  /* This will style any <img> element in .parent div */
+  #one img {
+    max-width:100%;
+    max-height:100%;
+    border-radius: 50%;
+     
+  }
+  
+   #two h1 {
+       padding-top: 30px;
+      color: #2c2c54;
+  }
+  #author {
+      color: #2c2c54;
+  }
+  
+  
+
+  
+  @media screen and (min-width: 600px) {
+     .wrapper {
+        height: auto; overflow: hidden; 
+     }
+     #one { width: 300px; float: left; }
+     #two { margin-left: 200px; }
+  }
+  .checked {
+    color: orange;
+  }
+/* Create two equal columns that floats next to each other */
+.column80 {
+    float: right;
+    width: 80%;
+    height: 400px;
+  }
+ 
+.column20 {
+    float: right;
+    width: 19%;
+    height: 400px;
+    border-right: solid #ccc;
+    background-color: #eee;
+    text-align: center;
+    /* box-shadow:  0px 0px 10px 3px #888888; */
+  }
+  /* Clear floats after the columns */
+  .row:after {
+      widows: 100%;
+    content: "";
+    display: table;
+    clear: both;
+  }
+  ul{
+      width: 100%;
+  }
+  li{
+      width: 99%;
+      border:1px solid #ccc;
+      background-color:rgba(112,111,211,0.5);
+      text-align: center;
+      padding: 4px;
+      cursor: pointer;
+      position: relative;
+      padding: 12px 8px 12px 40px;
+      list-style-type: none;
+      font-size: 18px;
+  }
+
+  .container {
+    border: 2px solid #ccc;
+    background-color: #eee;
+    border-radius: 5px;
+    padding: 16px;
+    margin: 16px 0
+  }
+  
+  .container::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  .container img {
+    float: right;
+    width: 20px;
+    height: 60px;
+    margin-right: 20px;
+    border-radius: 50%;
+  }
+  
+  .container span {
+    font-size: 20px;
+    margin-right: 15px;
+  }
+  
+  @media (max-width: 500px) {
+    .container {
+        text-align: center;
+    }
+    .container img {
+        margin: auto;
+        float: none;
+        display: block;
+    }
+  }
+  #addComment{
+      float: left;
+  }

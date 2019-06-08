@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>HTML5 Pacman</title>
+    <link rel="stylesheet" href="../../css/kid/navbar.css">
     
     <style type="text/css">
       @font-face {
@@ -29,7 +30,17 @@
 </head>
 
 <body>
-  
+    <div id="main">
+        <div  class="topnav" id="myTopnav">   
+            <a href="#" id="openNav" class="active" onclick="openSideNav()"><i class='far fa-user'></i></a>     
+            <a href="#">KidsRead</a>
+            <a href="/" class="lang" key="books">Home</a>
+            <a href="javascript:void(0);" class="icon" onclick="responsiveNav()">
+            <i class="fa fa-bars"></i>
+            </a>
+            </div>
+        </div>
+
   <div id="shim">shim for font face</div>
 
   <h1>HTML5 Pacman</h1>

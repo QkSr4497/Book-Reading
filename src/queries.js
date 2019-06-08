@@ -267,6 +267,86 @@ const getBookInfoAndReviews= (bookID, callback) => {
             }); 
     });
 }
+
+//===========================================
+const getGroupData = (groupID, callback) => {
+    console.log('groupID Info '+groupID);
+    pool.query(`SELECT g.*, p.*
+    FROM "Group" g INNER JOIN "Person" p ON g."personID"=p."personID"
+    WHERE g."groupID" = $1 `, [groupID], (error, results) => {
+    if (error) {
+        throw error
+    }
+    callback(results.rows);
+ });
+}
+const getGroupAdminMembers = (groupID, callback) => {
+    console.log('groupID Admin '+groupID);
+    pool.query(`SELECT ig.*, p.*
+    FROM "InGroup" ig INNER JOIN "Person" p ON ig."personID"=p."personID"
+    WHERE ig."groupID" = $1 AND ig."type"=$2`, [groupID,'admin'], (error, results) => {
+    if (error) {
+        throw error
+    }
+    callback(results.rows);
+ });
+}
+const getGroupKidMembers = (groupID, callback) => {
+    console.log('groupID member '+groupID);
+    pool.query(`SELECT ig.*, p.*
+    FROM "InGroup" ig INNER JOIN "Person" p ON ig."personID"=p."personID"
+    WHERE ig."groupID" = $1 AND ig."type"=$2`, [groupID,'kid'], (error, results) => {
+    if (error) {
+        throw error
+    }
+    callback(results.rows);
+ });
+}
+
+const getGroupPosts = (groupID, callback) => {
+    console.log('groupID Post '+groupID);
+    pool.query(`SELECT po.*, p.*
+    FROM "Post" po INNER JOIN "Person" p ON po."personID"=p."personID"
+    WHERE po."groupID" = $1 `, [groupID], (error, results) => {
+    if (error) {
+        throw error
+    }
+    callback(results.rows);
+ });
+}
+// const getGroupPostComments = (groupID, callback) => {
+//     console.log('groupID '+groupID);
+//     pool.query(`SELECT c.*, p.*
+//     FROM "Comment" c INNER JOIN "Person" p ON c."personID"=p."personID"
+//     WHERE c."groupID" = $1 `, [groupID], (error, results) => {
+//     if (error) {
+//         throw error
+//     }
+//     callback(results.rows);
+//  });
+// }
+
+const getAllAboutGroup= (groupID, callback) => { 
+    getGroupData(groupID,(groupData)=>{ 
+        getGroupAdminMembers(groupID,(groupAdminMembers)=>{ 
+            getGroupKidMembers(groupID,(groupKidMembers)=>{ 
+                getGroupPosts(groupID,(groupPosts)=>{ 
+                   // getGroupPostComments(groupPostComments,(bookInfo)=>{  
+                          callback({
+                            groupData,
+                            groupAdminMembers,
+                            groupKidMembers,
+                            groupPosts
+                        //    GroupPostComments
+                        });
+                     //}); 
+                 });
+            });
+        }); 
+    });
+}
+
+
 module.exports = {
     getUsers,
     getUserTypeById,
@@ -281,5 +361,12 @@ module.exports = {
     getBooksAccordingToTypes,
     getBookReviews,
     BookByID,
-    getBookInfoAndReviews
+    getBookInfoAndReviews,
+    getGroupData,
+    getGroupAdminMembers,
+    getGroupKidMembers,
+    getGroupPosts,
+   // getGroupPostComments,
+    getAllAboutGroup
+
 }

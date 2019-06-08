@@ -35,10 +35,6 @@ CREATE TABLE "Supervisor" (
 	phone TEXT NOT NULL
 ); 
 
-CREATE TABLE "Post" (
- 	"postID" SERIAL PRIMARY KEY,
- 	content TEXT NOT NULL
-); 
 
 
 CREATE TABLE "Category" (
@@ -118,37 +114,18 @@ CREATE TABLE "Cart" (
 );					 
 	
 
-CREATE TABLE "Account" (
-	"operationID" SERIAL PRIMARY KEY,
-	"kidID" INTEGER REFERENCES "Kid" ("kidID"),
-	"gameID" INTEGER REFERENCES "Game" ("gameID"),
-	"quizID" INTEGER REFERENCES "Quiz" ("quizID"),
-	type TEXT CHECK (type IN ('in', 'out')) NOT NULL							   
-);	
-
 CREATE TABLE "HasGames" (
 	"kidID" INTEGER REFERENCES "Kid" ("kidID"),
 	"gameID" INTEGER REFERENCES "Game" ("gameID"),
 	PRIMARY KEY ("kidID", "gameID")									   
 );							   
-CREATE TABLE "Note" (
- 	"noteID" SERIAL PRIMARY KEY,
-	"date" DATE NOT NULL,
-	"personID" INTEGER REFERENCES "Person" ("personID") NOT NULL,
-	"bookID" INTEGER REFERENCES "Book" ("bookID"),
-	title TEXT NOT NULL,
- 	content TEXT NOT NULL,
-	type TEXT CHECK (type IN ('public','private')) NOT NULL
-);
-	CREATE TABLE "Image" (
-	"imageID" SERIAL PRIMARY KEY
-);
-	
-	CREATE TABLE "ImageNote" (
-	"noteID" INTEGER REFERENCES "Note" ("noteID") NOT NULL,
-	"imageID" INTEGER REFERENCES "Image" ("imageID")NOT NULL,
-);
-				 
+
+								
+CREATE TABLE "Likes" (
+	"personID" INTEGER REFERENCES "Person" ("personID"),
+	"postID" INTEGER REFERENCES "Post" ("postID"),
+	PRIMARY KEY ("personID", "postID")									   
+);								
 CREATE TABLE "WritesPost" (
 	"personID" INTEGER REFERENCES "Person" ("personID"),
 	"postID" INTEGER REFERENCES "Post" ("postID"),
@@ -161,13 +138,7 @@ CREATE TABLE "WritesComment" (
 	"postID" INTEGER REFERENCES "Post" ("postID"),
 	"commentDate" DATE NOT NULL,
 	PRIMARY KEY ("personID", "postID")									   
-);		
-							
-CREATE TABLE "Likes" (
-	"personID" INTEGER REFERENCES "Person" ("personID"),
-	"postID" INTEGER REFERENCES "Post" ("postID"),
-	PRIMARY KEY ("personID", "postID")									   
-);								
+);	
 
 CREATE TABLE "WritesNote" (
 	"bookID" INTEGER REFERENCES "Book" ("bookID"),
@@ -175,6 +146,7 @@ CREATE TABLE "WritesNote" (
 	"personID" INTEGER REFERENCES "Person" ("personID") UNIQUE,
 	PRIMARY KEY ("personID", "noteID")									   
 );
+
 							
 CREATE TABLE "BookHas" (
 	"bookID" INTEGER REFERENCES "Book" ("bookID"),
@@ -225,4 +197,36 @@ ALTER TABLE "UserSessions" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT
 	"personID" INTEGER REFERENCES "Person" ("personID"),
 	type TEXT CHECK (type IN ('kid', 'admin')) NOT NULL,
 	PRIMARY KEY ("groupID", "personID")								   
-);							
+);	
+	CREATE TABLE "Post" (
+ 	"postID" SERIAL PRIMARY KEY,
+	"postDate" DATE NOT NULL,
+ 	content TEXT NOT NULL,
+	"groupID" INTEGER REFERENCES "Group" ("groupID"),
+	"personID" INTEGER REFERENCES "Person" ("personID")
+); 
+	CREATE TABLE "Comment" (
+	"commentID" SERIAL PRIMARY KEY,
+	"postID" INTEGER REFERENCES "Post" ("postID") NOT NULL,
+	"commentDate" DATE NOT NULL,
+	 content TEXT NOT NULL,
+);	
+	CREATE TABLE "Note" (
+ 	"noteID" SERIAL PRIMARY KEY,
+	"date" DATE NOT NULL,
+	"personID" INTEGER REFERENCES "Person" ("personID") NOT NULL,
+	"bookID" INTEGER REFERENCES "Book" ("bookID"),
+	title TEXT NOT NULL,
+ 	content TEXT NOT NULL,
+	type TEXT CHECK (type IN ('public','private')) NOT NULL
+);
+	CREATE TABLE "Image" (
+	"imageID" SERIAL PRIMARY KEY
+);
+	
+	CREATE TABLE "ImageNote" (
+	"noteID" INTEGER REFERENCES "Note" ("noteID") NOT NULL,
+	"imageID" INTEGER REFERENCES "Image" ("imageID")NOT NULL,
+);
+
+						

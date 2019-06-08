@@ -5,72 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="../../css/navbar.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="../../css/kid/navbar.css">
 </head>
 <body>
-        <header>
-                <div class="topnav" id="myTopnav">
-                        <a href="#home" class="active" class="openbtn" alt="" onclick="openNav()">
-                         <i class="fas fa-user-circle"></i> 
-                        </a>                
-                        <a href="#news">Books</a>
-                        <a href="#contact">Games</a>
-
-                        <form action="">
-                            <input type="text" placeholder="Search.." name="search">
-                            <button type="submit">&#128269;</button>
-                        </form>
-
-                        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-                          <i class="fa fa-bars"></i>
-                        </a>
-                </div>
-                    
-    
-                            
-                <div id="mySidenav" class="sidenav">
-                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                        <a href="#">&#128218; My Books </a>
-                        <a href="#">🎮 My Games</a>
-                        <a href="#">👨‍👩‍👧‍👦  My Groups</a>
-                        <a href="#">&#128107; My Friends</a>
-                        <a href="#">&#128102; My Profile</a>
-                        <a href="my_account.html">&#128179; My Account</a>
-                        <a href="my_account.html">🛒 My Card</a>
-                        <a href="#">&#128295; Settings</a>
-                        <a href="#">&#127939; Log Out</a>
-                      </div>
-             
-             <div id="main">
-                 <h1>aaaaaaaaaaa</h1>
-             </div>
-             
-
-             
-                            
-            <script>
-            function myFunction() {
-            var x = document.getElementById("myTopnav");
-            if (x.className === "topnav") {
-                x.className += " responsive";
-            } else {
-                x.className = "topnav";
-            }
-            }
-            </script>
-            <script>
-                function openNav() {
-                document.getElementById("mySidenav").style.width = "250px";
-                document.getElementById("main").style.marginLeft = "250px";
-                }
-                
-                function closeNav() {
-                document.getElementById("mySidenav").style.width = "0";
-                document.getElementById("main").style.marginLeft= "0";
-                }
-            </script>
-        </header>
-    </body>
+    <div id="main">
+    <div  class="topnav" id="myTopnav">   
+        <a href="#" id="openNav" class="active" onclick="openSideNav()"><i class='far fa-user'></i></a>     
+        <a href="#">KidsRead</a>
+        <a href="../../../templates/views/kid-page.hbs" class="lang" key="books">Home</a>
+        <a href="../books" class="lang" key="books">Books</a>
+        <a href="../games" class="lang" key="store">Store</a>
+        <a href="#" class="notification"><i class="fa fa-bell"></i>
+            <span class="badge">3</span>
+        </a>
+        <a href="javascript:void(0);" class="icon" onclick="responsiveNav()">
+        <i class="fa fa-bars"></i>
+        </a>
+        </div>
+    </div>
+</body>
 </html>

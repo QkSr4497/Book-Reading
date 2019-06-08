@@ -7,7 +7,7 @@
     <title>Kid-Read: {{bookData.bookName}}</title>
     {{> kid_head}}
     	<!-- Main Stylesheets -->
-    <link rel="stylesheet" type="text/css" href="/css/kid/single-book-page.css" />
+    <link rel="stylesheet" type="text/css" href="/css/kid/single-group-page.css" />
 </head>
 <body>
   <div class="navigation-style">
@@ -54,30 +54,69 @@
     </a>
     </div>
 
-            {{#groupData}}
+            {{!-- {{#groupData}} --}}
+          {{#each allAboutGroup.groupData}}
             <div class="wrapper">
                 <div id="one"><img src="{{pic}}"
-                        onerror="this.onerror=null;this.src='/img/books/default-book.gif';" /></div>
+                        onerror="this.onerror=null;this.src='/img/groups/default-group.gif';" /></div>
                 <div id="two">
                     <h1>Group Name : {{groupName}} </h1>
                     <span id="createdBy">Created By: {{userName}}</span>
                 </div>
             </div>
+         
             <div class="row">
                 <div class="column80">
+                 <h2>Posts And Comments</h2>
+                 <div class="container">
+                   
+                 
+                    <form method="POST" action="/post/add">
+                      <input type="text" name="groupID" value={{groupID}} style="display: none">
+                      <textarea name="content" id="commentContent" cols="80" rows="5" required></textarea>
+                      <br>
+                      <input type="submit" value="הוסף פוסט">
+                    </form>
+                  </div>
+            {{/each }}
 
+
+
+                    {{#each allAboutGroup.groupPosts}}
+                    <div class="container">
+                      <img id="postImg" src="../../img/icons/chat_1.png"  alt="Avatar" style="width:90px">
+                      <p>{{userName}}</p>
+                      <p>{{postDate}}</p>
+                      <p>{{content}}</p>
+                      <button id="addComment">Add Comment</button>
+                    </div>
+                    {{/each }}
                 </div>
+
+
+
+
+                {{!-- admin and kids --}}
                 <div class="column20">
-                    
+                  <p>Admins: </p>
+                {{#each allAboutGroup.groupAdminMembers}}
+                  <ul>
+                    <li>{{userName}}</li>
+                  </ul>
+                   {{/each }}
+                   <p>Members: </p>
+                  {{#each allAboutGroup.groupKidMembers}}
+                  <ul>
+                    <li>{{userName}}</li>
+                  </ul>
+                   {{/each }}
                 </div>
             </div>
 
-          {{/groupData}}
-
+          {{!-- {{/groupData}} --}}
 
          </div>
     </div>
-
 
 
 

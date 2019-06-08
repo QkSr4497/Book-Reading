@@ -504,7 +504,8 @@ router.get('/kid/profile', authenticationMiddleware(), function (req, res) {
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err
-    client.query('SELECT p.*,DATE(k."birthDate" ), k."points" FROM "Person" p INNER JOIN "Kid" k ON p."personID"=k."kidID" WHERE p."personID"=$1',[userData.userID], (error, result) => {
+    client.query(`SELECT p.*,DATE_TRUNC('day',k."birthDate" ) AS birth, k."points" 
+    FROM "Person" p INNER JOIN "Kid" k ON p."personID"=k."kidID" WHERE p."personID"=$1`,[userData.userID], (error, result) => {
       if (error) {
         console.log(error.stack);
       } else {
@@ -793,38 +794,84 @@ router.get('/kid/groups', authenticationMiddleware(), function (req, res) {
   });
 });
 //=============================================
-router.get('/kid/single-group-page/:groupID', function (req, res) {
+// router.get('/kid/single-group-page/:groupID', function (req, res) {
+//   // the pool with emit an error on behalf of any idle clients
+//   // it contains if a backend error or network partition happens
+//   queries.getUserById(req.user, (userData) => {
+//     pool.on('error', (err, client) => {
+//       console.error('Unexpected error on idle client', err)
+//       process.exit(-1)
+//     })
+
+//     // callback - checkout a client
+//     pool.connect((err, client, done) => {
+//       if (err) throw err
+//       console.log('req params ' + JSON.stringify(req.params));
+//       console.log("req.params.groupID = " + req.params.groupID);
+//       client.query(`SELECT * FROM "Group" g INNER JOIN "Person" p 
+//       ON g."personID"=p."personID" WHERE g."groupID" = $1`, [req.params.groupID], (error, result) => {
+//         if (error) {
+//           console.log(error.stack);
+//         }
+//         else {
+//           done();
+//           console.log('book chosen: ' + JSON.stringify(result.rows[0]));
+//           res.render('kid/single-group-page', { "groupData": result.rows[0], userData });
+//         }
+//       });
+
+//     });
+//   });
+// });
+//===========================================
+router.get('/kid/single-group-page/:groupID', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  console.log('req params ' + JSON.stringify(req.params));
+  console.log("req.params.bookID = " + req.params.groupID);
+  queries.getUserById(req.user, (userData) => {
+  pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err)
+    process.exit(-1)
+  })
+  console.log("query = " + req.params.groupID);
+  queries.getAllAboutGroup(req.params.groupID,(allAboutGroup)=>{
+    console.log('GroupInfoAndPosts '+allAboutGroup);
+    //res.render('/kid/single-book-page/'+req.params.bookID, { bookDataAndReviews,userData });
+     res.render('kid/single-group-page', {allAboutGroup,userData });
+    
+  })
+});
+});
+//=====================================================
+//kid add this game from Store
+router.post('/post/add', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
   queries.getUserById(req.user, (userData) => {
-    pool.on('error', (err, client) => {
-      console.error('Unexpected error on idle client', err)
-      process.exit(-1)
-    })
+  pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err)
+    process.exit(-1)
+  })
 
-    // callback - checkout a client
-    pool.connect((err, client, done) => {
-      if (err) throw err
-      console.log('req params ' + JSON.stringify(req.params));
-      console.log("req.params.groupID = " + req.params.groupID);
-      client.query(`SELECT * FROM "Group" g INNER JOIN "Person" p 
-      ON g."personID"=p."personID" WHERE g."groupID" = $1`, [req.params.groupID], (error, result) => {
-        if (error) {
-          console.log(error.stack);
-        }
-        else {
-          done();
-          console.log('book chosen: ' + JSON.stringify(result.rows[0]));
-          res.render('kid/single-group-page', { "groupData": result.rows[0], userData });
-        }
-      });
-
+  // callback - checkout a client
+  pool.connect((err, client, done) => {
+    var nowDate = new Date(); 
+    var date = nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate(); 
+    console.log(date);
+    if (err) throw err
+    client.query('INSERT INTO "Post" ("postDate", "content","groupID","personID") VALUES($1, $2,$3,$4)',[date,req.body.content,req.body.groupID,userData.userID], (error, result) => {
+      if (error) {
+        console.log(error.stack);
+      } else {
+        done();
+        res.redirect('/kid/single-group-page/'+req.body.groupID);
+      }
     });
   });
 });
-//===========================================
-
-
+});
+//===============================================================
 
 
 router.get('/kid/friends', authenticationMiddleware(), function (req, res) {
@@ -937,31 +984,7 @@ router.post('/kid/points/edit:points', authenticationMiddleware(), function (req
 });
 
 //---------------------------------------------------------------
-router.get('/kid/account', authenticationMiddleware(), function (req, res) {
-  // the pool with emit an error on behalf of any idle clients
-  // it contains if a backend error or network partition happens
-  queries.getUserById(req.user, (userData) => {
-  pool.on('error', (err, client) => {
-    console.error('Unexpected error on idle client', err)
-    process.exit(-1)
-  })
 
-  // callback - checkout a client
-  pool.connect((err, client, done) => {
-    if (err) throw err
-    client.query('SELECT a.* FROM "Account" a INNER JOIN "Game" g ON a."gameID"=g."gameID" WHERE c."kidID"=$1' ,[userData.userID], (error, result) => {
-      if (error) {
-        console.log(error.stack);
-      } else {
-        done();
-        // res.redirect('/signUp.html');
-        res.render('kid/cart', { "myCart": result.rows ,userData});
-      }
-    });
-
-  });
-});
-});
 
 
 //=======================================================
