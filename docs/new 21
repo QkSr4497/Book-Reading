@@ -1,0 +1,31 @@
+const getCheckedMessages = (personID, callback) => {
+    pool.query(`SELECT m.*,gm.*
+    FROM "GetMessage" gm INNER JOIN "Message" m  ON gm."messageID"=m."messageID" INNER JOIN "Person" p ON m."personID"=p."personID"
+    WHERE gm."personID" = $1 AND m."checked"=$2`, [personID,'Y'], (error, results) => {
+    if (error) {
+        throw error
+    }
+    callback(results.rows);
+ });
+}
+const getUncheckedMessages = (personID, callback) => {
+    pool.query(`SELECT m.*,gm.*
+    FROM "GetMessage" gm INNER JOIN "Message" m  ON gm."messageID"=m."messageID" INNER JOIN "Person" p ON m."personID"=p."personID"
+    WHERE gm."personID" = $1 AND m."checked"=$2`, [personID,'N'], (error, results) => {
+    if (error) {
+        throw error
+    }
+    callback(results.rows);
+ });
+}
+
+const getAllMessages= (personID, callback) => { 
+    getCheckedMessages(personID,(checkedMessage)=>{ 
+		getUncheckedMessages(personID,(uncheckedMessage)=>{  
+		  callback({
+			checkedMessage,
+			uncheckedMessage
+				});
+		}); 
+	});
+}

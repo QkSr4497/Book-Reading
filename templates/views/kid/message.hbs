@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Kid Books</title>
+  {{> kid_head}}
+
+</head>
+
+<body>
+  <div class="navigation-style">
+  {{> kid_sideNav}}
+    <div id="main">
+    {{> kid_topNav}}
+        <div class="message-style">
+         <h1 class="lang" key="myMessagesList"> ✉️רשימת ההודעות שלי </h1>
+            <div class="row">
+                <div class="column1">
+                <p> הודעות חדשות</p>
+                {{#each userMessages.uncheckedMessage}}
+                <button class="collapsible">
+                    <p><span>שולח</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>{{userName}}</span></p>
+                   <p><span>נושא</span>&nbsp; &nbsp;&nbsp; &nbsp; <span>{{subject}}</span></p>
+                </button>
+                <div class="content">
+                <p>{{content}}</p>
+                <br>
+                  <button style="font-size:20px" class="updateChecked" data-id="{{messageID}}"> &#10095;</button>
+                </div>
+                {{/each }}
+                </div>
+                <div class="column2">
+                <p>הודעות נקראו</p>
+                 {{#each userMessages.checkedMessage}}
+                <button id="updateChecked" data-id={{messageID}} class="collapsible">
+                    <p><span>שולח</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>{{userName}}</span></p>
+                   <p><span>נושא</span>&nbsp; &nbsp;&nbsp; &nbsp; <span>{{subject}}</span></p>
+                </button>
+                <div class="content">
+                <p>{{content}}</p>
+                <button style="font-size:20px" class="updateUnchecked" data-id="{{messageID}}">&#10094;</button>
+                </div>
+                {{/each }}        
+                </div>
+            </div>  
+        </div>
+{{!-- main --}}
+  </div>
+</div>
+
+
+ {{> kid_footer}}
+ <script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+        content.style.display = "none";
+        } else {
+        content.style.display = "block";
+        }
+    });
+    }
+    </script>
+        <script>
+        $(document).ready(function() {
+            $('.updateUnchecked').on('click', function() {    // function will run on click
+                var id = $(this).data('id');    // gettin the id from the data-id attribute
+                var url = '/kid/message/updateUnchecked' + id;
+                    $.ajax({
+                        url: url,
+                        type:'POST',
+                        success: function(result) {
+                        console.log('Message is checked...');
+                        window.location.href = '/kid/message'; // redirection
+                        },
+                        error: function(err) {
+                            console.log(err);
+                        }
+                    });
+            });
+
+                $('.updateChecked').on('click', function() {    // function will run on click
+                var id = $(this).data('id');    // gettin the id from the data-id attribute
+                var url = '/kid/message/updateChecked' + id;
+                    $.ajax({
+                        url: url,
+                        type:'POST',
+                        success: function(result) {
+                        console.log('Message is checked...');
+                        window.location.href = '/kid/message'; // redirection
+                        },
+                        error: function(err) {
+                            console.log(err);
+                        }
+                    });
+            });
+
+        });
+    </script>
+</body>
+
+</html>

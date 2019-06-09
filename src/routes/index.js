@@ -927,7 +927,76 @@ router.get('/kid/friends', authenticationMiddleware(), function (req, res) {
 });
 });
 
+//==========================================================
 
+//=======================================================
+router.get('/kid/message', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+  
+    queries.getAllMessages(userData.userID,(userMessages)=>{
+      console.log(userMessages);
+      res.render('kid/message', { userMessages,userData });
+      
+    })
+  });
+});
+//=========================================================
+router.post('/kid/message/updateChecked:messageID', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
+  pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err)
+    process.exit(-1)
+  })
+  console.log('messageID to update '+req.params.messageID);
+  // callback - checkout a client
+  pool.connect((err, client, done) => {
+    if (err) throw err
+    client.query('UPDATE "GetMessage" SET "checked" = $1 WHERE "personID" = $2 AND "messageID"=$3' ,['Y',userData.userID,req.params.messageID], (error, result) => {
+      if (error) {
+        console.log(error.stack);
+      } else {
+        done();
+        res.redirect('/kid/message');
+        //res.render('kid/games', { "MyGames": result.rows });
+      }
+    });
+
+  });
+});
+});
+router.post('/kid/message/updateUnchecked:messageID', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
+  pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err)
+    process.exit(-1)
+  })
+  console.log('messageID to update '+req.params.messageID);
+  // callback - checkout a client
+  pool.connect((err, client, done) => {
+    if (err) throw err
+    client.query('UPDATE "GetMessage" SET "checked" = $1 WHERE "personID" = $2 AND "messageID"=$3' ,['N',userData.userID,req.params.messageID], (error, result) => {
+      if (error) {
+        console.log(error.stack);
+      } else {
+        done();
+        res.redirect('/kid/message');
+        //res.render('kid/games', { "MyGames": result.rows });
+      }
+    });
+
+  });
+});
+});
 //============================================================
 router.get('/kid/cart', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients

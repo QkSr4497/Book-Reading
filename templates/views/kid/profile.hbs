@@ -28,17 +28,17 @@
 
 
        <div class="detail-container">
-         <p> <span>{{userName}}</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>User Name</span></p>
+         <p><span>שם משתמש</span>&nbsp; &nbsp;&nbsp; &nbsp; <span>{{userName}}</span></p>
          <hr>
-         <p> <span>{{firstName}}</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>First Name</span></p>
+         <p> <span>שם פרטי</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>{{firstName}}</span></p>
          <hr>
-         <p> <span>{{lastName}}</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>Last Name</span></p>
+         <p><span>שם משפחה</span> &nbsp; &nbsp;&nbsp; &nbsp;<span>{{lastName}}</span></p>
          <hr>
-         <p> <span>{{birth}}</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>BirthDate</span></p>
+         <p> <span>תאריך לידה</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>{{birth}}</span></p>
          <hr>
-         <p> <span>{{points}}</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>Points</span></p>
+         <p> <span>נקודות</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>{{points}}</span></p>
          <hr>
-        <button id="profileUpdatebtn" onclick="document.getElementById('editProfile').style.display='block'"> Update</button>
+        <button id="profileUpdatebtn" onclick="document.getElementById('editProfile').style.display='block'">עדכן פרופייל</button>
 
 
        </div>    
@@ -54,20 +54,18 @@
           <div class="imgcontainer">
             <img src="/img/icons/kidreads.png" alt="Avatar" class="avatar">
           </div>
-          <label for="title"><b>User name</b></label>
+          <label for="title"><b>שם משתמש</b></label>
           <input type="text" placeholder="Enter Title" name="title" required value="">
-          <label for="title"><b>First name</b></label>
+          <label for="title"><b>שם פרטי</b></label>
           <input type="text" placeholder="Enter Title" name="title" required value="">
-          <label for="title"><b>Last name</b></label>
+          <label for="title"><b>שם משפחה</b></label>
           <input type="text" placeholder="Enter Title" name="title" required value="">
-          <label for="title"><b>Birth Date</b></label>
+          <label for="title"><b>סיסמא</b></label>
           <input type="text" placeholder="Enter Title" name="title" required value="">
-          <label for="title"><b>Password</b></label>
-          <input type="text" placeholder="Enter Title" name="title" required value="">
-          <label for="title"><b>BirthDate</b></label>
+          <label for="title"><b>תאריך לידה</b></label>
           <input type="date" placeholder="Enter Title" name="title" required value="">
-          <button type="submit" name="button" class="okbtn">Update</button>
-          <button type="button" onclick="document.getElementById('editProfile').style.display='none'" class="cancelbtn">Cancel</button>
+          <button type="submit" name="button" class="okbtn">עדכן</button>
+          <button type="button" onclick="document.getElementById('editProfile').style.display='none'" class="cancelbtn">ביטול</button>
 
          </div>
        </form>

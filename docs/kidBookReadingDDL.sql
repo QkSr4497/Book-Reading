@@ -124,6 +124,7 @@ CREATE TABLE "Post" (
 );
 	CREATE TABLE "Image" (
 	"imageID" SERIAL PRIMARY KEY
+	"img" Text NOT NULL
 );							
 							
 CREATE TABLE "Teaches" (
@@ -220,7 +221,18 @@ CREATE TABLE "KidBook" (
 	PRIMARY KEY ("kidID", "bookID")								   
 );		
 
-				 
+		CREATE TABLE "Message" (
+ 	"messageID" SERIAL PRIMARY KEY,
+	"date" DATE NOT NULL,
+	"personID" INTEGER REFERENCES "Person" ("personID") NOT NULL,
+	subject TEXT NOT NULL,
+ 	content TEXT NOT NULL
+);
+	CREATE TABLE "GetMessage" (
+ 	"messageID" SERIAL PRIMARY KEY,
+	"personID" INTEGER REFERENCES "Person" ("personID") NOT NULL,
+	checked CHAR(1) CHECK (checked IN ('Y','N')) NOT NULL
+);					 
 -- a table for session to store sessions persistently
 CREATE TABLE "UserSessions" ( 
   	"sid" varchar NOT NULL COLLATE "default",

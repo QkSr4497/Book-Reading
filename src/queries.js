@@ -546,6 +546,38 @@ const getAllAboutGroup= (groupID, callback) => {
     });
 }
 
+//========================================
+const getCheckedMessages = (personID, callback) => {
+    pool.query(`SELECT m.*,gm.*,p.*
+    FROM "GetMessage" gm INNER JOIN "Message" m  ON gm."messageID"=m."messageID" INNER JOIN "Person" p ON m."personID"=p."personID"
+    WHERE gm."personID" = $1 AND gm."checked"=$2`, [personID,'Y'], (error, results) => {
+    if (error) {
+        throw error
+    }
+    callback(results.rows);
+ });
+}
+const getUncheckedMessages = (personID, callback) => {
+    pool.query(`SELECT m.*,gm.*,p.*
+    FROM "GetMessage" gm INNER JOIN "Message" m  ON gm."messageID"=m."messageID" INNER JOIN "Person" p ON m."personID"=p."personID"
+    WHERE gm."personID" = $1 AND gm."checked"=$2`, [personID,'N'], (error, results) => {
+    if (error) {
+        throw error
+    }
+    callback(results.rows);
+ });
+}
+
+const getAllMessages= (personID, callback) => { 
+    getCheckedMessages(personID,(checkedMessage)=>{ 
+		getUncheckedMessages(personID,(uncheckedMessage)=>{  
+		  callback({
+			checkedMessage,
+			uncheckedMessage
+				});
+		}); 
+	});
+}
 
 module.exports = {
     getUsers,
@@ -569,5 +601,8 @@ module.exports = {
     getAllAboutGroup,
     insertNewQuiz,
     getFullQuizDataByQuizID,
-    getAllQuizesNotTaken
+    getAllQuizesNotTaken,
+    getCheckedMessages,
+    getUncheckedMessages,
+    getAllMessages
 }
