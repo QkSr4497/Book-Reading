@@ -1038,7 +1038,7 @@ router.post('/kid/start-quiz', authenticationMiddleware(), function (req, res) {
     })
     var quizID = req.body.quizID;
     const quizData = await queries.getFullQuizDataByQuizID(quizID);
-    console.dir(quizData, { depth: null }); // `depth: null` ensures unlimited recursion
+    //console.dir(quizData, { depth: null }); // `depth: null` ensures unlimited recursion
     res.render('kid/quiz-attempt', { quizData, userData });
   });
 });
@@ -1055,7 +1055,7 @@ router.post('/kid/quiz/getQuizData', authenticationMiddleware(), function (req, 
     })
     const quizID = req.body.quizID;
     const quizData = await queries.getFullQuizDataByQuizID(quizID);
-    console.dir(quizData, { depth: null }); // `depth: null` ensures unlimited recursion
+    //console.dir(quizData, { depth: null }); // `depth: null` ensures unlimited recursion
 
     res.send(quizData);
   });
@@ -1150,36 +1150,10 @@ router.get('/query/getAllBooks', authenticationMiddleware(), function (req, res)
 });
 
 
-//============================================================
+//=======================================================
 router.post('/query/addNewQuiz', function (req, res) {
-  // the pool with emit an error on behalf of any idle clients
- // it contains if a backend error or network partition happens
- queries.getUserById(req.user, (userData) => {
-   pool.on('error', (err, client) => {
-     console.error('Unexpected error on idle client', err)
-     process.exit(-1)
-   })
-   //console.log(req.body);
-   res.render('teacher/home');
-
-   // // callback - checkout a client
-   // pool.connect((err, client, done) => {
-   //   if (err) throw err
-   //   console.log('req params ' + JSON.stringify(req.params));
-   //   console.log("req.params.bookID = " + req.params.bookID);
-   //   client.query(`SELECT * FROM "Book" b WHERE b."bookID" = $1`, [req.params.bookID], (error, result) => {
-   //     if (error) {
-   //       console.log(error.stack);
-   //     }
-   //     else {
-   //       done();
-   //       console.log('book chosen: ' + JSON.stringify(result.rows[0]));
-   //       res.render('teacher/single-book-page', { "bookData": result.rows[0], userData });
-   //     }
-   //   });
-
-   // });
- });
+  queries.insertNewQuiz(req.body, req.user);
+  res.redirect('/');
 });
 
 
@@ -1195,7 +1169,7 @@ passport.deserializeUser(function (personID, done) { // for retriving data from 
 
 function authenticationMiddleware() { // this function will be used to restrict page access to unlogged users
   return (req, res, next) => {
-    console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}, trying to access restricted page`);
+    //console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}, trying to access restricted page`);
 
     if (req.isAuthenticated()) return next(); // only if the user is authenticated we will go to the next function which will render the wanted page 
     res.redirect('/login'); // if not authenticated then redirect to login page  
