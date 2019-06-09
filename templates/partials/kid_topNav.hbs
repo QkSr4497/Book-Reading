@@ -1,6 +1,6 @@
     <div  class="topnav" id="myTopnav">
     <div class="left-nav"> 
-    <a class="tablinks" class="lang" key="welcome"id="welcomeTitle">ברוך הבא {{userData.userName}}</a><span></span>
+    <a class="tablinks" id="welcomeTitle"><span class="lang" key="welcome">ברוך הבא</span> {{userData.userName}}</a>
     {{#if userData.points}}
     <a class="tablinks" class="lang" key="myPoints" id="pointsTitle">נקודות שלי: {{userData.points}}</a>
     {{/if}}
@@ -10,9 +10,6 @@
     <a href="#">KidsRead</a>
     <a href="../books" class="lang" key="books">ספריה</a>
     <a href="../games" class="lang" key="store">חנות</a>
-    <a href="#" class="notification"><i class="fa fa-bell"></i>
-        <span class="badge">3</span>
-    </a>
     <div class="dropdown">
       <button class="dropbtn lang " key="language">שפה 
         <i class="fa fa-caret-down"></i>
