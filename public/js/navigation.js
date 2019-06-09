@@ -1,3 +1,9 @@
+$(document).ready(function(){
+  if ($("#mySidenav").css("display") == 'block') {
+    $("#openNav").hide();
+  } 
+})
+
 function responsiveNav() {
     var x = document.getElementById("myTopnav");
     if (x.className === "topnav") {
@@ -18,5 +24,6 @@ function responsiveNav() {
     document.getElementById("main").style.marginRight = "0%";
     document.getElementById("mySidenav").style.display = "none";
     document.getElementById("openNav").style.display = "inline-block";
+ 
   }
   

@@ -1,0 +1,11 @@
+h1 span {
+    font-weight: bold;
+    font-size: 1.2em;
+    
+}
+
+.flip-card-back h1 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+

@@ -41,18 +41,22 @@ INSERT INTO "Kid"("kidID", "birthDate") VALUES('8', '2012-03-25');
 INSERT INTO "Kid"("kidID", "birthDate") VALUES('9', '2013-07-26');
 INSERT INTO "Kid"("kidID", "birthDate") VALUES('10', '2012-12-27');
 --************ /Kid table *************************************
-INSERT INTO "Book"("bookName","pic") VALUES('أسنان كشكش', '/img/games/1.png');
-INSERT INTO "Book"("bookName","pic") VALUES('بيت ميس', '/img/games/2.jpg');
-INSERT INTO "Book"("bookName","pic") VALUES('كريم وفرشاة الأسنان', '/img/games/3.jpg');
-INSERT INTO "Book"("bookName","pic") VALUES('ملك الفواكه', '/img/games/4.jpg');
-INSERT INTO "Book"("bookName","pic") VALUES('الفراشات الثلاثة', '/img/games/5.jpg');
-INSERT INTO "Book"("bookName","pic") VALUES('ماذا تأكل الشّمس؟', '/img/games/12.png');
-INSERT INTO "Book"("bookName","pic") VALUES('قصة آثار على الثّلج', '/img/games/11.png');
-INSERT INTO "Book"("bookName","pic") VALUES('رحلة الألوان – اللّون الأخضر', '/img/games/12.png');
-INSERT INTO "Book"("bookName","pic") VALUES('أسنان كشكش', '/img/games/1.png');
 
+------ Book table ------------------------------
+ALTER SEQUENCE "Book_bookID_seq" RESTART;	-- bookID serial will start with 1
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('האיש הקטן', 'אריך', 'קסטנר', '/img/books/the-little-man.png');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('أسكشكش', 'أسكشكان كشكش', 'أسنان كشكش', '/img/books/1.png');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('بيت ميس', 'أسكشكان كشكش','أسكشكان كشكش', '/img/books/2.jpg');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('كريم وفرشاة الأسنان','أسكشكان كشكش','أسكشكان كشكش', '/img/books/3.jpg');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('ملك الفواكه','أسكشكان كشكش','أسكشكان كشكش', '/img/books/4.jpg');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('الفراشات الثلاثة','أسكشكان كشكش','أسكشكان كشكش', '/img/books/5.jpg');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('ماذا تأكل الشّمس؟','أسكشكان كشكش','أسكشكان كشكش', '/img/books/6.png');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('قصة آثار على الثّلج','أسكشكان كشكش','أسكشكان كشكش', '/img/books/7.png');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('رحلة الألوان – اللّون الأخضر','أسكشكان كشكش','أسكشكان كشكش', '/img/books/8.png');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('أسنان كشكش','أسكشكان كشكش','أسكشكان كشكش', '/img/books/9.png');
+--************ /Book table *************************************
 
-
+------ Game table ------------------------------
 INSERT INTO "Game"("gameName","pic","price","link") VALUES('HexGL','/funGames/HexGL/hexgl.jpg', '5000','/funGames/HexGL/index.html');
 INSERT INTO "Game"("gameName","pic","price","link") VALUES('Hextris', '/funGames/Hextris/hextris.png','3000','/funGames/Hextris/index.html');
 INSERT INTO "Game"("gameName","pic","price","link") VALUES('React simon says','/funGames/react-simon-says/react.png', '2500','/funGames/react-simon-says/public/index.html');
@@ -60,7 +64,38 @@ INSERT INTO "Game"("gameName","pic","price","link") VALUES('Pacman','/funGames/P
 INSERT INTO "Game"("gameName","pic","price","link") VALUES('Racer','/funGames/Racer/racer.png', '4000','/funGames/Racer/index.html');
 INSERT INTO "Game"("gameName","pic","price","link") VALUES('Radius','/funGames/Radius/radius.png', '4000','/funGames/Radius/index.html');
 INSERT INTO "Game"("gameName","pic","price","link") VALUES('Tower Bulding','/funGames/tower_game/towerBuilding.png', '3500','/funGames/tower_game/index.html');
+--************ /Game table *************************************
+
+------ Quiz table ------------------------------
+ALTER SEQUENCE "Quiz_quizID_seq" RESTART;	-- personID serial will start with 1
+INSERT INTO "Quiz"("quizTitle","quizLanguage","quizPic", "duration") VALUES('האיש הקטן במבחן קצר','hebrew','/img/quizes/quiz1/quiz1pic.png','7'); -- quiz 1
+--************ /Quiz table *************************************
+
+------ Question table ------------------------------
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('1','1','מה שמו של גיבור הספר?','/img/quizes/quiz1/q1pic.png','single'); -- quiz1 q1
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('1','2','מהו גובהו של גיבור הספר?','/img/quizes/quiz1/q2pic.png','single'); -- quiz1 q2
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('1','3','איך השפיע גובהו של גיבור הספר על חייו?','','multi'); -- quiz1 q3
+--************ /Question table *************************************
+
+------ Answer table ------------------------------
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('1','1','1','דודי קליינר','','N');  -- quiz1 q1ans1
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('1','1','2','מקסי פיכלשטיינר','','Y');  -- quiz1 q1ans2
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('1','1','3','פיטר פן','','N');  -- quiz1 q1ans3
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('1','2','1','5 ס"מ','','Y');  -- quiz1 q2ans1
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('1','2','2','7 ס"מ','','N');  -- quiz1 q2ans2
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('1','2','3','12 ס"מ','','N');  -- quiz1 q2ans3
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('1','3','1','הגובה לא השפיע עליו כלל','','N');  -- quiz1 q3ans1
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('1','3','2','בשל גובהו הילדים האחרים הציקו לו','','Y');  -- quiz1 q3ans2
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('1','3','3','כדי להפוך דף בספר עליו לרדת בסולם ושוב לעלות כדי לקרוא ממרחק סביר','','Y');  -- quiz1 q3ans3
+--************ /Answer table *************************************
+
+------ WritesQuiz table ------------------------------
+INSERT INTO "WritesQuiz"("bookID", "quizID", "personID") VALUES('1','1','5'); -- quiz1
+--************ /WritesQuiz table *************************************
 
 
---*********************/Kid notes ****************
-INSERT INTO "Note"("personID","title","content","type") VALUES('7','أول تجربة لي في القراءة','عندما بدأت بقراءة الكتاب, لم افهم في البداية عما تدور القصة لكت كلما تقدمت احببت القصة أكثر فأكثر','private');
+------ Note table ------------------------------
+--INSERT INTO "Note"("personID","title","content","type") VALUES('7','أول تجربة لي في القراءة','عندما بدأت بقراءة الكتاب, لم افهم في البداية عما تدور القصة لكت كلما تقدمت احببت القصة أكثر فأكثر','private');
+--************ /Note table *************************************

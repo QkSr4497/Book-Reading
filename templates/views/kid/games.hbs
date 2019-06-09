@@ -4,39 +4,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">  	
-  <meta http-equiv="refresh" content="3" >
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta http-equiv="refresh" content="3">
   <title>Kid Games</title>
-    {{> kid_head}}
+  {{> kid_head}}
 </head>
 
 <body>
-    <div class="navigation-style">
-  {{> kid_sideNav}}
+  <div class="navigation-style">
+    {{> kid_sideNav}}
 
-      <div id="main">
-         {{> kid_topNav}}
-       <div id="kid-games" class="card-style">    
+    <div id="main">
+      {{> kid_topNav}}
+      <div id="kid-games" class="card-style">
         <h1 key="myGames"> My Games</h1>
-          <div class="cards"> 
-              {{#MyGames}}      
-              <div class="flip-card">
-              <div class="flip-card-inner">
-                  <div class="flip-card-front">
-                  <img src={{pic}} alt="Avatar" style="width:300px;height:300px;">
-                  </div>
-                  <div class="flip-card-back">
-                  <h1>{{gameName}}</h1> 
-                  <a href={{link}}><button>Play</button></a>
-                  </div>
+        <div class="cards">
+          {{#MyGames}}
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <img src={{pic}} alt="Avatar" style="width:300px;height:300px;">
               </div>
+              <div class="flip-card-back">
+                <h1>{{gameName}}</h1>
+                <a href={{link}}><button>Play</button></a>
               </div>
-            {{/MyGames}}  
-          </div>  
+            </div>
+          </div>
+          {{/MyGames}}
+        </div>
       </div>
-    </div>  
+    </div>
   </div>
- {{> kid_footer}}
+  {{> kid_footer}}
 </body>
 
 </html>

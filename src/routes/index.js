@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const Router = require('express-promise-router');
 var passport = require('passport');
 var hbs = require('hbs');
 const bcrypt = require('bcrypt');
@@ -8,21 +8,25 @@ const saltRounds = 10;  // the number of rounds that the module will go through 
 
 require('dotenv').config(); // using env file
 
-const pool = require('./../db.js'); // postgresql database connection pool
+const db = require('./../db.js'); // postgresql database connection pool
+
+const pool = db.pg_pool;
+
+const router = new Router();
 
 const queries = require('./../queries');
 
 //=============================================================
 
 
-
+//=============================================================
 router.get('/', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
   //console.log('user: ['+ req.user + ']  , isAuthenticated: ' + req.isAuthenticated());
 
   queries.getUserById(req.user, (userData) => {
-    console.log(userData);
+    //console.log(userData);
     pool.on('error', (err, client) => {
       console.error('Unexpected error on idle client', err)
       process.exit(-1)
@@ -51,6 +55,7 @@ router.get('/', authenticationMiddleware(), function (req, res) {
   });
 });
 
+//=============================================================
 router.get('/login', function (req, res) {
   res.render('login', { message: req.flash('loginMessage') });
 });
@@ -120,6 +125,7 @@ router.post('/signUp/signUpNewUser', function (req, res) {
   });
 });
 
+//=============================================================
 router.post('/login', passport.authenticate('local', {  // LocalStrategy function is defined in app.js file within passport.use
   successRedirect: '/',
   failureRedirect: '/login',
@@ -127,6 +133,7 @@ router.post('/login', passport.authenticate('local', {  // LocalStrategy functio
 }));
 
 
+//=============================================================
 router.get('/logout', function (req, res) {
   console.log(`Logout: User #${req.user}`);
   req.logout(); // logging out the user 
@@ -134,7 +141,7 @@ router.get('/logout', function (req, res) {
   res.redirect('login');
 });
 
-
+//=============================================================
 router.get('/signUp/checkEmailDuplicates/:email', function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -163,6 +170,7 @@ router.get('/signUp/checkEmailDuplicates/:email', function (req, res) {
   });
 });
 
+//=============================================================
 router.get('/signUp/checkUserDuplicates/:user', function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -190,8 +198,9 @@ router.get('/signUp/checkUserDuplicates/:user', function (req, res) {
     done();
   });
 });
-//=====================================================================================
 
+
+//=============================================================
 router.get('/books', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -217,6 +226,7 @@ router.get('/books', authenticationMiddleware(), function (req, res) {
   });
 });
 });
+
 
 //===============================================================
 router.post('/kid/books/addToList/:bookID', authenticationMiddleware(), function (req, res) {
@@ -244,6 +254,7 @@ router.post('/kid/books/addToList/:bookID', authenticationMiddleware(), function
      });
     });
 });
+
 //===========================================================
 // router.get('/kid/single-book-page/:bookID', function (req, res) {
 //   // the pool with emit an error on behalf of any idle clients
@@ -273,28 +284,31 @@ router.post('/kid/books/addToList/:bookID', authenticationMiddleware(), function
 //     });
 //   });
 // });
-//============================================================
 
+
+//=============================================================
 router.get('/kid/single-book-page/:bookID', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
-  console.log('req params ' + JSON.stringify(req.params));
-  console.log("req.params.bookID = " + req.params.bookID);
+  //console.log('req params ' + JSON.stringify(req.params));
+  //console.log("req.params.bookID = " + req.params.bookID);
   queries.getUserById(req.user, (userData) => {
   pool.on('error', (err, client) => {
     console.error('Unexpected error on idle client', err)
     process.exit(-1)
   })
-  console.log("query = " + req.params.bookID);
+  //console.log("query = " + req.params.bookID);
   queries.getBookInfoAndReviews(req.params.bookID,(bookInfoAndReviews)=>{
-    console.log('bookInfoAndReviews '+bookInfoAndReviews);
+    //console.log('bookInfoAndReviews '+bookInfoAndReviews);
     //res.render('/kid/single-book-page/'+req.params.bookID, { bookDataAndReviews,userData });
      res.render('kid/single-book-page', {bookInfoAndReviews,userData });
     
   })
 });
 });
-//====================================================
+
+
+//=============================================================
 router.get('/kid/hasBook:bookID', function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -303,7 +317,7 @@ router.get('/kid/hasBook:bookID', function (req, res) {
     console.error('Unexpected error on idle client', err)
     process.exit(-1)
   })
-  console.log('hasbook'+req.params.bookID);
+  //console.log('hasbook'+req.params.bookID);
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err
@@ -324,7 +338,9 @@ router.get('/kid/hasBook:bookID', function (req, res) {
   });
 });
 });
-//===================================================
+
+
+//=============================================================
 router.get('/kid/hasFinishedBook:bookID', function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -333,7 +349,7 @@ router.get('/kid/hasFinishedBook:bookID', function (req, res) {
     console.error('Unexpected error on idle client', err)
     process.exit(-1)
   })
-console.log('hasFinished book'+req.params.bookID);
+//console.log('hasFinished book'+req.params.bookID);
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err
@@ -354,7 +370,8 @@ console.log('hasFinished book'+req.params.bookID);
   });
 });
 });
-//=================================================
+
+//=============================================================
 router.get('/kid/hasReview:bookID', function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -364,7 +381,7 @@ router.get('/kid/hasReview:bookID', function (req, res) {
     console.error('Unexpected error on idle client', err)
     process.exit(-1)
   })
-  console.log('hasReview'+req.params.bookID);
+  //console.log('hasReview'+req.params.bookID);
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err
@@ -385,7 +402,8 @@ router.get('/kid/hasReview:bookID', function (req, res) {
   });
 });
 });
-//===============================================
+
+//=============================================================
 router.post('/kid/book/addReview', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -394,7 +412,7 @@ router.post('/kid/book/addReview', authenticationMiddleware(), function (req, re
       console.error('Unexpected error on idle client', err)
       process.exit(-1)
     })
-    console.log('req.body.bookID add '+req.body.bookID )
+    //console.log('req.body.bookID add '+req.body.bookID )
     // callback - checkout a client
     pool.connect((err, client, done) => {
       if (err) throw err
@@ -412,6 +430,7 @@ router.post('/kid/book/addReview', authenticationMiddleware(), function (req, re
 
   });
 });
+
 //=========================================================
 // router.get('/kid/single-book-page/getReivews/:bookID', authenticationMiddleware(), function (req, res) {
 //   // the pool with emit an error on behalf of any idle clients
@@ -437,8 +456,9 @@ router.post('/kid/book/addReview', authenticationMiddleware(), function (req, re
 //   });
 // });
 // });
-//===========================================================
 
+
+//=============================================================
 router.get('/games', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -463,9 +483,9 @@ router.get('/games', authenticationMiddleware(), function (req, res) {
   });
 });
 });
-//=========================================================
 
-//kid add this game from Store
+
+//====================== kid add this game from Store =======================================
 router.post('/games/addToCart', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -491,7 +511,7 @@ router.post('/games/addToCart', authenticationMiddleware(), function (req, res) 
 });
 
 
-//--------------------------------------------
+//============================================================
 router.get('/kid/profile', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -519,6 +539,7 @@ router.get('/kid/profile', authenticationMiddleware(), function (req, res) {
 });
 });
 
+//============================================================
 router.post('/kid/profile/edit', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -544,8 +565,7 @@ router.post('/kid/profile/edit', authenticationMiddleware(), function (req, res)
 });
 
 
-//====================================================================
-
+//============================================================
 router.get('/kid/books', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -556,21 +576,21 @@ router.get('/kid/books', authenticationMiddleware(), function (req, res) {
   })
 
   queries.getBooksAccordingToTypes(userData.userID,(bookDataByTypes)=>{
-    console.log(bookDataByTypes);
+    //console.log(bookDataByTypes);
     res.render('kid/books', { bookDataByTypes,userData });
     
   })
 });
 });
-//================================================================
 
+//============================================================
 router.post('/kid/books/edit', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
   var bookID = req.body.bookID;
   var bookType = req.body.bookType;
-  console.log('bookID ' + bookID);
-  console.log('bookType: ' + bookType );
+  //console.log('bookID ' + bookID);
+  //console.log('bookType: ' + bookType );
 
 
   queries.getUserById(req.user, (userData) => {
@@ -598,11 +618,9 @@ router.post('/kid/books/edit', authenticationMiddleware(), function (req, res) {
 
   });
 });
-//===================================================
 
 
-//==========================================
-
+//============================================================
 router.get('/kid/games', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -629,7 +647,8 @@ router.get('/kid/games', authenticationMiddleware(), function (req, res) {
 
   });
 });
-//========================================
+
+//============================================================
 router.post('/kid/games/add:gameID', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -658,8 +677,7 @@ router.post('/kid/games/add:gameID', authenticationMiddleware(), function (req, 
   });
 });
 
-//====================================================
-
+//============================================================
 router.get('/kid/notes', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -687,6 +705,7 @@ router.get('/kid/notes', authenticationMiddleware(), function (req, res) {
   });
 });
 
+//============================================================
 router.post('/kid/notes/add', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -714,6 +733,7 @@ router.post('/kid/notes/add', authenticationMiddleware(), function (req, res) {
     });
 });
 
+//============================================================
 router.post('/kid/notes/edit', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -722,7 +742,7 @@ router.post('/kid/notes/edit', authenticationMiddleware(), function (req, res) {
     console.error('Unexpected error on idle client', err)
     process.exit(-1)
   })
-console.log('req.body.id'+req.body.noteID);
+//console.log('req.body.id'+req.body.noteID);
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err
@@ -740,7 +760,8 @@ console.log('req.body.id'+req.body.noteID);
     });
 });
 
-//=================================
+
+//============================================================
 router.delete('/kid/notes/delete/:noteID', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -767,7 +788,7 @@ router.delete('/kid/notes/delete/:noteID', authenticationMiddleware(), function 
 });
 });
 
-//===========================================
+//============================================================
 router.get('/kid/groups', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -794,6 +815,7 @@ router.get('/kid/groups', authenticationMiddleware(), function (req, res) {
 
   });
 });
+
 //=============================================
 // router.get('/kid/single-group-page/:groupID', function (req, res) {
 //   // the pool with emit an error on behalf of any idle clients
@@ -824,28 +846,30 @@ router.get('/kid/groups', authenticationMiddleware(), function (req, res) {
 //     });
 //   });
 // });
-//===========================================
+
+
+//============================================================
 router.get('/kid/single-group-page/:groupID', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
-  console.log('req params ' + JSON.stringify(req.params));
-  console.log("req.params.bookID = " + req.params.groupID);
+  //console.log('req params ' + JSON.stringify(req.params));
+  //console.log("req.params.bookID = " + req.params.groupID);
   queries.getUserById(req.user, (userData) => {
   pool.on('error', (err, client) => {
     console.error('Unexpected error on idle client', err)
     process.exit(-1)
   })
-  console.log("query = " + req.params.groupID);
+  //console.log("query = " + req.params.groupID);
   queries.getAllAboutGroup(req.params.groupID,(allAboutGroup)=>{
-    console.log('GroupInfoAndPosts '+allAboutGroup);
+    //console.log('GroupInfoAndPosts '+allAboutGroup);
     //res.render('/kid/single-book-page/'+req.params.bookID, { bookDataAndReviews,userData });
      res.render('kid/single-group-page', {allAboutGroup,userData });
     
   })
 });
 });
-//=====================================================
-//kid add this game from Store
+
+//==================== kid add this game from Store ========================================
 router.post('/post/add', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -859,7 +883,7 @@ router.post('/post/add', authenticationMiddleware(), function (req, res) {
   pool.connect((err, client, done) => {
     var nowDate = new Date(); 
     var date = nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate(); 
-    console.log(date);
+    //console.log(date);
     if (err) throw err
     client.query('INSERT INTO "Post" ("postDate", "content","groupID","personID") VALUES($1, $2,$3,$4)',[date,req.body.content,req.body.groupID,userData.userID], (error, result) => {
       if (error) {
@@ -872,9 +896,9 @@ router.post('/post/add', authenticationMiddleware(), function (req, res) {
   });
 });
 });
-//===============================================================
 
 
+//============================================================
 router.get('/kid/friends', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -903,8 +927,8 @@ router.get('/kid/friends', authenticationMiddleware(), function (req, res) {
 });
 });
 
-//=======================================================
-//=======================================================
+
+//============================================================
 router.get('/kid/cart', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -930,8 +954,9 @@ router.get('/kid/cart', authenticationMiddleware(), function (req, res) {
   });
 });
 });
-//================================================================
 
+
+//============================================================
 router.delete('/kid/cart/delete/:gameID', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -958,6 +983,7 @@ router.delete('/kid/cart/delete/:gameID', authenticationMiddleware(), function (
 });
 });
 
+//============================================================
 router.post('/kid/points/edit:points', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -966,7 +992,7 @@ router.post('/kid/points/edit:points', authenticationMiddleware(), function (req
     console.error('Unexpected error on idle client', err)
     process.exit(-1)
   })
-  console.log(req.params.points);
+  //console.log(req.params.points);
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err
@@ -984,11 +1010,59 @@ router.post('/kid/points/edit:points', authenticationMiddleware(), function (req
 });
 });
 
+
+
+//============================================================
+router.get('/kid/quizes', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+
+   const quizes = await queries.getAllQuizesNotTaken(userData.userID);
+   res.render('kid/quizes', { "Quiz": quizes, userData});
+  });
+});
+
 //---------------------------------------------------------------
+router.post('/kid/start-quiz', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+    var quizID = req.body.quizID;
+    const quizData = await queries.getFullQuizDataByQuizID(quizID);
+    console.dir(quizData, { depth: null }); // `depth: null` ensures unlimited recursion
+    res.render('kid/quiz-attempt', { quizData, userData });
+  });
+});
 
 
+//============================================================
+router.post('/kid/quiz/getQuizData', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+    const quizID = req.body.quizID;
+    const quizData = await queries.getFullQuizDataByQuizID(quizID);
+    console.dir(quizData, { depth: null }); // `depth: null` ensures unlimited recursion
 
-//=======================================================
+    res.send(quizData);
+  });
+});
+
+
+//============================================================
 router.get('/teacher/books', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -1016,7 +1090,8 @@ router.get('/teacher/books', authenticationMiddleware(), function (req, res) {
   });
 });
 
-//=======================================================
+
+//============================================================
 router.get('/teacher/single-book-page/:bookID', function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -1029,15 +1104,15 @@ router.get('/teacher/single-book-page/:bookID', function (req, res) {
     // callback - checkout a client
     pool.connect((err, client, done) => {
       if (err) throw err
-      console.log('req params ' + JSON.stringify(req.params));
-      console.log("req.params.bookID = " + req.params.bookID);
+      //console.log('req params ' + JSON.stringify(req.params));
+      //console.log("req.params.bookID = " + req.params.bookID);
       client.query(`SELECT * FROM "Book" b WHERE b."bookID" = $1`, [req.params.bookID], (error, result) => {
         if (error) {
           console.log(error.stack);
         }
         else {
           done();
-          console.log('book chosen: ' + JSON.stringify(result.rows[0]));
+          //console.log('book chosen: ' + JSON.stringify(result.rows[0]));
           res.render('teacher/single-book-page', { "bookData": result.rows[0], userData });
         }
       });
@@ -1047,7 +1122,7 @@ router.get('/teacher/single-book-page/:bookID', function (req, res) {
 });
 
 
-//=======================================================
+//============================================================
 router.get('/teacher/add-quiz', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -1061,7 +1136,7 @@ router.get('/teacher/add-quiz', authenticationMiddleware(), function (req, res) 
   });
 });
 
-//=======================================================
+//============================================================
 router.get('/query/getAllBooks', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -1075,11 +1150,7 @@ router.get('/query/getAllBooks', authenticationMiddleware(), function (req, res)
 });
 
 
-
-
-
-
-//=======================================================
+//============================================================
 router.post('/query/addNewQuiz', function (req, res) {
   // the pool with emit an error on behalf of any idle clients
  // it contains if a backend error or network partition happens
@@ -1088,7 +1159,7 @@ router.post('/query/addNewQuiz', function (req, res) {
      console.error('Unexpected error on idle client', err)
      process.exit(-1)
    })
-   console.log(req.body);
+   //console.log(req.body);
    res.render('teacher/home');
 
    // // callback - checkout a client
@@ -1112,7 +1183,7 @@ router.post('/query/addNewQuiz', function (req, res) {
 });
 
 
-/**//////////////////////////////////////////////////////////////////////////////////////////// */
+/**/////////////////// Passport ////////////////////////////////////////////// */
 
 passport.serializeUser(function (personID, done) { // for writing user data to user session
   done(null, personID);

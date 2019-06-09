@@ -8,4 +8,9 @@ const pg_pool = new pg.Pool({
     database: process.env.DB_NAME
 });
 
-module.exports = pg_pool;
+
+module.exports = {
+    pg_pool,
+    query: (text, params) => pg_pool.query(text, params)
+  }
+  

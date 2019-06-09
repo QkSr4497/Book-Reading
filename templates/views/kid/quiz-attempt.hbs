@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kids-Read Attempting Quiz</title>
+
+    {{> kid_head}}
+
+    <!-- Main Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="/css/kid/quiz-attempt.css" />
+
+
+</head>
+
+<body>
+    <div class="navigation-style">
+        {{> kid_sideNav}}
+
+        <div id="main">
+            {{> kid_topNav}}
+
+
+            <div class="bs-example">
+                <!-- Modal HTML -->
+                <div id="myModal" class="modal fade">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                    id="quitQuiz">&times;</button>
+                                <img src="{{quizData.quizPic}}" alt="">
+                                <h2 class="modal-title w-100" id="modalTitle"> <span>נסיון לפתרון בוחן:</span>
+                                    {{quizData.quizTitle}}</h2>
+
+                            </div>
+                            <div class="modal-body">
+                                <h4 class="modal-title"> <span>שם הספר:</span> {{quizData.bookName}}</h4>
+                                <br>
+                                <h4 class="modal-title"> <span>שם הסופר:</span> {{quizData.bookAuthorLastName}}
+                                    {{quizData.bookAuthorFirstName}}</h4>
+                                <br>
+                                <h4 class="modal-title"> <span>הבוחן נכתב ע"י:</span> {{quizData.quizCreaterFirstName}}
+                                    {{quizData.quizCreaterLastName}}</h4>
+                                <br>
+                                <h4 class="modal-title"> <span>מספר שאלות:</span> {{quizData.totalQuestionsNum}}</h4>
+                                <br>
+                                <h4 class="modal-title text-warning"> <span>זמן מוקצב למענה:</span>
+                                    {{quizData.duration}}
+                                    דקות</h4>
+                                <br>
+                                <h4 class="modal-title text-info"> לאחר לחיצה על כפתור התחל הבוחן יחל מייד</h4>
+                                <br>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                    id="startQuiz">התחל</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <input type="hidden" id="inputQuizID" name="custId" value="{{quizData.quizID}}">
+
+            <div id="timeDiv">הזמן שנותר: <span id="time"></span></div>
+
+            <div class="container" id="quizContainer">
+                <header>
+                    <h1>Add a New Quiz
+                    </h1>
+                </header>
+
+                {{!------------ Quiz results -----------------------}}
+                <div class="wrap">
+                    <div class="background">
+                        <div id="title">
+                            <h1 id="formTitle">תוצאות הבוחן</h1>
+                        </div>
+                        <p class="pTitles">
+                            <img src="{{quizData.bookPic}}" alt="" id="bookPic">
+                            ציון המבחן: <span>{{quizData.bookName}}</span>
+                        </p>
+                        <p class="pTitles">
+                            <img src="{{quizData.quizPic}}" alt="" id="bookPic">
+                            במבחן זה הרווחת: <span>{{quizData.quizTitle}}</span>
+                        </p>
+                        <p class="pTitles">
+                            <span>{{quizData.quizCreaterFirstName}} {{quizData.quizCreaterLastName}}</span> :הבוחן נכתב
+                            ע"י
+                        </p>
+                        <p class="pTitles">
+                            מספר שאלות: <span>{{quizData.totalQuestionsNum}}</span>
+                        </p>
+                        <p class="pTitles">
+                            זמן מוקצב למענה:<span> {{quizData.duration}} דקות</span>
+                        </p>
+
+                    </div>
+                </div>
+
+
+                {{!------------ Quiz details -----------------------}}
+                <div class="wrap">
+                    <div class="background">
+                        <div id="title">
+                            <h1 id="formTitle">פרטי הבוחן</h1>
+                        </div>
+                        <p class="pTitles">
+                            <img src="{{quizData.bookPic}}" alt="" id="bookPic">
+                            שם הספר: <span>{{quizData.bookName}}</span>
+                        </p>
+                        <p class="pTitles">
+                            <img src="{{quizData.quizPic}}" alt="" id="bookPic">
+                            שם הבוחן: <span>{{quizData.quizTitle}}</span>
+                        </p>
+                        <p class="pTitles">
+                            <span>{{quizData.quizCreaterFirstName}} {{quizData.quizCreaterLastName}}</span> :הבוחן נכתב
+                            ע"י
+                        </p>
+                        <p class="pTitles">
+                            מספר שאלות: <span>{{quizData.totalQuestionsNum}}</span>
+                        </p>
+                        <p class="pTitles">
+                            זמן מוקצב למענה:<span> {{quizData.duration}} דקות</span>
+                        </p>
+
+                    </div>
+                </div>
+
+                <form method="POST" id="quizForm" name="quizForm" action="/query/addNewQuiz">
+                    {{!------------ questions -----------------------}}
+
+
+                </form>
+                <button type="submit" value="Submit" id="submintBtn">סיום בוחן</button>
+            </div> <!-- /container -->
+
+        </div>
+
+    </div>
+    <!--====== Javascripts & Jquery ======-->
+    <script src="/js/kid/quiz-attempt.js"></script>
+
+
+    {{> kid_footer}}
+
+</body>
+
+</html>

@@ -35,8 +35,6 @@ CREATE TABLE "Supervisor" (
 	phone TEXT NOT NULL
 ); 
 
-
-
 CREATE TABLE "Category" (
  	"categoryID" SERIAL PRIMARY KEY,
  	name TEXT NOT NULL
@@ -62,26 +60,25 @@ CREATE TABLE "Quiz" (
 	"quizID" SERIAL PRIMARY KEY,
 	"quizTitle" TEXT NOT NULL,
 	"quizLanguage" TEXT NOT NULL,
-	pic TEXT NOT NULL,
-	duration INTEGER NOT NULL,
-	"quizEnabled" CHAR(1) CHECK ("quizEnabled" IN ('Y','N')) NOT NULL
+	"quizPic" TEXT NOT NULL,
+	duration INTEGER NOT NULL
 );
 						   
 CREATE TABLE "Question" (
  	"quizID" INTEGER REFERENCES "Quiz" ("quizID"),
- 	"questionNum" Serial NOT NULL,
-	content TEXT NOT NULL,
-	pic TEXT NOT NULL,
+ 	"questionNum" INTEGER NOT NULL,
+	"questionContent" TEXT NOT NULL,
+	"questionPic" TEXT,
 	"questType" TEXT CHECK ("questType" IN ('multi','single')) NOT NULL,
 	PRIMARY KEY ("quizID", "questionNum")
 );
 					 
 CREATE TABLE "Answer" (
- 	"quizID" INTEGER,
-	"questionNum" INTEGER,
- 	"answerNum" Serial NOT NULL,
-	content TEXT NOT NULL,
-	pic TEXT NOT NULL,
+ 	"quizID" INTEGER NOT NULL,
+	"questionNum" INTEGER NOT NULL,
+ 	"answerNum" INTEGER NOT NULL,
+	"answerContent" TEXT NOT NULL,
+	"answerPic" TEXT,
 	"isCorrect" CHAR(1) CHECK ("isCorrect" IN ('Y','N')) NOT NULL,
 	FOREIGN KEY ("quizID", "questionNum") REFERENCES "Question" ("quizID", "questionNum"),
 	PRIMARY KEY ("quizID", "questionNum", "answerNum")									   
@@ -93,6 +90,41 @@ CREATE TABLE "Friend" (
 	approved CHAR(1) CHECK (approved IN ('Y','N')) NOT NULL,
 	PRIMARY KEY ("personA", "friendOfA")									   
 );
+							
+CREATE TABLE "Group" (
+	"groupID" SERIAL NOT NULL PRIMARY KEY,
+	"groupName" varchar NOT NULL ,
+	"pic"  TEXT,
+	"personID" INTEGER REFERENCES "Person" ("personID") NOT NULL					  							   
+);	
+							
+CREATE TABLE "Post" (
+ 	"postID" SERIAL PRIMARY KEY,
+	"postDate" DATE NOT NULL,
+ 	content TEXT NOT NULL,
+	"groupID" INTEGER REFERENCES "Group" ("groupID") NOT NULL,
+	"personID" INTEGER REFERENCES "Person" ("personID")NOT NULL
+); 
+	CREATE TABLE "Comment" (
+	"commentID" SERIAL PRIMARY KEY,
+	"postID" INTEGER REFERENCES "Post" ("postID") NOT NULL,
+	"personID" INTEGER REFERENCES "Person" ("personID")NOT NULL,
+	"commentDate" DATE NOT NULL,
+	 content TEXT NOT NULL
+);	
+	CREATE TABLE "Note" (
+ 	"noteID" SERIAL PRIMARY KEY,
+	"date" DATE NOT NULL,
+	"personID" INTEGER REFERENCES "Person" ("personID") NOT NULL,
+	"bookID" INTEGER REFERENCES "Book" ("bookID"),
+	title TEXT NOT NULL,
+ 	content TEXT NOT NULL,
+	type TEXT CHECK (type IN ('public','private')) NOT NULL,
+	"pic"  TEXT
+);
+	CREATE TABLE "Image" (
+	"imageID" SERIAL PRIMARY KEY
+);							
 							
 CREATE TABLE "Teaches" (
  	"teacherID" INTEGER REFERENCES "Teacher" ("teacherID"),
@@ -111,8 +143,20 @@ CREATE TABLE "Cart" (
 	"kidID" INTEGER REFERENCES "Kid" ("kidID"),
 	"gameID" INTEGER REFERENCES "Game" ("gameID"),
 	PRIMARY KEY ("kidID", "gameID")									   
-);					 
+);
+					 
+CREATE TABLE "InGroup" (
+	"groupID" INTEGER REFERENCES "Group" ("groupID"),
+	"personID" INTEGER REFERENCES "Person" ("personID"),
+	type TEXT CHECK (type IN ('kid', 'admin')) NOT NULL,
+	PRIMARY KEY ("groupID", "personID")								   
+);	
 	
+	
+CREATE TABLE "ImageNote" (
+	"noteID" INTEGER REFERENCES "Note" ("noteID") NOT NULL,
+	"imageID" INTEGER REFERENCES "Image" ("imageID")NOT NULL
+);	
 
 CREATE TABLE "HasGames" (
 	"kidID" INTEGER REFERENCES "Kid" ("kidID"),
@@ -156,9 +200,9 @@ CREATE TABLE "BookHas" (
 CREATE TABLE "WritesQuiz" (
 	"bookID" INTEGER REFERENCES "Book" ("bookID"),
 	"quizID" INTEGER REFERENCES "Quiz" ("quizID"),
-	"personID" INTEGER REFERENCES "Person" ("personID") UNIQUE,
-	PRIMARY KEY ("bookID", "quizID")									   
-);								
+	"personID" INTEGER REFERENCES "Person" ("personID"),
+	PRIMARY KEY ("quizID", "personID")									   
+);							
 
 CREATE TABLE "BookAssigned" (
 	"bookID" INTEGER REFERENCES "Book" ("bookID"),
@@ -176,6 +220,7 @@ CREATE TABLE "KidBook" (
 	PRIMARY KEY ("kidID", "bookID")								   
 );		
 
+				 
 -- a table for session to store sessions persistently
 CREATE TABLE "UserSessions" ( 
   	"sid" varchar NOT NULL COLLATE "default",
@@ -184,50 +229,5 @@ CREATE TABLE "UserSessions" (
 )
 WITH (OIDS=FALSE);
 ALTER TABLE "UserSessions" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
-
-	CREATE TABLE "Group" (
-	"groupID" SERIAL NOT NULL PRIMARY KEY,
-	"groupName" varchar NOT NULL ,
-	"pic"  TEXT,
-	"personID" INTEGER REFERENCES "Person" ("personID") NOT NULL					  							   
-);	
-	CREATE TABLE "InGroup" (
-	"groupID" INTEGER REFERENCES "Group" ("groupID"),
-	"personID" INTEGER REFERENCES "Person" ("personID"),
-	type TEXT CHECK (type IN ('kid', 'admin')) NOT NULL,
-	PRIMARY KEY ("groupID", "personID")								   
-);	
-	CREATE TABLE "Post" (
- 	"postID" SERIAL PRIMARY KEY,
-	"postDate" DATE NOT NULL,
- 	content TEXT NOT NULL,
-	"groupID" INTEGER REFERENCES "Group" ("groupID") NOT NULL,
-	"personID" INTEGER REFERENCES "Person" ("personID")NOT NULL
-); 
-	CREATE TABLE "Comment" (
-	"commentID" SERIAL PRIMARY KEY,
-	"postID" INTEGER REFERENCES "Post" ("postID") NOT NULL,
-	"personID" INTEGER REFERENCES "Person" ("personID")NOT NULL,
-	"commentDate" DATE NOT NULL,
-	 content TEXT NOT NULL
-);	
-	CREATE TABLE "Note" (
- 	"noteID" SERIAL PRIMARY KEY,
-	"date" DATE NOT NULL,
-	"personID" INTEGER REFERENCES "Person" ("personID") NOT NULL,
-	"bookID" INTEGER REFERENCES "Book" ("bookID"),
-	title TEXT NOT NULL,
- 	content TEXT NOT NULL,
-	type TEXT CHECK (type IN ('public','private')) NOT NULL,
-	"pic"  TEXT
-);
-	CREATE TABLE "Image" (
-	"imageID" SERIAL PRIMARY KEY
-);
-	
-	CREATE TABLE "ImageNote" (
-	"noteID" INTEGER REFERENCES "Note" ("noteID") NOT NULL,
-	"imageID" INTEGER REFERENCES "Image" ("imageID")NOT NULL,
-);
 
 						

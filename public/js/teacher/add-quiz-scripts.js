@@ -14,6 +14,8 @@ $(document).ready(function () {
     var selectedType = $( `#q${numOfQuestions}type` ).val();
     updateCorrectAns(numOfQuestions, ansNum, selectedType);
 
+    $(`#q1totalAnsNum`).val(ansNum);
+
     // console.log('quizQuestions :' + JSON.stringify(quizQuestions));
     // console.log('quizQuestions[0] :' + JSON.stringify(quizQuestions[0]));
 
@@ -33,6 +35,7 @@ $('#submintBtn').on('click', function () {
 
 //   ==========Check all inputs for valid info ================
 function checkAllInputs() {
+    var numOfQuestions = quizQuestions.length;
     // var check1 = something();
     
     // if (!check1 || !check2 || !check3 || !check4 || !check5 || !check6 || !check7 || !check8) {
@@ -46,6 +49,17 @@ function checkAllInputs() {
         return $(this).attr('bookID');
      });
 
+     $('#totalQuestionsNum').val(function(){  // sending the bookID and not the name 
+        return numOfQuestions;
+     });
+     $('#quizForm *').prop("disabled", false);
+
+    // $('#quizForm input, #quizForm select').each(   // printing all quizForm inputs for debugging
+    //     function (index) {
+    //         var input = $(this);
+    //         console.log('Type: ' + input.attr('type') + ' Name: ' + input.attr('name') + ' Value: ' + input.val());
+    //     }
+    // );
     $("#quizForm").submit();
 }
 
@@ -122,18 +136,18 @@ $("#quizPicInput").change(function () {
     readURL(this, select);
 });
 
-$("#q1PicInput").change(function () {
-    var select = $("#q1Pic");
+$("#q1picInput").change(function () {
+    var select = $("#q1pic");
     readURL(this, select);
 });
 
-$("#q1Ans1PicInput").change(function () {
-    var select = $("#q1Ans1Pic");
+$("#q1ans1picInput").change(function () {
+    var select = $("#q1ans1pic");
     readURL(this, select);
 });
 
-$("#q1Ans2PicInput").change(function () {
-    var select = $("#q1Ans2Pic");
+$("#q1ans2picInput").change(function () {
+    var select = $("#q1ans2pic");
     readURL(this, select);
 });
 
@@ -169,11 +183,20 @@ $(document.body).on('change','.questionTypeClass', function() {
 });
 
 
+$(document.body).on('change','.checkbox', function() { 
+    var numOfQuestions = quizQuestions.length;
+    var ansNum = quizQuestions[numOfQuestions - 1].ansNum;
+    updateCorrectAnsChecked(numOfQuestions, ansNum);
+});
+
+
 $('#addAnsBtn').click(function () {
     var numOfQuestions = quizQuestions.length;
     quizQuestions[numOfQuestions - 1].ansNum++;
     var ansNum = quizQuestions[numOfQuestions - 1].ansNum;
     var selectedType = $( `#q${numOfQuestions}type` ).val();
+    $(`#q${numOfQuestions}totalAnsNum`).val(ansNum);
+  
     
     console.log('numOfQuestions ' + numOfQuestions);
     console.log('quizQuestions :' + JSON.stringify(quizQuestions));
@@ -181,19 +204,21 @@ $('#addAnsBtn').click(function () {
     var correctRadioAns =  $(`#q${numOfQuestions} .radio`).detach();    // using detach saves the jQuery data and events associated with the removed elements
     var correctCheckboxAns =  $(`#q${numOfQuestions} .checkbox`).detach();    // using detach saves the jQuery data and events associated with the removed elements
 
-    var myString = `<div id="q${numOfQuestions}ans${ansNum}">
-    <p class="pTitles">
-    <input name="q${numOfQuestions}ans${ansNum}" type="text" class="section" placeholder="Answer ${ansNum} Content" required>
-    *Answer ${ansNum}:
-</p>
+    var myString = `
+    <div id="q${numOfQuestions}ans${ansNum}div">
+        <p class="pTitles">
+            <input name="q${numOfQuestions}ans${ansNum}content" id="q${numOfQuestions}ans${ansNum}content" type="text" class="section" placeholder="Answer ${ansNum} Content" required>
+            *Answer ${ansNum}:
+         </p>
 
-<p class="pTitles">
-    <img src="#" alt="" id="q${numOfQuestions}Ans${ansNum}Pic">
-    <input type="file" id="q${numOfQuestions}Ans${ansNum}PicInput" name="q${numOfQuestions}Ans${ansNum}PicInput" class="section" accept="image/*"
-        alt="your image" style="width: 50%;" />
-    Answer ${ansNum} Picture:
-</p>
-</div>`
+        <p class="pTitles">
+            <img src="#" alt="" id="q${numOfQuestions}ans${ansNum}pic">
+            <input type="file" id="q${numOfQuestions}ans${ansNum}picInput" name="q${numOfQuestions}ans${ansNum}picInput" class="section" accept="image/*"
+                alt="your image" style="width: 50%;" />
+            Answer ${ansNum} Picture:
+        </p>
+    </div>
+    `
     $('.background:last').append(myString);
 
     // console.log(myString);
@@ -212,10 +237,7 @@ $('#removeAnsBtn').click(function () {
     var numOfQuestions = quizQuestions.length;
     var ansNum = quizQuestions[numOfQuestions - 1].ansNum;
 
-    
-
-
-    $(`#q${numOfQuestions}ans${ansNum}`).remove();  // removing the last option of current Question
+    $(`#q${numOfQuestions}ans${ansNum}div`).remove();  // removing the last option of current Question
     if(ansNum == 3) {
         removeAnsBtnElement = $('#removeAnsBtn').detach();    // using detach saves the jQuery data and events associated with the removed elements
         quizQuestions[numOfQuestions - 1].ansNum--;
@@ -226,8 +248,12 @@ $('#removeAnsBtn').click(function () {
 
         quizQuestions[numOfQuestions - 1].ansNum--;
     }
+
+    ansNum = quizQuestions[numOfQuestions - 1].ansNum;
+    $(`#q${numOfQuestions}totalAnsNum`).val(ansNum);
+
     var selectedType = $( `#q${numOfQuestions}type` ).val();
-    updateCorrectAns(numOfQuestions, ansNum - 1, selectedType);
+    updateCorrectAns(numOfQuestions, ansNum, selectedType);
 
     console.log('numOfQuestions ' + numOfQuestions);
     console.log('quizQuestions :' + JSON.stringify(quizQuestions));
@@ -237,9 +263,9 @@ $('#addQuestionBtn').click(function () {
     var question = { questionNum: quizQuestions.length + 1, ansNum: 2 };  // the quiz starts with the first question
     quizQuestions.push(question);   // adding the first question to the quizStructure
     var numOfQuestions = quizQuestions.length;
+    
     var ansNum = quizQuestions[numOfQuestions - 1].ansNum;
-
-    $(`#q${numOfQuestions - 1} input`).prop("disabled", true);  // disable all inputs of the previous question
+    $(`#q${numOfQuestions - 1} input, #q${numOfQuestions - 1} select`).prop("disabled", true);  // disable all inputs of the previous question
 
     var myString = `
     <div class="wrap question" id="q${numOfQuestions}">
@@ -249,7 +275,7 @@ $('#addQuestionBtn').click(function () {
                     </div>
 
                     <p class="pTitles">
-                        <input name="q${numOfQuestions}content" type="text" class="section" placeholder="Question Content" required>
+                        <input id="q${numOfQuestions}content" name="q${numOfQuestions}content" type="text" class="section" placeholder="Question Content" required>
                         *Content:
                     </p>
 
@@ -268,41 +294,44 @@ $('#addQuestionBtn').click(function () {
                         *Question Type:
                     </p>
 
-                    <div id="q${numOfQuestions}ans1">
+                    <div id="q${numOfQuestions}ans1div">
                         <p class="pTitles">
-                            <input name="q${numOfQuestions}ans1" type="text" class="section" placeholder="Answer 1 Content" required>
+                            <input name="q${numOfQuestions}ans1content" id="q${numOfQuestions}ans1content" type="text" class="section" placeholder="Answer 1 Content" required>
                             *Answer 1:
                         </p>
 
                         <p class="pTitles">
-                            <img src="#" alt="" id="q${numOfQuestions}ans1Pic">
-                            <input type="file" id="q${numOfQuestions}ans1PicInput" name="q${numOfQuestions}ans1PicInput" class="section"
+                            <img src="#" alt="" id="q${numOfQuestions}ans1pic">
+                            <input type="file" id="q${numOfQuestions}ans1picInput" name="q${numOfQuestions}ans1picInput" class="section"
                                 accept="image/*" alt="your image" style="width: 50%;" />
                             Answer 1 Picture:
                         </p>
                     </div>
 
-                    <div id="q${numOfQuestions}ans2">
+                    <div id="q${numOfQuestions}ans2div">
                         <p class="pTitles">
-                            <input name="q${numOfQuestions}ans2" type="text" class="section" placeholder="Answer 2 Content" required>
+                            <input name="q${numOfQuestions}ans2content" id="q${numOfQuestions}ans2content" type="text" class="section" placeholder="Answer 2 Content" required>
                             *Answer 2:
                         </p>
 
                         <p class="pTitles">
-                            <img src="#" alt="" id="q${numOfQuestions}ans2Pic">
-                            <input type="file" id="q${numOfQuestions}ans2PicInput" name="q${numOfQuestions}ans2PicInput" class="section"
+                            <img src="#" alt="" id="q${numOfQuestions}ans2pic">
+                            <input type="file" id="q${numOfQuestions}ans2picInput" name="q${numOfQuestions}ans2picInput" class="section"
                                 accept="image/*" alt="your image" style="width: 50%;" />
                             Answer 2 Picture:
                         </p>
                     </div>
+                    <input id="q${numOfQuestions}totalAnsNum" name="q${numOfQuestions}totalAnsNum" type="hidden">
                 </div>
                  
             </div>
     `;
     $('#quizForm').append(myString);
 
+    $(`#q${numOfQuestions}totalAnsNum`).val(ansNum);
+
     var selectedType = $( `#q${numOfQuestions}type` ).val();
-    console.log('adding question selectedType:' + selectedType)
+    console.log('adding question selectedType:' + selectedType);
     updateCorrectAns(numOfQuestions, ansNum, selectedType);
 
     // console.log(myString);
@@ -310,7 +339,7 @@ $('#addQuestionBtn').click(function () {
     var addAnsBtnElement = $('#addAnsBtn').detach();    // using detach saves the jQuery data and events associated with the removed elements
     addAnsBtnElement.appendTo('.background:last'); // appending the addAnsBtn to the bottom the of question
 
-    var ansNum = quizQuestions[numOfQuestions - 2].ansNum;
+    ansNum = quizQuestions[numOfQuestions - 2].ansNum;
     if (ansNum > 2) {
 
 
@@ -343,7 +372,7 @@ $('#removeQuestionBtn').click(function () {
 
     var ansNum = quizQuestions[numOfQuestions - 1].ansNum;
 
-    $(`#q${numOfQuestions} input`).prop("disabled", false);  // enbale all inputs of the last question the remains after the removal
+    $(`#q${numOfQuestions - 1} input, #q${numOfQuestions - 1} select`).prop("disabled", false);  // enbale all inputs of the last question the remains after the removal
 
 
     addAnsBtnElement.appendTo('.background:last'); // appending the addAnsBtn to the bottom the of question
@@ -380,16 +409,30 @@ function updateCorrectAns(questionNum, numOfAnswers, questionType) {
     }
     else if (questionType == 'multi') {  // if multiple Type Question then checkbox options
         var checkboxString = `<p class="pTitles checkbox">`;
+        var checked = false;
         for(var i = 1; i <= numOfAnswers; i++) {
             checkboxString += `
             <label for="q${questionNum}ans${i}checkbox" style="word-wrap:break-word">
-                <input id="q${questionNum}ans${i}checkbox" type="checkbox" name="q${questionNum}ans${i}checkbox" value="${i}" />${i}
+                <input id="q${questionNum}ans${i}checkbox" type="checkbox" name="q${questionNum}ans${i}checkbox" value="${checked}" />${i}
             </label>
             `;
         }
         checkboxString += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Correct Answer:';
         checkboxString += `</p>`; 
         $(checkboxString).insertAfter($('.pTitles').last());
+    }
+}
+
+function updateCorrectAnsChecked(questionNum, numOfAnswers) {
+    var checked = false;
+    for(var i = 1; i <= numOfAnswers; i++) {
+        if ($(`#q${questionNum}ans${i}checkbox`).is(':checked')) {
+            checked = true;
+        }
+        else {
+            checked = false;
+        }
+        $(`#q${questionNum}ans${i}checkbox`).val(checked);
     }
 }
 

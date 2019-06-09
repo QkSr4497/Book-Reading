@@ -1,0 +1,429 @@
+/* modal */
+
+.bs-example{
+    margin: 20px;
+    text-align: right;
+}
+
+#myModal h2 span {
+    font-weight: bold;
+    font-size: 150%;
+
+}
+
+#myModal h4 span {
+    font-weight: bold;
+    font-size: 130%;
+
+}
+#myModal h2, #myModal h4  {
+    font-size: 120%;
+
+}
+
+#modalTitle {
+    background-color: rgb(142, 209, 253)
+}
+
+#myModal img{
+    height: 250px;
+    width: auto;
+    margin-left: 50px;
+}
+
+.modal-title-img {
+    float: right;
+    clear: none;
+    margin: 2px 0 0 2px;
+    
+}
+
+
+
+
+
+/* Quiz */
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+body{
+	background-color: #AEAEAE;
+}
+
+
+.wrap{
+	margin-top: 10px;
+	margin-bottom: 10px;
+    width:110%;
+    min-width:20em;
+}
+.background{
+	background-color:#111;
+	margin: 0 auto;
+	padding: 1.5em;
+	width:80%;
+	height: auto;
+	border: .2em solid #0198E1;
+	border-radius: .8em;
+	-webkit-box-shadow: 0 1em .5em #555;
+	-moz-box-shadow: 0 1em .5em #555;
+	box-shadow: 0 1em .5em #555;
+}
+
+header {
+   max-height: 20px;
+}
+
+#title{
+	width:100%;
+	margin:0;
+	padding: .5em 0;
+	background-color: #0198E1;
+}
+#title h1{
+	text-align: center;
+	color:#000;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 2em;
+  font-weight:400;
+  line-height: 1em;
+  margin-top: .3em;
+}
+
+.section {
+    margin-top: 10px;
+    margin-right: 10px;
+    text-align: right;
+	color:#0198E1;
+	font-family: Helvetica, sans-serif;
+  font-weight:300;
+	font-size: 1em;
+	line-height: 1em;
+	background-color: rgba(175,175,175,.3);
+	width: 50%;
+	padding: .8em;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+	border: .1em solid rgb(0,0,0);
+  text-indent: 1.5em;
+}
+
+select, input {
+    text-align-last:right;
+    padding-right: 29px;
+    direction: rtl;
+}
+
+.pTitles{
+    text-align: right;
+    color: rgb(78, 163, 243);
+    font-weight:300;
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+
+
+.pTitles span{
+    text-align: right;
+    color: rgb(136, 196, 251);
+    font-weight:300;
+    font-size: 1.3em;
+    font-weight: light;
+    margin-right: 30px;
+}
+
+
+.pTitles img{
+    margin-right: 40px;
+    margin-top: 20px;
+    height: 150px;
+    width: auto;
+    vertical-align: middle
+}
+
+
+
+.pTitles input{
+    float: right;
+    clear: none;
+    margin: 2px 0 0 2px;
+} 
+
+/* #q1ans1div p, #q1ans1div input, #q1ans1div img {
+    float:left; 
+} */
+
+.divAns img {
+    margin-right: 10px;
+    margin-top: 20px;
+    height: 150px;
+    width: auto;
+}
+
+/* #q1ans1div input[type=radio],#q1ans1div input.radio {
+    margin-right: 5px;
+    height: 1.2em;
+    width: 3%;
+    float: right;
+  
+  } */
+
+  .divAns {
+    display:inline-block;
+    margin-top: 20px;
+  }
+
+  .mainDivAns {
+      margin-top: 6px;
+  }
+
+  .divCorrectAns {
+    border-width: 3px;
+    border-style: solid;
+    border-color: LawnGreen;
+ }
+ .divWrongAns {
+    border-width: 3px;
+    border-style: solid;
+    border-color: red;
+ }
+
+.divUnmarkedAns {
+    border-width: 4px;
+    border-style: solid;
+    animation-duration: 700ms;
+    animation-name: blink;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+ }
+ @keyframes blink {
+    from {
+        border-color: red;
+    }
+    to {
+        border-color: rgb(255, 255, 255);
+    }
+  }
+
+  .divAns p{
+    color: rgb(78, 163, 243);
+    font-weight:300;
+    font-size: 1.4em;
+    font-weight: bold;
+    word-wrap: break-word;
+    text-align-last: right;
+    width: 700px;
+}
+
+.divAns p span{
+    color: rgb(255, 136, 0);
+    font-weight:100;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.divAns img {
+    transform: scale(1);
+    margin-right: 10px;
+    margin-top: 20px;
+    height: 150;
+    width: auto;
+    vertical-align:middle;
+}
+
+
+.divAns input[type=radio], .divAns input.radio, #q1ans1radio {
+    float: right;
+    margin-left: 50px;
+    transform: scale(2);
+    background-color: aquamarine;
+  }
+
+  #timeDiv {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background-color: rgb(0, 153, 255);
+  padding: 10px;
+  font-size: 40px;
+  text-align: center;
+  color: rgb(255, 255, 255);
+
+  }
+
+/* 
+input[type=radio], input.radio {
+  margin-left: 5px;
+  height: 1.2em;
+  width: 3%;
+} */
+
+
+/* #q1ans1div {
+    border-width: 5px;
+border-style: solid;
+border-color: red;
+} */
+
+input[type=checkbox] {
+  height: 1.5em;
+  width: 100%;
+  margin:20px;
+
+  
+}
+
+input[type=checkbox] label {
+	display: block;
+	padding-left: 15px;
+	text-indent: -15px;
+  }
+
+/* Might want to wrap a span around your checkbox text */
+.checkboxtext {
+  /* Checkbox text */
+  font-size: 100%;
+
+}
+
+.section:focus{
+	border: .1em solid #0198E1;
+}
+#comment{
+	height: 5em;
+	max-width: 100%;
+}
+#agree{
+	font-family: 'Open Sans', sans-serif;
+	color: #0198E1;
+	font-size: 1em;
+	font-weight: 400;
+}
+
+.submit{
+ width: 100%;
+}
+#submintBtn {
+	width:50%;
+	margin-left: 30%;
+	margin-bottom: 10%;
+	margin-top: 10%;
+	padding:1em;
+	font-family: 'Open Sans', sans-serif;
+	cursor:pointer;
+	background-color: #0198E1;
+	color: #000;
+	font-size: 2em;
+	font-weight: 400;
+	border: none;
+	min-width: 10em;
+}
+button:focus , button:hover {
+	background-color: #fff;
+	color: #0198E1;
+	font-weight: 600; 
+}
+
+.questionTitle {
+	width:100%;
+	margin:0;
+	padding: .5em 0;
+	background-color: rgb(182, 110, 27);
+}
+
+.questionTitle .qTitle {
+	text-align: center;
+	color:#000;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1.7em;
+  font-weight:bold;
+  line-height: 0.3em;
+  margin-top: .3em;
+  margin-bottom: .3em;
+
+}
+
+.question .section {
+	width: 80%;
+}
+
+.btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 24px;
+	line-height: 1.33;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    padding: 6px 0px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+	line-height: 1.42857;
+	position: relative;
+	left: 50%;
+	margin-right: 10px;
+}
+
+#addQuestionBtn, #removeQuestionBtn {
+    padding: 6px 0px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 24px;
+	line-height: 1.42857;
+	position: relative;
+	left: 50%;
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
+@media only screen and (max-width: 1100px) {
+    .section {
+        background-color: rgba(187, 153, 125, 0.459);
+    }
+    .pTitles img, .divAns img{
+        transform: scale(0.5);
+     
+    }
+
+    .divAns {
+        display:inline-block;
+      }
+
+     
+    .pTitles, .divAns p{
+        font-weight:300;
+        font-size: 1em;
+        text-align-last: right;
+        word-wrap: break-word;
+        width: 300px;
+    }
+   
+    .divAns p span{
+        color: rgb(255, 136, 0);
+        font-weight:100;
+        font-size: 1em;
+        font-weight: bold;
+        margin-left: 10px;
+    }
+    #title h1{
+        font-size: 1.5em;
+    }
+  }
+
+
+
+
+
+
+
+

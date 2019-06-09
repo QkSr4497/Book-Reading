@@ -1,4 +1,6 @@
-const pool = require('./db'); // postgresql database connection pool
+const db = require('./db'); // postgresql database connection pool
+
+const pool = db.pg_pool;
 
 const getUsers = (request, response) => {
     pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
@@ -130,6 +132,204 @@ const getUserById = (userID, callback) => {
         }
     });
 }
+
+const insertNewQuiz = async (data, writerID) => { // using async/await
+    console.log(data);
+    await db.query(`INSERT INTO "Quiz"("quizTitle", "quizLanguage", "quizPic", duration) VALUES($1, $2, $3, $4)`,
+      [data.quizTitle, data.quizLang, data.quizPicInput, data.quizTime]);
+  
+    const { rowCount: quizID} = await db.query(`SELECT * FROM "Quiz"`);
+  
+    for (var i = 1; i <= data.totalQuestionsNum; i++) {
+      await db.query(`INSERT INTO "Question"("quizID", "questionNum", "questionContent", "questionPic", "questType") VALUES($1, $2, $3, $4, $5)`,
+        [quizID, i, eval(`data.q${i}content`), eval(`data.q${i}picInput`), eval(`data.q${i}type`)]);
+    }
+  
+    //console.log('in answers total questions num: ' + data.totalQuestionsNum);
+    var isCorrect = 'N';
+    for (var i = 1; i <= data.totalQuestionsNum; i++) {
+        //console.log(`i      ${i} <= ${data.totalQuestionsNum}`)
+        isCorrect = 'N';
+        for (var j = 1; j <= eval(`data.q${i}totalAnsNum`); j++) {
+            //console.log(`j      ${j} <=` +  eval(`data.q${i}totalAnsNum`));
+            //console.log(`in q${i} total answer num: ` + eval(`data.q${i}totalAnsNum`))
+            if (eval(`data.q${i}type`) == 'single') {
+  
+                if (eval(`data.q${i}ansRadio`) == j) {
+                    isCorrect = 'Y';
+                }
+                else {
+                    isCorrect = 'N';
+                }
+  
+            }
+            else if (eval(`data.q${i}type`) == 'multi' ) {
+                if (eval(`data.q${i}ans${j}checkbox`)) {
+                    isCorrect = 'Y';
+                }
+                else {
+                    isCorrect = 'N';
+                }
+  
+            }
+            
+            await db.query(`INSERT INTO "Answer"("quizID", "questionNum", "answerNum", "answerContent", "answerPic", "isCorrect") VALUES($1, $2, $3, $4, $5, $6)`,
+                [quizID, i, j, eval(`data.q${i}ans${j}content`), eval(`data.q${i}ans${j}picInput`), isCorrect]); 
+        }
+    }
+
+    await db.query(`INSERT INTO "WritesQuiz"("bookID", "quizID", "personID") VALUES($1, $2, $3)`,
+        [data.quizBookID, quizID, writerID]);
+  }
+
+
+const getAllQuizesNotTaken = async (userID) => { // using async/await
+    const { rows: result } = await db.query(`SELECT * FROM "Quiz"`);
+    // console.log('getWriterAndBookByQuizID, quizID searched: ' + quizID);
+    // console.log(result[0]);
+    return result;
+} 
+
+
+const getFullQuizDataByQuizID = async (quizID) => { // using async/await
+    var Quiz = {};
+
+    const { rows: result} = await db.query(`SELECT * FROM "Quiz" qz
+                                            WHERE qz."quizID" = ${quizID}`);
+
+    Quiz.quizID = quizID;
+    Quiz.quizTitle = result[0].quizTitle;
+    Quiz.quizLang = result[0].quizLanguage;
+    Quiz.quizPic = result[0].quizPic;
+    Quiz.duration = result[0].duration;
+    
+
+    const questionsData =  await getQuestionsByQuizID(quizID);
+    Quiz.totalQuestionsNum = questionsData.length;
+    const bookAndCreater = await getWriterAndBookByQuizID(quizID);
+    Quiz.bookID = bookAndCreater.bookID;
+    Quiz.bookName = bookAndCreater.bookName;
+    Quiz.bookAuthorFirstName = bookAndCreater.authorFirstName;
+    Quiz.bookAuthorLastName = bookAndCreater.authorLastName;
+    Quiz.bookPic = bookAndCreater.pic;
+    Quiz.quizCreaterID = bookAndCreater.personID;
+    Quiz.quizCreaterFirstName = bookAndCreater.firstName;
+    Quiz.quizCreaterLastName = bookAndCreater.lastName;
+
+    Quiz.questions = questionsData;
+    return Quiz;
+}
+
+const getWriterAndBookByQuizID = async (quizID) => { // using async/await
+    const { rows: result } = await db.query(`SELECT b."bookID", b."bookName", b."authorFirstName", b."authorLastName", "pic", p."personID", p."firstName", p."lastName"
+                                            FROM "WritesQuiz" wq INNER JOIN "Person" p ON wq."personID" = p."personID"
+                                            INNER JOIN "Book" b ON wq."bookID" = b."bookID" 
+                                            WHERE wq."quizID" = ${quizID}`);
+    // console.log('getWriterAndBookByQuizID, quizID searched: ' + quizID);
+    // console.log(result[0]);
+    return result[0];
+}
+
+
+const getQuestionsByQuizID = async (quizID) => { // using async/await
+    var { rows: result} = await db.query(`SELECT "questionNum", "questionContent", "questionPic", "questType" 
+                                            FROM "Quiz" qz INNER JOIN "Question" qs ON qz."quizID" = qs."quizID"
+                                            WHERE qz."quizID" = ${quizID}`);
+    var answers = [];
+    for (var i = 0; i < result.length; i++) {
+        answers[i] = await getAnswersBy_QuizID_QstNum(quizID, i + 1);
+        result[i].answersNum = answers[i].length;
+        result[i].answers = answers[i];
+    }
+    //console.dir(result, { depth: null }); // `depth: null` ensures unlimited recursion
+    return result;
+}
+
+const getAnswersBy_QuizID_QstNum = async (quizID, questionNum) => { // using async/await
+    var { rows: result} = await db.query(`SELECT "answerNum", "answerContent", "answerPic", "isCorrect"
+                                            FROM "Answer"
+                                            WHERE "quizID" = ${quizID} AND "questionNum" = ${questionNum}`);
+    return result;
+}
+
+
+// const insertNewQuizDetails = (data, callback) => {
+//     console.log('in quiz total questions num: ' + data.totalQuestionsNum);
+//     pool.query(`SELECT * FROM "Quiz"`, (error, results) => {
+//         if (error) {
+//             throw error
+//         }
+//         else {
+//             pool.query(`INSERT INTO "Quiz"("quizTitle", "quizLanguage", "pic", duration) VALUES($1, $2, $3, $4)`,
+//                 [data.quizTitle, data.quizLang, data.quizPicInput, data.quizTime], (error) => {
+//                     if (error) {
+//                         throw error
+//                     }
+//                     else {
+//                         callback({
+//                             quizID: results.rowCount
+//                         });
+//                     }
+//             });
+//         }
+//     });
+// }
+
+// const insertQuestionsToQuiz = (data, quizID, callback) => {
+//     console.log('in questions total questions num: ' + data.totalQuestionsNum);
+//     for (var i = 1; i <= data.totalQuestionsNum; i++) {
+//         pool.query(`INSERT INTO "Question"("quizID", "questionNum", "content", "pic", "questType") VALUES($1, $2, $3, $4, $5)`,
+//             [quizID, i, eval(`data.q${i}content`), eval(`data.q${i}picInput`), eval(`data.q${i}type`)], (error) => {
+//                 if (error) {
+//                     throw error
+//                 }
+//         });
+//     }
+//     callback();
+// }
+
+// const insertAnswersToQuiz = (data, quizID, callback) => {
+//     console.log('in answers total questions num: ' + data.totalQuestionsNum);
+//     var isCorrect = 'N';
+//     for (var i = 1; i <= data.totalQuestionsNum; i++) {
+//         console.log(`i      ${i} <= ${data.totalQuestionsNum}`)
+//         isCorrect = 'N';
+//         for (var j = 1; j <= eval(`data.q${i}totalAnsNum`); j++) {
+//             console.log(`j      ${j} <=` +  eval(`data.q${i}totalAnsNum`));
+//             console.log(`in q${i} total answer num: ` + eval(`data.q${i}totalAnsNum`))
+//             if (eval(`data.q${i}type`) == 'single') {
+
+//                 if (eval(`data.q${i}ansRadio`) == j) {
+//                     isCorrect = 'Y';
+//                 }
+//                 else {
+//                     isCorrect = 'N';
+//                 }
+
+//             }
+//             else if (eval(`data.q${i}type`) == 'multi' ) {
+//                 if (eval(`data.q${i}ans${j}checkbox`)) {
+//                     isCorrect = 'Y';
+//                 }
+//                 else {
+//                     isCorrect = 'N';
+//                 }
+
+//             }
+            
+//             pool.query(`INSERT INTO "Answer"("quizID", "questionNum", "answerNum", "content", "pic", "isCorrect") VALUES($1, $2, $3, $4, $5, $6)`,
+//                 [quizID, i, j, eval(`data.q${i}ans${j}content`), eval(`data.q${i}ans${j}picInput`), isCorrect], (error) => {
+//                     if (error) {
+//                         console.log(`${quizID} ${i} ${j}`)
+//                         throw error
+//                     }
+//                 });
+//         }
+
+//     }
+//     callback();
+// }
+
 
 const getAllBooks = (callback) => {
     pool.query(`SELECT * FROM "Book" b`, (error, results) => {
@@ -366,7 +566,8 @@ module.exports = {
     getGroupAdminMembers,
     getGroupKidMembers,
     getGroupPosts,
-   // getGroupPostComments,
-    getAllAboutGroup
-
+    getAllAboutGroup,
+    insertNewQuiz,
+    getFullQuizDataByQuizID,
+    getAllQuizesNotTaken
 }

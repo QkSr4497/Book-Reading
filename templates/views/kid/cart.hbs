@@ -1,51 +1,57 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Kid Cart</title>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   {{> kid_head}}
 
 </head>
+
 <body>
-   <div  class="navigation-style">
-      {{> kid_sideNav}}
-    <div  id="main">
+  <div class="navigation-style">
+    {{> kid_sideNav}}
+    <div id="main">
       {{> kid_topNav}}
-          {{#if userData.points}}
-         <p id="kidPoints" style="display: none">{{userData.points}}</p>
-          {{/if}}
-          <div class="cart-style"> 
-              <h1 class="lang" key="shoppingCart">Shopping Cart</h1> 
-              <div class="w3-container ">
-              <ul class="w3-ul w3-card-4">
-                {{#myCart}}
-                <li class="w3-bar product" >
-                 <span class="w3-bar-item w3-button w3-white w3-xlarge w3-right deleteItem" name="{{gameID}}" data-id="{{gameID}}">x</span>
-                  <img src={{pic}} class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
-                  <div class="w3-bar-item">
-                    <span class="w3-large gameName">{{gameName}}</span><br>
-                    <span class="price"  data-price="{{price}}">{{price}}</span>
-                  </div>
-                </li>
-                 {{/myCart}}
-              </ul>
-            </div>
+      {{#if userData.points}}
+      <p id="kidPoints" style="display: none">{{userData.points}}</p>
+      {{/if}}
+      <div class="cart-style">
+        <h1 class="lang" key="shoppingCart">Shopping Cart</h1>
+        <div class="w3-container ">
+          <ul class="w3-ul w3-card-4">
+            {{#myCart}}
+            <li class="w3-bar product">
+              <span class="w3-bar-item w3-button w3-white w3-xlarge w3-right deleteItem" name="{{gameID}}"
+                data-id="{{gameID}}">x</span>
+              <img src={{pic}} class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+              <div class="w3-bar-item">
+                <span class="w3-large gameName">{{gameName}}</span><br>
+                <span class="price" data-price="{{price}}">{{price}}</span>
+              </div>
+            </li>
+            {{/myCart}}
+          </ul>
+        </div>
 
-            <div class="checkClass">             
-              <p class="lang" key="totalAmount">Total Amount: </p>
-              <p id="cart-total" class="totals-value"></p>
-              <button onclick="checkoutFunction()"  class="checkout lang" key="checkout">checkout</button>
-              <p class="lang" key="enoughMoney" id="userNameException" style="display: none">You don't have enough points 😔</p>
-            </div>
+        <div class="checkClass">
+          <p class="lang" key="totalAmount">Total Amount: </p>
+          <p id="cart-total" class="totals-value"></p>
+          <button onclick="checkoutFunction()" class="checkout lang" key="checkout">checkout</button>
+          <p class="lang" key="enoughMoney" id="userNameException" style="display: none">You don't have enough points 😔
+          </p>
+        </div>
 
+      </div> 
     </div> {{!-- main --}}
- </div>
-     
- {{> kid_footer}}
+  </div>
 
- <script src="/js/kid/kid-cart-scripts.js"></script>
+  {{> kid_footer}}
+
+  <script src="/js/kid/kid-cart-scripts.js"></script>
 </body>
+
 </html>

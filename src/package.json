@@ -10,6 +10,7 @@
     "connect-pg-simple": "^5.0.0",
     "cookie-parser": "^1.4.4",
     "express": "^4.16.4",
+    "express-promise-router": "^3.0.3",
     "express-session": "^1.16.1",
     "hbs": "^4.0.4",
     "node-sass": "^4.12.0",

@@ -41,7 +41,9 @@ app.use(express.static(publicDirectoryPath));  // use is a way to customize our 
 
 require('dotenv').config(); // using env file
 
-const pool = require('./db.js');    // postgresql database connection pool
+const db = require('./db.js');    // postgresql database connection pool
+
+const pool = db.pg_pool;
 
 // Body Parser Middleware
 app.use(bodyParser.json());

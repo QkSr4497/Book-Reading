@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kids-Read Quizes</title>
+
+  {{> kid_head}}
+
+  <!-- Main Stylesheets -->
+  <link rel="stylesheet" type="text/css" href="/css/kid/quizes.css" />
+
+
+</head>
+
+<body>
+  <div class="navigation-style">
+    {{> kid_sideNav}}
+
+    <div id="main">
+      {{> kid_topNav}}
+      <div id="quizes" class="card-style">
+        <h2 key="bookList"> Quizes List 📘</h2>
+        <div class="cards">
+          {{#Quiz}}
+          <form method="POST" action="/kid/start-quiz">
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img src={{quizPic}} alt="Avatar" style="width:300px;height:300px;">
+                </div>
+                <div class="flip-card-back">
+                  <h1><span> Quiz Title:</span> {{quizTitle}} </h1>
+                  <h1><span> Quiz time:</span> {{duration}} minutes</h1>
+                  <input type="text" name="quizID" value={{quizID}} style="display: none">
+                  <input type="submit" class="" value="take the quiz" />
+                </div>
+              </div>
+            </div>
+          </form>
+          {{/Quiz}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--====== Javascripts & Jquery ======-->
+  <script src="/js/kid/quizes.js"></script>
+
+  {{> kid_footer}}
+
+</body>
+
+</html>
