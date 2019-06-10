@@ -59,7 +59,6 @@ INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUE
 ------ Game table ------------------------------
 INSERT INTO "Game"("gameName","pic","price","link") VALUES('HexGL','/funGames/HexGL/hexgl.jpg', '5000','/funGames/HexGL/index.html');
 INSERT INTO "Game"("gameName","pic","price","link") VALUES('Hextris', '/funGames/Hextris/hextris.png','3000','/funGames/Hextris/index.html');
-INSERT INTO "Game"("gameName","pic","price","link") VALUES('React simon says','/funGames/react-simon-says/react.png', '2500','/funGames/react-simon-says/public/index.html');
 INSERT INTO "Game"("gameName","pic","price","link") VALUES('Pacman','/funGames/Pacman/pacman.png', '3000','/funGames/Pacman/index.html');
 INSERT INTO "Game"("gameName","pic","price","link") VALUES('Racer','/funGames/Racer/racer.png', '4000','/funGames/Racer/index.html');
 INSERT INTO "Game"("gameName","pic","price","link") VALUES('Radius','/funGames/Radius/radius.png', '4000','/funGames/Radius/index.html');
@@ -94,6 +93,33 @@ INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answe
 ------ WritesQuiz table ------------------------------
 INSERT INTO "WritesQuiz"("bookID", "quizID", "personID") VALUES('1','1','5'); -- quiz1
 --************ /WritesQuiz table *************************************
+
+------------------Group--------------------------------------------
+
+INSERT INTO "Group" ("groupName","personID") VALUES ('Lions','5');
+
+INSERT INTO "InGroup" ("groupID","personID","type") VALUES ('1','5','admin');
+INSERT INTO "InGroup" ("groupID","personID","type") VALUES ('1','7','kid');
+INSERT INTO "InGroup" ("groupID","personID","type") VALUES ('1','8','kid');
+INSERT INTO "InGroup" ("groupID","personID","type") VALUES ('1','9','kid');
+INSERT INTO "InGroup" ("groupID","personID","type") VALUES ('1','10','kid');
+
+----------------------Message--------------------------------------------------
+INSERT INTO "Message" ("date","personID","subject","content") VALUES ('10/6/2019','5','Reading new book','Hi,I hope you all fine kids, I just wanted telling you that I have added new book in the library list, enjoy reading the new book  ^-^');
+INSERT INTO "Message" ("date","personID","subject","content") VALUES ('10/6/2019','5','New Quiz','Hi,I hope you all fine kids, I just wanted telling you that I have added new quiz for the new book.');
+
+
+INSERT INTO "GetMessage"("messageID","personID","checked")VALUES('1','7','N');
+INSERT INTO "GetMessage"("messageID","personID","checked")VALUES('2','7','N');
+INSERT INTO "GetMessage"("messageID","personID","checked")VALUES('1','8','N');
+INSERT INTO "GetMessage"("messageID","personID","checked")VALUES('2','8','N');
+INSERT INTO "GetMessage"("messageID","personID","checked")VALUES('1','9','N');
+INSERT INTO "GetMessage"("messageID","personID","checked")VALUES('2','9','N');
+INSERT INTO "GetMessage"("messageID","personID","checked")VALUES('1','10','N');
+INSERT INTO "GetMessage"("messageID","personID","checked")VALUES('2','10','N');
+
+
+
 
 
 ------ Note table ------------------------------
