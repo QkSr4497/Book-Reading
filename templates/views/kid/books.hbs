@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Kid Books</title>
+  <link rel="stylesheet" href="/css/kid/messageModal.css">
   {{> kid_head}}
 
 </head>
@@ -18,6 +19,7 @@
          {{> kid_topNav}}
           <div class="my-books-style">
            <h1 class="lang" key="myBookBoard">📚 רשימת הספרים שלי</h1>
+           <button id="myBtn">Open Modal</button>
             <div class="row">
 
                 <div id="intrested" class="intrested column" ondrop="drop(event)" ondragover="allowDropIntrested(event)">
@@ -63,6 +65,21 @@
                 </div>
               </div>
           </div>
+
+
+          <!-- The Modal -->
+          <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <p id="msgContent">אתה חייב להיבחן קודם 😁 </p>
+            </div>
+
+          </div>
+
+
+
 
 {{!-- main --}}
   </div>

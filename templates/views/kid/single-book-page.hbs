@@ -84,7 +84,7 @@
                 <h1 class="titleClass">תגובות:</h1>
                 <form method="POST" action="/kid/book/addReview">
                     <input name="bookID" type="text" value={{bookID}} style="display: none">
-                    <textarea name="review" id="reviewContent" cols="80" rows="4" required></textarea>
+                    <textarea name="review" id="reviewContent" cols="80" rows="2" required></textarea>
                     <button type="submit" id="review"> הוסף תגובה</button>
                 </form>
             </div>
@@ -92,11 +92,12 @@
           {{/each }}
 
           {{#each bookInfoAndReviews.bookReviews}}
-          <div class="chip">
-            <img src="../../img/icons/user.png" alt="Person" width="96" height="96">
-            <p id="reviewText">{{review}}</p>
-          </div>
-
+              <div class="container">
+                <img id="postImg" src="../../img/icons/chat_3.png"  alt="Avatar">
+                <p>{{userName}}</p>
+                {{!-- <p>{{postDate}}</p> --}}
+                <p>{{review}}</p>
+              </div>
           {{/each }}
 
          </div>
