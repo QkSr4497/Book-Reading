@@ -57,12 +57,12 @@ INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUE
 --************ /Book table *************************************
 
 ------ Game table ------------------------------
-INSERT INTO "Game"("gameName","pic","price","link") VALUES('HexGL','/funGames/HexGL/hexgl.jpg', '5000','/funGames/HexGL/index.html');
-INSERT INTO "Game"("gameName","pic","price","link") VALUES('Hextris', '/funGames/Hextris/hextris.png','3000','/funGames/Hextris/index.html');
-INSERT INTO "Game"("gameName","pic","price","link") VALUES('Pacman','/funGames/Pacman/pacman.png', '3000','/funGames/Pacman/index.html');
-INSERT INTO "Game"("gameName","pic","price","link") VALUES('Racer','/funGames/Racer/racer.png', '4000','/funGames/Racer/index.html');
-INSERT INTO "Game"("gameName","pic","price","link") VALUES('Radius','/funGames/Radius/radius.png', '4000','/funGames/Radius/index.html');
-INSERT INTO "Game"("gameName","pic","price","link") VALUES('Tower Bulding','/funGames/tower_game/towerBuilding.png', '3500','/funGames/tower_game/index.html');
+INSERT INTO "Game"("gameName","pic","price","link") VALUES('HexGL','/funGames/HexGL/hexgl.jpg', '500','/funGames/HexGL/index.html');
+INSERT INTO "Game"("gameName","pic","price","link") VALUES('Hextris', '/funGames/Hextris/hextris.png','200','/funGames/Hextris/index.html');
+INSERT INTO "Game"("gameName","pic","price","link") VALUES('Pacman','/funGames/Pacman/pacman.png', '150','/funGames/Pacman/index.html');
+INSERT INTO "Game"("gameName","pic","price","link") VALUES('Racer','/funGames/Racer/racer.png', '200','/funGames/Racer/index.html');
+INSERT INTO "Game"("gameName","pic","price","link") VALUES('Radius','/funGames/Radius/radius.png', '250','/funGames/Radius/index.html');
+INSERT INTO "Game"("gameName","pic","price","link") VALUES('Tower Bulding','/funGames/tower_game/towerBuilding.png', '200','/funGames/tower_game/index.html');
 --************ /Game table *************************************
 
 ------ Quiz table ------------------------------
