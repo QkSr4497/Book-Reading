@@ -28,50 +28,50 @@
     <div class="container" id="quizContainer">
         {{> teacher_body}}
         <header>
-            <h1>Add a New Quiz
-                <span>Here you can add a new quiz that is related to a certain book</span>
+            <h1>יצירת בוחן חדש
+                <span>בחלק זה ניתן ליצור בחנים על ספרים</span>
             </h1>
         </header>
 
-        <form method="POST" id="quizForm" name="quizForm" action="/query/addNewQuiz" enctype="multipart/form-data">
+        <form method="POST" id="quizForm" name="quizForm" action="/query/addNewQuiz">
             {{!------------ Quiz details -----------------------}}
             <div class="wrap">
                 <div class="background">
                     <div id="title">
-                        <h1 id="formTitle">Quiz Details</h1>
+                        <h1 id="formTitle">פרטי הבוחן</h1>
                     </div>
                     <p class="pTitles">
                         <img src="" alt="" id="bookPic">
                         <select required id="booksList" class="section" name="quizBookID" form="quizForm">
-                            <option selected="selected" value="title">Choose a book</option>
+                            <option selected="selected" value="title">בחירת ספר</option>
                         </select>
-                        *Book:
+                        *:ספר
                     </p>
                     <p class="pTitles">
-                        <input name="quizTitle" type="text" class="section" placeholder="Quiz Title" required>
-                        *Quiz Title:
+                        <input name="quizTitle" type="text" class="section" placeholder="כותרת הבוחן" required>
+                        *:כותרת הבוחן
                     </p>
                     <p class="pTitles">
                         <select required id="langSelect" class="section" name="quizLang" form="quizForm">
-                            <option selected="selected" value="title">Choose Language</option>
-                            <option value="hebrew">Hebrew</option>
-                            <option value="arabic">Arabic</option>
+                            <option selected="selected" value="title">בחר שפה</option>
+                            <option value="hebrew">עברית</option>
+                            <option value="arabic">ערבית</option>
                         </select>
-                        *Language:
+                        *:שפה:
                     </p>
                     <p class="pTitles">
                         <img src="#" alt="" id="quizPic">
                         <input type="file" id="quizPicInput" name="quizPicInput" class="section" accept="image/*"
                             alt="your image" />
 
-                        Quiz Picture:
+                        :תמונת הבוחן
                     </p>
 
                     <p class="pTitles">
                         <select required id="timeMinSelect" class="section" name="quizTime" form="quizForm">
-                            <option selected="selected" value="title" name="quizTime">Choose duration</option>
+                            <option selected="selected" value="title" name="quizTime">בחר אורך הבוחן</option>
                         </select>
-                        *Duration in minutes:
+                        *:משך בדקות
                     </p>
 
                     <input id="totalQuestionsNum" name="totalQuestionsNum" type="hidden">
@@ -83,54 +83,54 @@
             <div class="wrap question" id="q1">
                 <div class="background">
                     <div class="questionTitle">
-                        <h1 class="qTitle" id="q1-title">Question 1</h1>
+                        <h1 class="qTitle" id="q1-title">שאלה 1</h1>
                     </div>
 
                     <p class="pTitles">
-                        <input required name="q1content" type="text" class="section" placeholder="Question Content" form="quizForm">
-                        *Content:
+                        <input required name="q1content" type="text" class="section" placeholder="תוכן השאלה" form="quizForm">
+                        *:תוכן
                     </p>
 
                     <p class="pTitles">
                         <img src="#" alt="" id="q1pic">
                         <input type="file" id="q1picInput" name="q1picInput" class="section" accept="image/*"
                             alt="your image" style="width: 50%;" />
-                        Q1 Picture:
+                        :תמונת שאלה 1
                     </p>
 
                     <p class="pTitles">
                         <select required id="q1type" class="section questionTypeClass" name="q1type" form="quizForm">
-                            <option selected="selected" value="single">Single Choice Question</option>
-                            <option value="multi">Multiple Choice Question</option>
+                            <option selected="selected" value="single">תשובה יחידה</option>
+                            <option value="multi">תשובות מרובות</option>
                         </select>
-                        *Question Type:
+                        *:סוג השאלה
                     </p>
 
                     <div id="q1ans1div">
                         <p class="pTitles">
-                            <input name="q1ans1content" id="q1ans1content" type="text" class="section" placeholder="Answer 1 Content" required>
-                            *Answer 1:
+                            <input name="q1ans1content" id="q1ans1content" type="text" class="section" placeholder="תוכן תשובה 1" required>
+                            *:תשובה 1
                         </p>
 
                         <p class="pTitles">
                             <img src="#" alt="" id="q1ans1pic">
                             <input type="file" id="q1ans1picInput" name="q1ans1picInput" class="section"
                                 accept="image/*" alt="your image" style="width: 50%;" />
-                            Answer 1 Picture:
+                            :תמונת תשובה 1
                         </p>
                     </div>
 
                     <div id="q1ans2div">
                         <p class="pTitles">
-                            <input name="q1ans2content" id="q1ans2content" type="text" class="section" placeholder="Answer 2 Content" required>
-                            *Answer 2:
+                            <input name="q1ans2content" id="q1ans2content" type="text" class="section" placeholder="תוכן תשובה 2" required>
+                            *:שאלה 2
                         </p>
 
                         <p class="pTitles">
                             <img src="#" alt="" id="q1ans2pic">
                             <input type="file" id="q1ans2picInput" name="q1ans2picInput" class="section"
                                 accept="image/*" alt="your image" style="width: 50%;" />
-                            Answer 2 Picture:
+                            :תמונת שאלה 2
                         </p>
  
                     </div>
@@ -151,18 +151,18 @@
             </div>
 
             <button type="button" class="btn btn-danger btn-add-question" id="removeQuestionBtn"
-                title="remove Question"> Remove
-                Question <i class="fas fa-minus"></i>
+                title="remove Question"> מחק
+                שאלה <i class="fas fa-minus"></i>
             </button>
-            <button type="button" class="btn btn-warning btn-add-question" id="addQuestionBtn" title="Add Question"> Add
-                Question <i class="fas fa-plus"></i>
+            <button type="button" class="btn btn-warning btn-add-question" id="addQuestionBtn" title="Add Question"> הוסף
+                שאלה <i class="fas fa-plus"></i>
             </button>
 
 
            
 
         </form>
-        <button type="submit" value="Submit" id="submintBtn">Add Quiz</button>
+        <button type="submit" value="Submit" id="submintBtn">צור בוחן</button>
     </div> <!-- /container -->
 
 

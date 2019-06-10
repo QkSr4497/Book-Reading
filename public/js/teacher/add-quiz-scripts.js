@@ -207,15 +207,15 @@ $('#addAnsBtn').click(function () {
     var myString = `
     <div id="q${numOfQuestions}ans${ansNum}div">
         <p class="pTitles">
-            <input name="q${numOfQuestions}ans${ansNum}content" id="q${numOfQuestions}ans${ansNum}content" type="text" class="section" placeholder="Answer ${ansNum} Content" required>
-            *Answer ${ansNum}:
+            <input name="q${numOfQuestions}ans${ansNum}content" id="q${numOfQuestions}ans${ansNum}content" type="text" class="section" placeholder="תוכן תשובה ${ansNum} " required>
+            *:תשובה  ${ansNum}
          </p>
 
         <p class="pTitles">
             <img src="#" alt="" id="q${numOfQuestions}ans${ansNum}pic">
             <input type="file" id="q${numOfQuestions}ans${ansNum}picInput" name="q${numOfQuestions}ans${ansNum}picInput" class="section" accept="image/*"
                 alt="your image" style="width: 50%;" />
-            Answer ${ansNum} Picture:
+            תמונת תשובה: ${ansNum} 
         </p>
     </div>
     `
@@ -271,54 +271,54 @@ $('#addQuestionBtn').click(function () {
     <div class="wrap question" id="q${numOfQuestions}">
                 <div class="background">
                     <div class="questionTitle">
-                        <h1 class="qTitle" id="q${numOfQuestions}-title">Question ${numOfQuestions}</h1>
+                        <h1 class="qTitle" id="q${numOfQuestions}-title">שאלה ${numOfQuestions}</h1>
                     </div>
 
                     <p class="pTitles">
-                        <input id="q${numOfQuestions}content" name="q${numOfQuestions}content" type="text" class="section" placeholder="Question Content" required>
-                        *Content:
+                        <input id="q${numOfQuestions}content" name="q${numOfQuestions}content" type="text" class="section" placeholder="תוכן השאלה" required>
+                        *:תוכן
                     </p>
 
                     <p class="pTitles">
                         <img src="#" alt="" id="q${numOfQuestions}pic">
                         <input type="file" id="q${numOfQuestions}picInput" name="q${numOfQuestions}picInput" class="section" accept="image/*"
                             alt="your image" style="width: 50%;" />
-                        Q${numOfQuestions} Picture:
+                       תמונת שאלה: ${numOfQuestions} 
                     </p>
 
                     <p class="pTitles">
                         <select required id="q${numOfQuestions}type" class="section questionTypeClass" name="q${numOfQuestions}type" form="quizForm">
-                            <option selected="selected"  value="single">Single Choice Question</option>
-                            <option value="multi">Multiple Choice Question</option>
+                            <option selected="selected"  value="single">תשובה יחידה</option>
+                            <option value="multi">תשובות מרובות</option>
                         </select>
-                        *Question Type:
+                        *:סוג השאלה
                     </p>
 
                     <div id="q${numOfQuestions}ans1div">
                         <p class="pTitles">
-                            <input name="q${numOfQuestions}ans1content" id="q${numOfQuestions}ans1content" type="text" class="section" placeholder="Answer 1 Content" required>
-                            *Answer 1:
+                            <input name="q${numOfQuestions}ans1content" id="q${numOfQuestions}ans1content" type="text" class="section" placeholder="תוכן תשובה 1" required>
+                            *:תשובה 1
                         </p>
 
                         <p class="pTitles">
                             <img src="#" alt="" id="q${numOfQuestions}ans1pic">
                             <input type="file" id="q${numOfQuestions}ans1picInput" name="q${numOfQuestions}ans1picInput" class="section"
                                 accept="image/*" alt="your image" style="width: 50%;" />
-                            Answer 1 Picture:
+                                :תמונת תשובה 1
                         </p>
                     </div>
 
                     <div id="q${numOfQuestions}ans2div">
                         <p class="pTitles">
-                            <input name="q${numOfQuestions}ans2content" id="q${numOfQuestions}ans2content" type="text" class="section" placeholder="Answer 2 Content" required>
-                            *Answer 2:
+                            <input name="q${numOfQuestions}ans2content" id="q${numOfQuestions}ans2content" type="text" class="section" placeholder="תוכן תשובה 2" required>
+                            *:שאלה 2
                         </p>
 
                         <p class="pTitles">
                             <img src="#" alt="" id="q${numOfQuestions}ans2pic">
                             <input type="file" id="q${numOfQuestions}ans2picInput" name="q${numOfQuestions}ans2picInput" class="section"
-                                accept="image/*" alt="your image" style="width: 50%;" />
-                            Answer 2 Picture:
+                                accept="imacge/*" alt="your image" style="width: 50%;" />
+                            :תמונת שאלה 2
                         </p>
                     </div>
                     <input id="q${numOfQuestions}totalAnsNum" name="q${numOfQuestions}totalAnsNum" type="hidden">
@@ -403,7 +403,7 @@ function updateCorrectAns(questionNum, numOfAnswers, questionType) {
             <input type="radio" id="q${questionNum}ans${i}radio" name="q${questionNum}ansRadio" value="${i}" />
             `;
         }
-        radionString += '*Correct Answer:';
+        radionString += '*:תשובה נכונה';
         radionString += `</p>`; 
         $(radionString).insertAfter($('.pTitles').last());
     }

@@ -13,7 +13,7 @@ body{
     min-width:20em;
 }
 .background{
-	background-color:#111;
+	background-color:rgb(255, 255, 255);
 	margin: 0 auto;
 	padding: 1.5em;
 	width:80%;
@@ -73,8 +73,8 @@ select, input {
 
 .pTitles{
     text-align: right;
-    color: aqua;
-    font-weight:300;
+    color: rgb(44, 9, 73);
+    font-weight:bold;
     font-size: 1.3em;
 
 }
@@ -156,7 +156,7 @@ button:focus , button:hover {
 	width:100%;
 	margin:0;
 	padding: .5em 0;
-	background-color: rgb(182, 110, 27);
+	background-color: rgb(255, 179, 0);
 }
 
 .questionTitle .qTitle {
