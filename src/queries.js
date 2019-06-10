@@ -183,12 +183,25 @@ const insertNewQuiz = async (data, writerID) => { // using async/await
   }
 
 
-const getAllQuizesNotTaken = async (userID) => { // using async/await
-    const { rows: result } = await db.query(`SELECT * FROM "Quiz"`);
+  const getAllQuizesNotTaken = async (userID) => { // using async/await
+    const { rows: notTaken } = await db.query(`SELECT * FROM "Quiz" m
+                                            WHERE m."quizID" IN ((SELECT q."quizID" FROM "Quiz" q
+                                                                    EXCEPT
+                                                                    SELECT tq."quizID" FROM "TakesQuiz" tq
+                                                                    WHERE tq."kidID" = $1))`,
+                                                                    [userID]);
+
+    const { rows: taken } = await db.query(`SELECT * 
+                                            FROM "TakesQuiz" tq INNER JOIN "Quiz" q ON tq."quizID" = q."quizID"
+                                            WHERE tq."kidID" = $1`,
+                                                [userID]);
+    var quizList = {}
+    quizList.notTaken = notTaken;
+    quizList.taken = taken;
     // console.log('getWriterAndBookByQuizID, quizID searched: ' + quizID);
     // console.log(result[0]);
-    return result;
-} 
+    return quizList;
+}
 
 
 const getFullQuizDataByQuizID = async (quizID) => { // using async/await
@@ -250,6 +263,16 @@ const getAnswersBy_QuizID_QstNum = async (quizID, questionNum) => { // using asy
                                             FROM "Answer"
                                             WHERE "quizID" = ${quizID} AND "questionNum" = ${questionNum}`);
     return result;
+}
+
+const updateQuizAndPoints = async (kidID, quizID, grade, score) => { // using async/await
+    await db.query(`INSERT INTO "TakesQuiz"("kidID", "quizID", "grade", "pointsEarned") VALUES($1, $2, $3, $4)`,
+        [kidID, quizID, grade, score]);
+    var { rows: result } = await db.query(`SELECT k."points" From "Kid" k WHERE k."kidID" = $1`, [kidID]);
+    var currentPoints = result[0].points;
+    var updatedPointsScore = parseInt(currentPoints) + parseInt(score);
+    await db.query(`UPDATE "Kid" SET points = $1 WHERE "kidID" = $2`,
+        [updatedPointsScore, kidID]);
 }
 
 
@@ -648,6 +671,7 @@ module.exports = {
     getAllMessages,
     getNotes,
     getKidBooksForNotes,
-    getAllAboutNote
+    getAllAboutNote,
+    updateQuizAndPoints
 
 }

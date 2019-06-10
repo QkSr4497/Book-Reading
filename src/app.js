@@ -1,6 +1,7 @@
 const express = require('express'),
   path = require('path'),
   bodyParser = require('body-parser'),
+  multer = require('multer'),
   hbs = require('hbs'),
   cookieParser = require('cookie-parser'),
   flash = require('connect-flash'),

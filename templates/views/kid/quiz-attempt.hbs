@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kids-Read Attempting Quiz</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     {{> kid_head}}
 
@@ -67,41 +68,37 @@
 
             <input type="hidden" id="inputQuizID" name="custId" value="{{quizData.quizID}}">
 
+            <input type="hidden" id="inputKidID" name="custId" value="{{userData.userID}}">
+
             <div id="timeDiv">הזמן שנותר: <span id="time"></span></div>
 
             <div class="container" id="quizContainer">
                 <header>
-                    <h1>Add a New Quiz
-                    </h1>
+                    {{!-- <h1>Add a New Quiz </h1> --}}
                 </header>
 
                 {{!------------ Quiz results -----------------------}}
-                <div class="wrap">
+                <div class="wrap" id="quizResults">
                     <div class="background">
                         <div id="title">
-                            <h1 id="formTitle">תוצאות הבוחן</h1>
+                            <h1>תוצאות הבוחן</h1>
                         </div>
                         <p class="pTitles">
-                            <img src="{{quizData.bookPic}}" alt="" id="bookPic">
-                            ציון המבחן: <span>{{quizData.bookName}}</span>
+                            ציון הבוחן: <span id="quizGrade"></span>
                         </p>
                         <p class="pTitles">
-                            <img src="{{quizData.quizPic}}" alt="" id="bookPic">
-                            במבחן זה הרווחת: <span>{{quizData.quizTitle}}</span>
+                            בבוחן זה הרווחת: <span id="quizPointsEarned"></span>
                         </p>
-                        <p class="pTitles">
-                            <span>{{quizData.quizCreaterFirstName}} {{quizData.quizCreaterLastName}}</span> :הבוחן נכתב
-                            ע"י
-                        </p>
-                        <p class="pTitles">
-                            מספר שאלות: <span>{{quizData.totalQuestionsNum}}</span>
-                        </p>
-                        <p class="pTitles">
-                            זמן מוקצב למענה:<span> {{quizData.duration}} דקות</span>
-                        </p>
-
+                
+                        <p class="pTitles" dir="rtl">  ליד כל תשובה ניתן לראות:</p>
+                        <ul dir="rtl">
+                            <li style="color: LawnGreen">מסגרת מסומנת בירוק אם התשובה שסומנה נכונה</li>
+                            <li style="color: red">מסגרת מסומנת באדום אם התשובה איננה נכונה</li>
+                            <li>מסגרת מהבהבת אם התשובה שסומנה איננה נכונה</li>
+                        </ul>
                     </div>
                 </div>
+                
 
 
                 {{!------------ Quiz details -----------------------}}

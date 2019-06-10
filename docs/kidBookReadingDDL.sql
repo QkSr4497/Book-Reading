@@ -203,7 +203,15 @@ CREATE TABLE "WritesQuiz" (
 	"quizID" INTEGER REFERENCES "Quiz" ("quizID"),
 	"personID" INTEGER REFERENCES "Person" ("personID"),
 	PRIMARY KEY ("quizID", "personID")									   
-);							
+);	
+
+CREATE TABLE "TakesQuiz" (
+	"kidID" INTEGER REFERENCES "Kid" ("kidID"),
+	"quizID" INTEGER REFERENCES "Quiz" ("quizID"),
+	"grade" INTEGER NOT NULL,
+	"pointsEarned" INTEGER NOT NULL,
+	PRIMARY KEY ("kidID", "quizID")									   
+);
 
 CREATE TABLE "BookAssigned" (
 	"bookID" INTEGER REFERENCES "Book" ("bookID"),

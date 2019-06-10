@@ -9,3 +9,18 @@ h1 span {
     margin-bottom: 10px;
 }
 
+
+.quizCategory {
+	color: rgb(153, 0, 255);
+	font-family: 'Cormorant Garamond';
+	border-bottom: 3px solid #fa8e00;
+	font-size: 48px;
+	font-weight: 400;
+	line-height: 72px;
+	letter-spacing: 35px;
+    margin-bottom: 25px;
+    margin-top: 25px;
+	text-align: center;
+	text-indent: 24px;
+	text-transform: uppercase;
+}

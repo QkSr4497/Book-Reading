@@ -1112,8 +1112,8 @@ router.get('/kid/quizes', authenticationMiddleware(), function (req, res) {
       process.exit(-1)
     })
 
-   const quizes = await queries.getAllQuizesNotTaken(userData.userID);
-   res.render('kid/quizes', { "Quiz": quizes, userData});
+    const quizes = await queries.getAllQuizesNotTaken(userData.userID);
+    res.render('kid/quizes', { "QuizNotTaken": quizes.notTaken , "QuizTaken": quizes.taken , userData});
   });
 });
 
@@ -1148,6 +1148,28 @@ router.post('/kid/quiz/getQuizData', authenticationMiddleware(), function (req, 
     //console.dir(quizData, { depth: null }); // `depth: null` ensures unlimited recursion
 
     res.send(quizData);
+  });
+});
+
+//============================================================
+router.post('/kid/quiz/updateGradeAndPoints', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+    console.log(req.body);
+    const quizID = req.body.quizID;
+    const kidID = req.body.kidID;
+    const grade = req.body.quizGrade;
+    const points = req.body.pointEarned;
+    
+    await queries.updateQuizAndPoints(kidID, quizID, grade, points);
+    //console.dir(quizData, { depth: null }); // `depth: null` ensures unlimited recursion
+
+    res.sendStatus(200);
   });
 });
 

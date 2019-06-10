@@ -5,10 +5,10 @@ $(document).ready(function () {
     });
     $('#myModal').modal('show');
     $('#quizContainer').hide();
+    $('#quizResults').hide();
 
     const quizID = $('#inputQuizID').val();
     getQuizData(quizID);
-
 
 });
 
@@ -16,6 +16,8 @@ $(document).ready(function () {
 // globals
 var quizData = {};
 var quizMarked = {};
+var quizGrade = 0;
+var pointEarned = 0;
 
 
 $('#startQuiz').on('click', function () {
@@ -110,7 +112,8 @@ function buildQuiz() {    // update the books select
 $('#submintBtn').on('click', function () {
     //checkAllInputs();
     finishQuiz();
-    markResults();
+
+    
     //console.log(quizData);
 });
 
@@ -141,6 +144,7 @@ function startTimer(duration, display) {
 }
 
 function finishQuiz() {
+    $('#quizResults').show();
     $('#timeDiv').hide();
     $('#submintBtn').hide();
     quizMarked.totalQuestionsNum = quizData.totalQuestionsNum;
@@ -165,9 +169,11 @@ function finishQuiz() {
             }
         }
     }
+    markResults();
 }
 
 function markResults() {
+    var score = 0;
     quizMarked.totalQuestionsNum = quizData.totalQuestionsNum;
     var numOfQuestions = quizData.totalQuestionsNum;
     for (var qNum = 1; qNum <= numOfQuestions; qNum++) {
@@ -184,8 +190,51 @@ function markResults() {
             else if (currAns.isMarked == 'N' && currAns.grade == false) {
                 $(`#q${qNum}ans${aNum}div`).addClass("divUnmarkedAns");
             }
+
+            if (currAns.grade == true && currAns.isMarked == 'Y' && currQst.questType == 'single') {
+                score += (1/(numOfQuestions) ) * 100;
+            }
+            // else if (currAns.grade == false && currAns.isMarked == 'Y' && currQst.questType == 'single') {
+                
+ 
+            // }
+            else if (currAns.grade == true && currQst.questType == 'multi') {
+                score += (1/(numOfQuestions*numOfAnswers) ) * 100;
+                //alert(`${currQst.questType} q${qNum}ans${aNum} scored ${(1/(numOfQuestions*numOfAnswers) ) * 100}`);
+            }
+            // else if (currAns.grade == false && currQst.questType == 'multi') {
+                
+            // }
         }
     }
+    gradeTheQuiz(score);
+}
+
+function gradeTheQuiz(score) {
+    score = Math.floor(score);
+    quizGrade = score;
+    var numOfQuestions = quizData.totalQuestionsNum;
+    $('#quizGrade').text(score);
+    pointEarned = numOfQuestions * score;
+    $('#quizPointsEarned').text(pointEarned + ' נקודות');
+    updateGradeAndPointsDB();
+    $(window).scrollTop(0);
+    
+}
+
+const updateGradeAndPointsDB = () => {
+    var kidID = $('#inputKidID').val();
+    var quizID = quizData.quizID;
+    var url = '/kid/quiz/updateGradeAndPoints';
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: { kidID: kidID, quizID: quizID, quizGrade: quizGrade, pointEarned: pointEarned },
+        success: function (result) {
+        },
+        error: function (err) {
+        }
+    });
 }
 
 

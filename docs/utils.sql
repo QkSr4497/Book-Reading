@@ -35,6 +35,25 @@ SELECT * FROM "Answer";
 
 SELECT * FROM "WritesQuiz";
 
+SELECT * FROM "TakesQuiz";
+
+
+SELECT * FROM "Quiz" m
+WHERE m."quizID" IN ((SELECT q."quizID" FROM "Quiz" q
+						EXCEPT
+						SELECT tq."quizID" FROM "TakesQuiz" tq
+						WHERE tq."kidID" = 9))
+
+(SELECT q."quizID" FROM "Quiz" q
+EXCEPT
+SELECT tq."quizID" FROM "TakesQuiz" tq
+WHERE tq."kidID" = 9);
+
+SELECT * 
+FROM "TakesQuiz" tq INNER JOIN "Quiz" q ON tq."quizID" = q."quizID"
+WHERE tq."kidID" = 9
+
+
 SELECT * 
 FROM "WritesQuiz" wq INNER JOIN "Person" p ON wq."personID" = p."personID"
 INNER JOIN "Book" b ON wq."bookID" = b."bookID"
@@ -74,6 +93,7 @@ DELETE FROM "Admin";	-- delete all rows from Admin
 DELETE FROM "UserSessions";	-- delete all rows from UserSessions
 DELETE FROM "Person";	-- delete all rows from Person
 
+DELETE FROM "TakesQuiz";	-- delete all rows from TakesQuiz
 DELETE FROM "WritesQuiz";	-- delete all rows from WritesQuiz
 DELETE FROM "Answer";	-- delete all rows from Answer
 DELETE FROM "Question";	-- delete all rows from Question
