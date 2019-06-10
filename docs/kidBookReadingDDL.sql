@@ -123,7 +123,7 @@ CREATE TABLE "Post" (
 	"pic"  TEXT
 );
 	CREATE TABLE "Image" (
-	"imageID" SERIAL PRIMARY KEY
+	"imageID" SERIAL PRIMARY KEY,
 	"img" Text NOT NULL
 );							
 							
