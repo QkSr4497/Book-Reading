@@ -20,7 +20,7 @@
       <p id="kidPoints" style="display: none">{{userData.points}}</p>
       {{/if}}
       <div class="cart-style">
-        <h1 class="lang" key="shoppingCart">Shopping Cart</h1>
+        <h1 class="lang" key="shoppingCart">סל קניות</h1>
         <div class="w3-container ">
           <ul class="w3-ul w3-card-4">
             {{#myCart}}
@@ -38,10 +38,10 @@
         </div>
 
         <div class="checkClass">
-          <p class="lang" key="totalAmount">Total Amount: </p>
+          <p class="lang" key="totalAmount">סכום : </p>
           <p id="cart-total" class="totals-value"></p>
-          <button onclick="checkoutFunction()" class="checkout lang" key="checkout">checkout</button>
-          <p class="lang" key="enoughMoney" id="userNameException" style="display: none">You don't have enough points 😔
+          <button onclick="checkoutFunction()" class="checkout lang" key="checkout">שלם</button>
+          <p class="lang" key="enoughMoney" id="userNameException" style="display: none">אין לך מספיק נקודות😔
           </p>
         </div>
 

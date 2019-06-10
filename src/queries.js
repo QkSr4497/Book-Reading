@@ -578,7 +578,48 @@ const getAllMessages= (personID, callback) => {
 		}); 
 	});
 }
+//==========================================
+// const getNotes = (personID, callback) => {
+//     pool.query(`SELECT n.*,b."bookID", b."bookName"
+//     FROM "Note" n INNER JOIN "Book" b ON n."bookID"=b."bookID"
+//     WHERE n."personID" = $1`, [personID], (error, results) => {
+//     if (error) {
+//         throw error
+//     }
+//     callback(results.rows);
+//  });
+// }
+const getNotes = (personID, callback) => {
+    pool.query(`SELECT n.*
+    FROM "Note" n
+    WHERE n."personID" = $1`, [personID], (error, results) => {
+    if (error) {
+        throw error
+    }
+    callback(results.rows);
+ });
+}
+const getKidBooksForNotes = (personID, callback) => {
+    pool.query(`SELECT kb.*, b.*
+    FROM "KidBook" kb INNER JOIN "Book" b ON kb."bookID"=b."bookID"
+    WHERE "kidID" = $1`, [personID], (error, results) => {
+    if (error) {
+        throw error
+    }
+    callback(results.rows);
+ });
+}
 
+const getAllAboutNote= (personID, callback) => { 
+    getNotes(personID,(getNoteData)=>{ 
+		getKidBooksForNotes(personID,(getbBooksForNote)=>{  
+		  callback({
+			getNoteData,
+			getbBooksForNote
+			});
+		}); 
+	});
+}
 module.exports = {
     getUsers,
     getUserTypeById,
@@ -604,5 +645,9 @@ module.exports = {
     getAllQuizesNotTaken,
     getCheckedMessages,
     getUncheckedMessages,
-    getAllMessages
+    getAllMessages,
+    getNotes,
+    getKidBooksForNotes,
+    getAllAboutNote
+
 }

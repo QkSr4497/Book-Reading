@@ -22,7 +22,7 @@
     <div id="main">
       {{> kid_topNav}}
       <div id="quizes" class="card-style">
-        <h2 key="bookList"> Quizes List 📘</h2>
+        <h1 style="margin-top:3%"key="bookList"> 💯בחנים</h1>
         <div class="cards">
           {{#Quiz}}
           <form method="POST" action="/kid/start-quiz">
@@ -32,8 +32,8 @@
                   <img src={{quizPic}} alt="Avatar" style="width:300px;height:300px;">
                 </div>
                 <div class="flip-card-back">
-                  <h1><span> Quiz Title:</span> {{quizTitle}} </h1>
-                  <h1><span> Quiz time:</span> {{duration}} minutes</h1>
+                  <h1><span> בוחן:</span> {{quizTitle}} </h1>
+                  <h1><span> משך:</span> {{duration}} דקות</h1>
                   <input type="text" name="quizID" value={{quizID}} style="display: none">
                   <input type="submit" class="" value="take the quiz" />
                 </div>

@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Kid Books</title>
+  <title>Kid Messages</title>
   {{> kid_head}}
 
 </head>
@@ -19,11 +19,11 @@
          <h1 class="lang" key="myMessagesList"> ✉️רשימת ההודעות שלי </h1>
             <div class="row">
                 <div class="column1">
-                <p> הודעות חדשות</p>
+                <p class=" title lang" key="newMessages"> הודעות חדשות</p>
                 {{#each userMessages.uncheckedMessage}}
                 <button class="collapsible">
-                    <p><span>שולח</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>{{userName}}</span></p>
-                   <p><span>נושא</span>&nbsp; &nbsp;&nbsp; &nbsp; <span>{{subject}}</span></p>
+                 <p><span class="lang" key="sender">שולח:</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>{{userName}}</span></p>
+                <p><span class="lang" key="subject">נושא:</span>&nbsp; &nbsp;&nbsp; &nbsp; <span>{{subject}}</span></p>
                 </button>
                 <div class="content">
                 <p>{{content}}</p>
@@ -33,11 +33,11 @@
                 {{/each }}
                 </div>
                 <div class="column2">
-                <p>הודעות נקראו</p>
+                <p class="title lang" key="oldMessages">הודעות נקראו</p>
                  {{#each userMessages.checkedMessage}}
                 <button id="updateChecked" data-id={{messageID}} class="collapsible">
-                    <p><span>שולח</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>{{userName}}</span></p>
-                   <p><span>נושא</span>&nbsp; &nbsp;&nbsp; &nbsp; <span>{{subject}}</span></p>
+                   <p><span class="lang" key="sender">שולח:</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>{{userName}}</span></p>
+                   <p><span class="lang" key="subject">נושא:</span>&nbsp; &nbsp;&nbsp; &nbsp; <span>{{subject}}</span></p>
                 </button>
                 <div class="content">
                 <p>{{content}}</p>

@@ -11,50 +11,47 @@
 </head>
 <body>
   <div class="navigation-style">
-    <div id="mySidenav" class="sidenav">
+      <div id="mySidenav" class="sidenav">
       <a href="javascript:void(0)" class="closebtn" onclick="closeSideNav()">&times;</a>
-      <a href="../"  class="lang" key="home"> Home 🏠</a>
-      <a href="/kid/profile" class="lang" key="myProfile">My Profile 👦</a>
-      <a href="/kid/books" class="lang" key="myBooks"> My Books 📚</a>
-      <a href="/kid/quizes" class="lang" key="myQuizes">My Quizes ⏱️</a>
-      <a href="/kid/notes" class="lang" key="myNotes">My Notes  📄</a>
-      <a href="/kid/games" class="lang" key="myGames">My Games 🎮</a>
-      <a href="/kid/groups" class="lang" key="myGroups"> My Groups 👨‍👩‍👧‍👦</a>
-      <a href="/kid/friends" class="lang" key="myFriends"> My Friends 👨‍👩‍</a>
-      <a href="/kid/account" class="lang" key="myAccount">My Account  💳</a>
-      <a href="/kid/cart" class="lang" key="myCart"> My Cart 🛒</a>
-      <a href="/kid/settings" class="lang" key="settings">Settings 🔧</a>
-      <a href="../../logout"class="lang"  key="logOut">Log Out 🏃</a>
+      <a href="../../books" class="lang" key="home"> 🏠דף הבית </a>
+      <a href="/kid/profile" class="lang" key="myProfile">👦פרופיל </a>
+      <a href="/kid/books" class="lang" key="myBooks"> 📚רשימת הספרים </a>
+      <a href="/kid/quizes" class="lang" key="myQuizes">⏱️ בחנים </a>
+      <a href="/kid/notes"class="lang" key="myNotes">📄הערות  </a>
+      <a href="/kid/games"class="lang" key="myGames">🎮משחקים </a>
+      <a href="/kid/groups"class="lang" key="myGroups">👨‍👩‍👧‍👦 קבוצות </a>
+      <a href="/kid/message"class="lang" key="myMessages">✉️ הודעות   </a>
+      <a href="/kid/cart" class="lang"key="myCart">🛒 סל קניות </a>
+      <a href="#"class="lang" key="settings">🔧הגדרות </a>
+      <a href="../../logout" class="lang"key="logOut">🏃יציאה </a>
     </div>
 
     <div id="main">
-       <div  class="topnav" id="myTopnav">
+    <div  class="topnav" id="myTopnav">
     <div class="left-nav"> 
-    <a class="tablinks" class="lang" key="welcome"id="welcomeTitle">Welcome {{userData.userName}}</a><span></span>
+    <a class="tablinks" class="lang" key="welcome"id="welcomeTitle">ברוך הבא {{userData.userName}}</a>
     {{#if userData.points}}
-    <a class="tablinks" class="lang" key="myPoints" id="pointsTitle">My points: {{userData.points}}</a>
+    <a class="tablinks" class="lang" key="myPoints" id="pointsTitle">נקודות שלי: {{userData.points}}</a>
     {{/if}}
     </div>
     
     <a href="#" id="openNav" class="active" onclick="openSideNav()"><i class='far fa-user'></i></a>     
     <a href="#">KidsRead</a>
-    <a href="../../books" class="lang" key="books">Books</a>
-    <a href="../../games" class="lang" key="store">Store</a>
+    <a href="../../books" class="lang" key="books">ספריה</a>
+    <a href="../../games" class="lang" key="store">חנות</a>
     <div class="dropdown">
-      <button class="dropbtn lang" key="language">Language 
+      <button class="dropbtn lang " key="language">שפה 
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-content">
-        <a  class="translate" id="arb" class="lang" key="arabic">Arabic</a>
-        <a  class="translate" id="heb" class="lang" key="hebrew">Hebrew</a>
+        <a  class="translate lang" id="arb"  key="arabic">ערבית</a>
+        <a  class="translate lang" id="heb"  key="hebrew">עברית</a>
       </div>
     </div> 
     <a href="javascript:void(0);" class="icon" onclick="responsiveNav()">
     <i class="fa fa-bars"></i>
     </a>
     </div>
-
-
 
 
             {{#each bookInfoAndReviews.bookInfo}}
@@ -64,8 +61,8 @@
    
                 </div>
                 <div id="two">
-                    <h1>Book Name : {{bookName}} </h1>
-                    <span id="author">Author: {{authorFirstName}} {{authorLastName}}</span>
+                    <h1>שם הספר: {{bookName}} </h1>
+                    <span id="author">מחבר: {{authorFirstName}} {{authorLastName}}</span>
                     <p>
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star checked"></span>
@@ -74,7 +71,7 @@
                         <span class="fa fa-star"></span>
                     </p>
                   {{!-- add to kid list --}}
-                  <button id="addToList" data-id="{{bookID}}">Add To My List </button>    
+                  <button id="addToList" data-id="{{bookID}}">הוסף לרשימה </button>    
 
                 </div>
             </div>
@@ -84,11 +81,11 @@
 
             {{!-- review section --}}
             <div class="review_section">
-                <h1 class="titleClass">Reivews:</h1>
+                <h1 class="titleClass">תגובות:</h1>
                 <form method="POST" action="/kid/book/addReview">
                     <input name="bookID" type="text" value={{bookID}} style="display: none">
                     <textarea name="review" id="reviewContent" cols="80" rows="4" required></textarea>
-                    <button type="submit" id="review"> Add Review</button>
+                    <button type="submit" id="review"> הוסף תגובה</button>
                 </form>
             </div>
 

@@ -17,12 +17,14 @@
     {{> kid_topNav}}
 
      <div class="notes-style">
-      <h1 class="lang" key="myNotes"> My Notes 📝</h1>
+      <h1 class="lang" key="myNotes"> 📝סיכומים שלי </h1>
       <button type="button" name="button" id="add-note-btn" class="lang" key="addNote" onclick="document.getElementById('newnote').style.display='block'">
-        Add new note</button>
+        סיכום חדש</button>
         <div class="notesContainer">
-          {{#myNotes}}     
-             <button class="collapsible"><span class="arrow"><i class='fas fa-angle-down'></i>&nbsp;&nbsp;&nbsp;</span>{{title}} </button>
+          {{#each notesData.getNoteData}}     
+             <button class="collapsible"><span class="arrow"><i class='fas fa-angle-down'></i>&nbsp;&nbsp;&nbsp;</span>
+             {{title}} 
+             </button>
               <div class="content">
                 <p>{{content}}</p>
                 <img src={{pic}} alt="">
@@ -33,7 +35,7 @@
                 onclick="document.getElementById('updatenote').style.display='block'"><i class="fa fa-edit"></i></button>
                 <button style="font-size:24px" class="deleteNote" name="{{noteID}}" data-id="{{noteID}}"><i class="fa fa-trash"></i></button>
               </div>   
-          {{/myNotes}}
+          {{/each}}
         </div>  
       </div>
 
@@ -42,20 +44,27 @@
       <div id="newnote" class="modal">
       <form class="modal-content animate" method="POST" action="/kid/notes/add">
         <div class="container">
-          <h3 key="addNote"> New Note ✍🏻</h3>
+          <h3 key="addNote">  ✍🏻סכיום חדש </h3>
           <br>
           <hr>
-          <label for="title"><b>Note Title</b></label>
-          <input type="text" placeholder="Enter Title" name="title" required value="">
+          <label for="title"><b>כותרת</b></label>
+          <input type="text"  name="title" required value="" autocomplete="off">
+          <label for="title"><b>ספר</b></label>
+         
+          <select>
+            <option value="">none</option>
+             {{#each notesData.getbBooksForNote}}  
+             <option name="bookID" value="{{bookID}}"> {{bookName}}</option>
+             {{/each }}  
+          </select>
+          <label for="content"><b>תוכן </b></label>
+          <textarea name="content" rows="8" cols="100" required value=""></textarea>
 
-          <label for="content"><b>Note Content</b></label>
-          <textarea name="content" rows="8" cols="100" placeholder="Enter your thoughts"  required value=""></textarea>
-
-          <label for="file"><b>upload your drawings 🎨</b></label>
+          <label for="file"><b>🎨 ציורים שלך </b></label>
           <input value=""   type="file" id="group-image" name="pic" placeholder="Add a title image" accept="image/gif, image/jpeg, image/jpg, image/svg+xml, image/svg, image/png, image/x-png, image/pjpeg">
-
-          <button type="button" onclick="document.getElementById('newnote').style.display='none'" class="cancelbtn">Cancel</button>
-          <button type="submit" name="button" class="okbtn">Add new book</button>
+           <button type="submit" name="button" class="okbtn">הוסף</button>
+          <button type="button" onclick="document.getElementById('newnote').style.display='none'" class="cancelbtn">ביטול</button>
+         
          </div>
        </form>
      </div>
@@ -64,23 +73,23 @@
       <div id="updatenote" class="modal">
       <form class="modal-content animate" method="POST" action="/kid/notes/edit">
         <div class="container">
-          <h3 key="updateNote"> Update Note ✍🏻</h3>
+          <h3 key="updateNote"> ✍🏻עדכן סיכום</h3>
           <br>
           <hr>
 
-          <input id="updateNoteID" type="text"  value="{{noteID}}">
+          <input id="updateNoteID" type="text"  value="{{noteID}}" style="display: none">
           
-          <label for="title"><b>Note Title</b></label>
-          <input id="updateTitle" type="text" placeholder="Enter Title" name="title" required value="">
+          <label for="title"><b>כותרת</b></label>
+          <input id="updateTitle" type="text"  name="title" required value="">
 
-          <label for="title"><b>Note Content</b></label>
-          <textarea id= "updateContent" name="content" rows="8" cols="100" placeholder="Enter your thoughts"  required value=""></textarea>
+          <label for="title"><b>תוכן</b></label>
+          <textarea id= "updateContent" name="content" rows="8" cols="100"   required value=""></textarea>
 
-          <label for="file"><b>upload your drawings 🎨</b></label>
+          <label for="file"><b>ציורים שלך 🎨</b></label>
           <input  id="updatePictures" value="" type="file" id="group-image" name="img" placeholder="Add a title image" accept="image/gif, image/jpeg, image/jpg, image/svg+xml, image/svg, image/png, image/x-png, image/pjpeg">
-
-          <button type="button" onclick="document.getElementById('updatenote').style.display='none'" class="cancelbtn">Cancel</button>
-          <button type="submit" name="button" class="okbtn">Update</button>
+          <button type="submit" name="button" class="okbtn">עדכן</button>
+          <button type="button" onclick="document.getElementById('updatenote').style.display='none'" class="cancelbtn">ביטול</button>
+          
          </div>
        </form>
      </div>

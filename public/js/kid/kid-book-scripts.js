@@ -16,7 +16,15 @@ function allowDropIntrested(ev) {
   }
     function allowDropFinish(ev) {
        if(ev.target.id === 'finished'){
-    ev.preventDefault();
+        checkIfHasQuiz(id , (error, bookQuiz) => {
+        if (bookQuiz == 'hasNot') {
+            var btn=document.getElementById("message");
+            btn.style.display="block";
+        }
+        else if (bookQuiz == 'has') {   
+          ev.preventDefault();
+        }  
+    });  
     }
   }
 
@@ -65,3 +73,29 @@ function allowDropIntrested(ev) {
       
     });
   }
+
+
+
+
+
+  const checkIfHasQuiz = (bookID, callback) => {
+    
+    var url = '/kid/hasQuiz' + bookID;
+    $.ajax({
+        url: url,
+        type:'GET',
+        success: function(result) {
+         
+            if (result.status == 'has') {
+                callback(undefined, result.status);
+            }
+            else if (result.status == 'hasNot') {
+                callback(undefined, result.status);
+            }
+
+        },
+        error: function(err) {
+            callback('error requsting the book quiz check!', undefined);
+        }
+    });
+}

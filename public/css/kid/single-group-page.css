@@ -1,3 +1,6 @@
+body{
+  font-family: 'Rubik', sans-serif;
+}
 header {
     max-height: 20px;
   }
@@ -69,8 +72,9 @@ header {
  
 .column20 {
     float: right;
-    width: 19%;
-    border-right: solid #ccc;
+    width: 20%;
+    height: 100vh;
+    /* border-right: solid #ccc; */
     background-color: #d1d8e0;
     text-align: center;
   }
@@ -113,10 +117,12 @@ header {
   
   .container img {
     float: right;
-    width: 20px;
-    height: 60px;
     margin-right: 20px;
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
+    background-color: #ffff;
   }
   
   .container span {
@@ -136,4 +142,30 @@ header {
   }
   #addComment{
       float: left;
+  }
+  #postContent{
+    border-radius: 25px;
+    font-family: 'Rubik', sans-serif;
+  width:100%;
+  font-size: 110%;
+  }
+  #addPost{
+    background-color: #ffc048;
+    align-items: center;
+    border: none;
+    color: white;
+    padding: 5px 5px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    box-shadow: 0px 0px 10px 2px  rgb(220,221,225);
+    margin-bottom: 10px;
+  }
+  .typeMember{
+    width: 100%;
+
+    background-color: #ffff;
+    text-align: center;
+    align-items: center;
+    padding: 10px 10px;;
   }

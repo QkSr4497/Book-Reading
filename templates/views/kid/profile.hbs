@@ -28,17 +28,17 @@
 
 
        <div class="detail-container">
-         <p><span>שם משתמש</span>&nbsp; &nbsp;&nbsp; &nbsp; <span>{{userName}}</span></p>
+         <p><span class="lang" key="userName">שם משתמש</span>&nbsp; &nbsp;&nbsp; &nbsp; <span>{{userName}}</span></p>
          <hr>
-         <p> <span>שם פרטי</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>{{firstName}}</span></p>
+         <p> <span class="lang" key="firstName">שם פרטי</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>{{firstName}}</span></p>
          <hr>
-         <p><span>שם משפחה</span> &nbsp; &nbsp;&nbsp; &nbsp;<span>{{lastName}}</span></p>
+         <p><span class="lang" key="lastName"> שם משפחה</span> &nbsp; &nbsp;&nbsp; &nbsp;<span>{{lastName}}</span></p>
          <hr>
-         <p> <span>תאריך לידה</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>{{birth}}</span></p>
+         <p> <span class="lang" key="birthDate">תאריך לידה</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>{{birth}}</span></p>
          <hr>
-         <p> <span>נקודות</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>{{points}}</span></p>
+         <p> <span class="lang" key="points"> נקודות</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>{{points}}</span></p>
          <hr>
-        <button id="profileUpdatebtn" onclick="document.getElementById('editProfile').style.display='block'">עדכן פרופייל</button>
+        <button class="lang" key="update" id="profileUpdatebtn" onclick="document.getElementById('editProfile').style.display='block'">עדכן פרופייל</button>
 
 
        </div>    
@@ -54,18 +54,18 @@
           <div class="imgcontainer">
             <img src="/img/icons/kidreads.png" alt="Avatar" class="avatar">
           </div>
-          <label for="title"><b>שם משתמש</b></label>
-          <input type="text" placeholder="Enter Title" name="title" required value="">
-          <label for="title"><b>שם פרטי</b></label>
-          <input type="text" placeholder="Enter Title" name="title" required value="">
-          <label for="title"><b>שם משפחה</b></label>
-          <input type="text" placeholder="Enter Title" name="title" required value="">
-          <label for="title"><b>סיסמא</b></label>
-          <input type="text" placeholder="Enter Title" name="title" required value="">
-          <label for="title"><b>תאריך לידה</b></label>
-          <input type="date" placeholder="Enter Title" name="title" required value="">
-          <button type="submit" name="button" class="okbtn">עדכן</button>
-          <button type="button" onclick="document.getElementById('editProfile').style.display='none'" class="cancelbtn">ביטול</button>
+          <label class="lang" key="userName" for="title"><b>שם משתמש</b></label>
+          <input  type="text"  name="title" required value="">
+          <label class="lang" key="firstName"  for="title"><b>שם פרטי</b></label>
+          <input type="text"  name="title" required value="">
+          <label class="lang" key="lastName" for="title"><b>שם משפחה</b></label>
+          <input type="text"  name="title" required value="">
+          <label class="lang" key="password" for="title"><b>סיסמא</b></label>
+          <input type="text"  name="title" required value="">
+          <label class="lang" key="birthDate" for="title"><b>תאריך לידה</b></label>
+          <input type="date"  name="title" required value="">
+          <button class="okbtn lang" key="update" type="submit" name="button">עדכן</button>
+          <button class="cancelbtn lang" key="cancel" type="button" onclick="document.getElementById('editProfile').style.display='none'">ביטול</button>
 
          </div>
        </form>
