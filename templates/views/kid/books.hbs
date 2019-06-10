@@ -24,7 +24,7 @@
 
                 <div id="intrested" class="intrested column" ondrop="drop(event)" ondragover="allowDropIntrested(event)">
                     <div class="div_title">
-                      <h4 class="lang" key="booksIWantToRead">ספרים מעוניין בהם</h4>
+                      <h4 class="lang" key="booksIWantToRead" style=" font-weight: bold;">ספרים שמעניינים אותי</h4>
                     </div>
                       {{#each bookDataByTypes.intrestedBooks}}
                       <form method="POST" action="/kid/books/edit">
@@ -39,7 +39,7 @@
                 <div id="reading" class="reading column" ondrop="drop(event)" ondragover="allowDropReading(event)">
                     <form id="readingForm" method="POST" action="/kid/books/edit"></form>
                     <div class="div_title">
-                      <h4 class="lang" key="booksIamReading">ספרים במהלך הקריאה</h4>
+                      <h4 class="lang" key="booksIamReading" style=" font-weight: bold;">ספרים שאני קורא</h4>
                     </div>
                       {{#each bookDataByTypes.readingBooks}}
                       
@@ -54,7 +54,7 @@
 
                 <div id="finished" class="finished column"  ondrop="drop(event)" ondragover="allowDropFinish(event)">
                   <div class="div_title">
-                    <h4 class="lang" key="finishedBooks">ספרים סיימתי לקרוא</h4>
+                    <h4 class="lang" key="finishedBooks" style=" font-weight: bold;">ספרים שסיימתי לקרוא</h4>
                   </div>
                     {{#each bookDataByTypes.finishedBooks}}
    

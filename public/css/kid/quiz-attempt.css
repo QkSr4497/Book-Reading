@@ -72,7 +72,7 @@ body{
     min-width:20em;
 }
 .background{
-	background-color:#111;
+	background-color:rgb(255, 255, 255);
 	margin: 0 auto;
 	padding: 1.5em;
 	width:80%;
@@ -132,7 +132,7 @@ select, input {
 
 .pTitles{
     text-align: right;
-    color: rgb(78, 163, 243);
+    color: #40407a;
     font-weight:300;
     font-size: 1.4em;
     font-weight: bold;
@@ -144,7 +144,7 @@ select, input {
 
 .pTitles span{
     text-align: right;
-    color: rgb(136, 196, 251);
+    color: #706fd3;
     font-weight:300;
     font-size: 1.3em;
     font-weight: light;
@@ -348,7 +348,7 @@ button:focus , button:hover {
 	width:100%;
 	margin:0;
 	padding: .5em 0;
-	background-color: rgb(182, 110, 27);
+	background-color: rgb(250, 154, 0);
 }
 
 .questionTitle .qTitle {
@@ -402,7 +402,7 @@ button:focus , button:hover {
 }
 
 #quizResults span {
-    color: greenyellow;
+    color: #218c74;
 }
 
 @media only screen and (max-width: 1100px) {

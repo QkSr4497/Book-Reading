@@ -17,9 +17,9 @@
     {{> kid_topNav}}
 
      <div class="notes-style">
-      <h1 class="lang" key="myNotes"> 📝סיכומים שלי </h1>
+      <h1 class="lang" key="myNotes"> 📝התרשמויות ומחשבות שלי </h1>
       <button type="button" name="button" id="add-note-btn" class="lang" key="addNote" onclick="document.getElementById('newnote').style.display='block'">
-        סיכום חדש</button>
+        מחשבה חדשה</button>
         <div class="notesContainer">
           {{#each notesData.getNoteData}}     
              <button class="collapsible"><span class="arrow"><i class='fas fa-angle-down'></i>&nbsp;&nbsp;&nbsp;</span>
@@ -44,7 +44,7 @@
       <div id="newnote" class="modal">
       <form class="modal-content animate" method="POST" action="/kid/notes/add">
         <div class="container">
-          <h3 key="addNote">  ✍🏻סכיום חדש </h3>
+          <h3 key="addNote">  ✍🏻מחשבה חדשה </h3>
           <br>
           <hr>
           <label for="title"><b>כותרת</b></label>
