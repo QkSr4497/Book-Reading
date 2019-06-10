@@ -16,14 +16,8 @@ function allowDropIntrested(ev) {
   }
     function allowDropFinish(ev) {
        if(ev.target.id === 'finished'){
-        checkIfHasQuiz(id , (error, bookQuiz) => {
-        if (bookQuiz == 'hasNot') {
-          getMessage();
-        }
-        else if (bookQuiz == 'has') {   
           ev.preventDefault();
-        }  
-    });  
+ 
     }
   }
 
@@ -62,15 +56,37 @@ function allowDropIntrested(ev) {
 
     var bookID=ev.dataTransfer.getData("text");
     var bookType=ev.target.id;
-    updateBookType(bookID, bookType, (error, result) => {
-      if (error) {
-        console.log(error);
-      }
-      else {
-          console.log('status: ' + result);
-      }
-      
-    });
+    if(bookType==='finished'){
+      checkIfHasQuiz(bookID , (error, bookReview) => {
+        if (bookReview == 'hasNot') {
+          getMessage();
+        }
+        else if (bookReview == 'has') { 
+          updateBookType(bookID, bookType, (error, result) => {
+            if (error) {
+              console.log(error);
+            }
+            else {
+                console.log('status: ' + result);
+            }
+            
+          });
+        }  
+    }); 
+    }//
+    else{
+      updateBookType(bookID, bookType, (error, result) => {
+        if (error) {
+          console.log(error);
+        }
+        else {
+            console.log('status: ' + result);
+        }
+        
+      });
+    }
+ 
+
   }
 
 
@@ -84,6 +100,7 @@ function allowDropIntrested(ev) {
         url: url,
         type:'GET',
         success: function(result) {
+          console.log('bookID quiz'+bookID);
          
             if (result.status == 'has') {
                 callback(undefined, result.status);
@@ -115,6 +132,7 @@ var span = document.getElementsByClassName("close")[0];
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
   modal.style.display = "none";
+  window.location.href = '/kid/books'; // redirection
 }
 
 // When the user clicks anywhere outside of the modal, close it

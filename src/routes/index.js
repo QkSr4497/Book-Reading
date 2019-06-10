@@ -443,7 +443,8 @@ router.get('/kid/hasQuiz:bookID', function (req, res) {
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err
-    client.query('SELECT * FROM "KidBook" kb  WHERE kb."kidID" = $1 AND kb."bookID"=$2', [userData.userID,req.params.bookID], (error, result) => {
+    client.query(`SELECT * FROM "TakesQuiz" tq INNER JOIN "Quiz" q 
+    on tq."quizID"=q."quizID" INNER JOIN  "WritesQuiz" wq ON tq."quizID" =wq."quizID"  WHERE tq."kidID" = $1 AND wq."bookID"=$2 `, [userData.userID,req.params.bookID], (error, result) => {
       if (error) {
         console.log(error.stack);
       }
