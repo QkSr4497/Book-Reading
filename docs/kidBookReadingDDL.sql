@@ -229,9 +229,10 @@ CREATE TABLE "KidBook" (
  	content TEXT NOT NULL
 );
 	CREATE TABLE "GetMessage" (
- 	"messageID" SERIAL PRIMARY KEY,
+ 	"messageID" INTEGER REFERENCES "Message" ("messageID") NOT NULL ,
 	"personID" INTEGER REFERENCES "Person" ("personID") NOT NULL,
-	checked CHAR(1) CHECK (checked IN ('Y','N')) NOT NULL
+	checked CHAR(1) CHECK (checked IN ('Y','N')) NOT NULL,
+		PRIMARY KEY ("messageID", "personID")	
 );					 
 -- a table for session to store sessions persistently
 CREATE TABLE "UserSessions" ( 
