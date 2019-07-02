@@ -1,7 +1,7 @@
 const express = require('express'),
   path = require('path'),
   bodyParser = require('body-parser'),
-  multer = require('multer'),
+  multer = require('multer'), // for uploading files
   hbs = require('hbs'),
   cookieParser = require('cookie-parser'),
   flash = require('connect-flash'),
@@ -12,7 +12,7 @@ var session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var pgSession = require('connect-pg-simple')(session);
-var bycrypt = require('bcrypt');
+var bcrypt = require('bcrypt');
 
 // importing my files
 var index = require('./routes/index');
@@ -76,7 +76,8 @@ app.use( function(req, res, next) {
   next();
 });
 
-app.use('/', index);
+
+
 
 passport.use(new LocalStrategy({passReqToCallback : true}, function (req, username, password, done) { // we can access username and password because the inputs in the front end page have exactly the same name
     // console.log('username: ' + username);
@@ -99,7 +100,7 @@ passport.use(new LocalStrategy({passReqToCallback : true}, function (req, userna
           const userID = result.rows[0].personID;
           //console.log('hash: ' + hash);
 
-          bycrypt.compare(password, hash, function (err, response) {
+          bcrypt.compare(password, hash, function (err, response) {
             if (response === true) {
               console.log(`Login: User #${userID}`);
               return done(null, userID, req.flash('loginMessage', 'You are now logged in.'));
@@ -117,8 +118,26 @@ passport.use(new LocalStrategy({passReqToCallback : true}, function (req, userna
   }
 ));
 
+// // Set Storage Engine
+// var storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, '/uploads/tmp');
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname) );
+//   }
+// });
+
+// // init Upload
+// var upload = multer({ storage: storage }).any();
+
+
+
+app.use('/', index);
+
 
 // Server
 app.listen(3000, function () {
   console.log('Server Started On Port 3000')
 });
+

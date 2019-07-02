@@ -131,25 +131,34 @@ function readURL(input, element) { // allow preview of uploaded pic
     }
 }
 
-$("#quizPicInput").change(function () {
-    var select = $("#quizPic");
-    readURL(this, select);
+// $("#quizPicInput").change(function () {
+//     var select = $("#quizPic");
+//     readURL(this, select);
+// });
+
+// $("#q1picInput").change(function () {
+//     var select = $("#q1pic");
+//     readURL(this, select);
+// });
+
+// $("#q1ans1picInput").change(function () {
+//     var select = $("#q1ans1pic");
+//     readURL(this, select);
+// });
+
+// $("#q1ans2picInput").change(function () {
+//     var select = $("#q1ans2pic");
+//     readURL(this, select);
+// });
+
+
+$(document).on('change', '.imgPrevInput', function(event){
+    var input = event.target;
+    var element = $(this).prev();
+    readURL(input, element);
 });
 
-$("#q1picInput").change(function () {
-    var select = $("#q1pic");
-    readURL(this, select);
-});
 
-$("#q1ans1picInput").change(function () {
-    var select = $("#q1ans1pic");
-    readURL(this, select);
-});
-
-$("#q1ans2picInput").change(function () {
-    var select = $("#q1ans2pic");
-    readURL(this, select);
-});
 
 
 function populateDurationSelect() { // input minutes options to the duration select
@@ -212,8 +221,8 @@ $('#addAnsBtn').click(function () {
          </p>
 
         <p class="pTitles">
-            <img src="#" alt="" id="q${numOfQuestions}ans${ansNum}pic">
-            <input type="file" id="q${numOfQuestions}ans${ansNum}picInput" name="q${numOfQuestions}ans${ansNum}picInput" class="section" accept="image/*"
+            <img class="imgPrev" src="#" alt="" id="q${numOfQuestions}ans${ansNum}pic">
+            <input class="imgPrevInput" type="file" id="q${numOfQuestions}ans${ansNum}picInput" name="q${numOfQuestions}ans${ansNum}picInput" class="section" accept="image/*"
                 alt="your image" style="width: 50%;" />
             תמונת תשובה: ${ansNum} 
         </p>
@@ -280,8 +289,8 @@ $('#addQuestionBtn').click(function () {
                     </p>
 
                     <p class="pTitles">
-                        <img src="#" alt="" id="q${numOfQuestions}pic">
-                        <input type="file" id="q${numOfQuestions}picInput" name="q${numOfQuestions}picInput" class="section" accept="image/*"
+                        <img class="imgPrev" src="#" alt="" id="q${numOfQuestions}pic">
+                        <input class="imgPrevInput" type="file" id="q${numOfQuestions}picInput" name="q${numOfQuestions}picInput" class="section" accept="image/*"
                             alt="your image" style="width: 50%;" />
                        תמונת שאלה: ${numOfQuestions} 
                     </p>
@@ -301,8 +310,8 @@ $('#addQuestionBtn').click(function () {
                         </p>
 
                         <p class="pTitles">
-                            <img src="#" alt="" id="q${numOfQuestions}ans1pic">
-                            <input type="file" id="q${numOfQuestions}ans1picInput" name="q${numOfQuestions}ans1picInput" class="section"
+                            <img class="imgPrev" src="#" alt="" id="q${numOfQuestions}ans1pic">
+                            <input class="imgPrevInput" type="file" id="q${numOfQuestions}ans1picInput" name="q${numOfQuestions}ans1picInput" class="section"
                                 accept="image/*" alt="your image" style="width: 50%;" />
                                 :תמונת תשובה 1
                         </p>
@@ -315,8 +324,8 @@ $('#addQuestionBtn').click(function () {
                         </p>
 
                         <p class="pTitles">
-                            <img src="#" alt="" id="q${numOfQuestions}ans2pic">
-                            <input type="file" id="q${numOfQuestions}ans2picInput" name="q${numOfQuestions}ans2picInput" class="section"
+                            <img class="imgPrev" src="#" alt="" id="q${numOfQuestions}ans2pic">
+                            <input class="imgPrevInput" type="file" id="q${numOfQuestions}ans2picInput" name="q${numOfQuestions}ans2picInput" class="section"
                                 accept="imacge/*" alt="your image" style="width: 50%;" />
                             :תמונת שאלה 2
                         </p>

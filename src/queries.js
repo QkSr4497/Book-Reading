@@ -134,7 +134,7 @@ const getUserById = (userID, callback) => {
 }
 
 const insertNewQuiz = async (data, writerID) => { // using async/await
-    console.log(data);
+    //console.log(data);
     await db.query(`INSERT INTO "Quiz"("quizTitle", "quizLanguage", "quizPic", duration) VALUES($1, $2, $3, $4)`,
       [data.quizTitle, data.quizLang, data.quizPicInput, data.quizTime]);
   

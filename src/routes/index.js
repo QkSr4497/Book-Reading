@@ -2,9 +2,11 @@ const express = require('express');
 const Router = require('express-promise-router');
 var passport = require('passport');
 var hbs = require('hbs');
+var path = require('path');
+var multer = require('multer');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;  // the number of rounds that the module will go through to hash your data
-// higher means slower
+                        // higher means slower
 
 require('dotenv').config(); // using env file
 
@@ -15,6 +17,20 @@ const pool = db.pg_pool;
 const router = new Router();
 
 const queries = require('./../queries');
+
+// Set Storage Engine
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './../uploads/tmp');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname) );
+  }
+});
+
+// init Upload
+var upload = multer({ storage: storage }).any();
+
 
 //=============================================================
 
@@ -309,7 +325,7 @@ router.get('/kid/single-book-page/:bookID', authenticationMiddleware(), function
 
 
 //=============================================================
-router.get('/kid/hasBook:bookID', function (req, res) {
+router.get('/kid/hasBook:bookID', authenticationMiddleware(),  function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
   queries.getUserById(req.user, (userData) => {
@@ -341,7 +357,7 @@ router.get('/kid/hasBook:bookID', function (req, res) {
 
 
 //=============================================================
-router.get('/kid/hasFinishedBook:bookID', function (req, res) {
+router.get('/kid/hasFinishedBook:bookID', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
   queries.getUserById(req.user, (userData) => {
@@ -372,7 +388,7 @@ router.get('/kid/hasFinishedBook:bookID', function (req, res) {
 });
 
 //=============================================================
-router.get('/kid/hasReview:bookID', function (req, res) {
+router.get('/kid/hasReview:bookID', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
 
@@ -431,7 +447,7 @@ router.post('/kid/book/addReview', authenticationMiddleware(), function (req, re
   });
 });
 //==========================================
-router.get('/kid/hasQuiz:bookID', function (req, res) {
+router.get('/kid/hasQuiz:bookID', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
   queries.getUserById(req.user, (userData) => {
@@ -1205,7 +1221,7 @@ router.get('/teacher/books', authenticationMiddleware(), function (req, res) {
 
 
 //============================================================
-router.get('/teacher/single-book-page/:bookID', function (req, res) {
+router.get('/teacher/single-book-page/:bookID', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
   queries.getUserById(req.user, (userData) => {
@@ -1264,9 +1280,35 @@ router.get('/query/getAllBooks', authenticationMiddleware(), function (req, res)
 
 
 //=======================================================
-router.post('/query/addNewQuiz', function (req, res) {
-  queries.insertNewQuiz(req.body, req.user);
-  res.redirect('/');
+router.post('/query/addNewQuiz', authenticationMiddleware(), function (req, res) {
+  console.dir(req.body, { depth: null }); // `depth: null` ensures unlimited recursion
+    console.dir(req.files, { depth: null }); // `depth: null` ensures unlimited recursion
+
+  upload(req, res, function (err) {
+    
+    if (err) {
+      console.log('Error-->');
+      console.log(err);
+      res.json({ "status": "Failure", "message": 'There was a problem uploading your files.' + err });
+      return;
+    }
+    else {
+      console.log("fieldname" + req.file);
+      if (req.file != 0) {
+        console.log('File uploaded!');
+        queries.insertNewQuiz(req.body, req.user);
+        res.redirect('/');
+      }
+      else {
+        console.log("No file uploaded. Ensure file is uploaded.");
+        res.json({ "status": "Failure", "message": 'No file uploaded. Ensure file is uploaded.' });
+
+      }
+    }
+  });
+
+
+  
 });
 
 

@@ -27,7 +27,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "scss": "node-sass ../scss/style.scss ../public/css/style.css --watch",
-    "upgrade-interactive": "npm-check --update"
+    "upgrade-interactive": "npm-check --update",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC"

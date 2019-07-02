@@ -33,7 +33,7 @@
             </h1>
         </header>
 
-        <form method="POST" id="quizForm" name="quizForm" action="/query/addNewQuiz">
+        <form method="POST" id="quizForm" name="quizForm" action="/query/addNewQuiz" enctype="multipart/form-data">
             {{!------------ Quiz details -----------------------}}
             <div class="wrap">
                 <div class="background">
@@ -60,8 +60,8 @@
                         *:שפה:
                     </p>
                     <p class="pTitles">
-                        <img src="#" alt="" id="quizPic">
-                        <input type="file" id="quizPicInput" name="quizPicInput" class="section" accept="image/*"
+                        <img class="imgPrev" src="#" alt="" id="quizPic">
+                        <input class="imgPrevInput" type="file" id="quizPicInput" name="quizPicInput" class="section" accept="image/*"
                             alt="your image" />
 
                         :תמונת הבוחן
@@ -92,8 +92,8 @@
                     </p>
 
                     <p class="pTitles">
-                        <img src="#" alt="" id="q1pic">
-                        <input type="file" id="q1picInput" name="q1picInput" class="section" accept="image/*"
+                        <img class="imgPrev" src="#" alt="" id="q1pic">
+                        <input class="imgPrevInput" type="file" id="q1picInput" name="q1picInput" class="section" accept="image/*"
                             alt="your image" style="width: 50%;" />
                         :תמונת שאלה 1
                     </p>
@@ -113,8 +113,8 @@
                         </p>
 
                         <p class="pTitles">
-                            <img src="#" alt="" id="q1ans1pic">
-                            <input type="file" id="q1ans1picInput" name="q1ans1picInput" class="section"
+                            <img class="imgPrev"  src="#" alt="" id="q1ans1pic">
+                            <input class="imgPrevInput" type="file" id="q1ans1picInput" name="q1ans1picInput" class="section"
                                 accept="image/*" alt="your image" style="width: 50%;" />
                             :תמונת תשובה 1
                         </p>
@@ -127,8 +127,8 @@
                         </p>
 
                         <p class="pTitles">
-                            <img src="#" alt="" id="q1ans2pic">
-                            <input type="file" id="q1ans2picInput" name="q1ans2picInput" class="section"
+                            <img class="imgPrev" src="#" alt="" id="q1ans2pic">
+                            <input class="imgPrevInput" type="file" id="q1ans2picInput" name="q1ans2picInput" class="section"
                                 accept="image/*" alt="your image" style="width: 50%;" />
                             :תמונת שאלה 2
                         </p>
