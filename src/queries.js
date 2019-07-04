@@ -1,5 +1,6 @@
 const db = require('./db'); // postgresql database connection pool
-
+const path = require('path');
+const fse = require('fs-extra');
 const pool = db.pg_pool;
 
 const getUsers = (request, response) => {
@@ -133,16 +134,88 @@ const getUserById = (userID, callback) => {
     });
 }
 
-const insertNewQuiz = async (data, writerID) => { // using async/await
-    //console.log(data);
+const getStoragePath = (originalPath, pathInImg, newFileName) => { // getting storage path from original (temp) path and the needed path in image
+                                                                   // also updating the file name
+    var newPathArr = originalPath.split(path.sep);
+    var ImgArr = pathInImg.split(path.sep);
+    newPathArr.spliceArray(3, 1, ImgArr); // removing 1 element at index 3 and then concatenating imgArr elements
+    var newPathString = newPathArr.join(path.sep);  // array to path string
+    var newPathParse = path.parse(newPathString);   // parsing path to fields
+    newPathParse.base = newFileName + newPathParse.ext; // changing file name to newFileName
+    return path.format(newPathParse);   // returning new path String
+}
+
+Array.prototype.spliceArray = function (index, n, array) {  // deleting n elements at index n of Array and then concatenating array at index
+    return Array.prototype.splice.apply(this, [index, n].concat(array));
+}
+
+const getDbPath = (storagePath) => {    // getting DB path from storagePath
+    var newPathArr = storagePath.split(path.sep);
+    newPathArr.splice(0, 2);        // Removes the first two element of newPathArr
+    var newPathString = newPathArr.join(path.sep);  // array to path string
+    newPathString = path.sep + newPathString;
+    return newPathString;   // returning new path String
+}
+
+
+async function moveFile(src, dest) {   // moving file from src to dest
+    try {
+        await fse.move(src, dest)
+        console.log(`success moving file! from ${src} to ${dest}`)
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+/**
+ * Represents a search trough an array.
+ * @function search
+ * @param {Array} array - The array you wanna search trough
+ * @param {string} key - The key to search for
+ * @param {string} [prop] - The property name to find it in
+ */
+function searchArr(array, key, prop){
+    // Optional, but fallback to key['name'] if not selected
+    prop = (typeof prop === 'undefined') ? 'name' : prop;   
+    // console.log(array, key, prop);
+    // console.log(key);
+    // console.log(prop);
+
+    for (var i=0; i < array.length; i++) {
+        // console.log(array[i][prop] + "    " +  key);
+        if (array[i][prop] === key) {
+            return array[i];
+        }
+    }
+    return undefined;
+}
+
+const insertNewQuiz = async (data, writerID, imgArr) => { // using async/await
+    var { rowCount: currQuizCount} = await db.query(`SELECT * FROM "Quiz"`);
+    const quizID = ++currQuizCount; // id of the new quiz
+    var storagePath = getStoragePath(imgArr[0].path, `quizes\\quiz${quizID}`, imgArr[0].fieldname);
+    moveFile(imgArr[0].path, storagePath);
+    data.quizPicInput = getDbPath(storagePath);
+    console.log(data);
+
+
     await db.query(`INSERT INTO "Quiz"("quizTitle", "quizLanguage", "quizPic", duration) VALUES($1, $2, $3, $4)`,
       [data.quizTitle, data.quizLang, data.quizPicInput, data.quizTime]);
-  
-    const { rowCount: quizID} = await db.query(`SELECT * FROM "Quiz"`);
-  
+
+    var qPic;
     for (var i = 1; i <= data.totalQuestionsNum; i++) {
-      await db.query(`INSERT INTO "Question"("quizID", "questionNum", "questionContent", "questionPic", "questType") VALUES($1, $2, $3, $4, $5)`,
-        [quizID, i, eval(`data.q${i}content`), eval(`data.q${i}picInput`), eval(`data.q${i}type`)]);
+        qPic = searchArr(imgArr, `q${i}picInput`, 'fieldname');
+        if (qPic) {
+            storagePath = getStoragePath(qPic.path, `quizes\\quiz${quizID}`, qPic.fieldname);
+            moveFile(qPic.path, storagePath);
+            qPic.dbPath = getDbPath(storagePath);
+        }
+        else {
+            qPic = {};
+            qPic.dbPath = undefined;
+        }
+        await db.query(`INSERT INTO "Question"("quizID", "questionNum", "questionContent", "questionPic", "questType") VALUES($1, $2, $3, $4, $5)`,
+            [quizID, i, eval(`data.q${i}content`), qPic.dbPath, eval(`data.q${i}type`)]);
     }
   
     //console.log('in answers total questions num: ' + data.totalQuestionsNum);
@@ -172,9 +245,19 @@ const insertNewQuiz = async (data, writerID) => { // using async/await
                 }
   
             }
-            
+
+            qPic = searchArr(imgArr, `q${i}ans${j}picInput`, 'fieldname');
+            if (qPic) {
+                storagePath = getStoragePath(qPic.path, `quizes\\quiz${quizID}`, qPic.fieldname);
+                moveFile(qPic.path, storagePath);
+                qPic.dbPath = getDbPath(storagePath);
+            }
+            else {
+                qPic = {};
+                qPic.dbPath = undefined;
+            }
             await db.query(`INSERT INTO "Answer"("quizID", "questionNum", "answerNum", "answerContent", "answerPic", "isCorrect") VALUES($1, $2, $3, $4, $5, $6)`,
-                [quizID, i, j, eval(`data.q${i}ans${j}content`), eval(`data.q${i}ans${j}picInput`), isCorrect]); 
+                [quizID, i, j, eval(`data.q${i}ans${j}content`), qPic.dbPath, isCorrect]); 
         }
     }
 

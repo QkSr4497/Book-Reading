@@ -18,18 +18,20 @@ const router = new Router();
 
 const queries = require('./../queries');
 
-// Set Storage Engine
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './../uploads/tmp');
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname) );
-  }
-});
+const app = require('./../app');
 
-// init Upload
-var upload = multer({ storage: storage }).any();
+// // Set Storage Engine
+// var storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, './../uploads/tmp');
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname) );
+//   }
+// });
+
+// // init Upload
+// var upload = multer({ storage: storage }).any();
 
 
 //=============================================================
@@ -70,6 +72,7 @@ router.get('/', authenticationMiddleware(), function (req, res) {
     });
   });
 });
+
 
 //=============================================================
 router.get('/login', function (req, res) {
@@ -1281,11 +1284,7 @@ router.get('/query/getAllBooks', authenticationMiddleware(), function (req, res)
 
 //=======================================================
 router.post('/query/addNewQuiz', authenticationMiddleware(), function (req, res) {
-  console.dir(req.body, { depth: null }); // `depth: null` ensures unlimited recursion
-    console.dir(req.files, { depth: null }); // `depth: null` ensures unlimited recursion
-
-  upload(req, res, function (err) {
-    
+    app.upload(req, res, function (err) {
     if (err) {
       console.log('Error-->');
       console.log(err);
@@ -1296,7 +1295,7 @@ router.post('/query/addNewQuiz', authenticationMiddleware(), function (req, res)
       console.log("fieldname" + req.file);
       if (req.file != 0) {
         console.log('File uploaded!');
-        queries.insertNewQuiz(req.body, req.user);
+        queries.insertNewQuiz(req.body, req.user, req.files);
         res.redirect('/');
       }
       else {

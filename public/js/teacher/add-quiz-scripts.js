@@ -152,9 +152,9 @@ function readURL(input, element) { // allow preview of uploaded pic
 // });
 
 
-$(document).on('change', '.imgPrevInput', function(event){
-    var input = event.target;
-    var element = $(this).prev();
+$(document).on('change', '.imgPrevInput', function(event){  // preview of image next to file input
+    var input = event.target;   // input type file
+    var element = $(this).prev();   // element is the img element
     readURL(input, element);
 });
 
@@ -320,14 +320,14 @@ $('#addQuestionBtn').click(function () {
                     <div id="q${numOfQuestions}ans2div">
                         <p class="pTitles">
                             <input name="q${numOfQuestions}ans2content" id="q${numOfQuestions}ans2content" type="text" class="section" placeholder="תוכן תשובה 2" required>
-                            *:שאלה 2
+                            *:תשובה 2
                         </p>
 
                         <p class="pTitles">
                             <img class="imgPrev" src="#" alt="" id="q${numOfQuestions}ans2pic">
                             <input class="imgPrevInput" type="file" id="q${numOfQuestions}ans2picInput" name="q${numOfQuestions}ans2picInput" class="section"
                                 accept="imacge/*" alt="your image" style="width: 50%;" />
-                            :תמונת שאלה 2
+                                :תמונת תשובה 2
                         </p>
                     </div>
                     <input id="q${numOfQuestions}totalAnsNum" name="q${numOfQuestions}totalAnsNum" type="hidden">

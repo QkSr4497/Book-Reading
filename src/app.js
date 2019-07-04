@@ -118,18 +118,19 @@ passport.use(new LocalStrategy({passReqToCallback : true}, function (req, userna
   }
 ));
 
-// // Set Storage Engine
-// var storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, '/uploads/tmp');
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname) );
-//   }
-// });
 
-// // init Upload
-// var upload = multer({ storage: storage }).any();
+// Set Storage Engine
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './../public/img/uploads_tmp');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname) );
+  }
+});
+
+// init Upload
+var upload = multer({ storage: storage }).any();
 
 
 
@@ -140,4 +141,7 @@ app.use('/', index);
 app.listen(3000, function () {
   console.log('Server Started On Port 3000')
 });
+
+
+module.exports.upload = upload;
 

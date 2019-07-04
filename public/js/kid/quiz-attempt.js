@@ -139,6 +139,7 @@ function startTimer(duration, display) {
 
         if (--timer < 0) {
             finishQuiz();
+            timer = duration * 1000;
         }
     }, 1000);
 }
@@ -170,6 +171,7 @@ function finishQuiz() {
         }
     }
     markResults();
+    $('#quizForm *').prop("disabled", true);
 }
 
 function markResults() {
