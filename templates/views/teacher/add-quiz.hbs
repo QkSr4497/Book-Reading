@@ -20,18 +20,29 @@
     <link rel="stylesheet" type="text/css" href="/css/teacher/add-quiz.css" />
 
 
+
+
+
+
     {{> teacher_head}}
 </head>
 
 <body>
+    
+<div class="legend" dir="RTL">
+</div>
 
     <div class="container" id="quizContainer">
         {{> teacher_body}}
+
+        
         <header>
             <h1>יצירת בוחן חדש
                 <span>בחלק זה ניתן ליצור בחנים על ספרים</span>
             </h1>
         </header>
+
+    
 
         <form method="POST" id="quizForm" name="quizForm" action="/query/addNewQuiz" enctype="multipart/form-data">
             {{!------------ Quiz details -----------------------}}
@@ -62,7 +73,7 @@
                     <p class="pTitles">
                         <img class="imgPrev" src="#" alt="" id="quizPic">
                         <input class="imgPrevInput" type="file" id="quizPicInput" name="quizPicInput" class="section" accept="image/*"
-                            alt="your image" />
+                            alt="your image"  />
 
                         :תמונת הבוחן
                     </p>

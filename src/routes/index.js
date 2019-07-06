@@ -53,12 +53,14 @@ router.get('/', authenticationMiddleware(), function (req, res) {
     // callback - checkout a client
     pool.connect((err, client, done) => {
       if (err) throw err
+      
       client.query('SELECT * FROM "Book"', (error, result) => {
+        done();
         if (error) {
           console.log(error.stack);
         } 
         else {
-          done();
+          
           // res.redirect('/signUp.html');
           if (userData.userType === 'kid') {
             res.render('kid-page', { "Book": result.rows, userData });
@@ -173,6 +175,7 @@ router.get('/signUp/checkEmailDuplicates/:email', function (req, res) {
   pool.connect((err, client, done) => {
     if (err) throw err
     client.query('SELECT * FROM "Person" p WHERE p.email = $1', [req.params.email], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       }
@@ -185,7 +188,6 @@ router.get('/signUp/checkEmailDuplicates/:email', function (req, res) {
         }
       }
     });
-    done();
   });
 });
 
@@ -202,6 +204,7 @@ router.get('/signUp/checkUserDuplicates/:user', function (req, res) {
   pool.connect((err, client, done) => {
     if (err) throw err
     client.query('SELECT * FROM "Person" p WHERE p."userName" = $1', [req.params.user], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       }
@@ -214,7 +217,6 @@ router.get('/signUp/checkUserDuplicates/:user', function (req, res) {
         }
       }
     });
-    done();
   });
 });
 
@@ -233,10 +235,10 @@ router.get('/books', authenticationMiddleware(), function (req, res) {
   pool.connect((err, client, done) => {
     if (err) throw err
     client.query('SELECT b.* FROM "Book" b WHERE b."bookID" NOT IN (SELECT kb."bookID" FROM "KidBook" kb WHERE kb."kidID"=$1)',[userData.userID], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       } else {
-        done();
         // res.redirect('/signUp.html');
         res.render('books', { "Book": result.rows ,userData});
       }
@@ -260,10 +262,11 @@ router.post('/kid/books/addToList/:bookID', authenticationMiddleware(), function
   pool.connect((err, client, done) => {
     if (err) throw err
     client.query('INSERT INTO "KidBook"("kidID", "bookID","type" ) VALUES($1, $2,$3)',[userData.userID, req.params.bookID, 'intrested'], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       } else {
-        done();
+        
         // res.redirect('/signUp.html');
         res.redirect('/kid/books');
         //res.render('kid/books');
@@ -341,6 +344,7 @@ router.get('/kid/hasBook:bookID', authenticationMiddleware(),  function (req, re
   pool.connect((err, client, done) => {
     if (err) throw err
     client.query('SELECT * FROM "KidBook" kb  WHERE kb."kidID" = $1 AND kb."bookID"=$2', [userData.userID,req.params.bookID], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       }
@@ -353,7 +357,6 @@ router.get('/kid/hasBook:bookID', authenticationMiddleware(),  function (req, re
         }
       }
     });
-    done();
   });
 });
 });
@@ -373,6 +376,7 @@ router.get('/kid/hasFinishedBook:bookID', authenticationMiddleware(), function (
   pool.connect((err, client, done) => {
     if (err) throw err
     client.query('SELECT kb."type" FROM "KidBook" kb  WHERE kb."kidID" = $1 AND kb."bookID"=$2 AND kb."type"=$3', [userData.userID,req.params.bookID,'finished'], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       }
@@ -385,7 +389,7 @@ router.get('/kid/hasFinishedBook:bookID', authenticationMiddleware(), function (
         }
       }
     });
-    done();
+    
   });
 });
 });
@@ -405,6 +409,7 @@ router.get('/kid/hasReview:bookID', authenticationMiddleware(), function (req, r
   pool.connect((err, client, done) => {
     if (err) throw err
     client.query('SELECT kb."review" FROM "KidBook" kb  WHERE kb."kidID" = $1 AND kb."bookID"=$2 AND kb."review" IS NOT NULL ', [userData.userID,req.params.bookID], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       }
@@ -417,7 +422,7 @@ router.get('/kid/hasReview:bookID', authenticationMiddleware(), function (req, r
         }
       }
     });
-    done();
+    
   });
 });
 });
@@ -436,10 +441,11 @@ router.post('/kid/book/addReview', authenticationMiddleware(), function (req, re
     pool.connect((err, client, done) => {
       if (err) throw err
       client.query('UPDATE "KidBook" SET "review" = $1 WHERE "kidID" = $2 AND "bookID"=$3',[req.body.review,userData.userID,req.body.bookID], (error, result) => {
+        done();
         if (error) {
           console.log(error.stack);
         } else {
-          done();
+          
            res.redirect('/kid/single-book-page/'+req.body.bookID);
          // res.render('kid/single-book-page', { "bookData": result.rows,userData });
         }
@@ -464,6 +470,7 @@ router.get('/kid/hasQuiz:bookID', authenticationMiddleware(), function (req, res
     if (err) throw err
     client.query(`SELECT * FROM "TakesQuiz" tq INNER JOIN "Quiz" q 
     on tq."quizID"=q."quizID" INNER JOIN  "WritesQuiz" wq ON tq."quizID" =wq."quizID"  WHERE tq."kidID" = $1 AND wq."bookID"=$2 `, [userData.userID,req.params.bookID], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       }
@@ -476,7 +483,7 @@ router.get('/kid/hasQuiz:bookID', authenticationMiddleware(), function (req, res
         }
       }
     });
-    done();
+    
   });
 });
 });
@@ -521,11 +528,10 @@ router.get('/games', authenticationMiddleware(), function (req, res) {
   pool.connect((err, client, done) => {
     if (err) throw err
     client.query('SELECT * FROM "Game" g WHERE g."gameID" NOT IN (SELECT hg."gameID" FROM "HasGames" hg WHERE hg."kidID"=$1) AND g."gameID" NOT IN (SELECT c."gameID" FROM "Cart" c WHERE c."kidID"=$1)',[userData.userID], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       } else {
-        done();
-
         res.render('games', { "Game": result.rows ,userData});
       }
     });
@@ -548,10 +554,10 @@ router.post('/games/addToCart', authenticationMiddleware(), function (req, res) 
   pool.connect((err, client, done) => {
     if (err) throw err
     client.query('INSERT INTO "Cart" ("kidID", "gameID") VALUES($1, $2)',[userData.userID,req.body.gameID], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
-      } else {
-        done();
+      } else { 
        res.redirect('/kid/cart');
       }
     });
@@ -575,10 +581,10 @@ router.get('/kid/profile', authenticationMiddleware(), function (req, res) {
     if (err) throw err
     client.query(`SELECT p.*,DATE_TRUNC('day',k."birthDate" ) AS birth, k."points" 
     FROM "Person" p INNER JOIN "Kid" k ON p."personID"=k."kidID" WHERE p."personID"=$1`,[userData.userID], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       } else {
-        done();
         // res.redirect('/signUp.html');
         res.render('kid/profile', { "kidProfile": result.rows ,userData});
       }
@@ -602,10 +608,11 @@ router.post('/kid/profile/edit', authenticationMiddleware(), function (req, res)
   pool.connect((err, client, done) => {
     if (err) throw err
     client.query('UPDATE "Person"  SET "userName" = $1, "firstName" = $2 WHERE "peronID" = $3 ',[body.req.userName,body.req.firstName,userData.userID], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       } else {
-        done();
+        
       }
     });
 
@@ -653,12 +660,12 @@ router.post('/kid/books/edit', authenticationMiddleware(), function (req, res) {
       
       if (err) throw err
       client.query(' UPDATE "KidBook" SET "type" = $1 WHERE "kidID" = $2 AND "bookID"=$3',[bookType,userData.userID,bookID], (error, result) => {
+        done();
         if (error) {
           res.send({ status: 'error' });
           console.log(error.stack);
         } else {
           res.send({ status: 'success' });
-          done();
           // res.redirect('/kid/books');
         }
 
@@ -684,10 +691,11 @@ router.get('/kid/games', authenticationMiddleware(), function (req, res) {
     pool.connect((err, client, done) => {
       if (err) throw err
       client.query('SELECT g.* FROM "Game" g INNER JOIN "HasGames" hg ON g."gameID" = hg."gameID" WHERE hg."kidID"=$1',[userData.userID], (error, result) => {
+        done();
         if (error) {
           console.log(error.stack);
         } else {
-          done();
+          
           // res.redirect('/signUp.html');
           res.render('kid/games', { "MyGames": result.rows ,userData});
         }
@@ -712,10 +720,11 @@ router.post('/kid/games/add:gameID', authenticationMiddleware(), function (req, 
     pool.connect((err, client, done) => {
       if (err) throw err
       client.query('INSERT INTO "HasGames" ("kidID", "gameID") VALUES($1, $2)',[userData.userID,req.params.gameID], (error, result) => {
+        done();
         if (error) {
           console.log(error.stack);
         } else {
-          done();
+          
 
          //res.render('kid/games', { "MyGames": result.rows,userData });
          //res.redirect('/kid/games');
@@ -761,10 +770,11 @@ router.post('/kid/notes/add', authenticationMiddleware(), function (req, res) {
   pool.connect((err, client, done) => {
     if (err) throw err
     client.query('INSERT INTO "Note" ("date","personID", "title", "content","type","pic" ) VALUES($1, $2,$3,$4,$5,$6)',[date,userData.userID,req.body.title, req.body.content, 'private',req.body.pic], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       } else {
-        done();
+        
         //res.render('/kid/notes', { "myNotes": result.rows ,userData});
         res.redirect('/kid/notes');
       }
@@ -788,10 +798,11 @@ router.post('/kid/notes/edit', authenticationMiddleware(), function (req, res) {
   pool.connect((err, client, done) => {
     if (err) throw err
     client.query('UPDATE "Note" SET "title"=$1, "content"=$2, "type"=$3 WHERE "personID"=$4 AND "noteID"=$5 ',[ req.body.title, req.body.content, 'private',userData.userID,req.body.noteID], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       } else {
-        done();
+        
         //res.render('/kid/notes', { "myNotes": result.rows ,userData});
         res.redirect('/kid/notes');
       }
@@ -816,10 +827,11 @@ router.delete('/kid/notes/delete/:noteID', authenticationMiddleware(), function 
   pool.connect((err, client, done) => {
     if (err) throw err
     client.query('DELETE FROM "Note" n WHERE n."personID"=$1 AND n."noteID"=$2' ,[userData.userID,req.params.noteID], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       } else {
-        done();
+        
         // res.redirect('/signUp.html');
         res.render('kid/notes', { "myNotes": result.rows,userData });
       }
@@ -843,10 +855,11 @@ router.get('/kid/groups', authenticationMiddleware(), function (req, res) {
     pool.connect((err, client, done) => {
       if (err) throw err
       client.query('SELECT g.*,ig.* FROM "Group" g INNER JOIN "InGroup" ig ON g."groupID"=ig."groupID" WHERE ig."personID"=$1 ',[userData.userID], (error, result) => {
+        done();
         if (error) {
           console.log(error.stack);
         } else {
-          done();
+          
           // res.redirect('/signUp.html');
           res.render('kid/groups', { "myGroups": result.rows ,userData});
         }
@@ -927,10 +940,11 @@ router.post('/post/add', authenticationMiddleware(), function (req, res) {
     //console.log(date);
     if (err) throw err
     client.query('INSERT INTO "Post" ("postDate", "content","groupID","personID") VALUES($1, $2,$3,$4)',[date,req.body.content,req.body.groupID,userData.userID], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       } else {
-        done();
+        
         res.redirect('/kid/single-group-page/'+req.body.groupID);
       }
     });
@@ -955,10 +969,11 @@ router.get('/kid/friends', authenticationMiddleware(), function (req, res) {
     client.query(`SELECT p.*, a."pic" 
     FROM "Friend" f INNER JOIN "Person" p ON f."friendOfA" = p."personID" INNER JOIN "Kid" k ON p."personID" = k."kidID"  INNER JOIN "Avatar" a
     ON k."avatarID" =a."avatarID"  WHERE f."personA" = $1 AND f."approved"=$2` , [userData.userID,'Y'], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       } else {
-        done();
+        
         // res.redirect('/signUp.html');
         res.render('kid/friends', { "myFriend": result.rows ,userData});
       }
@@ -1001,10 +1016,10 @@ router.post('/kid/message/updateChecked:messageID', authenticationMiddleware(), 
   pool.connect((err, client, done) => {
     if (err) throw err
     client.query('UPDATE "GetMessage" SET "checked" = $1 WHERE "personID" = $2 AND "messageID"=$3' ,['Y',userData.userID,req.params.messageID], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       } else {
-        done();
         res.redirect('/kid/message');
         //res.render('kid/games', { "MyGames": result.rows });
       }
@@ -1026,10 +1041,11 @@ router.post('/kid/message/updateUnchecked:messageID', authenticationMiddleware()
   pool.connect((err, client, done) => {
     if (err) throw err
     client.query('UPDATE "GetMessage" SET "checked" = $1 WHERE "personID" = $2 AND "messageID"=$3' ,['N',userData.userID,req.params.messageID], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       } else {
-        done();
+        
         res.redirect('/kid/message');
         //res.render('kid/games', { "MyGames": result.rows });
       }
@@ -1052,10 +1068,11 @@ router.get('/kid/cart', authenticationMiddleware(), function (req, res) {
   pool.connect((err, client, done) => {
     if (err) throw err
     client.query('SELECT g.* FROM "Cart" c INNER JOIN "Game" g ON c."gameID"=g."gameID" WHERE c."kidID"=$1' ,[userData.userID], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       } else {
-        done();
+        
         // res.redirect('/signUp.html');
         res.render('kid/cart', { "myCart": result.rows,userData });
       }
@@ -1080,10 +1097,11 @@ router.delete('/kid/cart/delete/:gameID', authenticationMiddleware(), function (
   pool.connect((err, client, done) => {
     if (err) throw err
     client.query('DELETE FROM "Cart" c WHERE c."kidID"=$1 AND c."gameID"=$2' ,[userData.userID,req.params.gameID], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       } else {
-        done();
+        
         //res.redirect('/kid/cart');
        res.render('kid/cart', { "myCart": result.rows,userData });
       }
@@ -1107,10 +1125,11 @@ router.post('/kid/points/edit:points', authenticationMiddleware(), function (req
   pool.connect((err, client, done) => {
     if (err) throw err
     client.query('UPDATE "Kid" SET "points" = $1 WHERE "kidID" = $2' ,[req.params.points,userData.userID], (error, result) => {
+      done();
       if (error) {
         console.log(error.stack);
       } else {
-        done();
+        
         //res.redirect('/kid/games');
         //res.render('kid/games', { "MyGames": result.rows });
       }
@@ -1208,10 +1227,11 @@ router.get('/teacher/books', authenticationMiddleware(), function (req, res) {
     pool.connect((err, client, done) => {
       if (err) throw err
       client.query(`SELECT * FROM "Book"`, (error, result) => {
+        done();
         if (error) {
           console.log(error.stack);
         } else {
-          done();
+          
           // res.redirect('/signUp.html');
           // console.log("json: "+ JSON.stringify(result.rows));
           // console.log("regular: "+result.rows);
@@ -1239,11 +1259,12 @@ router.get('/teacher/single-book-page/:bookID', authenticationMiddleware(), func
       //console.log('req params ' + JSON.stringify(req.params));
       //console.log("req.params.bookID = " + req.params.bookID);
       client.query(`SELECT * FROM "Book" b WHERE b."bookID" = $1`, [req.params.bookID], (error, result) => {
+        done();
         if (error) {
           console.log(error.stack);
         }
         else {
-          done();
+          
           //console.log('book chosen: ' + JSON.stringify(result.rows[0]));
           res.render('teacher/single-book-page', { "bookData": result.rows[0], userData });
         }
@@ -1298,7 +1319,7 @@ router.post('/query/addNewQuiz', authenticationMiddleware(), function (req, res)
         queries.insertNewQuiz(req.body, req.user, req.files);
         res.redirect('/');
       }
-      else {
+      else {  // has to be a least 1 pic, the pic of the quiz
         console.log("No file uploaded. Ensure file is uploaded.");
         res.json({ "status": "Failure", "message": 'No file uploaded. Ensure file is uploaded.' });
 

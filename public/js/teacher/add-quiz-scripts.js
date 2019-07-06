@@ -15,6 +15,7 @@ $(document).ready(function () {
     updateCorrectAns(numOfQuestions, ansNum, selectedType);
 
     $(`#q1totalAnsNum`).val(ansNum);
+    updateLegend();
 
     // console.log('quizQuestions :' + JSON.stringify(quizQuestions));
     // console.log('quizQuestions[0] :' + JSON.stringify(quizQuestions[0]));
@@ -152,14 +153,48 @@ function readURL(input, element) { // allow preview of uploaded pic
 // });
 
 
-$(document).on('change', '.imgPrevInput', function(event){  // preview of image next to file input
+$(document).on('change', '.imgPrevInput', function (event) {  // preview of image next to file input
     var input = event.target;   // input type file
-    var element = $(this).prev();   // element is the img element
-    readURL(input, element);
+    
+
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+        //get the file size and file type from file input field
+        var fsize = input.files[0].size;
+        $(this).attr('data-placement', 'left');
+        $(this).attr('data-toggle', 'tooltip');
+        if (fsize > 524288) { //do something if file size more than 0.5 mb (524288)
+            const bytesInMB = 1048576;
+            $(this).attr('title', `גודל הקובץ שנבחר הינו ${(fsize/bytesInMB).toFixed(2)} מגה. הקובץ חייב להיות קטן מ 0.5 מגה`);
+            input.value = '';
+            $(this).addClass('invalid');
+            var element = $(this).prev();   // element is the img element
+            element.attr('src', '');
+
+
+        }
+        else {
+            $(this).attr('title', 'גודל הקובץ תקין');
+            var element = $(this).prev();   // element is the img element
+            readURL(input, element);
+            $(this).removeClass('invalid');
+         
+        }
+    }
+    else {
+        alert('Please upgrade your browser, because your current browser lacks some new features we need!');
+    }
+    $('[data-toggle="tooltip"]').tooltip('dispose').tooltip('show');
+    
+
 });
 
+// $(document).ready(function(){
+//     $('[data-toggle="tooltip"]').tooltip();   
+//   });
 
-
+// $(document).ready(function(){
+//     $('[data-toggle="tooltip"]').tooltip();   
+//   });
 
 function populateDurationSelect() { // input minutes options to the duration select
     var minutes = [];
@@ -365,6 +400,8 @@ $('#addQuestionBtn').click(function () {
 
     var submintBtnElement = $('#submintBtn').detach();    // using detach saves the jQuery data and events associated with the removed elements
     submintBtnElement.appendTo('#quizContainer'); // appending the addAnsBtn to the bottom the of question
+    updateLegend(); // updating the legend
+    scrollToRelevant(numOfQuestions);   // scroll to relevant question
 });
 
 
@@ -381,7 +418,7 @@ $('#removeQuestionBtn').click(function () {
 
     var ansNum = quizQuestions[numOfQuestions - 1].ansNum;
 
-    $(`#q${numOfQuestions - 1} input, #q${numOfQuestions - 1} select`).prop("disabled", false);  // enbale all inputs of the last question the remains after the removal
+    $(`#q${numOfQuestions} input, #q${numOfQuestions} select`).prop("disabled", false);  // enbale all inputs of the last question the remains after the removal
 
 
     addAnsBtnElement.appendTo('.background:last'); // appending the addAnsBtn to the bottom the of question
@@ -396,6 +433,8 @@ $('#removeQuestionBtn').click(function () {
     
     
     submintBtnElement.appendTo('#quizContainer'); // appending the submintBtn to the bottom the of quizContainer
+    updateLegend(); // updating the legend
+    scrollToRelevant(numOfQuestions);   // scroll to relevant question
 });
 
 function updateCorrectAns(questionNum, numOfAnswers, questionType) {
@@ -443,6 +482,38 @@ function updateCorrectAnsChecked(questionNum, numOfAnswers) {
         }
         $(`#q${questionNum}ans${i}checkbox`).val(checked);
     }
+
+
+}
+
+function updateLegend() {
+    $('.legend').empty();
+    var numOfQuestions = quizQuestions.length;
+    var myString = `
+    <h3>מקרא מהיר</h3>
+    <ul>
+        <li><a href='#formTitle'>פרטי הבוחן</a></li>
+        `;
+    for (var i = 1; i <= numOfQuestions; i++) {
+        myString += `<li><a href='#q${i}'>שאלה ${i}</a></li>`;
+    }
+    myString += `</ul>`;
+    $('.legend').append(myString);
+}
+
+
+$(document).on('click', 'a[href^="#"]', function (event) {  // smooth scrolling on legend
+    event.preventDefault();
+
+    $('html, body').animate({
+        scrollTop: $($.attr(this, 'href')).offset().top - 100
+    }, 500);
+});
+
+function scrollToRelevant(qNum) {
+    $('html, body').animate({
+        scrollTop: $(`#q${qNum}`).offset().top - 100
+    }, 500);
 }
 
 
