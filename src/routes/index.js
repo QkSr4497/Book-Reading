@@ -112,7 +112,7 @@ router.post('/signUp/signUpNewUser', function (req, res) {
           }
           else {
             client.query('SELECT * FROM "Person" p WHERE p."userName" = $1', [userName], (error, result) => {  // getting the id of the new person for the purppose
-              // of inserting this id as foriegn key for subtype table
+                                                                                                               // of inserting this id as foriegn key for subtype table
               if (error) {
                 console.log(error.stack);
               }
@@ -1305,7 +1305,7 @@ router.get('/query/getAllBooks', authenticationMiddleware(), function (req, res)
 
 //=======================================================
 router.post('/query/addNewQuiz', authenticationMiddleware(), function (req, res) {
-    app.upload(req, res, function (err) {
+    app.upload(req, res, async function (err) {
     if (err) {
       console.log('Error-->');
       console.log(err);
@@ -1313,15 +1313,20 @@ router.post('/query/addNewQuiz', authenticationMiddleware(), function (req, res)
       return;
     }
     else {
-      console.log("fieldname" + req.file);
-      if (req.file != 0) {
-        console.log('File uploaded!');
-        queries.insertNewQuiz(req.body, req.user, req.files);
+      // console.log("fieldname " + req.files);
+      if (req.files.length != 0) {
+        console.log('Files uploaded!');
+
+        try {
+          await queries.insertNewQuiz(req.body, req.user, req.files);
+        } catch (e) {
+          console.error(e);
+        } 
         res.redirect('/');
       }
-      else {  // has to be a least 1 pic, the pic of the quiz
-        console.log("No file uploaded. Ensure file is uploaded.");
-        res.json({ "status": "Failure", "message": 'No file uploaded. Ensure file is uploaded.' });
+      else {  // has to be at least 1 pic, the pic of the quiz
+        console.log("No file uploaded. Ensure at least 1 pic is uploaded, the pic of the quiz");
+        res.json({ "status": "Failure", "message": 'No file uploaded. Ensure at least 1 pic is uploaded, the pic of the quiz' });
 
       }
     }

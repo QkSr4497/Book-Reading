@@ -42,7 +42,7 @@
             </h1>
         </header>
 
-    
+
 
         <form method="POST" id="quizForm" name="quizForm" action="/query/addNewQuiz" enctype="multipart/form-data">
             {{!------------ Quiz details -----------------------}}
@@ -59,7 +59,7 @@
                         *:ספר
                     </p>
                     <p class="pTitles">
-                        <input name="quizTitle" type="text" class="section" placeholder="כותרת הבוחן" required>
+                        <input name="quizTitle" id="quizTitle" type="text" class="section" placeholder="כותרת הבוחן" required>
                         *:כותרת הבוחן
                     </p>
                     <p class="pTitles">
@@ -173,6 +173,9 @@
            
 
         </form>
+
+        <div id="snackbar">יש למלא את כל השדות שממוסגרים <span style='color: rgb(255, 0, 0)'>באדום</span>.</div>
+
         <button type="submit" value="Submit" id="submintBtn">צור בוחן</button>
     </div> <!-- /container -->
 

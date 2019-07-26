@@ -37,6 +37,18 @@ $('#submintBtn').on('click', function () {
 //   ==========Check all inputs for valid info ================
 function checkAllInputs() {
     var numOfQuestions = quizQuestions.length;
+    var check1, check2, check3, check4, check5, check6, allClear;
+    check1 = checkQuizPicInput();
+    check2 = checkBooksList();
+    check3 = checkQuizTitle();
+    check4 = checkLangSelected();
+    check5 = checkTimeMinSelected();
+    check6 = checkQustionInputs(numOfQuestions);
+    allClear = (check1 && check2 && check3 && check4 && check5 && check6);
+    if (!allClear) {
+        showSnackbar('יש למלא את כל השדות שממוסגרים באדום.');
+        return;  // if any of the checks fails then don't continue
+    } 
     // var check1 = something();
     
     // if (!check1 || !check2 || !check3 || !check4 || !check5 || !check6 || !check7 || !check8) {
@@ -62,6 +74,126 @@ function checkAllInputs() {
     //     }
     // );
     $("#quizForm").submit();
+}
+ 
+function checkQuizPicInput() {  // checking that quizPicInput is not empty
+    input = $('#quizPicInput');
+    input.attr('data-placement', 'left');   // placement of the data
+    input.attr('data-toggle', 'tooltip');   // title will appear in a tooltip
+    if (input.val() == '') {    // if no picture for the quiz was chosen
+        input.attr('title', `.תמונת הבוחן הינה הכרחית`);
+        input.addClass('invalid');  // invalid class has a unique style 
+        input.tooltip('show');  // showing the tooltip
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+
+function checkBooksList() {  // checking that a book for the quiz was selected
+    input = $('#booksList');
+    input.attr('data-placement', 'left');   // placement of the data
+    input.attr('data-toggle', 'tooltip');   // title will appear in a tooltip
+    if (input.val() == 'title') {    // if no book was chosen
+        input.attr('title', `יש לבחור ספר מתוך הרשימה.`);
+        input.addClass('invalid');  // invalid class has a unique style 
+        input.tooltip('show');  // showing the tooltip
+        return false;
+    }
+    else {
+        input.removeClass('invalid');  // invalid class has a unique style 
+        input.tooltip('dispose');  // disabling the tooltip
+        return true;
+    }
+}
+
+function checkQuizTitle() {  // checking that a title for the quiz was entered
+    input = $('#quizTitle');
+    input.attr('data-placement', 'left');   // placement of the data
+    input.attr('data-toggle', 'tooltip');   // title will appear in a tooltip
+    if (input.val() == '') {    // if no quiz title was given
+        input.attr('title', `יש להעניק כותרת לבוחן.`);
+        input.addClass('invalid');  // invalid class has a unique style 
+        input.tooltip('show');  // showing the tooltip
+        return false;
+    }
+    else {
+        input.removeClass('invalid');  // invalid class has a unique style 
+        input.tooltip('dispose');  // disabling the tooltip
+        return true;
+    }
+}
+
+function checkLangSelected() {  // checking that a languege for the quiz was selected
+    input = $('#langSelect');
+    input.attr('data-placement', 'left');   // placement of the data
+    input.attr('data-toggle', 'tooltip');   // title will appear in a tooltip
+    if (input.val() == 'title') {    // if no language was chosen
+        input.attr('title', `יש לבחור שפה לבוחן.`);
+        input.addClass('invalid');  // invalid class has a unique style 
+        input.tooltip('show');  // showing the tooltip
+        return false;
+    }
+    else {
+        input.removeClass('invalid');  // invalid class has a unique style 
+        input.tooltip('dispose');  // disabling the tooltip
+        return true;
+    }
+}
+
+function checkTimeMinSelected() {  // checking that a duration for the quiz was selected
+    input = $('#timeMinSelect');
+    input.attr('data-placement', 'left');   // placement of the data
+    input.attr('data-toggle', 'tooltip');   // title will appear in a tooltip
+    if (input.val() == 'title') {    // if no language was chosen
+        input.attr('title', `יש לבחור את הזמן המוקצב לבוחן בדקות.`);
+        input.addClass('invalid');  // invalid class has a unique style 
+        input.tooltip('show');  // showing the tooltip
+        return false;
+    }
+    else {
+        input.removeClass('invalid');  // invalid class has a unique style 
+        input.tooltip('dispose');  // disabling the tooltip
+        return true;
+    }
+}
+
+function checkQustionInputs(qNum) {  // checking inputs of a specific question
+    var returnVal = true;
+    $(`form#quizForm #q${qNum}`).find('input').each(function () {
+        $(this).attr('data-placement', 'left');   // placement of the data
+        $(this).attr('data-toggle', 'tooltip');   // title will appear in a tooltip
+        if ($(this).prop('required') && $(this).val() == '') {  // all empty and required inputs of the question
+            $(this).attr('title', `יש למלא את השדות המסומנים באדום.`);
+            $(this).addClass('invalid');  // invalid class has a unique style 
+            $(this).tooltip('show');  // showing the tooltip    
+            returnVal = false;  // updating return value to false
+        }
+        else {
+            $(this).removeClass('invalid');  // invalid class has a unique style 
+            $(this).tooltip('dispose');  // disabling the tooltip 
+        }
+    });
+    return returnVal;
+}
+
+/****** ==========/Check all inputs for valid info ================**********/ 
+
+function showSnackbar(message) {
+    // Get the snackbar DIV
+    var x = $('#snackbar');
+
+    // Add the "show" class to DIV
+    x.addClass("show");
+
+    // setting the mesage in the snackbar
+    x.text(message);
+
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function () { x.removeClass( "show" ) }, 3000);
+
 }
 
 
@@ -183,7 +315,7 @@ $(document).on('change', '.imgPrevInput', function (event) {  // preview of imag
     else {
         alert('Please upgrade your browser, because your current browser lacks some new features we need!');
     }
-    $('[data-toggle="tooltip"]').tooltip('dispose').tooltip('show');
+    $(this).tooltip('dispose').tooltip('show');
     
 
 });
@@ -304,8 +436,12 @@ $('#removeAnsBtn').click(function () {
 });
 
 $('#addQuestionBtn').click(function () {
-    var question = { questionNum: quizQuestions.length + 1, ansNum: 2 };  // the quiz starts with the first question
-    quizQuestions.push(question);   // adding the first question to the quizStructure
+    if (!checkQustionInputs(quizQuestions.length)) {    // checking all required inputs of the current question before allowing to add a new one
+        showSnackbar('יש למלא את כל השדות שממוסגרים באדום.');
+        return; 
+    } 
+    var question = { questionNum: quizQuestions.length + 1, ansNum: 2 };  // increasing number of questions by 1
+    quizQuestions.push(question);   // adding the question to the quizStructure
     var numOfQuestions = quizQuestions.length;
     
     var ansNum = quizQuestions[numOfQuestions - 1].ansNum;
@@ -446,9 +582,11 @@ function updateCorrectAns(questionNum, numOfAnswers, questionType) {
     if (questionType == 'single') { // if single Type Question then radio options
         var radionString = `<p class="pTitles radio">`;
         for(var i = 1; i <= numOfAnswers; i++) {
+            var isChecked;
+            isChecked = (i == 1) ? 'checked="checked" ' : '';
             radionString += `
             <label for="q${questionNum}ans${i}radio">${i}</label>
-            <input type="radio" id="q${questionNum}ans${i}radio" name="q${questionNum}ansRadio" value="${i}" />
+            <input type="radio" id="q${questionNum}ans${i}radio" name="q${questionNum}ansRadio" value="${i}" ${isChecked} />
             `;
         }
         radionString += '*:תשובה נכונה';

@@ -26,6 +26,11 @@ FROM "Person" p INNER JOIN "Admin" a ON p."personID" = a."adminID";
 
 SELECT * FROM "Quiz";
 
+Select nextval(pg_get_serial_sequence('"Quiz"', 'quizID')) as new_id; -- last value of the serial # of quizID and adding 1 to it without inserting any row into Quiz table
+									  
+SELECT last_value FROM "Quiz_quizID_seq";	-- last value of the serial # of quizID
+									  
+
 SELECT * FROM "Quiz" qz
 WHERE qz."quizID" = 2
 
@@ -64,7 +69,6 @@ INNER JOIN "Book" b ON wq."bookID" = b."bookID"
 WHERE wq."quizID" = 1
 
 
-
 SELECT * 
 FROM "Quiz" qz INNER JOIN "Question" qs ON qz."quizID" = qs."quizID"
 INNER JOIN "Answer" ans ON qs."quizID" = ans."quizID" AND qs."questionNum" = ans."questionNum"
@@ -82,7 +86,10 @@ SELECT "answerNum", "answerContent", "answerPic", "isCorrect"
 FROM "Answer"
 WHERE "quizID" = 1 AND "questionNum" = 1
 
-
+DELETE FROM "WritesQuiz" WHERE "quizID" = 16;
+DELETE FROM "Answer" WHERE "quizID" = 16;
+DELETE FROM "Question" WHERE "quizID" = 16;
+DELETE FROM "Quiz" WHERE "quizID" = 16;
 
 /*
 -- be careful this will delete all users sessions and quizes

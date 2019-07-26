@@ -191,17 +191,14 @@ function searchArr(array, key, prop){
 }
 
 const insertNewQuiz = async (data, writerID, imgArr) => { // using async/await
-    var { rowCount: currQuizCount} = await db.query(`SELECT * FROM "Quiz"`);
-    const quizID = ++currQuizCount; // id of the new quiz
+    var {rows: [{last_value}]} = await db.query(`SELECT last_value FROM "Quiz_quizID_seq"`);  // getting the last inserted serial number of quizID
+    const quizID = ++last_value; // id of the new quiz
     var storagePath = getStoragePath(imgArr[0].path, `quizes\\quiz${quizID}`, imgArr[0].fieldname);
     moveFile(imgArr[0].path, storagePath);
     data.quizPicInput = getDbPath(storagePath);
     console.log(data);
-
-
     await db.query(`INSERT INTO "Quiz"("quizTitle", "quizLanguage", "quizPic", duration) VALUES($1, $2, $3, $4)`,
       [data.quizTitle, data.quizLang, data.quizPicInput, data.quizTime]);
-
     var qPic;
     for (var i = 1; i <= data.totalQuestionsNum; i++) {
         qPic = searchArr(imgArr, `q${i}picInput`, 'fieldname');
