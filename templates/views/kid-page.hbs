@@ -25,9 +25,8 @@
       <a href="kid/message"class="lang" key="myMessages">✉️ הודעות   </a>   
       <a href="kid/cart" class="lang"key="myCart">🛒 סל קניות </a>
       <a href="kid/settings"class="lang" key="settings">🔧הגדרות </a>
-      <a href="logout" class="lang"key="logOut">🏃יציאה </a>
+      <a href="logout" class="lang" key="logOut">🏃יציאה </a>
     </div>
-
 
 
     <div id="main">
@@ -122,6 +121,11 @@ function myFunction() {
     }
 }
 </script>
+
+<script>
+  var langPreferred = {{{json userData.langPreferred}}};  // global variable which is used in language.js file
+</script>
+
 {{> kid_footer}}
 </body>
 

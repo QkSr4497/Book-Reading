@@ -73,6 +73,7 @@ const getUserById = (userID, callback) => {
                     email: results.rows[0].email,
                     points: results.rows[0].points,
                     avatarID: results.rows[0].avatarID,
+                    langPreferred: results.rows[0].lang,
                     userType
                 });
              });
@@ -91,6 +92,7 @@ const getUserById = (userID, callback) => {
                     lastName: results.rows[0].lastName,
                     email: results.rows[0].email,
                     phone: results.rows[0].phone,
+                    langPreferred: results.rows[0].lang,
                     userType
                 });
              });
@@ -109,6 +111,7 @@ const getUserById = (userID, callback) => {
                     lastName: results.rows[0].lastName,
                     email: results.rows[0].email,
                     phone: results.rows[0].phone,
+                    langPreferred: results.rows[0].lang,
                     userType
                 });
              });
@@ -127,6 +130,7 @@ const getUserById = (userID, callback) => {
                     lastName: results.rows[0].lastName,
                     email: results.rows[0].email,
                     phone: results.rows[0].phone,
+                    langPreferred: results.rows[0].lang,
                     userType
                 });
              });
@@ -353,6 +357,11 @@ const updateQuizAndPoints = async (kidID, quizID, grade, score) => { // using as
     var updatedPointsScore = parseInt(currentPoints) + parseInt(score);
     await db.query(`UPDATE "Kid" SET points = $1 WHERE "kidID" = $2`,
         [updatedPointsScore, kidID]);
+}
+
+const updateLanguagePreferred = async (userID ,language) => { // using async/await
+    await db.query(`UPDATE "Person" SET lang = $1 WHERE "personID" = $2`,
+        [language, userID]);
 }
 
 
@@ -752,6 +761,7 @@ module.exports = {
     getNotes,
     getKidBooksForNotes,
     getAllAboutNote,
-    updateQuizAndPoints
+    updateQuizAndPoints,
+    updateLanguagePreferred
 
 }

@@ -44,7 +44,7 @@ router.get('/', authenticationMiddleware(), function (req, res) {
   //console.log('user: ['+ req.user + ']  , isAuthenticated: ' + req.isAuthenticated());
 
   queries.getUserById(req.user, (userData) => {
-    //console.log(userData);
+    // console.log(userData);
     pool.on('error', (err, client) => {
       console.error('Unexpected error on idle client', err)
       process.exit(-1)
@@ -60,10 +60,9 @@ router.get('/', authenticationMiddleware(), function (req, res) {
           console.log(error.stack);
         } 
         else {
-          
           // res.redirect('/signUp.html');
           if (userData.userType === 'kid') {
-            res.render('kid-page', { "Book": result.rows, userData });
+            res.render('kid-page', { "Book": result.rows,  userData });
           }
           else if (userData.userType === 'teacher' || userData.userType === 'supervisor' || userData.userType === 'admin') {
             res.render('teacher/home', { userData });
@@ -99,14 +98,15 @@ router.post('/signUp/signUpNewUser', function (req, res) {
   const lastName = req.body.lastName;
   const email = req.body.email;
   const pwd = req.body.pwd;
+  const langS = req.body.languageSelected;
 
 
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err;
     bcrypt.hash(pwd, saltRounds, function (err, hash) { // auto-gen a salt and hash with bcrypt
-      client.query('INSERT INTO "Person"("userName", "firstName", "lastName", email, pwd) VALUES($1, $2, $3, $4, $5)',    // inserting into person
-        [userName, firstName, lastName, email, hash], (error) => {
+      client.query('INSERT INTO "Person"("userName", "firstName", "lastName", email, pwd, lang) VALUES($1, $2, $3, $4, $5, $6)',    // inserting into person
+        [userName, firstName, lastName, email, hash, langS], (error) => {
           if (error) {
             console.log(error.stack);
           }
@@ -217,6 +217,27 @@ router.get('/signUp/checkUserDuplicates/:user', function (req, res) {
         }
       }
     });
+  });
+});
+
+//============================================================
+router.post('/changeLangPreferred', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+    const lang = req.body.lang;
+    
+    try {
+      await queries.updateLanguagePreferred(req.user, lang);
+    } catch (e) {
+      console.error(e);
+    } 
+
+    res.redirect(req.originalUrl)
   });
 });
 

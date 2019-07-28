@@ -44,7 +44,8 @@ function checkAllInputs() {
     var check7 = checkDateOfBirth();
     var check8 = checkPhone();
     if (!check1 || !check2 || !check3 || !check4 || !check5 || !check6 || !check7 || !check8) {
-        window.alert("Please Correct all Inputs with red comment");
+        showSnackbar();
+        // window.alert("Please Correct all Inputs with red comment");
     }
     else {
         checkDuplicates();
@@ -59,7 +60,7 @@ function checkDuplicates() {
         userExceptionText = "";
         if (userData == 'taken') {
             userExceptionText = "User Name is taken.";
-            window.alert("Please Correct all Inputs with red comment");
+            showSnackbar();
             document.getElementById("userNameException").innerHTML = userExceptionText;  
         }
         else if (userData == 'free') {
@@ -68,7 +69,7 @@ function checkDuplicates() {
             checkEmailDuplicates(email , (error, emailData) => {
                 if (emailData == 'taken') {
                     emailExceptionText = "Email already registered.";
-                    window.alert("Please Correct all Inputs with red comment");
+                    showSnackbar();
                     document.getElementById("emailException").innerHTML = emailExceptionText;
                 }
                 else if (emailData == 'free') {   
@@ -415,4 +416,18 @@ function checkPhone() {
     document.getElementById("phoneException").innerHTML = ExceptionText;
     return returnBoolean;
 }
+
+
+function showSnackbar() {
+    // Get the snackbar DIV
+    var x = $('#snackbar');
+
+    // Add the "show" class to DIV
+    x.addClass("show");
+
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function () { x.removeClass( "show" ) }, 3000);
+
+}
+
 

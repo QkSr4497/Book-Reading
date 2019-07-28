@@ -119,11 +119,42 @@ var  arrLang={
 
   }
 };
-$(document).ready(function() {
-  $('.translate').click(function(){
-    var lang=$(this).attr('id');
+
+$(document).ready(function() {  // getting the langueage preferred by the user from the global variable langPreferred which declared in each page
+                                // and translating the page
+  var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
     $('.lang').each(function(index ,element){
-      $(this).text(arrLang[lang][$(this).attr('key')]);
+      $(this).text(arrLang[langPref][$(this).attr('key')]);
+    });
+});
+
+$(document).ready(function() {  // translating the page according to the clicked language
+  $('.translate').click(function(){
+    var clicked = $(this).attr('id');
+    var langClicked = (clicked == 'heb') ? 'hebrew' : 'arabic';
+    updateLangPreferred(langPreferred, langClicked);
+    $('.lang').each(function(index ,element){
+      $(this).text(arrLang[clicked][$(this).attr('key')]);
     });
   });
 });
+
+function updateLangPreferred(preferred, clicked) {
+  
+
+    var url = '/changeLangPreferred';
+    $.ajax({
+      url: url,
+      type: 'POST',
+      data: { lang: clicked },
+      success: function (result) {
+
+      },
+      error: function (err) {
+
+      }
+    });
+
+
+  
+}

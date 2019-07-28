@@ -4,7 +4,8 @@ CREATE TABLE "Person" (
 	"firstName" TEXT NOT NULL,
 	"lastName" TEXT NOT NULL,
 	email TEXT UNIQUE NOT NULL,
-	pwd TEXT NOT NULL 
+	pwd TEXT NOT NULL,
+	lang TEXT NOT NULL
 ); 
 
 CREATE TABLE "Admin" (
@@ -84,12 +85,12 @@ CREATE TABLE "Answer" (
 	PRIMARY KEY ("quizID", "questionNum", "answerNum")									   
 );
  
-CREATE TABLE "Friend" (
- 	"personA" INTEGER REFERENCES "Person" ("personID"),
-	"friendOfA" INTEGER REFERENCES "Person" ("personID"),
-	approved CHAR(1) CHECK (approved IN ('Y','N')) NOT NULL,
-	PRIMARY KEY ("personA", "friendOfA")									   
-);
+-- CREATE TABLE "Friend" (
+--  	"personA" INTEGER REFERENCES "Person" ("personID"),
+-- 	"friendOfA" INTEGER REFERENCES "Person" ("personID"),
+-- 	approved CHAR(1) CHECK (approved IN ('Y','N')) NOT NULL,
+-- 	PRIMARY KEY ("personA", "friendOfA")									   
+-- );
 							
 CREATE TABLE "Group" (
 	"groupID" SERIAL NOT NULL PRIMARY KEY,
@@ -103,16 +104,25 @@ CREATE TABLE "Post" (
 	"postDate" DATE NOT NULL,
  	content TEXT NOT NULL,
 	"groupID" INTEGER REFERENCES "Group" ("groupID") NOT NULL,
-	"personID" INTEGER REFERENCES "Person" ("personID")NOT NULL
+	"personID" INTEGER REFERENCES "Person" ("personID") NOT NULL
 ); 
-	CREATE TABLE "Comment" (
+
+CREATE TABLE "Comment" (
 	"commentID" SERIAL PRIMARY KEY,
 	"postID" INTEGER REFERENCES "Post" ("postID") NOT NULL,
-	"personID" INTEGER REFERENCES "Person" ("personID")NOT NULL,
+	"personID" INTEGER REFERENCES "Person" ("personID") NOT NULL,
 	"commentDate" DATE NOT NULL,
-	 content TEXT NOT NULL
+	content TEXT NOT NULL
 );	
-	CREATE TABLE "Note" (
+
+CREATE TABLE "Notification" (
+	"notificationID" SERIAL PRIMARY KEY,
+	"notificationDate" DATE NOT NULL,
+	content TEXT NOT NULL,
+	"personID" INTEGER REFERENCES "Person" ("personID") NOT NULL
+);	
+
+CREATE TABLE "Note" (
  	"noteID" SERIAL PRIMARY KEY,
 	"date" DATE NOT NULL,
 	"personID" INTEGER REFERENCES "Person" ("personID") NOT NULL,
@@ -122,21 +132,23 @@ CREATE TABLE "Post" (
 	type TEXT CHECK (type IN ('public','private')) NOT NULL,
 	"pic"  TEXT
 );
-	CREATE TABLE "Image" (
+
+CREATE TABLE "Image" (
 	"imageID" SERIAL PRIMARY KEY,
 	"img" Text NOT NULL
 );							
 							
-CREATE TABLE "Teaches" (
- 	"teacherID" INTEGER REFERENCES "Teacher" ("teacherID"),
-	"kidID" INTEGER REFERENCES "Kid" ("kidID"),
-	"groupName" TEXT NOT NULL,
-	PRIMARY KEY ("teacherID", "kidID")									   
-);
+-- CREATE TABLE "Teaches" (
+--  	"teacherID" INTEGER REFERENCES "Teacher" ("teacherID"),
+-- 	"kidID" INTEGER REFERENCES "Kid" ("kidID"),
+-- 	"groupName" TEXT NOT NULL,
+-- 	PRIMARY KEY ("teacherID", "kidID")									   
+-- );
 							
 CREATE TABLE "Supervise" (
  	"supervisorID" INTEGER REFERENCES "Supervisor" ("supervisorID"),
 	"kidID" INTEGER REFERENCES "Kid" ("kidID"),
+	approved CHAR(1) CHECK (approved IN ('Y','N')) NOT NULL,
 	PRIMARY KEY ("supervisorID", "kidID")									   
 );
 					 
@@ -213,12 +225,12 @@ CREATE TABLE "TakesQuiz" (
 	PRIMARY KEY ("kidID", "quizID")									   
 );
 
-CREATE TABLE "BookAssigned" (
-	"bookID" INTEGER REFERENCES "Book" ("bookID"),
-	"teacherID" INTEGER REFERENCES "Teacher" ("teacherID"),
-	"kidID" INTEGER REFERENCES "Kid" ("kidID"),
-	PRIMARY KEY ("bookID", "teacherID", "kidID")									   
-);
+-- CREATE TABLE "BookAssigned" (
+-- 	"bookID" INTEGER REFERENCES "Book" ("bookID"),
+-- 	"teacherID" INTEGER REFERENCES "Teacher" ("teacherID"),
+-- 	"kidID" INTEGER REFERENCES "Kid" ("kidID"),
+-- 	PRIMARY KEY ("bookID", "teacherID", "kidID")									   
+-- );
 							
 CREATE TABLE "KidBook" (
 	"kidID" INTEGER REFERENCES "Kid" ("kidID"),

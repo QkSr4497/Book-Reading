@@ -92,6 +92,14 @@
 				</div>
 
 				<div class="form-wrapper">
+					<p>Preferred Language *</p>
+					<select id="languageSelected" class="form-control" name="languageSelected">
+						<option value="hebrew">Hebrew</option>
+						<option value="Arabic">Arabic</option>
+					</select>
+				</div>
+
+				<div class="form-wrapper">
 					<p>Password *
 						<span class="validation-remark" id="pass1Exception"></span>
 					</p>
@@ -105,6 +113,8 @@
 				</div>
 				<button type="button" onclick=" return checkAllInputs()">Register Now</button>
 			</form>
+
+			<div id="snackbar">Please Correct all Inputs with <span style='color: rgb(255, 0, 0)'>red</span> comment .</div>
 		</div>
 	</div>
 

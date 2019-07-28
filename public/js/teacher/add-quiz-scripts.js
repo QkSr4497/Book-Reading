@@ -192,7 +192,7 @@ function showSnackbar(message) {
     x.text(message);
 
     // After 3 seconds, remove the show class from DIV
-    setTimeout(function () { x.removeClass( "show" ) }, 3000);
+    setTimeout(function () { x.removeClass("show") }, 3000);
 
 }
 
