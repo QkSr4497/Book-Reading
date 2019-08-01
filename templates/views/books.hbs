@@ -13,50 +13,13 @@
 
 <body>
   <div class="navigation-style">
-    <div id="mySidenav" class="sidenav">
-      <a href="javascript:void(0)" class="closebtn" onclick="closeSideNav()">&times;</a>
-      <a href="/" class="lang" key="home"> 🏠דף הבית </a>
-      <a href="kid/profile" class="lang" key="myProfile">👦פרופיל </a>
-      <a href="kid/books" class="lang" key="myBooks"> 📚רשימת הספרים </a>
-      <a href="kid/quizes" class="lang" key="myQuizes">⏱️ בחנים </a>
-      <a href="kid/notes"class="lang" key="myNotes">📄הערות  </a>
-      <a href="kid/games"class="lang" key="myGames">🎮משחקים </a>
-      <a href="kid/groups"class="lang" key="myGroups">👨‍👩‍👧‍👦 קבוצות </a>
-      <a href="kid/message"class="lang" key="myMessages">✉️ הודעות   </a>   
-      <a href="kid/cart" class="lang"key="myCart">🛒 סל קניות </a>
-      <a href="kid/settings"class="lang" key="settings">🔧הגדרות </a>
-      <a href="logout" class="lang"key="logOut">🏃יציאה </a>
-    </div>
+    {{> kid_sideNav}}
 
 
 
 
     <div id="main">
-    <div  class="topnav" id="myTopnav">
-    <div class="left-nav"> 
-    <a class="tablinks" class="lang" key="welcome"id="welcomeTitle">ברוך הבא {{userData.userName}}</a><span></span>
-    {{#if userData.points}}
-    <a class="tablinks" class="lang" key="myPoints" id="pointsTitle">נקודות שלי: {{userData.points}}</a>
-    {{/if}}
-    </div>
-    
-    <a href="#" id="openNav" class="active" onclick="openSideNav()"><i class='far fa-user'></i></a>     
-    <a href="#">KidsRead</a>
-    <a href="books" class="lang" key="books">ספרייה</a>
-    <a href="games" class="lang" key="store">חנות</a>
-    <div class="dropdown">
-      <button class="dropbtn lang" key="language">שפה 
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-content">
-        <a  class="translate" id="arb" class="lang" key="arabic">ערבית</a>
-        <a  class="translate" id="heb" class="lang" key="hebrew">עברית</a>
-      </div>
-    </div> 
-    <a href="javascript:void(0);" class="icon" onclick="responsiveNav()">
-    <i class="fa fa-bars"></i>
-    </a>
-    </div>
+    {{> kid_topNav}}
     <div class="home-style">
         <div class="home-container">
             <h2 class="lang" key="readingToday">מה רוצה לקרוא היום?</h2>

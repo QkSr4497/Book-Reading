@@ -119,7 +119,9 @@ CREATE TABLE "Notification" (
 	"notificationID" SERIAL PRIMARY KEY,
 	"notificationDate" DATE NOT NULL,
 	content TEXT NOT NULL,
-	"personID" INTEGER REFERENCES "Person" ("personID") NOT NULL
+	"recieverRead" CHAR(1) CHECK ("recieverRead" IN ('Y','N')) NOT NULL,
+	"recieverID" INTEGER REFERENCES "Person" ("personID") NOT NULL,
+	"senderID" INTEGER REFERENCES "Person" ("personID") NOT NULL
 );	
 
 CREATE TABLE "Note" (

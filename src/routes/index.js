@@ -237,7 +237,6 @@ router.post('/changeLangPreferred', authenticationMiddleware(), function (req, r
       console.error(e);
     } 
 
-    res.redirect(req.originalUrl)
   });
 });
 
@@ -647,17 +646,17 @@ router.get('/kid/books', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
   queries.getUserById(req.user, (userData) => {
-  pool.on('error', (err, client) => {
-    console.error('Unexpected error on idle client', err)
-    process.exit(-1)
-  })
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
 
-  queries.getBooksAccordingToTypes(userData.userID,(bookDataByTypes)=>{
-    //console.log(bookDataByTypes);
-    res.render('kid/books', { bookDataByTypes,userData });
-    
-  })
-});
+    queries.getBooksAccordingToTypes(userData.userID, (bookDataByTypes) => {
+      //console.log(bookDataByTypes);
+      res.render('kid/books', { bookDataByTypes, userData });
+
+    })
+  });
 });
 
 //============================================================
@@ -1230,6 +1229,22 @@ router.post('/kid/quiz/updateGradeAndPoints', authenticationMiddleware(), functi
     //console.dir(quizData, { depth: null }); // `depth: null` ensures unlimited recursion
 
     res.sendStatus(200);
+  });
+});
+
+
+//============================================================
+router.get('/kid/notifications', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+
+    const quizes = await queries.getAllQuizesNotTaken(userData.userID);
+    res.render('kid/quizes', { "QuizNotTaken": quizes.notTaken , "QuizTaken": quizes.taken , userData});
   });
 });
 
