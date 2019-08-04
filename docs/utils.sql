@@ -85,6 +85,14 @@ WHERE qz."quizID" = 1
 SELECT "answerNum", "answerContent", "answerPic", "isCorrect"
 FROM "Answer"
 WHERE "quizID" = 1 AND "questionNum" = 1
+									  
+SELECT * FROM "Supervise" 
+WHERE "kidID" = 13 AND "approved" = 'Y'
+			
+DELETE FROM "Notification" 
+SELECT * FROM "Notification" 
+									  
+INSERT INTO "Supervise"("supervisorID", "kidID", "approved") VALUES('4', '13', 'Y');
 
 DELETE FROM "WritesQuiz" WHERE "quizID" = 16;
 DELETE FROM "Answer" WHERE "quizID" = 16;

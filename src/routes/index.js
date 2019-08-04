@@ -1243,8 +1243,7 @@ router.get('/kid/notifications', authenticationMiddleware(), function (req, res)
       process.exit(-1)
     })
 
-    const quizes = await queries.getAllQuizesNotTaken(userData.userID);
-    res.render('kid/quizes', { "QuizNotTaken": quizes.notTaken , "QuizTaken": quizes.taken , userData});
+    res.render('kid/notifications', { userData});
   });
 });
 
@@ -1409,4 +1408,31 @@ bcrypt.hash('mike22Pass1', saltRounds, function (err, hash) { console.log(`passw
 bcrypt.hash('danny5Pass1', saltRounds, function (err, hash) { console.log(`password:[danny5Pass1], hash:[${hash}]`) });
 bcrypt.hash('keren6Pass1', saltRounds, function (err, hash) { console.log(`password:[keren6Pass1], hash:[${hash}]`) });
 bcrypt.hash('nelly15Pass1', saltRounds, function (err, hash) { console.log(`password:[nelly15Pass1], hash:[${hash}]`) });
+bcrypt.hash('sarah29Pass1', saltRounds, function (err, hash) { console.log(`password:[sarah29Pass1], hash:[${hash}]`) });
+bcrypt.hash('moshe1234Pass1', saltRounds, function (err, hash) { console.log(`password:[moshe1234Pass1], hash:[${hash}]`) });
+bcrypt.hash('jacky11Pass1', saltRounds, function (err, hash) { console.log(`password:[jacky11Pass1], hash:[${hash}]`) });
+bcrypt.hash('tim9Pass1', saltRounds, function (err, hash) { console.log(`password:[tim9Pass1], hash:[${hash}]`) });
+bcrypt.hash('dorin23ass1', saltRounds, function (err, hash) { console.log(`password:[dorin23ass1], hash:[${hash}]`) });
+bcrypt.hash('tali11Pass1', saltRounds, function (err, hash) { console.log(`password:[tali11Pass1], hash:[${hash}]`) });
+bcrypt.hash('dorin23ass1', saltRounds, function (err, hash) { console.log(`password:[mira36Pass1], hash:[${hash}]`) });
+bcrypt.hash('tali11Pass1', saltRounds, function (err, hash) { console.log(`password:[rafi53Pass1], hash:[${hash}]`) });
 */
+
+
+
+
+async function f() {
+
+  var kidID = 13;
+  var date = new Date();
+  var msg;
+  var content = 'try me now'
+  try {
+    msg = await queries.sendNotificationFromKidToSupervisors(kidID, date, content);
+  } catch(err) {
+    console.log(err); // TypeError: failed to fetch
+  }
+  console.log(msg);
+}
+
+f();

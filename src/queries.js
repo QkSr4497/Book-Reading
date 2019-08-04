@@ -292,7 +292,8 @@ const getFullQuizDataByQuizID = async (quizID) => { // using async/await
     var Quiz = {};
 
     const { rows: result} = await db.query(`SELECT * FROM "Quiz" qz
-                                            WHERE qz."quizID" = ${quizID}`);
+                                            WHERE qz."quizID" = $1`,
+                                            [quizID]);
 
     Quiz.quizID = quizID;
     Quiz.quizTitle = result[0].quizTitle;
@@ -321,7 +322,8 @@ const getWriterAndBookByQuizID = async (quizID) => { // using async/await
     const { rows: result } = await db.query(`SELECT b."bookID", b."bookName", b."authorFirstName", b."authorLastName", "pic", p."personID", p."firstName", p."lastName"
                                             FROM "WritesQuiz" wq INNER JOIN "Person" p ON wq."personID" = p."personID"
                                             INNER JOIN "Book" b ON wq."bookID" = b."bookID" 
-                                            WHERE wq."quizID" = ${quizID}`);
+                                            WHERE wq."quizID" = $1`,
+                                            [quizID]);
     // console.log('getWriterAndBookByQuizID, quizID searched: ' + quizID);
     // console.log(result[0]);
     return result[0];
@@ -331,7 +333,8 @@ const getWriterAndBookByQuizID = async (quizID) => { // using async/await
 const getQuestionsByQuizID = async (quizID) => { // using async/await
     var { rows: result} = await db.query(`SELECT "questionNum", "questionContent", "questionPic", "questType" 
                                             FROM "Quiz" qz INNER JOIN "Question" qs ON qz."quizID" = qs."quizID"
-                                            WHERE qz."quizID" = ${quizID}`);
+                                            WHERE qz."quizID" = $1`,
+                                            [quizID]);
     var answers = [];
     for (var i = 0; i < result.length; i++) {
         answers[i] = await getAnswersBy_QuizID_QstNum(quizID, i + 1);
@@ -345,7 +348,8 @@ const getQuestionsByQuizID = async (quizID) => { // using async/await
 const getAnswersBy_QuizID_QstNum = async (quizID, questionNum) => { // using async/await
     var { rows: result} = await db.query(`SELECT "answerNum", "answerContent", "answerPic", "isCorrect"
                                             FROM "Answer"
-                                            WHERE "quizID" = ${quizID} AND "questionNum" = ${questionNum}`);
+                                            WHERE "quizID" = $1 AND "questionNum" = $2`,
+                                            [quizID, questionNum]);
     return result;
 }
 
@@ -359,9 +363,35 @@ const updateQuizAndPoints = async (kidID, quizID, grade, score) => { // using as
         [updatedPointsScore, kidID]);
 }
 
-const updateLanguagePreferred = async (userID ,language) => { // using async/await
+const updateLanguagePreferred = async (userID, language) => { // using async/await
     await db.query(`UPDATE "Person" SET lang = $1 WHERE "personID" = $2`,
         [language, userID]);
+}
+
+const getKidSupervisors = async (kidID) => { // using async/await
+    var { rows: supervisors} = await db.query(`SELECT * FROM "Supervise" 
+                                          WHERE "kidID" = $1 AND "approved" = 'Y'`,
+                                          [kidID]);
+    return supervisors;
+}
+
+const sendNotificationFromKidToSupervisors = async (kidID, notificationDate, content) => { // using async/await
+    supervisors = await getKidSupervisors(kidID);   // get kid's approved supervisors
+
+    if (supervisors.length > 0) {   // if there are supervisors of the kid
+        supervisors.forEach(async function(entry) {
+            var recieverRead = 'N';
+            await db.query(`INSERT INTO "Notification"("notificationDate", "content", "recieverRead", "recieverID", "senderID") VALUES($1, $2, $3, $4, $5)`,
+                [notificationDate, content, recieverRead, entry.supervisorID, kidID]);
+    
+        });
+        return 'Notifications sent to supervisors.'
+        
+    }
+    else {
+        return 'No supervisors found.';
+    }
+    
 }
 
 
@@ -593,10 +623,10 @@ const getGroupData = (groupID, callback) => {
  });
 }
 const getGroupAdminMembers = (groupID, callback) => {
-    console.log('groupID Admin '+groupID);
+    console.log('groupID Admin ' + groupID);
     pool.query(`SELECT ig.*, p.*
     FROM "InGroup" ig INNER JOIN "Person" p ON ig."personID"=p."personID"
-    WHERE ig."groupID" = $1 AND ig."type"=$2`, [groupID,'admin'], (error, results) => {
+    WHERE ig."groupID" = $1 AND ig."type"=$2`, [groupID, 'admin'], (error, results) => {
     if (error) {
         throw error
     }
@@ -604,10 +634,10 @@ const getGroupAdminMembers = (groupID, callback) => {
  });
 }
 const getGroupKidMembers = (groupID, callback) => {
-    console.log('groupID member '+groupID);
+    console.log('groupID member ' + groupID);
     pool.query(`SELECT ig.*, p.*
     FROM "InGroup" ig INNER JOIN "Person" p ON ig."personID"=p."personID"
-    WHERE ig."groupID" = $1 AND ig."type"=$2`, [groupID,'kid'], (error, results) => {
+    WHERE ig."groupID" = $1 AND ig."type"=$2`, [groupID, 'kid'], (error, results) => {
     if (error) {
         throw error
     }
@@ -616,7 +646,7 @@ const getGroupKidMembers = (groupID, callback) => {
 }
 
 const getGroupPosts = (groupID, callback) => {
-    console.log('groupID Post '+groupID);
+    console.log('groupID Post ' + groupID);
     pool.query(`SELECT po.*, p.*
     FROM "Post" po INNER JOIN "Person" p ON po."personID"=p."personID"
     WHERE po."groupID" = $1 `, [groupID], (error, results) => {
@@ -662,7 +692,7 @@ const getAllAboutGroup= (groupID, callback) => {
 const getCheckedMessages = (personID, callback) => {
     pool.query(`SELECT m.*,gm.*,p.*
     FROM "GetMessage" gm INNER JOIN "Message" m  ON gm."messageID"=m."messageID" INNER JOIN "Person" p ON m."personID"=p."personID"
-    WHERE gm."personID" = $1 AND gm."checked"=$2`, [personID,'Y'], (error, results) => {
+    WHERE gm."personID" = $1 AND gm."checked"=$2`, [personID, 'Y'], (error, results) => {
     if (error) {
         throw error
     }
@@ -672,7 +702,7 @@ const getCheckedMessages = (personID, callback) => {
 const getUncheckedMessages = (personID, callback) => {
     pool.query(`SELECT m.*,gm.*,p.*
     FROM "GetMessage" gm INNER JOIN "Message" m  ON gm."messageID"=m."messageID" INNER JOIN "Person" p ON m."personID"=p."personID"
-    WHERE gm."personID" = $1 AND gm."checked"=$2`, [personID,'N'], (error, results) => {
+    WHERE gm."personID" = $1 AND gm."checked"=$2`, [personID, 'N'], (error, results) => {
     if (error) {
         throw error
     }
@@ -762,6 +792,7 @@ module.exports = {
     getKidBooksForNotes,
     getAllAboutNote,
     updateQuizAndPoints,
-    updateLanguagePreferred
+    updateLanguagePreferred,
+    sendNotificationFromKidToSupervisors
 
 }
