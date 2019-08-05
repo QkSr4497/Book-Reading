@@ -115,10 +115,16 @@ CREATE TABLE "Comment" (
 	content TEXT NOT NULL
 );	
 
+CREATE TABLE "NotificationType" (
+	"notificationTypeID" SERIAL PRIMARY KEY,
+	"typeN" TEXT NOT NULL
+);	
+
 CREATE TABLE "Notification" (
 	"notificationID" SERIAL PRIMARY KEY,
 	"notificationDate" DATE NOT NULL,
-	content TEXT NOT NULL,
+	"content" TEXT NOT NULL,
+	"notificationTypeID" INTEGER REFERENCES "NotificationType" ("notificationTypeID") NOT NULL,
 	"recieverRead" CHAR(1) CHECK ("recieverRead" IN ('Y','N')) NOT NULL,
 	"recieverID" INTEGER REFERENCES "Person" ("personID") NOT NULL,
 	"senderID" INTEGER REFERENCES "Person" ("personID") NOT NULL
@@ -129,9 +135,9 @@ CREATE TABLE "Note" (
 	"date" DATE NOT NULL,
 	"personID" INTEGER REFERENCES "Person" ("personID") NOT NULL,
 	"bookID" INTEGER REFERENCES "Book" ("bookID"),
-	title TEXT NOT NULL,
- 	content TEXT NOT NULL,
-	type TEXT CHECK (type IN ('public','private')) NOT NULL,
+	"title" TEXT NOT NULL,
+ 	"content" TEXT NOT NULL,
+	"type" TEXT CHECK (type IN ('public','private')) NOT NULL,
 	"pic"  TEXT
 );
 

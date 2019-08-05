@@ -162,6 +162,12 @@ INSERT INTO "Supervise"("supervisorID", "kidID", "approved") VALUES('4', '13', '
 INSERT INTO "Supervise"("supervisorID", "kidID", "approved") VALUES('11', '13', 'Y');
 --************ /Supervise table *************************************
 
+------ NotificationType table ------------------------------
+INSERT INTO "NotificationType"("typeN") VALUES('supervision');
+INSERT INTO "NotificationType"("typeN") VALUES('group');
+INSERT INTO "NotificationType"("typeN") VALUES('quiz');
+--************ /NotificationType table *************************************
+
 
 ------ Note table ------------------------------
 --INSERT INTO "Note"("personID","title","content","type") VALUES('7','أول تجربة لي في القراءة','عندما بدأت بقراءة الكتاب, لم افهم في البداية عما تدور القصة لكت كلما تقدمت احببت القصة أكثر فأكثر','private');

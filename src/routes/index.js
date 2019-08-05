@@ -1242,8 +1242,14 @@ router.get('/kid/notifications', authenticationMiddleware(), function (req, res)
       console.error('Unexpected error on idle client', err)
       process.exit(-1)
     })
+    var notifications;
+    try {
+      notifications = await queries.getNotificationsOfUser(req.user);
+    } catch (e) {
+      console.error(e);
+    } 
 
-    res.render('kid/notifications', { userData});
+    res.render('kid/notifications', { userData, notifications});
   });
 });
 
@@ -1424,15 +1430,18 @@ bcrypt.hash('tali11Pass1', saltRounds, function (err, hash) { console.log(`passw
 async function f() {
 
   var kidID = 13;
+  var supervisorID = 3;
   var date = new Date();
+  console.log(date);
   var msg;
   var content = 'try me now'
+  var type = 'supervision';
   try {
-    msg = await queries.sendNotificationFromKidToSupervisors(kidID, date, content);
+    msg = await queries.getNotificationsOfUser(11);
   } catch(err) {
     console.log(err); // TypeError: failed to fetch
   }
-  console.log(msg);
+  //console.log(msg);
 }
 
 f();

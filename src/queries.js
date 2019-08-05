@@ -375,15 +375,36 @@ const getKidSupervisors = async (kidID) => { // using async/await
     return supervisors;
 }
 
-const sendNotificationFromKidToSupervisors = async (kidID, notificationDate, content) => { // using async/await
+const getNotificationTypeIdByName = async (notificationName) => { // using async/await
+    var { rows: id} = await db.query(`SELECT "notificationTypeID" FROM "NotificationType" 
+                                          WHERE "typeN" = $1`,
+                                          [notificationName]);
+    if (id.length > 0) {    // if notification type exists the return it's id
+        return id[0].notificationTypeID;
+        
+    }
+    else {
+        return undefined;
+    }
+}
+
+const notifyQuizResultsToSupervisors = async (kidID, notificationDate, content, typeName) => { // using async/await
+    var notificationTypeID = await getNotificationTypeIdByName(typeName);
+    if (! notificationTypeID) return 'Invalid notification type';
+    
     supervisors = await getKidSupervisors(kidID);   // get kid's approved supervisors
 
     if (supervisors.length > 0) {   // if there are supervisors of the kid
         supervisors.forEach(async function(entry) {
             var recieverRead = 'N';
-            await db.query(`INSERT INTO "Notification"("notificationDate", "content", "recieverRead", "recieverID", "senderID") VALUES($1, $2, $3, $4, $5)`,
-                [notificationDate, content, recieverRead, entry.supervisorID, kidID]);
-    
+            try {
+                await db.query(`INSERT INTO "Notification"("notificationDate", "content", "recieverRead", "recieverID", "senderID", "notificationTypeID") VALUES($1, $2, $3, $4, $5, $6)`,
+                    [notificationDate, content, recieverRead, entry.supervisorID, kidID, notificationTypeID]);
+            } 
+            catch (err) {
+                console.log(err);
+                return err;
+            }
         });
         return 'Notifications sent to supervisors.'
         
@@ -391,7 +412,63 @@ const sendNotificationFromKidToSupervisors = async (kidID, notificationDate, con
     else {
         return 'No supervisors found.';
     }
+}
+
+const sendSupervisionReq = async (supervisorID, kidID, notificationDate, content, typeName,) => {
+    var notificationTypeID = await getNotificationTypeIdByName(typeName);
+    if (!notificationTypeID) return 'Invalid notification type';
+    var recieverRead = 'N';
+    try {
+        await db.query(`INSERT INTO "Notification"("notificationDate", "content", "recieverRead", "recieverID", "senderID", "notificationTypeID") VALUES($1, $2, $3, $4, $5, $6)`,
+            [notificationDate, content, recieverRead, kidID, supervisorID, notificationTypeID]);
+    } 
+    catch (err) {
+        console.log(err);
+        return err;
+    }
+    return 'Supervision request sent successfully to the kid';
+}
+
+const sendNotification = async (senderID, recieverID, notificationDate, content, typeName) => { // using async/await
+    var res;
+    if (typeName == 'quiz') {
+        try {
+            res = await notifyQuizResultsToSupervisors(senderID, notificationDate, content, typeName);
+        } 
+        catch (err) {
+            console.log(err);
+            return err;
+        } 
+    }
+    else if (typeName == 'supervision') {
+        try {
+            res = await sendSupervisionReq(senderID, recieverID, notificationDate, content, typeName);
+        } 
+        catch (err) {
+            console.log(err);
+            return err;
+        }  
+    }
+    else if (typeName == 'group') {
+        
+    }
+    return res;
     
+}
+
+const getNotificationsOfUser = async (userID) => { // using async/await
+    try {
+         var { rows: notifications} = await db.query(`SELECT * FROM "Notification" N INNER JOIN "NotificationType" NT
+                                                        ON N."notificationTypeID" = NT."notificationTypeID"
+                                                        WHERE N."recieverID" = $1`, [userID]);
+    } 
+    catch (err) {
+        console.log(err);
+        return err;
+    }
+    return notifications;
+
+
 }
 
 
@@ -793,6 +870,7 @@ module.exports = {
     getAllAboutNote,
     updateQuizAndPoints,
     updateLanguagePreferred,
-    sendNotificationFromKidToSupervisors
+    sendNotification,
+    getNotificationsOfUser
 
 }
