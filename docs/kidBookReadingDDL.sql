@@ -122,7 +122,7 @@ CREATE TABLE "NotificationType" (
 
 CREATE TABLE "Notification" (
 	"notificationID" SERIAL PRIMARY KEY,
-	"notificationDate" DATE NOT NULL,
+	"notificationDate" TIMESTAMP NOT NULL,
 	"content" TEXT NOT NULL,
 	"notificationTypeID" INTEGER REFERENCES "NotificationType" ("notificationTypeID") NOT NULL,
 	"recieverRead" CHAR(1) CHECK ("recieverRead" IN ('Y','N')) NOT NULL,

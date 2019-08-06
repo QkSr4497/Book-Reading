@@ -156,7 +156,4 @@ function updateLangPreferred(preferred, clicked) {
 
       }
     });
-
-
-  
 }

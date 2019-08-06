@@ -460,15 +460,41 @@ const getNotificationsOfUser = async (userID) => { // using async/await
     try {
          var { rows: notifications} = await db.query(`SELECT * FROM "Notification" N INNER JOIN "NotificationType" NT
                                                         ON N."notificationTypeID" = NT."notificationTypeID"
-                                                        WHERE N."recieverID" = $1`, [userID]);
+                                                        WHERE N."recieverID" = $1
+                                                        ORDER BY N."notificationDate" DESC`, [userID]);
     } 
     catch (err) {
         console.log(err);
         return err;
     }
     return notifications;
+}
 
+const setAllUserNotificationsAsRead = async (userID) => { // using async/await
+    try {
+        await db.query(`UPDATE "Notification"
+                        SET "recieverRead" = 'Y'
+                        FROM "Notification" N
+                        WHERE N."recieverID" = $1;`, [userID]);
+    } 
+    catch (err) {
+        console.log(err);
+        return err;
+    }
+    return `All Notifications of user #${userID} marked as read.`;
+}
 
+const removeAllUserNotifications = async (userID) => { // using async/await
+    try {
+        await db.query(`DELETE
+                        FROM "Notification" N
+                        WHERE N."recieverID" = $1;`, [userID]);
+    } 
+    catch (err) {
+        console.log(err);
+        return err;
+    }
+    return `All Notifications of user #${userID} removed.`;
 }
 
 
@@ -871,6 +897,8 @@ module.exports = {
     updateQuizAndPoints,
     updateLanguagePreferred,
     sendNotification,
-    getNotificationsOfUser
+    getNotificationsOfUser,
+    setAllUserNotificationsAsRead,
+    removeAllUserNotifications
 
 }

@@ -5,6 +5,7 @@ const express = require('express'),
   hbs = require('hbs'),
   cookieParser = require('cookie-parser'),
   flash = require('connect-flash'),
+  helpers = require('handlebars-helpers')(),  // More than 130 Handlebars helpers in ~20 categories. Helpers can be used with Assemble, Generate, Verb, Ghost, gulp-handlebars, grunt-handlebars, consolidate, or any node.js/Handlebars project.
   app = express();
 
 // Authentication Packages
@@ -36,6 +37,8 @@ hbs.registerPartials(partialsPath); // changing the path to the partials
 hbs.registerHelper('json', function(context) {  // helper function which returns JSON string (used mostly for loading language preference of the user)
   return JSON.stringify(context);
 });
+
+hbs.registerHelper(helpers);  // Getting all helpers
 
 app.use(express.static(publicDirectoryPath));  // use is a way to customize our server to serve up the folder
 // static takes a path to the folder we want to serve up

@@ -1219,7 +1219,6 @@ router.post('/kid/quiz/updateGradeAndPoints', authenticationMiddleware(), functi
       console.error('Unexpected error on idle client', err)
       process.exit(-1)
     })
-    console.log(req.body);
     const quizID = req.body.quizID;
     const kidID = req.body.kidID;
     const grade = req.body.quizGrade;
@@ -1234,7 +1233,7 @@ router.post('/kid/quiz/updateGradeAndPoints', authenticationMiddleware(), functi
 
 
 //============================================================
-router.get('/kid/notifications', authenticationMiddleware(), function (req, res) {
+router.get('/kid/kid-notifications', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
   queries.getUserById(req.user, async (userData) => {
@@ -1249,7 +1248,44 @@ router.get('/kid/notifications', authenticationMiddleware(), function (req, res)
       console.error(e);
     } 
 
-    res.render('kid/notifications', { userData, notifications});
+    res.render('kid/kid-notifications', { userData, notifications});
+  });
+});
+
+//============================================================
+router.post('/notificationsMarkRead', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+    try {
+      await queries.setAllUserNotificationsAsRead(req.user);
+    } catch (e) {
+      console.error(e);
+    }
+
+    res.sendStatus(200);
+  });
+});
+
+//============================================================
+router.post('/removeAllUserNotifications', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+    try {
+      await queries.removeAllUserNotifications(req.user);
+    } catch (e) {
+      console.error(e);
+    }
+    res.sendStatus(200);
   });
 });
 
@@ -1434,14 +1470,14 @@ async function f() {
   var date = new Date();
   console.log(date);
   var msg;
-  var content = 'try me now'
+  var content = 'עכשיו בעברית טקסט ארוך הילד קיבל 99 במבחן שנקרא הילד הקטן בצרות ומבוסס על הספר הילד שעשה צרות להורים זוהרי התקדמות מעולה'
   var type = 'supervision';
   try {
-    msg = await queries.getNotificationsOfUser(11);
-  } catch(err) {
+    msg = await queries.sendNotification(supervisorID, kidID, date, content, type);
+  } catch (err) {
     console.log(err); // TypeError: failed to fetch
   }
-  //console.log(msg);
+  console.log(msg);
 }
 
 f();

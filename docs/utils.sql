@@ -89,11 +89,20 @@ WHERE "quizID" = 1 AND "questionNum" = 1;
 SELECT * FROM "Supervise" 
 WHERE "kidID" = 13 AND "approved" = 'Y';
 			
-DELETE FROM "Notification";
+DELETE
+FROM "Notification" N
+WHERE N."recieverID" = 13;
 									  
 SELECT * FROM "Notification" N INNER JOIN "NotificationType" NT
 ON N."notificationTypeID" = NT."notificationTypeID"
 WHERE N."recieverID" = 13;
+									  
+UPDATE "Notification"
+SET "recieverRead" = 'N'
+FROM "Notification" N
+WHERE N."recieverID" = 13;
+								  							  
+									  
 									  
 SELECT * FROM "NotificationType"; 
 									  
