@@ -34,7 +34,7 @@ app.set('view engine', 'hbs');  // telling express which templating engine we in
 app.set('views', viewsPath);    //changing the path for views
 hbs.registerPartials(partialsPath); // changing the path to the partials
 
-hbs.registerHelper('json', function(context) {  // helper function which returns JSON string (used mostly for loading language preference of the user)
+hbs.registerHelper('json', function(context) {  // helper function which returns JSON string (use example - used for loading language preference of the user)
   return JSON.stringify(context);
 });
 

@@ -396,10 +396,10 @@ const notifyQuizResultsToSupervisors = async (kidID, notificationDate, content, 
 
     if (supervisors.length > 0) {   // if there are supervisors of the kid
         supervisors.forEach(async function(entry) {
-            var recieverRead = 'N';
+            var recieverResponse = 'N';
             try {
-                await db.query(`INSERT INTO "Notification"("notificationDate", "content", "recieverRead", "recieverID", "senderID", "notificationTypeID") VALUES($1, $2, $3, $4, $5, $6)`,
-                    [notificationDate, content, recieverRead, entry.supervisorID, kidID, notificationTypeID]);
+                await db.query(`INSERT INTO "Notification"("notificationDate", "content", "recieverRes", "recieverID", "senderID", "notificationTypeID") VALUES($1, $2, $3, $4, $5, $6)`,
+                    [notificationDate, content, recieverResponse, entry.supervisorID, kidID, notificationTypeID]);
             } 
             catch (err) {
                 console.log(err);
@@ -414,19 +414,38 @@ const notifyQuizResultsToSupervisors = async (kidID, notificationDate, content, 
     }
 }
 
-const sendSupervisionReq = async (supervisorID, kidID, notificationDate, content, typeName,) => {
+const sendSupervisionReq = async (supervisorID, kidID, notificationDate, content, typeName) => {
     var notificationTypeID = await getNotificationTypeIdByName(typeName);
     if (!notificationTypeID) return 'Invalid notification type';
-    var recieverRead = 'N';
+    var recieverResponse = 'N';
     try {
-        await db.query(`INSERT INTO "Notification"("notificationDate", "content", "recieverRead", "recieverID", "senderID", "notificationTypeID") VALUES($1, $2, $3, $4, $5, $6)`,
-            [notificationDate, content, recieverRead, kidID, supervisorID, notificationTypeID]);
+        await db.query(`INSERT INTO "Notification"("notificationDate", "content", "recieverRes", "recieverID", "senderID", "notificationTypeID") VALUES($1, $2, $3, $4, $5, $6)`,
+            [notificationDate, content, recieverResponse, kidID, supervisorID, notificationTypeID]);
     } 
     catch (err) {
         console.log(err);
         return err;
     }
     return 'Supervision request sent successfully to the kid';
+}
+
+const respondToSupervisionReq = async (supervisorID, kidID, notificationResponse, notificationID) => {  // updating the response to supervision request in the "Supervise" table and in "Notification" table
+    try {
+        var supervisionResponse = (notificationResponse == 'A') ? 'Y' : 'N';
+        await db.query(`UPDATE "Supervise"
+                        SET "approved" = $1
+                        WHERE "supervisorID" = $2 AND "kidID" = $3 AND "approved" = $4`, [supervisionResponse, supervisorID, kidID, 'N']);  // updating approval only if supervisor is not approved yet, once approved cannot change
+        
+        await db.query(`UPDATE "Notification"
+                        SET "recieverRes" = $1
+                        WHERE "recieverID" = $2 AND "notificationID" = $3 
+                        AND "recieverRes" IN ($4, $5)`, [notificationResponse, kidID, notificationID, 'N', 'R']);
+    } 
+    catch (err) {
+        console.log(err);
+        return err;
+    }
+    return `kid #${kidID} responded ${supervisionResponse} to supervision request from supervisor #${supervisorID}`;
 }
 
 const sendNotification = async (senderID, recieverID, notificationDate, content, typeName) => { // using async/await
@@ -470,12 +489,11 @@ const getNotificationsOfUser = async (userID) => { // using async/await
     return notifications;
 }
 
-const setAllUserNotificationsAsRead = async (userID) => { // using async/await
+const setAllUserNotificationsAsRead = async (userID) => { // using async/await setting all new notifications as Read
     try {
         await db.query(`UPDATE "Notification"
-                        SET "recieverRead" = 'Y'
-                        FROM "Notification" N
-                        WHERE N."recieverID" = $1;`, [userID]);
+                        SET "recieverRes" = $1
+                        WHERE "recieverID" = $2 AND "recieverRes" = $3`, ['R', userID, 'N']);
     } 
     catch (err) {
         console.log(err);
@@ -488,7 +506,7 @@ const removeAllUserNotifications = async (userID) => { // using async/await
     try {
         await db.query(`DELETE
                         FROM "Notification" N
-                        WHERE N."recieverID" = $1;`, [userID]);
+                        WHERE N."recieverID" = $1`, [userID]);
     } 
     catch (err) {
         console.log(err);
@@ -496,6 +514,8 @@ const removeAllUserNotifications = async (userID) => { // using async/await
     }
     return `All Notifications of user #${userID} removed.`;
 }
+
+
 
 
 // const insertNewQuizDetails = (data, callback) => {
@@ -729,7 +749,7 @@ const getGroupAdminMembers = (groupID, callback) => {
     console.log('groupID Admin ' + groupID);
     pool.query(`SELECT ig.*, p.*
     FROM "InGroup" ig INNER JOIN "Person" p ON ig."personID"=p."personID"
-    WHERE ig."groupID" = $1 AND ig."type"=$2`, [groupID, 'admin'], (error, results) => {
+    WHERE ig."groupID" = $1 AND ig."type"=$2 AND ig."approved"= $3`, [groupID, 'admin', 'Y'], (error, results) => {
     if (error) {
         throw error
     }
@@ -740,7 +760,7 @@ const getGroupKidMembers = (groupID, callback) => {
     console.log('groupID member ' + groupID);
     pool.query(`SELECT ig.*, p.*
     FROM "InGroup" ig INNER JOIN "Person" p ON ig."personID"=p."personID"
-    WHERE ig."groupID" = $1 AND ig."type"=$2`, [groupID, 'kid'], (error, results) => {
+    WHERE ig."groupID" = $1 AND ig."type"=$2 AND ig."approved"= $3`, [groupID, 'kid', 'Y'], (error, results) => {
     if (error) {
         throw error
     }
@@ -899,6 +919,7 @@ module.exports = {
     sendNotification,
     getNotificationsOfUser,
     setAllUserNotificationsAsRead,
-    removeAllUserNotifications
+    removeAllUserNotifications,
+    respondToSupervisionReq
 
 }

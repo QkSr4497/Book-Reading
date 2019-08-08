@@ -874,7 +874,7 @@ router.get('/kid/groups', authenticationMiddleware(), function (req, res) {
     // callback - checkout a client
     pool.connect((err, client, done) => {
       if (err) throw err
-      client.query('SELECT g.*,ig.* FROM "Group" g INNER JOIN "InGroup" ig ON g."groupID"=ig."groupID" WHERE ig."personID"=$1 ',[userData.userID], (error, result) => {
+      client.query('SELECT g.*,ig.* FROM "Group" g INNER JOIN "InGroup" ig ON g."groupID"=ig."groupID" WHERE ig."personID"=$1 AND ig."approved"= $2',[userData.userID, 'Y'], (error, result) => {
         done();
         if (error) {
           console.log(error.stack);
@@ -1272,6 +1272,30 @@ router.post('/notificationsMarkRead', authenticationMiddleware(), function (req,
 });
 
 //============================================================
+router.post('/kid/respondToSupervisionReq', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+    try {
+      console.log(req.body);
+      var supervisorID = req.body.supervisorID; 
+      var kidID = req.body.kidID;
+      var kidResponse = req.body.notificationResponse;
+      var notificationID = req.body.notificationID;
+      await queries.respondToSupervisionReq(supervisorID, kidID, kidResponse, notificationID);
+    } catch (e) {
+      console.error(e);
+    }
+
+    res.sendStatus(200);
+  });
+});
+
+//============================================================
 router.post('/removeAllUserNotifications', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -1464,13 +1488,14 @@ bcrypt.hash('tali11Pass1', saltRounds, function (err, hash) { console.log(`passw
 
 
 async function f() {
-
-  var kidID = 13;
-  var supervisorID = 3;
+  
+  var supervisorID = 12;
+  var kidID = 14;
+  
   var date = new Date();
   console.log(date);
   var msg;
-  var content = 'עכשיו בעברית טקסט ארוך הילד קיבל 99 במבחן שנקרא הילד הקטן בצרות ומבוסס על הספר הילד שעשה צרות להורים זוהרי התקדמות מעולה'
+  var content = `supervisor ${supervisorID} sends request to kid#${kidID}`;
   var type = 'supervision';
   try {
     msg = await queries.sendNotification(supervisorID, kidID, date, content, type);

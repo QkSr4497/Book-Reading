@@ -125,7 +125,7 @@ CREATE TABLE "Notification" (
 	"notificationDate" TIMESTAMP NOT NULL,
 	"content" TEXT NOT NULL,
 	"notificationTypeID" INTEGER REFERENCES "NotificationType" ("notificationTypeID") NOT NULL,
-	"recieverRead" CHAR(1) CHECK ("recieverRead" IN ('Y','N')) NOT NULL,
+	"recieverRes" CHAR(1) CHECK ("recieverRes" IN ('R','N', 'A', 'D')) NOT NULL,	-- reciver response: (R)ead, (N)ot Read, (A)pproved, (D)eclined
 	"recieverID" INTEGER REFERENCES "Person" ("personID") NOT NULL,
 	"senderID" INTEGER REFERENCES "Person" ("personID") NOT NULL
 );	
@@ -170,6 +170,7 @@ CREATE TABLE "InGroup" (
 	"groupID" INTEGER REFERENCES "Group" ("groupID"),
 	"personID" INTEGER REFERENCES "Person" ("personID"),
 	type TEXT CHECK (type IN ('kid', 'admin')) NOT NULL,
+	approved CHAR(1) CHECK (approved IN ('Y','N')) NOT NULL,
 	PRIMARY KEY ("groupID", "personID")								   
 );	
 	

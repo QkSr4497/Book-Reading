@@ -30,9 +30,11 @@
             <tr>
               <th class="c-table__col-label">#</th>
               <th class="c-table__col-label">תוכן</th>
-              <th class="c-table__col-label">תאריך</th>
+              <th class="c-table__col-label">תאריך ושעה</th>
               <th class="c-table__col-label">פעולות</th>
-              <th class="c-table__col-label" style="display:none">האם נקרא?</th>
+              <th class="c-table__col-label" style="display:none">תגובה</th>
+              <th class="c-table__col-label" style="display:none">מקבל</th>
+              <th class="c-table__col-label" style="display:none">שולח</th>
             </tr>
           </thead>
           <tbody class="c-table__body">
@@ -40,25 +42,49 @@
               <tr>
                 <td class="c-table__cell">{{add @index 1}}</td>
                 <td class="c-table__cell">{{content}}</td>
-                <td class="c-table__cell">{{notificationDate}}</td>
-                <td class="c-table__cell">כרגע ריק</td>
-                <td class="c-table__cell" style="display:none">{{recieverRead}}</td>
+                <td class="c-table__cell">{{moment notificationDate format="HH:mm:ss DD/MM/YYYY"}}</td>
+                <td class="c-table__cell">
+                  <script>
+                    var typeNotification = {{{json typeN}}};
+                    var rowNum = {{{add @index 1}}};
+                    var recieverResponse = {{{json recieverRes}}};
+                    console.log(typeNotification);
+                    console.log(typeof typeNotification);
+                    if (typeNotification == 'supervision' || typeNotification == 'group') {
+                      if (recieverResponse == 'R' || recieverResponse == 'N') {
+                        document.write(`<button class="userApproveBtn" data-row="${rowNum}">אשר</button> 
+                                      <button class="userDeclilneBtn" data-row="${rowNum}">סרב</button>`); // escaping script
+                      }
+                      else if (recieverResponse == 'A') {
+                        document.write(`<p>אושר</p> `); // escaping script
+                      }
+                      else if (recieverResponse == 'D') {
+                        document.write(`<p>סורב</p> `); // escaping script
+                      }
+                    }
+
+                  </script> 
+                </td>
+                
+                <td class="c-table__cell" style="display:none">{{recieverRes}}</td>
+                <td class="c-table__cell" style="display:none">{{recieverID}}</td>
+                <td class="c-table__cell" style="display:none">{{senderID}}</td>
               </tr>
             {{/notifications}}
           </tbody>
         </table>
         <div class="container">
-          <button class="btn-4" id="removeAllNotifications">מחק את כל ההתראות</button>
+          <button class="btn-4 designedBtn" id="removeAllNotifications">מחק את כל ההתראות</button>
         </div>
       </div>
 
       <script>
 
-        var notifications = {{{ json notifications }}};
-        console.log(typeof notifications);
-        console.log(notifications);
-        console.log(notifications[0].notificationDate);
-        var date1 = new Date(notifications[0].notificationDate);
+        var userNotifications = {{{ json notifications }}}; // global JSON Object of user notifications 
+        console.log(typeof userNotifications);
+        console.log(userNotifications);
+        console.log(userNotifications[0].notificationDate);
+        var date1 = new Date(userNotifications[0].notificationDate);
         console.log(date1);
 
       </script>

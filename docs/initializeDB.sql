@@ -132,11 +132,11 @@ INSERT INTO "Group" ("groupName","personID") VALUES ('Lions','5');
 --************ /Group table *************************************
 
 -----------------InGroup table----------------------------------------------
-INSERT INTO "InGroup" ("groupID","personID","type") VALUES ('1','5','admin');
-INSERT INTO "InGroup" ("groupID","personID","type") VALUES ('1','7','kid');
-INSERT INTO "InGroup" ("groupID","personID","type") VALUES ('1','8','kid');
-INSERT INTO "InGroup" ("groupID","personID","type") VALUES ('1','9','kid');
-INSERT INTO "InGroup" ("groupID","personID","type") VALUES ('1','10','kid');
+INSERT INTO "InGroup" ("groupID","personID","type", "approved") VALUES ('1','5','admin', 'Y');
+INSERT INTO "InGroup" ("groupID","personID","type", "approved") VALUES ('1','7','kid', 'Y');
+INSERT INTO "InGroup" ("groupID","personID","type", "approved") VALUES ('1','8','kid', 'Y');
+INSERT INTO "InGroup" ("groupID","personID","type", "approved") VALUES ('1','9','kid', 'Y');
+INSERT INTO "InGroup" ("groupID","personID","type", "approved") VALUES ('1','10','kid', 'Y');
 --************ /InGroup table ***********************************************
 
 ----------------------Message tablle-------------------------------------

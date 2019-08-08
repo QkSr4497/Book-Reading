@@ -154,15 +154,15 @@ body {
 }
 
 /* GENERAL BUTTON STYLING */
-button,
-button::after {
+.designedBtn,
+.designedBtn::after {
   -webkit-transition: all 0.3s;
 	-moz-transition: all 0.3s;
   -o-transition: all 0.3s;
 	transition: all 0.3s;
 }
 
-button {
+.designedBtn {
   background: none;
   border: 3px solid #fff;
   border-radius: 5px;
@@ -176,15 +176,15 @@ button {
   text-transform: uppercase;
 }
 
-button::before,
-button::after {
+.designedBtn::before,
+.designedBtn::after {
   background: #fff;
   content: '';
   position: absolute;
   z-index: -1;
 }
 
-button:hover {
+.designedBtn:hover {
   color: #8c00ff;
 }
 
