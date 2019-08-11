@@ -786,21 +786,38 @@ router.post('/kid/notes/add', authenticationMiddleware(), function (req, res) {
   var nowDate = new Date(); 
   var date = nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate(); 
   // callback - checkout a client
-  console.log("bookID"+req.body.bookID);
-  pool.connect((err, client, done) => {
-    if (err) throw err
-    client.query('INSERT INTO "Note" ("date","personID", "bookID","title", "content","type","pic" ) VALUES($1, $2,$3,$4,$5,$6,$7)',[date,userData.userID,req.body.bookID,req.body.title, req.body.content, 'private',req.body.pic], (error, result) => {
-      done();
-      if (error) {
-        console.log(error.stack);
-      } else {
-        
-        //res.render('/kid/notes', { "myNotes": result.rows ,userData});
-        res.redirect('/kid/notes');
-      }
-    });
+  if(req.body.bookID!=""){
+    console.log("bookID"+req.body.bookID);
+    pool.connect((err, client, done) => {
+      if (err) throw err
+      client.query('INSERT INTO "Note" ("date","personID", "bookID","title", "content","type","pic" ) VALUES($1, $2,$3,$4,$5,$6,$7)',[date,userData.userID,req.body.bookID,req.body.title, req.body.content, 'private',req.body.pic], (error, result) => {
+        done();
+        if (error) {
+          console.log(error.stack);
+        } else {
+          
+          //res.render('/kid/notes', { "myNotes": result.rows ,userData});
+          res.redirect('/kid/notes');
+        }
+      }); 
+       });
+  }
+  else {
+    pool.connect((err, client, done) => {
+      if (err) throw err
+      client.query('INSERT INTO "Note" ("date","personID","title", "content","type","pic" ) VALUES($1, $2,$3,$4,$5,$6)',[date,userData.userID,req.body.title, req.body.content, 'private',req.body.pic], (error, result) => {
+        done();
+        if (error) {
+          console.log(error.stack);
+        } else {
+          
+          //res.render('/kid/notes', { "myNotes": result.rows ,userData});
+          res.redirect('/kid/notes');
+        }
+      }); 
+       });
+  }
 
-     });
     });
 });
 
