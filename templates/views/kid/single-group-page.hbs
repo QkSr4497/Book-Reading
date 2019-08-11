@@ -60,14 +60,14 @@
                 <div id="one"><img src="{{pic}}"
                         onerror="this.onerror=null;this.src='/img/groups/default-group.gif';" /></div>
                 <div id="two">
-                    <h1>שם הקבוצה: {{groupName}} </h1>
-                    <span id="createdBy">נוצר ע"י:  {{userName}}</span>
+                   <span><h1 class="lang" key="groupName">שם הקבוצה:</h1><h1>{{groupName}} </h1></span>
+                    <span class="lang" key="createdBy" id="createdBy">נוצר ע"י:</span><span>{{userName}}</span>
                 </div>
             </div>
          
             <div class="row">
                 <div class="column80">
-                 <h2 style="margin-right: 3%; font-size:120%; font-weight:bold;">פוסטים:</h2>
+                 <h2 class="lang" key="posts" style="margin-right: 3%; font-size:120%; font-weight:bold;">פוסטים:</h2>
                  <div class="container">
                    
                  
@@ -75,7 +75,8 @@
                       <input type="text" name="groupID" value={{groupID}} style="display: none">
                       <textarea name="content" id="postContent" cols="80" rows="2" required></textarea>
                       <br>
-                      <input id="addPost"type="submit" value="כתב פוסט">
+                      {{!-- <input class="lang" key="addPost" id="addPost"type="submit" value=""> --}}
+                      <button class="lang" key="addPost" id="addPost"type="submit" value="">הוסף פוסט</button>
                     </form>
                   </div>
             {{/each }}
@@ -97,14 +98,14 @@
 
                 {{!-- admin and kids --}}
                 <div class="column20">
-                   <div class="typeMember"> <h2>אדמין: </h2> </div>
+                   <div class="lang" key="admin" class="typeMember"> <h2>אדמין: </h2> </div>
                 {{#each allAboutGroup.groupAdminMembers}}
                   <ul>
                     <li>{{userName}}</li>
 
                   </ul>
                    {{/each }}
-                   <div class="typeMember"> <h2>חברי קבוצה: </h2> </div>
+                   <div class="lang" key="member" class="typeMember"> <h2>חברי קבוצה: </h2> </div>
                   {{#each allAboutGroup.groupKidMembers}}
                   <ul>
                     <li>{{userName}}</li>
@@ -119,8 +120,9 @@
     </div>
 
 
-
-    
+<script>
+  var langPreferred = {{{json userData.langPreferred}}};  // global variable which is used in language.js file
+</script>    
     {{> kid_footer}}
    
 </body>

@@ -789,7 +789,7 @@ router.post('/kid/notes/add', authenticationMiddleware(), function (req, res) {
   console.log("bookID"+req.body.bookID);
   pool.connect((err, client, done) => {
     if (err) throw err
-    client.query('INSERT INTO "Note" ("date","personID", "title", "content","type","pic" ) VALUES($1, $2,$3,$4,$5,$6)',[date,userData.userID,req.body.title, req.body.content, 'private',req.body.pic], (error, result) => {
+    client.query('INSERT INTO "Note" ("date","personID", "bookID","title", "content","type","pic" ) VALUES($1, $2,$3,$4,$5,$6,$7)',[date,userData.userID,req.body.bookID,req.body.title, req.body.content, 'private',req.body.pic], (error, result) => {
       done();
       if (error) {
         console.log(error.stack);
@@ -974,7 +974,7 @@ router.post('/post/add', authenticationMiddleware(), function (req, res) {
 
 
 //============================================================
-router.get('/kid/friends', authenticationMiddleware(), function (req, res) {
+router.get('/kid/settings', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
   queries.getUserById(req.user, (userData) => {
@@ -986,16 +986,14 @@ router.get('/kid/friends', authenticationMiddleware(), function (req, res) {
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err
-    client.query(`SELECT p.*, a."pic" 
-    FROM "Friend" f INNER JOIN "Person" p ON f."friendOfA" = p."personID" INNER JOIN "Kid" k ON p."personID" = k."kidID"  INNER JOIN "Avatar" a
-    ON k."avatarID" =a."avatarID"  WHERE f."personA" = $1 AND f."approved"=$2` , [userData.userID,'Y'], (error, result) => {
+    client.query(`` , (error, result) => {
       done();
       if (error) {
         console.log(error.stack);
       } else {
         
         // res.redirect('/signUp.html');
-        res.render('kid/friends', { "myFriend": result.rows ,userData});
+        res.render('kid/settings', { "mySettings": result.rows ,userData});
       }
     });
 

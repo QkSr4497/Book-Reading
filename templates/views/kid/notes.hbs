@@ -26,11 +26,31 @@
              {{title}} 
              </button>
               <div class="content">
+                <p>{{date}}</p>
                 <p>{{content}}</p>
                 <img src={{pic}} alt="">
                 <button style="font-size:24px" class="updateNote" name="{{noteID}}" 
                 data-id="{{noteID}}" 
                 data-title="{{title}}"
+                 data-bookID="{{bookID}}"
+                data-content="{{content}}"
+                onclick="document.getElementById('updatenote').style.display='block'"><i class="fa fa-edit"></i></button>
+                <button style="font-size:24px" class="deleteNote" name="{{noteID}}" data-id="{{noteID}}"><i class="fa fa-trash"></i></button>
+              </div>   
+          {{/each}}
+            {{#each notesData.getNoteAboutBook}}     
+             <button class="collapsible"><span class="arrow"><i class='fas fa-angle-down'></i>&nbsp;&nbsp;&nbsp;</span>
+             {{title}} 
+             </button>
+              <div class="content">
+                <p>{{date}}</p>
+                <p>{{bookName}}</p>
+                <p>{{content}}</p>
+                <img src={{pic}} alt="">
+                <button style="font-size:24px" class="updateNote" name="{{noteID}}" 
+                data-id="{{noteID}}" 
+                data-title="{{title}}"
+                 data-bookID="{{bookID}}"
                 data-content="{{content}}"
                 onclick="document.getElementById('updatenote').style.display='block'"><i class="fa fa-edit"></i></button>
                 <button style="font-size:24px" class="deleteNote" name="{{noteID}}" data-id="{{noteID}}"><i class="fa fa-trash"></i></button>
@@ -51,12 +71,14 @@
           <input type="text"  name="title" required value="" autocomplete="off">
           <label for="title"><b>ספר</b></label>
          
-          <select>
-            <option value="">none</option>
+          <select id="bookSelect" onchange="getSelected()">
+            <option value="" selected="selected">none</option>
              {{#each notesData.getbBooksForNote}}  
-             <option name="bookID" value="{{bookID}}"> {{bookName}}</option>
+             <option  value="{{bookID}}"> {{bookName}}</option>
              {{/each }}  
           </select>
+          <input id="bookName" type="text" name="bookID" value="">
+
           <label for="content"><b>תוכן </b></label>
           <textarea name="content" rows="8" cols="100" required value=""></textarea>
 
@@ -155,6 +177,15 @@
       var langPreferred = {{{ json userData.langPreferred }}};  // global variable which is used in language.js file
     </script>
 
+
+<script>
+function getSelected(){
+	var e = document.getElementById("bookSelect");
+	var result =e.options[e.selectedIndex].value;
+  document.getElementById("bookName").value=result;
+}
+
+</script>
  {{> kid_footer}}
 </body>
 
