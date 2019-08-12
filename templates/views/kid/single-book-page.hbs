@@ -61,17 +61,11 @@
    
                 </div>
                 <div id="two">
-                    <h1>שם הספר: {{bookName}} </h1>
-                    <span id="author">מחבר: {{authorFirstName}} {{authorLastName}}</span>
-                    <p>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                    </p>
+                   <p><span style="font-size: 130%" class="lang" key="bookName">שם הספר: </span><span style="font-size: 130%" >{{bookName}}</span></p> 
+                    <span class="lang" key="author" id="author">מחבר: </span><span>{{authorFirstName}} {{authorLastName}}</span>
+
                   {{!-- add to kid list --}}
-                  <button id="addToList" data-id="{{bookID}}">הוסף לרשימה </button>    
+                  <button class="lang" key="addToReadingList" id="addToList" data-id="{{bookID}}">הוסף לרשימה </button>    
 
                 </div>
             </div>
@@ -81,11 +75,11 @@
 
             {{!-- review section --}}
             <div class="review_section">
-                <h1 class="titleClass">תגובות:</h1>
+                <h1 class="lang" key="reviews" class="titleClass">דעות: </h1>
                 <form method="POST" action="/kid/book/addReview">
                     <input name="bookID" type="text" value={{bookID}} style="display: none">
                     <textarea name="review" id="reviewContent" cols="80" rows="2" required></textarea>
-                    <button type="submit" id="review"> הוסף תגובה</button>
+                    <button class="lang" key="addReview" type="submit" id="review"> הוסף תגובה</button>
                 </form>
             </div>
 
@@ -106,7 +100,9 @@
 
 
 
-    
+    <script>
+  var langPreferred = {{{json userData.langPreferred}}};  // global variable which is used in language.js file
+</script>  
     {{> kid_footer}}
 
     <!--====== Javascripts & Jquery ======-->

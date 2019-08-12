@@ -997,6 +997,16 @@ const getAllMessages= (personID, callback) => {
 const getNotes = (personID, callback) => {
     pool.query(`SELECT n.*
     FROM "Note" n
+    WHERE n."personID" = $1 AND "bookID" IS NULL`, [personID], (error, results) => {
+    if (error) {
+        throw error
+    }
+    callback(results.rows);
+ });
+}
+const getNotesAboutBook = (personID, callback) => {
+    pool.query(`SELECT *
+    FROM "Note" n INNER JOIN "Book" b on n."bookID"=b."bookID"
     WHERE n."personID" = $1`, [personID], (error, results) => {
     if (error) {
         throw error
@@ -1018,12 +1028,15 @@ const getKidBooksForNotes = (personID, callback) => {
 const getAllAboutNote= (personID, callback) => { 
     getNotes(personID,(getNoteData)=>{ 
 		getKidBooksForNotes(personID,(getbBooksForNote)=>{  
+            getNotesAboutBook(personID,(getNoteAboutBook)=>{  
 		  callback({
 			getNoteData,
-			getbBooksForNote
+            getbBooksForNote,
+            getNoteAboutBook
 			});
 		}); 
-	});
+    });
+});
 }
 module.exports = {
     getUsers,
@@ -1054,6 +1067,7 @@ module.exports = {
     getNotes,
     getKidBooksForNotes,
     getAllAboutNote,
+    getNotesAboutBook,
     updateQuizAndPoints,
     updateLanguagePreferred,
     sendNotification,

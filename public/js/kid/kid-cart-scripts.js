@@ -52,11 +52,7 @@ function checkoutFunction(){
    console.log('leftOver'+leftOver);
 
    if(kidPoints<totalCart){
-    var p= document.getElementById("userNameException");
-    p.style.display = "block";
     getMessage();
-      // userExceptionText = "You don't have enough points 😔";
-      // document.getElementById("userNameException").innerHTML = userExceptionText; 
    } 
     else{
         $('.product').each(function () {
