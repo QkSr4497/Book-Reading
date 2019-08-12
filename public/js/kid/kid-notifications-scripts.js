@@ -32,7 +32,7 @@ $(document).ready(function () {  // set all user notifications as read
 });
 
 
-  $('tr').find('td:eq(4):contains(N)').parent().css('backgroundColor', '#ffff99').css('font-weight', '700'); // marking all notifications that hasn't been read
+  $('tr').find('td:eq(5):contains(N)').parent().css('backgroundColor', '#ffff99').css('font-weight', '700'); // marking all notifications that hasn't been read
 
 
 function notificationsMarkAsRead() {  // updating all new user notifications as read
@@ -67,15 +67,18 @@ $(document).ready(function() {  // removing all user notifications once remove b
 });
 
 
-$(document).ready(function() {
+$(document).ready(function() {  // when approved button of a specific notification is clicked
   $(".userApproveBtn").click(function(){
-      var rowNum = $(this).attr("data-row");
-      var supervisorID = userNotifications[rowNum - 1].senderID;
-      var kidID = userNotifications[rowNum - 1].recieverID;
+      var rowNum = $(this).attr("data-row");  // getting row num
+      var notificationClicked = userNotifications[rowNum - 1];  // getting the data of the notification clicked
+      var supervisorID = notificationClicked.senderID;
+      var kidID = notificationClicked.recieverID;
       var notificationResponse = 'A';
-      var notificationID = userNotifications[rowNum - 1].notificationID;
-      alert(notificationID);
-      respondToSupervisionReq(supervisorID, kidID, notificationResponse, notificationID)
+      var notificationID = notificationClicked.notificationID;
+      if (notificationClicked.typeN == 'supervision') { // when supervision approval is clicked then send a response
+        respondToSupervisionReq(supervisorID, kidID, notificationResponse, notificationID);
+      }
+
   }); 
 });
 
@@ -86,7 +89,6 @@ $(document).ready(function() {
       var kidID = userNotifications[rowNum - 1].recieverID;
       var notificationResponse = 'D';
       var notificationID = userNotifications[rowNum - 1].notificationID;
-      alert(notificationID);
       respondToSupervisionReq(supervisorID, kidID, notificationResponse, notificationID)
   }); 
 });

@@ -30,6 +30,7 @@
             <tr>
               <th class="c-table__col-label">#</th>
               <th class="c-table__col-label">תוכן</th>
+              <th class="c-table__col-label">נשלח ע"י</th>
               <th class="c-table__col-label">תאריך ושעה</th>
               <th class="c-table__col-label">פעולות</th>
               <th class="c-table__col-label" style="display:none">תגובה</th>
@@ -42,6 +43,7 @@
               <tr>
                 <td class="c-table__cell">{{add @index 1}}</td>
                 <td class="c-table__cell">{{content}}</td>
+                <td class="c-table__cell">{{firstName}} {{lastName}}</td>
                 <td class="c-table__cell">{{moment notificationDate format="HH:mm:ss DD/MM/YYYY"}}</td>
                 <td class="c-table__cell">
                   <script>
@@ -56,10 +58,10 @@
                                       <button class="userDeclilneBtn" data-row="${rowNum}">סרב</button>`); // escaping script
                       }
                       else if (recieverResponse == 'A') {
-                        document.write(`<p>אושר</p> `); // escaping script
+                        document.write(`<p class="userApprovedP">אושר</p> `); // escaping script
                       }
                       else if (recieverResponse == 'D') {
-                        document.write(`<p>סורב</p> `); // escaping script
+                        document.write(`<p class="userDeclilnedP">סורב</p> `); // escaping script
                       }
                     }
 
@@ -92,19 +94,19 @@
 
 
 
-
-
-
     </div>
   </div>
-  <!--====== Javascripts & Jquery ======-->
-  <script src="/js/kid/kid-notifications-scripts.js"></script>
+  
 
   <script>
     var langPreferred = {{{ json userData.langPreferred }}};  // global variable which is used in language.js file
   </script>
 
+ 
   {{> kid_footer}}
+
+  <!--====== Javascripts & Jquery ======-->
+  <script src="/js/kid/kid-notifications-scripts.js"></script>
 
 </body>
 

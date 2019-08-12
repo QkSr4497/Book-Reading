@@ -1,0 +1,18 @@
+.container {
+    text-align: right;
+    
+}
+
+.input-w label, .input-w input {    /* making lable and input appear at the same line */
+    float: none;
+    display: inline-block;
+    vertical-align: middle;    
+}
+
+.input-w input {
+    width: 25vw;
+}
+
+.input-w {
+    font-size: 1.1vw;
+}

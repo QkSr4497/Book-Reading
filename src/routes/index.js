@@ -44,11 +44,11 @@ router.get('/', authenticationMiddleware(), function (req, res) {
   //console.log('user: ['+ req.user + ']  , isAuthenticated: ' + req.isAuthenticated());
 
   queries.getUserById(req.user, (userData) => {
-    // console.log(userData);
     pool.on('error', (err, client) => {
       console.error('Unexpected error on idle client', err)
       process.exit(-1)
     })
+    // console.log(userData);
 
     // callback - checkout a client
     pool.connect((err, client, done) => {
@@ -66,7 +66,7 @@ router.get('/', authenticationMiddleware(), function (req, res) {
           }
           else if (userData.userType === 'teacher' || userData.userType === 'supervisor' || userData.userType === 'admin') {
             res.render('teacher/home', { userData });
-          }  
+          }
         }
       });
 
@@ -1233,6 +1233,30 @@ router.post('/kid/quiz/updateGradeAndPoints', authenticationMiddleware(), functi
 
 
 //============================================================
+router.post('/kid/notifyQuizResults', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+  // console.log('starting POST notifyQuizResults', req.body);
+    try {
+      var date = new Date();
+      var infoMsg;
+      infoMsg = await queries.sendNotification(req.body.senderID, undefined, date, req.body.content, req.body.typeName);
+      console.log(infoMsg);
+    } catch (e) {
+      console.error(e);
+    }
+    res.sendStatus(200);
+
+  });
+});
+
+
+//============================================================
 router.get('/kid/kid-notifications', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
@@ -1249,6 +1273,53 @@ router.get('/kid/kid-notifications', authenticationMiddleware(), function (req, 
     } 
 
     res.render('kid/kid-notifications', { userData, notifications});
+  });
+});
+
+//============================================================
+router.get('/supervisor/supervisor-notifications', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+    var notifications;
+    try {
+      notifications = await queries.getNotificationsOfUser(req.user);
+    } catch (e) {
+      console.error(e);
+    } 
+
+    res.render('supervisor/supervisor-notifications', { userData, notifications});
+  });
+});
+
+
+//============================================================
+router.get('/grown-up/notifications', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+    if (userData.userType == 'supervisor' || userData.userType == 'teacher') {  // only supervisors and teachers can view this page
+
+      var notifications;
+      try {
+        notifications = await queries.getNotificationsOfUser(req.user);
+      } catch (e) {
+        console.error(e);
+      }
+
+      res.render('grown-up/notifications', { userData, notifications });
+    }
+    else {  // other users goto homepage
+      res.redirect('/');
+    } 
   });
 });
 
@@ -1290,10 +1361,10 @@ router.post('/kid/respondToSupervisionReq', authenticationMiddleware(), function
     } catch (e) {
       console.error(e);
     }
-
     res.sendStatus(200);
   });
 });
+
 
 //============================================================
 router.post('/removeAllUserNotifications', authenticationMiddleware(), function (req, res) {
@@ -1375,6 +1446,51 @@ router.get('/teacher/single-book-page/:bookID', authenticationMiddleware(), func
   });
 });
 
+//============================================================
+router.get('/supervisor/add-kid', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+    if (userData.userType == 'supervisor') {  // only supervisors can view this page
+      res.render('supervisor/add-kid', { userData, message: req.flash('info') });
+    }
+    else {  // other users goto homepage
+      res.redirect('/');
+    } 
+  });
+});
+
+//============================================================
+router.post('/supervisor/addSupervisionReq', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+
+    if (userData.userType == 'supervisor') {  // only supervisors can make this request
+      try {
+        var kidEmail = req.body.kidEmail;
+        var infoMsg;
+        infoMsg = await queries.addSupervisionReq(req.user, kidEmail, userData.langPreferred);
+      } catch (e) {
+        console.error(e);
+      }
+      req.flash('info', infoMsg)
+      res.redirect('/supervisor/add-kid');
+    }
+    else {  // not authorized to make this request
+      res.sendStatus(203);
+    }
+  });
+});
+
 
 //============================================================
 router.get('/teacher/add-quiz', authenticationMiddleware(), function (req, res) {
@@ -1385,7 +1501,6 @@ router.get('/teacher/add-quiz', authenticationMiddleware(), function (req, res) 
       console.error('Unexpected error on idle client', err)
       process.exit(-1)
     })
-
     res.render('teacher/add-quiz', { userData });
   });
 });
@@ -1478,10 +1593,11 @@ bcrypt.hash('sarah29Pass1', saltRounds, function (err, hash) { console.log(`pass
 bcrypt.hash('moshe1234Pass1', saltRounds, function (err, hash) { console.log(`password:[moshe1234Pass1], hash:[${hash}]`) });
 bcrypt.hash('jacky11Pass1', saltRounds, function (err, hash) { console.log(`password:[jacky11Pass1], hash:[${hash}]`) });
 bcrypt.hash('tim9Pass1', saltRounds, function (err, hash) { console.log(`password:[tim9Pass1], hash:[${hash}]`) });
-bcrypt.hash('dorin23ass1', saltRounds, function (err, hash) { console.log(`password:[dorin23ass1], hash:[${hash}]`) });
+bcrypt.hash('dorin23Pass1', saltRounds, function (err, hash) { console.log(`password:[dorin23Pass1], hash:[${hash}]`) });
 bcrypt.hash('tali11Pass1', saltRounds, function (err, hash) { console.log(`password:[tali11Pass1], hash:[${hash}]`) });
-bcrypt.hash('dorin23ass1', saltRounds, function (err, hash) { console.log(`password:[mira36Pass1], hash:[${hash}]`) });
-bcrypt.hash('tali11Pass1', saltRounds, function (err, hash) { console.log(`password:[rafi53Pass1], hash:[${hash}]`) });
+bcrypt.hash('mira36Pass1', saltRounds, function (err, hash) { console.log(`password:[mira36Pass1], hash:[${hash}]`) });
+bcrypt.hash('rafi53Pass1', saltRounds, function (err, hash) { console.log(`password:[rafi53Pass1], hash:[${hash}]`) });
+bcrypt.hash('robert12Pass1', saltRounds, function (err, hash) { console.log(`password:[robert12Pass1], hash:[${hash}]`) });
 */
 
 
@@ -1490,7 +1606,7 @@ bcrypt.hash('tali11Pass1', saltRounds, function (err, hash) { console.log(`passw
 async function f() {
   
   var supervisorID = 12;
-  var kidID = 14;
+  var kidID = 13;
   
   var date = new Date();
   console.log(date);
@@ -1505,4 +1621,4 @@ async function f() {
   console.log(msg);
 }
 
-f();
+// f();

@@ -12,6 +12,10 @@ SELECT * FROM "UserSessions";
 
 SELECT * FROM "Book";
 
+SELECT * FROM "TakesQuiz";
+
+
+
 SELECT * 
 FROM "Person" p INNER JOIN "Kid" k ON p."personID" = k."kidID";
 
@@ -41,7 +45,8 @@ SELECT * FROM "Answer";
 SELECT * FROM "WritesQuiz";
 
 SELECT * FROM "TakesQuiz";
-
+									  
+DELETE FROM "TakesQuiz";
 
 SELECT * FROM "Quiz" m
 WHERE m."quizID" IN ((SELECT q."quizID" FROM "Quiz" q
@@ -92,18 +97,25 @@ WHERE "kidID" = 13 AND "approved" = 'Y';
 UPDATE "Supervise"
 SET "approved" = 'N'
 WHERE "supervisorID" = 11 AND "kidID" = 13 AND "approved" = 'N';
-			
+
+DELETE FROM "Supervise"
+									  
+									  
+									  
+									  
 DELETE
 FROM "Notification" N
 WHERE N."recieverID" = 13;
 									  
-SELECT * FROM "Notification" N INNER JOIN "NotificationType" NT
+SELECT * 
+FROM "Notification" N INNER JOIN "NotificationType" NT
 ON N."notificationTypeID" = NT."notificationTypeID"
+INNER JOIN "Person" P ON N."senderID" = P."personID"
 WHERE N."recieverID" = 13;
 									  
 SELECT * FROM "Notification" N INNER JOIN "NotificationType" NT
 ON N."notificationTypeID" = NT."notificationTypeID"
-WHERE N."recieverID" = 13 AND NT."typeN" = 'supervision' AND N."senderID" = 11 AND N."recieverRes" != 'A';									  
+WHERE N."recieverID" = 13 AND NT."typeN" = 'supervision' AND N."senderID" = 12 AND N."recieverRes" IN ('N','R','A');									  
 									  
 UPDATE "Notification"
 SET "recieverRes" = 'N'
@@ -114,6 +126,10 @@ WHERE "recieverID" = 13;
 SELECT * FROM "NotificationType"; 
 									  
 INSERT INTO "Supervise"("supervisorID", "kidID", "approved") VALUES('4', '13', 'Y');
+									  
+SELECT P."personID" 
+FROM "Person" P INNER JOIN "Kid" K ON P."personID" = K."kidID"
+WHERE P."email" = 'keren6@gmail.com'
 
 DELETE FROM "WritesQuiz" WHERE "quizID" = 16;
 DELETE FROM "Answer" WHERE "quizID" = 16;

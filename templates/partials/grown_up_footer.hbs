@@ -1,0 +1,9 @@
+{{#eq userData.userType "supervisor"}}
+    {{> supervisor_footer}}
+{{/eq}}
+{{#eq userData.userType "teacher"}}
+    {{> teacher_footer}}
+{{/eq}}
+{{#eq userData.userType "admin"}}
+    {{> teacher_footer}}
+{{/eq}}

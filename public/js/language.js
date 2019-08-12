@@ -127,6 +127,7 @@ $(document).ready(function() {  // getting the langueage preferred by the user f
   var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
     $('.lang').each(function(index ,element){
       $(this).text(arrLang[langPref][$(this).attr('key')]);
+      
     });
 });
 

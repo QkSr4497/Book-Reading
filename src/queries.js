@@ -1,6 +1,7 @@
 const db = require('./db'); // postgresql database connection pool
 const path = require('path');
 const fse = require('fs-extra');
+const validator = require('validator');
 const pool = db.pg_pool;
 
 const getUsers = (request, response) => {
@@ -55,86 +56,107 @@ const getUserTypeById = (userID, callback) => {
     });
 }
 
+const getNumOfNewNotificationsOfUser = (userID, callback) => {
+    pool.query(`SELECT * 
+                FROM "Notification" N INNER JOIN "NotificationType" NT
+                ON N."notificationTypeID" = NT."notificationTypeID"
+                INNER JOIN "Person" P ON N."senderID" = P."personID"
+                WHERE N."recieverID" = $1 AND N."recieverRes" = $2
+                ORDER BY N."notificationDate" DESC`, [userID, 'N'], (error, results) => {
+            if (error) {
+                throw error
+            }
+            callback({NumOfNewNotifications: results.rowCount});
+        });
+}
+
 const getUserById = (userID, callback) => {
     getUserTypeById(userID, (userData) => {
-        var userType = userData.userType;
-        if (userType === 'kid') {
-            pool.query(`SELECT * 
+        getNumOfNewNotificationsOfUser(userID, (notificationData) => {
+            var userType = userData.userType;
+            if (userType === 'kid') {
+                pool.query(`SELECT * 
                 FROM "Person" p INNER JOIN "Kid" k ON p."personID" = k."kidID"
                 WHERE p."personID" = $1`, [userID], (error, results) => {
-                if (error) {
-                    throw error
-                }
-                callback({
-                    userID: results.rows[0].personID,
-                    userName: results.rows[0].userName,
-                    firstName: results.rows[0].firstName,
-                    lastName: results.rows[0].lastName,
-                    email: results.rows[0].email,
-                    points: results.rows[0].points,
-                    avatarID: results.rows[0].avatarID,
-                    langPreferred: results.rows[0].lang,
-                    userType
-                });
-             });
-        }
-        else if (userType === 'teacher') {
-            pool.query(`SELECT * 
+                        if (error) {
+                            throw error
+                        }
+                        callback({
+                            userID: results.rows[0].personID,
+                            userName: results.rows[0].userName,
+                            firstName: results.rows[0].firstName,
+                            lastName: results.rows[0].lastName,
+                            email: results.rows[0].email,
+                            points: results.rows[0].points,
+                            avatarID: results.rows[0].avatarID,
+                            langPreferred: results.rows[0].lang,
+                            numOfNewNotifications: notificationData.NumOfNewNotifications,
+                            userType,
+
+                        });
+                    });
+            }
+            else if (userType === 'teacher') {
+                pool.query(`SELECT * 
                 FROM "Person" p INNER JOIN "Teacher" t ON p."personID" = t."teacherID"
                 WHERE p."personID" = $1`, [userID], (error, results) => {
-                if (error) {
-                    throw error
-                }
-                callback({
-                    userID: results.rows[0].personID,
-                    userName: results.rows[0].userName,
-                    firstName: results.rows[0].firstName,
-                    lastName: results.rows[0].lastName,
-                    email: results.rows[0].email,
-                    phone: results.rows[0].phone,
-                    langPreferred: results.rows[0].lang,
-                    userType
-                });
-             });
-        }
-        else if (userType === 'supervisor') {
-            pool.query(`SELECT * 
+                        if (error) {
+                            throw error
+                        }
+                        callback({
+                            userID: results.rows[0].personID,
+                            userName: results.rows[0].userName,
+                            firstName: results.rows[0].firstName,
+                            lastName: results.rows[0].lastName,
+                            email: results.rows[0].email,
+                            phone: results.rows[0].phone,
+                            langPreferred: results.rows[0].lang,
+                            numOfNewNotifications: notificationData.NumOfNewNotifications,
+                            userType
+                        });
+                    });
+            }
+            else if (userType === 'supervisor') {
+                pool.query(`SELECT * 
                 FROM "Person" p INNER JOIN "Supervisor" s ON p."personID" = s."supervisorID"
                 WHERE p."personID" = $1`, [userID], (error, results) => {
-                if (error) {
-                    throw error
-                }
-                callback({
-                    userID: results.rows[0].personID,
-                    userName: results.rows[0].userName,
-                    firstName: results.rows[0].firstName,
-                    lastName: results.rows[0].lastName,
-                    email: results.rows[0].email,
-                    phone: results.rows[0].phone,
-                    langPreferred: results.rows[0].lang,
-                    userType
-                });
-             });
-        }
-        else if (userType === 'admin') {
-            pool.query(`SELECT * 
+                        if (error) {
+                            throw error
+                        }
+                        callback({
+                            userID: results.rows[0].personID,
+                            userName: results.rows[0].userName,
+                            firstName: results.rows[0].firstName,
+                            lastName: results.rows[0].lastName,
+                            email: results.rows[0].email,
+                            phone: results.rows[0].phone,
+                            langPreferred: results.rows[0].lang,
+                            numOfNewNotifications: notificationData.NumOfNewNotifications,
+                            userType
+                        });
+                    });
+            }
+            else if (userType === 'admin') {
+                pool.query(`SELECT * 
                 FROM "Person" p INNER JOIN "Admin" a ON p."personID" = a."adminID"
                 WHERE p."personID" = $1`, [userID], (error, results) => {
-                if (error) {
-                    throw error
-                }
-                callback({
-                    userID: results.rows[0].personID,
-                    userName: results.rows[0].userName,
-                    firstName: results.rows[0].firstName,
-                    lastName: results.rows[0].lastName,
-                    email: results.rows[0].email,
-                    phone: results.rows[0].phone,
-                    langPreferred: results.rows[0].lang,
-                    userType
-                });
-             });
-        }
+                        if (error) {
+                            throw error
+                        }
+                        callback({
+                            userID: results.rows[0].personID,
+                            userName: results.rows[0].userName,
+                            firstName: results.rows[0].firstName,
+                            lastName: results.rows[0].lastName,
+                            email: results.rows[0].email,
+                            phone: results.rows[0].phone,
+                            langPreferred: results.rows[0].lang,
+                            numOfNewNotifications: notificationData.NumOfNewNotifications,
+                            userType
+                        });
+                    });
+            }
+        });
     });
 }
 
@@ -414,11 +436,18 @@ const notifyQuizResultsToSupervisors = async (kidID, notificationDate, content, 
     }
 }
 
-const sendSupervisionReq = async (supervisorID, kidID, notificationDate, content, typeName) => {
-    var notificationTypeID = await getNotificationTypeIdByName(typeName);
-    if (!notificationTypeID) return 'Invalid notification type';
-    var recieverResponse = 'N';
+const sendSupervisionNotification = async (supervisorID, kidID, notificationDate, content, typeName) => {
     try {
+        var notificationTypeID = await getNotificationTypeIdByName(typeName);
+        if (!notificationTypeID) return 'Invalid notification type';
+
+        var checkExistingNotifcation = await checkExistingSupervisionNotification(supervisorID, kidID, typeName);
+        if (checkExistingNotifcation) {  // there is a notification to which the kid responded : N(ot read), R(ead), A(approved) ==> no need to send another notification
+            return 'There is already an active notification.';
+        }    
+
+        var recieverResponse = 'N';
+    
         await db.query(`INSERT INTO "Notification"("notificationDate", "content", "recieverRes", "recieverID", "senderID", "notificationTypeID") VALUES($1, $2, $3, $4, $5, $6)`,
             [notificationDate, content, recieverResponse, kidID, supervisorID, notificationTypeID]);
     } 
@@ -434,12 +463,12 @@ const respondToSupervisionReq = async (supervisorID, kidID, notificationResponse
         var supervisionResponse = (notificationResponse == 'A') ? 'Y' : 'N';
         await db.query(`UPDATE "Supervise"
                         SET "approved" = $1
-                        WHERE "supervisorID" = $2 AND "kidID" = $3 AND "approved" = $4`, [supervisionResponse, supervisorID, kidID, 'N']);  // updating approval only if supervisor is not approved yet, once approved cannot change
+                        WHERE "supervisorID" = $2 AND "kidID" = $3`, [supervisionResponse, supervisorID, kidID]);  // updating approval of supervision according to kid's decision
         
         await db.query(`UPDATE "Notification"
                         SET "recieverRes" = $1
                         WHERE "recieverID" = $2 AND "notificationID" = $3 
-                        AND "recieverRes" IN ($4, $5)`, [notificationResponse, kidID, notificationID, 'N', 'R']);
+                        AND "recieverRes" IN ($4, $5)`, [notificationResponse, kidID, notificationID, 'N', 'R']);   // updating notification's status according to kid's response
     } 
     catch (err) {
         console.log(err);
@@ -461,7 +490,7 @@ const sendNotification = async (senderID, recieverID, notificationDate, content,
     }
     else if (typeName == 'supervision') {
         try {
-            res = await sendSupervisionReq(senderID, recieverID, notificationDate, content, typeName);
+            res = await sendSupervisionNotification(senderID, recieverID, notificationDate, content, typeName);
         } 
         catch (err) {
             console.log(err);
@@ -477,8 +506,10 @@ const sendNotification = async (senderID, recieverID, notificationDate, content,
 
 const getNotificationsOfUser = async (userID) => { // using async/await
     try {
-         var { rows: notifications} = await db.query(`SELECT * FROM "Notification" N INNER JOIN "NotificationType" NT
+         var { rows: notifications} = await db.query(`SELECT * 
+                                                        FROM "Notification" N INNER JOIN "NotificationType" NT
                                                         ON N."notificationTypeID" = NT."notificationTypeID"
+                                                        INNER JOIN "Person" P ON N."senderID" = P."personID"
                                                         WHERE N."recieverID" = $1
                                                         ORDER BY N."notificationDate" DESC`, [userID]);
     } 
@@ -488,6 +519,8 @@ const getNotificationsOfUser = async (userID) => { // using async/await
     }
     return notifications;
 }
+
+
 
 const setAllUserNotificationsAsRead = async (userID) => { // using async/await setting all new notifications as Read
     try {
@@ -514,6 +547,113 @@ const removeAllUserNotifications = async (userID) => { // using async/await
     }
     return `All Notifications of user #${userID} removed.`;
 }
+
+const getUserIdbyEmail = async (userEmail) => { // using async/await setting all new notifications as Read
+    try {
+        var { rows: userID } = await db.query(`SELECT P."personID" 
+                                            FROM "Person" P INNER JOIN "Kid" K ON P."personID" = K."kidID"
+                                            WHERE P."email" = $1`,  // checking if there is a kid with this email
+                                            [userEmail]);
+        if (userID.length > 0) {    // if there is a kid with this email return his ID
+            return userID[0].personID;
+        }
+        else {  // no kid with this email return undefined
+            return undefined;  
+        }
+        
+    }
+
+    catch (err) {
+        console.log(err);
+        return err;
+    }
+}
+
+
+const getSupervisionReqInfo = async (supervisorID, kidID) => {
+    var { rows: res} = await db.query(`SELECT * FROM "Supervise" 
+                                          WHERE "supervisorID" = $1 AND "kidID" = $2`,
+                                          [supervisorID, kidID]);
+    if (res.length > 0) {
+        return res[0];  // only one row should exist with the same supervisor and kid
+    }
+    else {
+        return undefined;
+    }
+    
+
+}
+
+const addSupervisionReq = async (supervisorID, kidEmail, langPreferred) => {
+    // console.log(supervisorID, kidEmail);
+    var infoMsg;
+    var isEmail = validator.isEmail(kidEmail);  // checking email format
+    if (!isEmail) {    // if email is invalid
+        infoMsg = `האימייל שנשלח ${kidEmail} איננו תקין. אנא הכנס אימייל תקין ונסה שנית.`;
+        return infoMsg;
+    }
+    try {
+        kidID = await getUserIdbyEmail(kidEmail);
+        if (kidID == undefined) {    // if there is no kid with this email
+            
+            infoMsg = `לא קיים ילד במערכת עם האימייל שהוכנס ${kidEmail} אנא נסה שנית עם האימייל שעמו הילד רשום במערכת.`;
+            return infoMsg;
+        }
+        else {  // if there is a kid with this email
+            supervisionInfo = await getSupervisionReqInfo(supervisorID, kidID);
+            console.log(supervisionInfo);
+            var date = new Date();
+            var content = `Supervision request`;
+            if (langPreferred == 'hebrew') {
+                content = 'בקשת פיקוח'
+            }
+            
+            var type = 'supervision';
+            if (supervisionInfo == undefined) {
+                var approved = 'N';
+                await db.query(`INSERT INTO "Supervise"("supervisorID", "kidID", "approved") VALUES($1, $2, $3)`,
+                    [supervisorID, kidID, approved]);
+                var res = await sendNotification(supervisorID, kidID, date, content, type);
+                console.log(res);
+                return `בקשת פיקוח נשלחה בהצלחה וממתינה לאישור הילד/ה.`;
+            }
+            else if(supervisionInfo.approved == 'N') {
+                var res = await sendNotification(supervisorID, kidID, date, content, type);
+                console.log(res);
+                return `בקשת פיקוח נשלחה בהצלחה וממתינה לאישור הילד/ה.`;
+            }
+            else if (supervisionInfo.approved == 'Y') {
+                return `הילדה/ה כבר נמצאים ברשימת הפיקוח שלך.`;
+            }
+        }
+    }
+    catch (err) {
+        infoMsg = `אירעה שגיאה`;
+        console.log(err);
+        return infoMsg;
+    }
+
+}
+
+const checkExistingSupervisionNotification = async (supervisorID, kidID, typeName) => {
+    var { rows: res} = await db.query(`SELECT * FROM "Notification" N INNER JOIN "NotificationType" NT
+                                        ON N."notificationTypeID" = NT."notificationTypeID"
+                                        WHERE N."recieverID" = $1 AND NT."typeN" = $2 AND N."senderID" = $3 AND N."recieverRes" IN ($4, $5, $6)`,
+                                          [kidID, typeName, supervisorID, 'N','R','A']);
+    if (res.length > 0) {   // there is a notification to which the kid responded : N(ot read), R(ead), A(approved)
+        return true;
+    }
+    else {
+        return false;
+    }
+
+}
+
+
+
+    
+
+
 
 
 
@@ -920,6 +1060,7 @@ module.exports = {
     getNotificationsOfUser,
     setAllUserNotificationsAsRead,
     removeAllUserNotifications,
-    respondToSupervisionReq
+    respondToSupervisionReq,
+    addSupervisionReq
 
 }

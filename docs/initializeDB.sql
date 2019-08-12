@@ -6,7 +6,7 @@ ALTER SEQUENCE "Person_personID_seq" RESTART;	-- personID serial will start with
 
 -- supervisors
 /*3*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('molly43', 'molly', 'jane', 'molly43@gmail.com', '$2b$10$tycwSjrNHebpuk84dwv6qeVvQ.dKnIwA1i30t2z6ARNRywWiQKg0O', 'hebrew');  --molly43Pass1
-/*4*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('jack12', 'jack', 'reacher', 'jack12@gmail.com', '$2b$10$8Uqpr2/cVV7KYndvbjZjRemeYIEOTqz7mG3tofebqo3vKRSKPFDlO', 'arabic');  --jack12Pass1
+/*4*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('robert12', 'robert', 'reacher', 'robert12@gmail.com', '$2b$10$CIDp47MNcmq0k1cZYyE80uF5JU526sEz.iJH5KSBcnJJJFWCvQwdK', 'arabic');  --robert12Pass1
 
 -- teachers
 /*5*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('dave33', 'dave', 'york', 'dave33@gmail.com', '$2b$10$zuSgvWKY5JTm37vPyBAySeN1dnV79.QN/f3wdblYOfHOg93/u1aaq', 'hebrew');  --dave33Pass1
@@ -25,15 +25,14 @@ ALTER SEQUENCE "Person_personID_seq" RESTART;	-- personID serial will start with
 -- kids
 /*13*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('jacky11', 'jacky', 'moon', 'jacky11@gmail.com', '$2b$10$L62awdfaTnqq2lBUHeAtreYBWnd8xgQtaR7IEPKyuc.000yDp/jK.', 'hebrew');  --jacky11Pass1
 /*14*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('tim9', 'tim', 'trump', 'tim9@gmail.com', '$2b$10$g6ek7JVNcciKGhSdnMAFi.BlTsnh8zjQeY1PmZ7UkMQX9ktm3eUfO', 'hebrew');  --tim9Pass1
-/*15*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('dorin23', 'dorin', 'asor', 'dorin23@gmail.com', '$2b$10$t7o7VRZZZK0iF17flHVM1eG1f8AVbcaOz4ZFlKAG3.iu3S9Wh8sPS', 'hebrew');  --dorin23ass1
-/*16*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('tali11', 'tali', 'doll', 'tali11@gmail.com', '$2b$10$byzRTlJPMiwQ0OCNWBfwk../c/p3nMHunkqpFU1xkY5jFw3l60FzS', 'hebrew');  --tali11Pass1
+/*15*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('dorin23', 'dorin', 'asor', 'dorin23@gmail.com', '$2b$10$uNU547wQp3cz0CW5zZxrbOszDO7R1KjsYS3Sgh7zHPhpRQvECwmOa', 'hebrew');  --dorin23Pass1
+/*16*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('tali11', 'tali', 'doll', 'tali11@gmail.com', '$2b$10$eUXqRgyxz.5uRRFG5yCgi..oNV6aGkx9JOOh5vhFIk8VJTbwBoim.', 'hebrew');  --tali11Pass1
 
 -- teachers
-/*17*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('mira36', 'mira', 'goldston', 'mira36@gmail.com', '$2b$10$V0STuIQkez2mX.MtgROF2uZkdvQA2DEDcwNm.4513/AdIuCIcFfF6', 'hebrew');  --mira36Pass1
-/*18*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('rafi53', 'rafi', 'vice', 'rafi53@gmail.com', '$2b$10$533aMzV9iZYSXL04Gcw1BO4D8B.xVYuS5E7hHCc0hMIhwe2nG6qb2', 'hebrew');  --rafi53Pass1
+/*17*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('mira36', 'mira', 'goldston', 'mira36@gmail.com', '$2b$10$ND5u0irNBYY3AoFiwYiNEeKvfSQcAzvdO/EvIiBdmw4IfiTEKzU7y', 'hebrew');  --mira36Pass1
+/*18*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('rafi53', 'rafi', 'vice', 'rafi53@gmail.com', '$2b$10$W7KLxbxrvXIwubSQlWHwQOoV4iVNRAsBqYnrrncDltAObTgZf8ovG', 'hebrew');  --rafi53Pass1
 
---**************/Person table ********************************
-
+--**************/Person table *******************************
 
 ------ Admin table ------------------------------
 INSERT INTO "Admin"("adminID", "phone") VALUES('1', '0537494363');
@@ -154,7 +153,6 @@ INSERT INTO "GetMessage"("messageID","personID","checked")VALUES('2','9','N');
 INSERT INTO "GetMessage"("messageID","personID","checked")VALUES('1','10','N');
 INSERT INTO "GetMessage"("messageID","personID","checked")VALUES('2','10','N');
 --************ /GetMessage table *************************************
-
 
 ------ Supervise table ------------------------------
 INSERT INTO "Supervise"("supervisorID", "kidID", "approved") VALUES('11', '14', 'Y');

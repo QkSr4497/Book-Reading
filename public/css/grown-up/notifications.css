@@ -7,6 +7,7 @@ body {
   
   .wrapper {
     margin: 48px 120px;
+    text-align: right;
   }
   
   h1 {
@@ -14,9 +15,14 @@ body {
     text-align: center;
   }
 
-  #main h1 {
+  .wrapper h1 {
     font-size: 3vw;
-    margin: 25px;
+    margin: 100px;
+  }
+
+  .container {
+
+    text-align: right;
   }
   
   /* Table styles */
@@ -31,6 +37,7 @@ body {
     padding: 0;
     text-align: right;
   }
+
   
   td:first-of-type {
     padding-left: 36px;
@@ -273,68 +280,7 @@ body {
 /****************  /remove all notifications button  *************************/
 
 
-/****************  approve notification button  *************************/
 
-.userApproveBtn {
-  background-color: #02961b;
-  border: none;
-  color: white;
-  padding: 8px 32px;
-  text-align: center;
-  font-size: 16px;
-  margin: 4px 2px;
-  opacity: 0.6;
-  transition: 0.3s;
-  display: inline-block;
-  text-decoration: none;
-  cursor: pointer;
 
-}
 
-.userApproveBtn:hover {opacity: 1}
 
-/****************  /approve notification button  *************************/
-
-/****************  decline notification button  *************************/
-.userDeclilneBtn {
-  background-color: #9b2929;
-  border: none;
-  color: white;
-  padding: 8px 32px;
-  text-align: center;
-  font-size: 16px;
-  margin: 4px 2px;
-  opacity: 0.6;
-  transition: 0.3s;
-  display: inline-block;
-  text-decoration: none;
-  cursor: pointer;
-
-}
-
-.userDeclilneBtn:hover {opacity: 1}
-
-/****************  /decline notification button  *************************/
-
-/****************  approved and declined P  *************************/
-.userApprovedP {
-  background-color: #02961b;
-  border: none;
-  color: white;
-  padding: 8px 32px;
-  text-align: center;
-  font-size: 16px;
-  margin: 4px 2px;
-}
-
-.userDeclilnedP {
-  background-color: #9b2929;
-  border: none;
-  color: white;
-  padding: 8px 32px;
-  text-align: center;
-  font-size: 16px;
-  margin: 4px 2px;
-}
-
-/****************  /approved and declined P  *************************/

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Kid-Read Supervisor - Add kid page</title>
+
+
+    <!-- Stylesheets -->
+
+
+    <!-- Main Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="/css/supervisor/add-kid.css" />
+
+	{{> grown_up_head}}
+</head>
+
+<body>
+	<div class="container">
+		{{> grown_up_body}}
+		<header>
+			<h1>הוספת ילד</h1>
+		</header>
+
+
+        <form action="/supervisor/addSupervisionReq" method="post"> 
+            {{!-- <div class="form-group">
+                <label for="exampleInputEmail1">כתובת אימייל</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="הכנס כתובת אימייל">
+                <small id="emailHelp" class="form-text text-muted">הכנס את כתובת האימייל של הילד/ה שתרצה לפקח עליו</small>
+            </div> --}}
+
+            <div class="input-w">
+                <input type="email" name="kidEmail"  id="kidEmail" aria-describedby="emailHelp" placeholder="הכנס כתובת אימייל">
+                <label for="kidEmail">:כתובת אימייל </label>
+                
+                <small id="emailHelp" class="form-text text-muted">הכנס את כתובת האימייל של הילד/ה שתרצה לפקח עליו</small>
+            </div> 
+            <br>
+            <button id="sendSupervisionReqBtn" type="submit" class="btn btn-primary">שלח</button>
+        </form>
+
+        {{#if message}}
+            <br>
+            <div class="alert alert-warning input-feedback" role="alert" dir="rtl">
+                <h1>{{message}}</h1>
+            </div>
+        {{/if}}
+
+        
+
+	</div><!-- /container -->
+    
+	{{> teacher_footer}}
+
+    <!--====== Javascripts & Jquery ======-->
+    <script src="/js/supervisor/add-kid-scripts.js"></script>
+</body>
+
+</html>

@@ -220,6 +220,7 @@ function gradeTheQuiz(score) {
     pointEarned = numOfQuestions * score;
     $('#quizPointsEarned').text(pointEarned + ' נקודות');
     updateGradeAndPointsDB();
+    sendNotificationToSupervisors();
     $(window).scrollTop(0);
     
 }
@@ -232,6 +233,23 @@ const updateGradeAndPointsDB = () => {
         url: url,
         type: 'POST',
         data: { kidID: kidID, quizID: quizID, quizGrade: quizGrade, pointEarned: pointEarned },
+        success: function (result) {
+        },
+        error: function (err) {
+        }
+    });
+}
+
+const sendNotificationToSupervisors = () => {
+    var kidID = $('#inputKidID').val();
+    var typeName = 'quiz';
+    var userName = kidData.userName;
+    var content = ` ${userName} קיבל/ה ${quizGrade} במבחן "${quizData.quizTitle}" על הספר "${quizData.bookName}". במבחן זה ${userName} צבר/ה ${pointEarned} נקודות.`
+    var url = '/kid/notifyQuizResults';
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: { senderID: kidID, content: content, typeName: typeName },
         success: function (result) {
         },
         error: function (err) {

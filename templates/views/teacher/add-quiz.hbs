@@ -20,11 +20,8 @@
     <link rel="stylesheet" type="text/css" href="/css/teacher/add-quiz.css" />
 
 
+    {{> grown_up_head}}
 
-
-
-
-    {{> teacher_head}}
 </head>
 
 <body>
@@ -33,7 +30,7 @@
 </div>
 
     <div class="container" id="quizContainer">
-        {{> teacher_body}}
+        {{> grown_up_body}}
 
         
         <header>
@@ -180,11 +177,13 @@
     </div> <!-- /container -->
 
 
+    
+
+    {{> grown_up_footer}}
+
     <!--====== Javascripts & Jquery ======-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="/js/teacher/add-quiz-scripts.js"></script>
-
-    {{> teacher_footer}}
 
 </body>
 
