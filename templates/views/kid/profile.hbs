@@ -8,6 +8,10 @@
   <title>{{userData.userType}} - Profile page</title>
 
   {{> kid_head}}
+
+ <!-- Main Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="/css/kid/profile.css" />
+
 </head>
 <body>
 <div class="navigation-style">
@@ -20,7 +24,7 @@
      
       {{#kidProfile}}
        <div class="img-container">
-      <img src="/img/icons/kidreads.png" alt="Avatar" class="avatar">
+      <img src="{{profilePic}}" alt="ProfilePic" class="profilePic">
          <br>
         {{!-- <input id="profile-image-upload" class="hidden" type="file"> --}}
         <!--Upload Image Js And Css-->
@@ -34,7 +38,7 @@
          <hr>
          <p><span class="lang" key="lastName"> שם משפחה</span> &nbsp; &nbsp;&nbsp; &nbsp;<span>{{lastName}}</span></p>
          <hr>
-         <p> <span class="lang" key="birthDate">תאריך לידה</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>{{birth}}</span></p>
+         <p> <span class="lang" key="birthDate">תאריך לידה</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>{{moment birth format="DD/MM/YYYY"}}</span></p>
          <hr>
          <p> <span class="lang" key="points"> נקודות</span>&nbsp; &nbsp;&nbsp; &nbsp;<span>{{points}}</span></p>
          <hr>
@@ -47,48 +51,62 @@
   </div>
 
 
-     <div class="modal-style">
-      <div id="editProfile" class="modal">
-      <form class="modal-content animate" method="POST" action="/kid/profile/edit">
-        <div class="container">
-          <div class="imgcontainer">
-            <img src="/img/icons/kidreads.png" alt="Avatar" class="avatar">
-          </div>
-          <label class="lang" key="userName" for="title"><b>שם משתמש</b></label>
-          <input  type="text"  name="title" required value="">
-          <label class="lang" key="firstName"  for="title"><b>שם פרטי</b></label>
-          <input type="text"  name="title" required value="">
-          <label class="lang" key="lastName" for="title"><b>שם משפחה</b></label>
-          <input type="text"  name="title" required value="">
-          <label class="lang" key="password" for="title"><b>סיסמא</b></label>
-          <input type="text"  name="title" required value="">
-          <label class="lang" key="birthDate" for="title"><b>תאריך לידה</b></label>
-          <input type="date"  name="title" required value="">
-          <button class="okbtn lang" key="update" type="submit" name="button">עדכן</button>
-          <button class="cancelbtn lang" key="cancel" type="button" onclick="document.getElementById('editProfile').style.display='none'">ביטול</button>
 
-         </div>
-       </form>
-     </div>
-   </div>
+<div class="modal-style">
+  <div id="editProfile" class="modal">
+    <form id="profileForm" class="modal-content animate" method="POST" action="/kid/edit-profile" enctype="multipart/form-data">
+      <div class="container">
+        <div class="imgcontainer">
+          
+          <img id="modalProfilePic" src="{{profilePic}}" alt="ProfilePic" class="profilePic">
+          <br>
+          <label class="lang" key="profilePic" for="title"><b>תמונת פרופיל</b> <a href="#" class="close"></a></label>
+          <li id="liClose" class="ele" style="visibility:hidden;">
+            <div class="close spin large"><b></b><b></b><b></b><b></b></div>
+          </li>
+          <p class="validation-remark" id="profilePicException"></p>
+          <input class="imgPrevInput" type="file" id="newProfilePicInput" name="profilePic_{{userName}}" class="section" accept="image/*" alt="your image" />
+        </div>
+        
+        <label class="lang" key="userName" for="title"><b>שם משתמש</b></label>
+        <input id="new_userName" type="text" name="new_userName" required value="" disabled>
 
+        <label class="lang" key="firstName" for="title"><b>שם פרטי</b></label>
+        <p class="validation-remark" id="firstNameException"></p>
+        <input id="new_firstName" type="text" name="new_firstName" required value="">
+        
+        <label class="lang" key="lastName" for="title"><b>שם משפחה</b></label>
+         <p class="validation-remark" id="lastNameException"></p>
+        <input id="new_lastName" type="text" name="new_lastName" required value="">
+       
+        {{!-- <label class="lang" key="password" for="title"><b>סיסמא</b></label>
+          <input id="new_password" type="text"  name="new_password" required value=""> --}}
 
-
-     </div>
-   </div>
+        <label class="lang" key="birthDate" for="title"><b>תאריך לידה</b></label>
+        <p class="validation-remark" id="birthDateException"></p>
+        <br><br>
+        <input id="new_birthDate" type="date" name="new_birthDate" required value="">
+        
+        <br>
+        <button id="#modalSubmitProfileEdit" class="okbtn lang" type="button"onclick=" return checkAllInputs()">עדכן</button>
+        <button class="cancelbtn lang" key="cancel" type="button"onclick="document.getElementById('editProfile').style.display='none'">ביטול</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <script>
   var langPreferred = {{{json userData.langPreferred}}};  // global variable which is used in language.js file
+  var profilePicPath = {{{json userData.profilePic}}};  // global variable which is used in kid-profile-scripts.js file
+  var userDataJson = {{{json userData}}};
 </script>
 
-<script>
-  var langPreferred = {{{json userData.langPreferred}}};  // global variable which is used in language.js file
-</script>
-
+  <!--====== Javascripts & Jquery ======-->
+  <script src="/js/kid/kid-profile-scripts.js"></script>
 
  {{> kid_footer}}
 
-  <!--====== Javascripts & Jquery ======-->
+ 
   
 </body>
 </html>

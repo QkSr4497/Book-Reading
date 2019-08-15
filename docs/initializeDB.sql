@@ -1,36 +1,36 @@
 -------------- Person table-------------------
 ALTER SEQUENCE "Person_personID_seq" RESTART;	-- personID serial will start with 1
 -- admins
-/*1*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('qksr', 'admin', 'admin', 'qksr72@gmail.com', '$2b$10$BsTKYT4fuzymVtGjNY/opO/TeTDilmO6TjX8dA6v1UhxR/NJhLxAq', 'hebrew');  --qksrPass1
-/*2*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('maram', 'admin', 'admin', 'maram.kh711@hotmail.com', '$2b$10$AzYchUve5EnceY5AFkT/I.KbN9/q7fIlKtU1MI.QjSN8mUhU5f6g2', 'arabic');  --maramPass1
+/*1*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang", "gender", "profilePic") VALUES('qksr', 'admin', 'admin', 'qksr72@gmail.com', '$2b$10$BsTKYT4fuzymVtGjNY/opO/TeTDilmO6TjX8dA6v1UhxR/NJhLxAq', 'hebrew', 'M', '/img/users/defaultProfilePics/adminM.jpg');  --qksrPass1
+/*2*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang", "gender", "profilePic") VALUES('maram', 'admin', 'admin', 'maram.kh711@hotmail.com', '$2b$10$AzYchUve5EnceY5AFkT/I.KbN9/q7fIlKtU1MI.QjSN8mUhU5f6g2', 'arabic', 'F', '/img/users/defaultProfilePics/adminF.png');  --maramPass1
 
 -- supervisors
-/*3*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('molly43', 'molly', 'jane', 'molly43@gmail.com', '$2b$10$tycwSjrNHebpuk84dwv6qeVvQ.dKnIwA1i30t2z6ARNRywWiQKg0O', 'hebrew');  --molly43Pass1
-/*4*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('robert12', 'robert', 'reacher', 'robert12@gmail.com', '$2b$10$CIDp47MNcmq0k1cZYyE80uF5JU526sEz.iJH5KSBcnJJJFWCvQwdK', 'arabic');  --robert12Pass1
+/*3*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang", "gender", "profilePic") VALUES('molly43', 'molly', 'jane', 'molly43@gmail.com', '$2b$10$tycwSjrNHebpuk84dwv6qeVvQ.dKnIwA1i30t2z6ARNRywWiQKg0O', 'hebrew', 'F', '/img/users/defaultProfilePics/supervisorF.png');  --molly43Pass1
+/*4*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang", "gender", "profilePic") VALUES('robert12', 'robert', 'reacher', 'robert12@gmail.com', '$2b$10$CIDp47MNcmq0k1cZYyE80uF5JU526sEz.iJH5KSBcnJJJFWCvQwdK', 'arabic', 'M', '/img/users/defaultProfilePics/supervisorM.png');  --robert12Pass1
 
 -- teachers
-/*5*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('dave33', 'dave', 'york', 'dave33@gmail.com', '$2b$10$zuSgvWKY5JTm37vPyBAySeN1dnV79.QN/f3wdblYOfHOg93/u1aaq', 'hebrew');  --dave33Pass1
-/*6*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('milla34', 'milla', 'jovovich', 'milla34@gmail.com', '$2b$10$Q4hgmAXdp6zbOajcyX60..Eg.zGCxhjuWMUWnb3dEg1CdgJhC6OcC', 'arabic');  --milla34Pass1
+/*5*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang", "gender", "profilePic") VALUES('dave33', 'dave', 'york', 'dave33@gmail.com', '$2b$10$zuSgvWKY5JTm37vPyBAySeN1dnV79.QN/f3wdblYOfHOg93/u1aaq', 'hebrew', 'M', '/img/users/defaultProfilePics/teacherM.jpg');  --dave33Pass1
+/*6*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang", "gender", "profilePic") VALUES('milla34', 'milla', 'jovovich', 'milla34@gmail.com', '$2b$10$Q4hgmAXdp6zbOajcyX60..Eg.zGCxhjuWMUWnb3dEg1CdgJhC6OcC', 'arabic', 'F', '/img/users/defaultProfilePics/teacherF.png');  --milla34Pass1
 
 -- kids
-/*7*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('mike22', 'mikey', 'jackson', 'mike22@gmail.com', '$2b$10$VD2vCMgr/4c/TYeauX1Hh.psWgvlhBOG4kYGHOjUu0afKICTFC.ZW', 'hebrew');  --mike22Pass1
-/*8*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('danny5', 'danny', 'rubin', 'danny5@gmail.com', '$2b$10$7ISDpNVlFf8Ug1AMrpInpO6MeKZM5MCaMvvVlpsFNVdORlb3lnRW.', 'hebrew');  --danny5Pass1
-/*9*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('keren6', 'keren', 'cohen', 'keren6@gmail.com', '$2b$10$gf..8fbBP26rpd8XJfZ7EemZK91tvOhhENS.GoDMSkCWCDY6K1H7.', 'arabic');  --keren6Pass1
-/*10*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('nelly15', 'nelly', 'doll', 'nelly15@gmail.com', '$2b$10$8rVXDDq6JAGDK2OSWiDGEePM7VA.COxRAuiZBdBrffPHaiJs0ZIri', 'arabic');  --nelly15Pass1
+/*7*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang", "gender", "profilePic") VALUES('mike22', 'mikey', 'jackson', 'mike22@gmail.com', '$2b$10$VD2vCMgr/4c/TYeauX1Hh.psWgvlhBOG4kYGHOjUu0afKICTFC.ZW', 'hebrew', 'M', '/img/users/defaultProfilePics/kidM.png');  --mike22Pass1
+/*8*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang", "gender", "profilePic") VALUES('danny5', 'danny', 'rubin', 'danny5@gmail.com', '$2b$10$7ISDpNVlFf8Ug1AMrpInpO6MeKZM5MCaMvvVlpsFNVdORlb3lnRW.', 'hebrew', 'M', '/img/users/defaultProfilePics/kidM.png');  --danny5Pass1
+/*9*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang", "gender", "profilePic") VALUES('keren6', 'keren', 'cohen', 'keren6@gmail.com', '$2b$10$gf..8fbBP26rpd8XJfZ7EemZK91tvOhhENS.GoDMSkCWCDY6K1H7.', 'arabic', 'F', '/img/users/defaultProfilePics/kidF.png');  --keren6Pass1
+/*10*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang", "gender", "profilePic") VALUES('nelly15', 'nelly', 'doll', 'nelly15@gmail.com', '$2b$10$8rVXDDq6JAGDK2OSWiDGEePM7VA.COxRAuiZBdBrffPHaiJs0ZIri', 'arabic', 'F', '/img/users/defaultProfilePics/kidF.png');  --nelly15Pass1
 
 -- supervisors
-/*11*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('sarah29', 'sarah', 'colman', 'sarah29@gmail.com', '$2b$10$xF7I/Yd4qc2CmGNtoGFTfOAJk6Dk6WL2/hskiH87yx2c0Vri.AcQ6', 'hebrew');  --sarah29Pass1
-/*12*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('moshe1234', 'moshe', 'levi', 'moshe1234@gmail.com', '$2b$10$LRkfELsj.FwoioksgT25EOU0DlpIKEcTcK8ggPCmieOCfLR20OAhq', 'hebrew');  --moshe1234Pass1
+/*11*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang", "gender", "profilePic") VALUES('sarah29', 'sarah', 'colman', 'sarah29@gmail.com', '$2b$10$xF7I/Yd4qc2CmGNtoGFTfOAJk6Dk6WL2/hskiH87yx2c0Vri.AcQ6', 'hebrew', 'F', '/img/users/defaultProfilePics/supervisorF.png');  --sarah29Pass1
+/*12*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang", "gender", "profilePic") VALUES('moshe1234', 'moshe', 'levi', 'moshe1234@gmail.com', '$2b$10$LRkfELsj.FwoioksgT25EOU0DlpIKEcTcK8ggPCmieOCfLR20OAhq', 'hebrew', 'M', '/img/users/defaultProfilePics/supervisorM.png');  --moshe1234Pass1
 
 -- kids
-/*13*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('jacky11', 'jacky', 'moon', 'jacky11@gmail.com', '$2b$10$L62awdfaTnqq2lBUHeAtreYBWnd8xgQtaR7IEPKyuc.000yDp/jK.', 'hebrew');  --jacky11Pass1
-/*14*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('tim9', 'tim', 'trump', 'tim9@gmail.com', '$2b$10$g6ek7JVNcciKGhSdnMAFi.BlTsnh8zjQeY1PmZ7UkMQX9ktm3eUfO', 'hebrew');  --tim9Pass1
-/*15*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('dorin23', 'dorin', 'asor', 'dorin23@gmail.com', '$2b$10$uNU547wQp3cz0CW5zZxrbOszDO7R1KjsYS3Sgh7zHPhpRQvECwmOa', 'hebrew');  --dorin23Pass1
-/*16*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('tali11', 'tali', 'doll', 'tali11@gmail.com', '$2b$10$eUXqRgyxz.5uRRFG5yCgi..oNV6aGkx9JOOh5vhFIk8VJTbwBoim.', 'hebrew');  --tali11Pass1
+/*13*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang", "gender", "profilePic") VALUES('jacky11', 'jacky', 'moon', 'jacky11@gmail.com', '$2b$10$L62awdfaTnqq2lBUHeAtreYBWnd8xgQtaR7IEPKyuc.000yDp/jK.', 'hebrew', 'M', '/img/users/defaultProfilePics/kidM.png');  --jacky11Pass1
+/*14*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang", "gender", "profilePic") VALUES('tim9', 'tim', 'trump', 'tim9@gmail.com', '$2b$10$g6ek7JVNcciKGhSdnMAFi.BlTsnh8zjQeY1PmZ7UkMQX9ktm3eUfO', 'hebrew', 'M', '/img/users/defaultProfilePics/kidM.png');  --tim9Pass1
+/*15*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang", "gender", "profilePic") VALUES('dorin23', 'dorin', 'asor', 'dorin23@gmail.com', '$2b$10$uNU547wQp3cz0CW5zZxrbOszDO7R1KjsYS3Sgh7zHPhpRQvECwmOa', 'hebrew', 'F', '/img/users/defaultProfilePics/kidF.png');  --dorin23Pass1
+/*16*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang", "gender", "profilePic") VALUES('tali11', 'tali', 'doll', 'tali11@gmail.com', '$2b$10$eUXqRgyxz.5uRRFG5yCgi..oNV6aGkx9JOOh5vhFIk8VJTbwBoim.', 'hebrew', 'F', '/img/users/defaultProfilePics/kidF.png');  --tali11Pass1
 
 -- teachers
-/*17*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('mira36', 'mira', 'goldston', 'mira36@gmail.com', '$2b$10$ND5u0irNBYY3AoFiwYiNEeKvfSQcAzvdO/EvIiBdmw4IfiTEKzU7y', 'hebrew');  --mira36Pass1
-/*18*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang") VALUES('rafi53', 'rafi', 'vice', 'rafi53@gmail.com', '$2b$10$W7KLxbxrvXIwubSQlWHwQOoV4iVNRAsBqYnrrncDltAObTgZf8ovG', 'hebrew');  --rafi53Pass1
+/*17*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang", "gender", "profilePic") VALUES('mira36', 'mira', 'goldston', 'mira36@gmail.com', '$2b$10$ND5u0irNBYY3AoFiwYiNEeKvfSQcAzvdO/EvIiBdmw4IfiTEKzU7y', 'hebrew', 'F', '/img/users/defaultProfilePics/teacherF.png');  --mira36Pass1
+/*18*/ INSERT INTO "Person"("userName", "firstName", "lastName", "email", "pwd", "lang", "gender", "profilePic") VALUES('rafi53', 'rafi', 'vice', 'rafi53@gmail.com', '$2b$10$W7KLxbxrvXIwubSQlWHwQOoV4iVNRAsBqYnrrncDltAObTgZf8ovG', 'hebrew', 'M', '/img/users/defaultProfilePics/teacherM.jpg');  --rafi53Pass1
 
 --**************/Person table *******************************
 

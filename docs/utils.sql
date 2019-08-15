@@ -14,7 +14,17 @@ SELECT * FROM "Book";
 
 SELECT * FROM "TakesQuiz";
 
+UPDATE "Person" p INNER JOIN "Kid" k ON p."personID" = k."kidID" 
+SET k."firstName" = 'try' WHERE p."personID" = 13
 
+
+UPDATE "Person" 
+SET "pic" = '/img/users/defaultProfilePics/kidF.png'
+WHERE "personID" = 13
+
+UPDATE "Kid" 
+SET "birthDate" = '2011-01-01'
+WHERE "kidID" = 13
 
 SELECT * 
 FROM "Person" p INNER JOIN "Kid" k ON p."personID" = k."kidID";

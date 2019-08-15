@@ -1,0 +1,134 @@
+.invalid{
+    animation: blinker 1s linear infinite;
+
+}
+  
+  @keyframes blinker {
+    50% {
+        background-color: rgba(255, 217, 0, 0.699);
+    }
+  }
+
+  
+.validation-remark { 
+    color: #f11a09;
+    text-align: right;
+    
+  }
+
+  .input-w label, .input-w input {    /* making lable and input appear at the same line */
+    float: none;
+    display: inline-block;
+    vertical-align: middle;    
+}
+
+
+
+
+
+
+
+
+/**************** div close button *************************/
+ele div.close {
+    -webkit-transition-duration:0.5s;
+      transition-duration:0.5s;
+    }
+    
+    .ele div.close.slow {
+    -webkit-transition-duration:1s;
+      transition-duration:1s;
+    }
+    
+    ul { list-style:none;float:right;display:block;width:100%; }
+    li { display:inline;width:25%;float:right; }
+    .ele { width:25%;display:inline; }
+    .close {
+      float:right;
+      position:relative;
+      margin:0;
+      padding:0;
+      overflow:hidden;
+      background:#CCC;
+      border-radius:2px;
+      border:solid 2px #FFF;
+      transition: all .3s ease-out;
+      cursor:pointer;
+    }
+    .close.large { 
+      width:30px;
+      height:30px;
+    }
+    
+    .close.medium {
+      width:20px;
+      height:20px;
+    }
+    
+    .close.small {
+      width:10px;
+      height:10px;
+    }
+    
+    .close.switch {
+      width:15px;
+      height:15px;
+    }
+    .close.grow {
+    
+    }
+    
+    .close.spin:hover{
+      background:#BB3333;
+      transform: rotate(180deg);
+    }
+    .close.flop:hover{
+      background:#BB3333;
+      transform: rotate(90deg);
+    }
+    .close.t:hover{
+      background:#BB3333;
+      transform: rotate(45deg);
+    }
+    .close.shift:hover{
+      background:#BB3333;
+    }
+    
+    .close b{
+      display:block;
+      position:absolute;
+      height:0;
+      width:0;
+      padding:0;
+      margin:0;
+    }
+    .close.small b {
+      border:solid 5px rgba(255,255,255,0);
+    }
+    .close.medium b {
+      border:solid 10px rgba(255,255,255,0);
+    }
+    .close.large b {
+      border:solid 15px rgba(255,255,255,0);
+    }
+    .xclose.switch b {
+      border:solid 10px rgba(255,255,255,0);
+    }
+    
+    .close b:nth-child(1){
+      border-top-color:#FFF;
+      top:-2px;
+    }
+    .close b:nth-child(2){
+      border-left-color:#FFF;
+      left:-2px;
+    }
+    .close b:nth-child(3){
+      border-bottom-color:#FFF;
+      bottom:-2px;
+    }
+    .close b:nth-child(4){
+      border-right-color:#FFF;
+      right:-2px;
+    }
+    /**************** /div close button *************************/

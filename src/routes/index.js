@@ -99,14 +99,51 @@ router.post('/signUp/signUpNewUser', function (req, res) {
   const email = req.body.email;
   const pwd = req.body.pwd;
   const langS = req.body.languageSelected;
+  const gender = req.body.gender;
+  const userRole = req.body.role;
+  var profilePicPath;
+
+  if (userRole == 'kid') {
+    if (gender == 'M') {
+      profilePicPath = '/img/users/defaultProfilePics/kidM.png';
+    }
+    else if (gender == 'F') {
+      profilePicPath = '/img/users/defaultProfilePics/kidF.png';
+    }
+  }
+  else if (userRole == 'supervisor') {
+    if (gender == 'M') {
+      profilePicPath = '/img/users/defaultProfilePics/supervisorM.png';
+    }
+    else if (gender == 'F') {
+      profilePicPath = '/img/users/defaultProfilePics/supervisorF.png';
+    }
+  }
+  else if (userRole == 'teacher') {
+    if (gender == 'M') {
+      profilePicPath = '/img/users/defaultProfilePics/teacherM.jpg';
+    }
+    else if (gender == 'F') {
+      profilePicPath = '/img/users/defaultProfilePics/teacherF.png';
+    }
+  }
+  else if (userRole == 'admin') {
+    if (gender == 'M') {
+      profilePicPath = '/img/users/defaultProfilePics/adminM.jpg';
+    }
+    else if (gender == 'F') {
+      profilePicPath = '/img/users/defaultProfilePics/adminF.png';
+    }
+  }
+
 
 
   // callback - checkout a client
   pool.connect((err, client, done) => {
     if (err) throw err;
     bcrypt.hash(pwd, saltRounds, function (err, hash) { // auto-gen a salt and hash with bcrypt
-      client.query('INSERT INTO "Person"("userName", "firstName", "lastName", email, pwd, lang) VALUES($1, $2, $3, $4, $5, $6)',    // inserting into person
-        [userName, firstName, lastName, email, hash, langS], (error) => {
+      client.query('INSERT INTO "Person"("userName", "firstName", "lastName", email, pwd, lang, gender, profilePic) VALUES($1, $2, $3, $4, $5, $6, $7, $8)',    // inserting into person
+        [userName, firstName, lastName, email, hash, langS, gender, profilePicPath], (error) => {
           if (error) {
             console.log(error.stack);
           }
@@ -615,29 +652,28 @@ router.get('/kid/profile', authenticationMiddleware(), function (req, res) {
 });
 
 //============================================================
-router.post('/kid/profile/edit', authenticationMiddleware(), function (req, res) {
-  // the pool with emit an error on behalf of any idle clients
-  // it contains if a backend error or network partition happens
-  queries.getUserById(req.user, (userData) => {
-  pool.on('error', (err, client) => {
-    console.error('Unexpected error on idle client', err)
-    process.exit(-1)
-  })
+router.post('/kid/edit-profile', authenticationMiddleware(), function (req, res) {
+  app.upload(req, res, async function (err) {
+    if (err) {
+      console.log('Error-->');
+      console.log(err);
+      res.json({ "status": "Failure", "message": 'There was a problem uploading your files.' + err });
+      return;
+    }
+    else {
+      // console.log("fieldname " + req.files);
+      
 
-  // callback - checkout a client
-  pool.connect((err, client, done) => {
-    if (err) throw err
-    client.query('UPDATE "Person"  SET "userName" = $1, "firstName" = $2 WHERE "peronID" = $3 ',[body.req.userName,body.req.firstName,userData.userID], (error, result) => {
-      done();
-      if (error) {
-        console.log(error.stack);
-      } else {
-        
+      try {
+        await queries.editKidProfile(req.body, req.user, req.files);
+      } catch (e) {
+        console.error(e);
       }
-    });
+      res.redirect('/kid/profile');
 
+
+    }
   });
-});
 });
 
 

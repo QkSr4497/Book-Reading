@@ -3,9 +3,11 @@ CREATE TABLE "Person" (
 	"userName" TEXT NOT NULL,
 	"firstName" TEXT NOT NULL,
 	"lastName" TEXT NOT NULL,
+	"gender" CHAR(1) CHECK ("gender" IN ('M','F')) NOT NULL,
 	email TEXT UNIQUE NOT NULL,
 	pwd TEXT NOT NULL,
-	lang TEXT NOT NULL
+	lang TEXT NOT NULL,
+	"profilePic" TEXT NOT NULL
 ); 
 
 CREATE TABLE "Admin" (

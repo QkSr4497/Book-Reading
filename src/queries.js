@@ -76,8 +76,8 @@ const getUserById = (userID, callback) => {
             var userType = userData.userType;
             if (userType === 'kid') {
                 pool.query(`SELECT * 
-                FROM "Person" p INNER JOIN "Kid" k ON p."personID" = k."kidID"
-                WHERE p."personID" = $1`, [userID], (error, results) => {
+                            FROM "Person" p INNER JOIN "Kid" k ON p."personID" = k."kidID"
+                            WHERE p."personID" = $1`, [userID], (error, results) => {
                         if (error) {
                             throw error
                         }
@@ -89,8 +89,11 @@ const getUserById = (userID, callback) => {
                             email: results.rows[0].email,
                             points: results.rows[0].points,
                             avatarID: results.rows[0].avatarID,
+                            birthDate: results.rows[0].birthDate,
                             langPreferred: results.rows[0].lang,
                             numOfNewNotifications: notificationData.NumOfNewNotifications,
+                            gender: results.rows[0].gender,
+                            profilePic: results.rows[0].profilePic,
                             userType,
 
                         });
@@ -112,6 +115,8 @@ const getUserById = (userID, callback) => {
                             phone: results.rows[0].phone,
                             langPreferred: results.rows[0].lang,
                             numOfNewNotifications: notificationData.NumOfNewNotifications,
+                            gender: results.rows[0].gender,
+                            profilePic: results.rows[0].profilePic,
                             userType
                         });
                     });
@@ -132,6 +137,8 @@ const getUserById = (userID, callback) => {
                             phone: results.rows[0].phone,
                             langPreferred: results.rows[0].lang,
                             numOfNewNotifications: notificationData.NumOfNewNotifications,
+                            gender: results.rows[0].gender,
+                            profilePic: results.rows[0].profilePic,
                             userType
                         });
                     });
@@ -152,6 +159,8 @@ const getUserById = (userID, callback) => {
                             phone: results.rows[0].phone,
                             langPreferred: results.rows[0].lang,
                             numOfNewNotifications: notificationData.NumOfNewNotifications,
+                            gender: results.rows[0].gender,
+                            profilePic: results.rows[0].profilePic,
                             userType
                         });
                     });
@@ -184,9 +193,10 @@ const getDbPath = (storagePath) => {    // getting DB path from storagePath
 }
 
 
-async function moveFile(src, dest) {   // moving file from src to dest
+async function moveFile(src, dest, isOverWrite) {   // moving file from src to dest
     try {
-        await fse.move(src, dest)
+
+        await fse.move(src, dest, { overwrite: isOverWrite });
         console.log(`success moving file! from ${src} to ${dest}`)
     } catch (err) {
         console.error(err)
@@ -216,11 +226,50 @@ function searchArr(array, key, prop){
     return undefined;
 }
 
+const editKidProfile = async (data, userID, imgArr) => { // using async/await
+    console.log(data);
+    console.log(userID);
+    console.log(imgArr);
+    console.log(imgArr.length);
+    try {
+        
+
+        if (imgArr.length == 0) {    // no new profile pic
+            await db.query(`UPDATE "Person" 
+                            SET "firstName" = $1, "lastName" = $2
+                            WHERE "personID" = $3`,   // updating Person's first name and last name
+                [data.new_firstName, data.new_lastName, userID]);
+                
+
+        }
+        else {  // new profile pic
+            var storagePath = getStoragePath(imgArr[0].path, `users\\user${userID}`, imgArr[0].fieldname);
+            var isOverWrite = true;
+            await moveFile(imgArr[0].path, storagePath, isOverWrite);
+            data.profilePicDbPath = getDbPath(storagePath);
+            
+            await db.query(`UPDATE "Person" 
+                            SET "firstName" = $1, "lastName" = $2, "profilePic" = $3
+                            WHERE "personID" = $4`,   // updating kid's first name, last name and profile picture
+                [data.new_firstName, data.new_lastName, data.profilePicDbPath, userID]);
+        }
+
+        await db.query(`UPDATE "Kid" 
+                        SET "birthDate" = $1
+                        WHERE "kidID" = $2`,  // updating kid's birth date
+                [data.new_birthDate, userID]);
+
+      } catch (err) {
+        console.error(err) 
+        return err;
+      }
+}
+
 const insertNewQuiz = async (data, writerID, imgArr) => { // using async/await
     var {rows: [{last_value}]} = await db.query(`SELECT last_value FROM "Quiz_quizID_seq"`);  // getting the last inserted serial number of quizID
     const quizID = ++last_value; // id of the new quiz
     var storagePath = getStoragePath(imgArr[0].path, `quizes\\quiz${quizID}`, imgArr[0].fieldname);
-    moveFile(imgArr[0].path, storagePath);
+    moveFile(imgArr[0].path, storagePath, false);
     data.quizPicInput = getDbPath(storagePath);
     console.log(data);
     await db.query(`INSERT INTO "Quiz"("quizTitle", "quizLanguage", "quizPic", duration) VALUES($1, $2, $3, $4)`,
@@ -230,7 +279,7 @@ const insertNewQuiz = async (data, writerID, imgArr) => { // using async/await
         qPic = searchArr(imgArr, `q${i}picInput`, 'fieldname');
         if (qPic) {
             storagePath = getStoragePath(qPic.path, `quizes\\quiz${quizID}`, qPic.fieldname);
-            moveFile(qPic.path, storagePath);
+            moveFile(qPic.path, storagePath, false);
             qPic.dbPath = getDbPath(storagePath);
         }
         else {
@@ -272,7 +321,7 @@ const insertNewQuiz = async (data, writerID, imgArr) => { // using async/await
             qPic = searchArr(imgArr, `q${i}ans${j}picInput`, 'fieldname');
             if (qPic) {
                 storagePath = getStoragePath(qPic.path, `quizes\\quiz${quizID}`, qPic.fieldname);
-                moveFile(qPic.path, storagePath);
+                moveFile(qPic.path, storagePath, false);
                 qPic.dbPath = getDbPath(storagePath);
             }
             else {
@@ -1075,6 +1124,7 @@ module.exports = {
     setAllUserNotificationsAsRead,
     removeAllUserNotifications,
     respondToSupervisionReq,
-    addSupervisionReq
+    addSupervisionReq,
+    editKidProfile
 
 }

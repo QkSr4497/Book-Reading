@@ -1,5 +1,6 @@
     <div  class="topnav" id="myTopnav">
     <div class="left-nav"> 
+    <img id="profilePic" src="{{userData.profilePic}}" alt="ProfilePic" class="profilePic">
     <a class="tablinks" class="lang" key="welcome"id="welcomeTitle">ברוך הבא {{userData.userName}}</a>
     {{#if userData.points}}
     <a class="tablinks" class="lang" key="myPoints" id="pointsTitle">נקודות שלי: {{userData.points}}</a>
