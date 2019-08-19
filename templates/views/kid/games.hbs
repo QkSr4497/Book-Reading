@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta http-equiv="refresh" content="3">
-  <title>{{userData.userType}} - Games page</title>
+  <title>{{userData.userType}} - My Games</title>
   {{> kid_head}}
 </head>
 
@@ -37,15 +37,15 @@
     </div>
   </div>
 
-<script>
-  var langPreferred = {{{json userData.langPreferred}}};  // global variable which is used in language.js file
-</script>
 
 
 
   {{> kid_footer}}
 
-  <!--====== Javascripts & Jquery ======-->
+   <!--====== Javascripts & Jquery ======-->
+  <script>
+    var langPreferred = {{{ json userData.langPreferred }}};  // global variable which is used in language.js file
+  </script>
 
 </body>
 

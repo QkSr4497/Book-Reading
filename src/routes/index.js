@@ -62,7 +62,7 @@ router.get('/', authenticationMiddleware(), function (req, res) {
         else {
           // res.redirect('/signUp.html');
           if (userData.userType === 'kid') {
-            res.render('kid-page', { "Book": result.rows,  userData , errorMsg: req.flash('errorMessage'), infoMsg: req.flash('infoMessage')});
+            res.render('kid/kid-page', { "Book": result.rows,  userData , errorMsg: req.flash('errorMessage'), infoMsg: req.flash('infoMessage')});
           }
           else if (userData.userType === 'teacher' || userData.userType === 'supervisor' || userData.userType === 'admin') {
             res.render('teacher/home', { userData , errorMsg: req.flash('errorMessage'), infoMsg: req.flash('infoMessage') });
@@ -279,7 +279,7 @@ router.post('/changeLangPreferred', authenticationMiddleware(), function (req, r
 
 
 //=============================================================
-router.get('/books', authenticationMiddleware(), function (req, res) {
+router.get('/kid/library', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
   queries.getUserById(req.user, (userData) => {
@@ -297,7 +297,7 @@ router.get('/books', authenticationMiddleware(), function (req, res) {
         console.log(error.stack);
       } else {
         // res.redirect('/signUp.html');
-        res.render('books', { "Book": result.rows ,userData});
+        res.render('kid/library', { "Book": result.rows ,userData});
       }
     });
 
@@ -572,7 +572,7 @@ router.get('/kid/hasQuiz:bookID', authenticationMiddleware(), function (req, res
 
 
 //=============================================================
-router.get('/games', authenticationMiddleware(), function (req, res) {
+router.get('/kid/store', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
   queries.getUserById(req.user, (userData) => {
@@ -589,7 +589,7 @@ router.get('/games', authenticationMiddleware(), function (req, res) {
       if (error) {
         console.log(error.stack);
       } else {
-        res.render('games', { "Game": result.rows ,userData});
+        res.render('kid/store', { "Game": result.rows ,userData});
       }
     });
   });
@@ -1543,8 +1543,6 @@ router.get('/supervisor/my-kids', authenticationMiddleware(), function (req, res
             if (error) {
               console.log(error.stack);
             } else {
-
-
               res.render('supervisor/my-kids', { "myKidsList": result.rows, userData });
             }
           });
@@ -1564,13 +1562,9 @@ router.get('/supervisor/kid-quizes/:kidID', authenticationMiddleware(), function
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
   queries.getUserById(req.user, async (userData) => {
-    pool.on('error', (err, client) => {
-      console.error('Unexpected error on idle client', err)
-      process.exit(-1)
-    })
 
     try {
-      var isAuthorizedQuery = false;  // this query is possible only if the kid is supervisor's list of kids
+      var isAuthorizedQuery = false;  // this query is possible only if the kid is in supervisor's list of kids
       const kidsSupervised = await queries.getSupervisorKids(req.user);
       // console.log(kidsSupervised);
       kidsSupervised.forEach(function (item) {
@@ -1581,7 +1575,12 @@ router.get('/supervisor/kid-quizes/:kidID', authenticationMiddleware(), function
       if (isAuthorizedQuery) {
         // console.log(req.params);
         const quizes = await queries.getAllQuizesNotTaken(req.params.kidID);
-        res.render('supervisor/kid-quizes', { "QuizNotTaken": quizes.notTaken, "QuizTaken": quizes.taken, userData });
+
+        queries.getUserById(req.params.kidID, async (kidData) => {
+          res.render('supervisor/kid-quizes', { "QuizNotTaken": quizes.notTaken, "QuizTaken": quizes.taken, userData, kidData });
+        });
+
+        
       }
       else {
         req.flash('errorMessage', 'מידע על בחנים ניתן לראות רק עבור ילדים שנמצאים ברשימת הפיקוח שלך!');

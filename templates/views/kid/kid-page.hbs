@@ -5,10 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>{{userData.userType}} - Books page</title>
+  <title>{{userData.userType}} - Home page</title>
     {{> kid_head}}
+
       <!-- Main Stylesheets -->
     <link rel="stylesheet" type="text/css" href="/css/teacher/books.css" />
+    <link rel="stylesheet" type="text/css" href="/css/kid/kid-page.css" />
+
 </head>
 
 <body>
@@ -16,16 +19,36 @@
     {{> kid_sideNav}}
 
 
-
-
     <div id="main">
     {{> kid_topNav}}
     <div class="home-style">
         <div class="home-container">
-            <h2 class="lang" key="readingToday">מה רוצה לקרוא היום?</h2>
+          {{#if errorMsg}}
+            <div class="alert alert-warning input-feedback" role="alert" dir="rtl">
+              <h1>{{errorMsg}}</h1>
+            </div>
+          {{/if}}
+          {{#if infoMsg}}
+            <div class="alert alert-warning input-feedback" role="alert" dir="rtl">
+              <h1>{{infoMsg}}</h1>
+            </div>
+          {{/if}}
+
+
+            <h2 class="lang" key="readingToday">מה תרצה לקרוא היום?</h2>
           <form class="search-container">
-          <input type="text" name="search" id="searchInput"  onkeyup="myFunction()" placeholder="🔍">
+          <input type="text" name="search" id="searchInput"  onkeyup="searchFilter()" placeholder="🔍">
           </form>
+          
+          <div class="filterSelectDiv">
+            <label for="filterLngSelect">סינון שפה: </label>
+            <select name="filterLng" id="filterLngSelect">
+              <option value="hebrew">עברית</option>
+              <option value="arabic">ערבית</option>
+              <option value="all">כל השפות</option>
+            </select>
+          </div>
+
         </div>
       </div>
   
@@ -51,7 +74,7 @@
 
       <div class="cards-list" id="myUL">
       {{#Book}}
-      <a href="kid/single-book-page/{{bookID}}">
+      <a href="/kid/single-book-page/{{bookID}}" data-book-language="{{lang}}">
         <div class="card {{bookID}}" style="border-radius: 40px ;background-color: black">
           <div class="card_image"> <img src="{{pic}}"
               onerror="this.onerror=null;this.src='/img/books/default-book.gif';" /></div>
@@ -68,35 +91,21 @@
 </div>
 
 
-<script>
-function myFunction() {
-    var input, filter, ul, li, a, i, txtValue;
-    input = document.getElementById("searchInput");
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("myUL");
-    li = ul.getElementsByTagName("a");
-    for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("p")[0];
-        txtValue = a.textContent || a.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-        } else {
-            li[i].style.display = "none";
-        }
-    }
-}
-</script>
 
+
+
+
+{{> kid_footer}}
+
+ <!--====== Javascripts & Jquery ======-->
+ 
 <script>
   var langPreferred = {{{json userData.langPreferred}}};  // global variable which is used in language.js file
 </script>
 
- 
+ <script type="text/javascript" src="/js/navigation.js"></script>
 
-{{> kid_footer}}
-
-<!--====== Javascripts & Jquery ======-->
-<script type="text/javascript" src="/js/navigation.js"></script>
+ <script src="/js/kid/kid-page-scripts.js"></script>
 
 </body>
 
