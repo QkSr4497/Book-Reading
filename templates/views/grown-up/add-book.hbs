@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{userData.userType}} - Add a new Book page</title>
+
+    <!-- Favicon -->
+
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+
+
+    <!-- Stylesheets -->
+
+
+    <!-- Main Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="/css/grown-up/add-book.css" />
+
+
+    {{> grown_up_head}}
+
+</head>
+
+<body>
+    
+
+    <div class="container" id="quizContainer">
+        {{> grown_up_body}}
+
+        
+        <header>
+            <h1>הוספת ספר חדש
+                <span>בחלק זה ניתן להוסיף ספרים חדשים לספריה</span>
+            </h1>
+        </header>
+
+
+
+        <form method="POST" id="quizForm" name="quizForm" action="#" enctype="multipart/form-data">
+            {{!------------ Quiz details -----------------------}}
+            <div class="wrap">
+                <div class="background">
+                    <div id="title">
+                        <h1 id="formTitle">פרטי הספר</h1>
+                    </div>
+                    <p class="pTitles">
+                        <img src="" alt="" id="bookPic">
+                        <select required id="booksList" class="section" name="quizBookID" form="quizForm">
+                            <option selected="selected" value="title">בחירת ספר</option>
+                        </select>
+                        *:ספר
+                    </p>
+                    <p class="pTitles">
+                        <input name="quizTitle" id="quizTitle" type="text" class="section" placeholder="כותרת הבוחן" required>
+                        *:כותרת הבוחן
+                    </p>
+                    <p class="pTitles">
+                        <select required id="langSelect" class="section" name="quizLang" form="quizForm">
+                            <option selected="selected" value="title">בחר שפה</option>
+                            <option value="hebrew">עברית</option>
+                            <option value="arabic">ערבית</option>
+                        </select>
+                        *:שפה:
+                    </p>
+                    <p class="pTitles">
+                        <img class="imgPrev" src="#" alt="" id="quizPic">
+                        <input class="imgPrevInput" type="file" id="quizPicInput" name="quizPicInput" class="section" accept="image/*"
+                            alt="your image"  />
+
+                        :תמונת הבוחן
+                    </p>
+
+                    <p class="pTitles">
+                        <select required id="timeMinSelect" class="section" name="quizTime" form="quizForm">
+                            <option selected="selected" value="title" name="quizTime">בחר אורך הבוחן</option>
+                        </select>
+                        *:משך בדקות
+                    </p>
+
+                    <input id="totalQuestionsNum" name="totalQuestionsNum" type="hidden">
+
+                </div>
+            </div>
+        </form>
+
+        <div id="snackbar">יש למלא את כל השדות שממוסגרים <span style='color: rgb(255, 0, 0)'>באדום</span>.</div>
+
+        <button type="submit" value="Submit" id="submintBtn">צור בוחן</button>
+    </div> <!-- /container -->
+
+
+    
+
+    {{> grown_up_footer}}
+
+    <!--====== Javascripts & Jquery ======-->
+    
+    
+    <script src="/js/grown-up/add-book-scripts.js"></script>
+   
+
+</body>
+
+</html>

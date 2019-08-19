@@ -1750,10 +1750,29 @@ router.get('/teacher/single-group/:groupID', authenticationMiddleware(), functio
     req.flash('errorMessage', 'רק למורים יש גישה לקבוצות.');
     res.redirect('/');
   }
-  
-
-  
 });
+});
+
+
+//============================================================
+router.get('/grown-up/add-book', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+    if (userData.userType == 'supervisor' || userData.userType == 'teacher') {  // only supervisors and teachers can view this page
+
+     
+
+      res.render('grown-up/add-book', { userData });
+    }
+    else {  // other users goto homepage
+      res.redirect('/');
+    } 
+  });
 });
 
 

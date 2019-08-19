@@ -1,0 +1,315 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+body{
+	background-color: #AEAEAE;
+}
+
+
+
+
+.wrap{
+	margin-top: 10px;
+	margin-bottom: 10px;
+    width:110%;
+    min-width:20em;
+}
+.background{
+	background-color:rgb(255, 255, 255);
+	margin: 0 auto;
+	padding: 1.5em;
+	width:80%;
+	height: auto;
+	border: .2em solid #0198E1;
+	border-radius: .8em;
+	-webkit-box-shadow: 0 1em .5em #555;
+	-moz-box-shadow: 0 1em .5em #555;
+	box-shadow: 0 1em .5em #555;
+}
+
+header {
+   max-height: 20px;
+}
+
+#title{
+	width:100%;
+	margin:0;
+	padding: .5em 0;
+	background-color: #0198E1;
+}
+#title h1{
+	text-align: center;
+	color:#000;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 2em;
+  font-weight:400;
+  line-height: 1em;
+  margin-top: .3em;
+}
+
+.section {
+    margin-top: 10px;
+    margin-right: 10px;
+    text-align: right;
+	color:#0198E1;
+	font-family: Helvetica, sans-serif;
+  font-weight:300;
+	font-size: 1em;
+	line-height: 1em;
+	background-color: rgba(175,175,175,.3);
+	width: 50%;
+	padding: .8em;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+	border: .1em solid rgb(0,0,0);
+  text-indent: 1.5em;
+}
+
+select, input {
+    text-align-last:right;
+    padding-right: 29px;
+    direction: rtl;
+}
+
+.pTitles{
+    text-align: right;
+    color: rgb(44, 9, 73);
+    font-weight:bold;
+    font-size: 1.3em;
+
+}
+
+.pTitles img{
+    margin-right: 40px;
+    margin-top: 20px;
+    height: 150px;
+    width: auto;
+}
+
+input[type=radio], input.radio {
+  margin-right: 50px;
+  height: 1.2em;
+  width: 3%;
+
+}
+
+input[type=checkbox] {
+  height: 1.5em;
+  width: 100%;
+  margin:20px;
+
+  
+}
+
+input[type=checkbox] label {
+	display: block;
+	padding-left: 15px;
+	text-indent: -15px;
+  }
+
+/* Might want to wrap a span around your checkbox text */
+.checkboxtext {
+  /* Checkbox text */
+  font-size: 100%;
+
+}
+
+.section:focus{
+	border: .1em solid #0198E1;
+}
+#comment{
+	height: 5em;
+	max-width: 100%;
+}
+#agree{
+	font-family: 'Open Sans', sans-serif;
+	color: #0198E1;
+	font-size: 1em;
+	font-weight: 400;
+}
+
+.submit{
+ width: 100%;
+}
+#submintBtn {
+	width:50%;
+	margin-left: 30%;
+	margin-bottom: 10%;
+	margin-top: 10%;
+	padding:1em;
+	font-family: 'Open Sans', sans-serif;
+	cursor:pointer;
+	background-color: #0198E1;
+	color: #000;
+	font-size: 2em;
+	font-weight: 400;
+	border: none;
+	min-width: 10em;
+	border-radius: 12px;
+}
+button:focus , button:hover {
+	background-color: #fff;
+	color: #0198E1;
+	font-weight: 600; 
+}
+
+.questionTitle {
+	width:100%;
+	margin:0;
+	padding: .5em 0;
+	background-color: rgb(255, 179, 0);
+}
+
+.questionTitle .qTitle {
+	text-align: center;
+	color:#000;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1.5em;
+  font-weight:400;
+  line-height: 0.3em;
+  margin-top: .3em;
+
+}
+
+.question .section {
+	width: 80%;
+}
+
+.btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 24px;
+	line-height: 1.33;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    padding: 6px 0px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+	line-height: 1.42857;
+	position: relative;
+	left: 50%;
+	margin-right: 10px;
+}
+
+#addQuestionBtn, #removeQuestionBtn {
+    padding: 6px 0px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 24px;
+	line-height: 1.42857;
+	position: relative;
+	left: 50%;
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
+
+
+.invalid{border:#FF0000 5px solid;}
+
+input:disabled {
+	background-color: #c8daea;
+}
+
+#quizForm {
+	margin-right: 5vw;
+}
+
+.legend {
+ position: fixed;
+  top: 5vw;
+  right: 2vw;
+  width: 10vw;
+  border: 3px solid #0198E1;
+  text-align: right;
+  font-size: 1vw;
+background-color: rgb(233, 233, 233);
+}
+
+
+/*        snackbacr                       */
+/* The snackbar - position it at the bottom and in the middle of the screen */
+#snackbar {
+	visibility: hidden; /* Hidden by default. Visible on click */
+	min-width: 250px; /* Set a default minimum width */
+	margin-left: -125px; /* Divide value of min-width by 2 */
+	background-color: rgb(70, 37, 158); /* Black background color */
+	color: #fff; /* White text color */
+	text-align: center; /* Centered text */
+	border-radius: 2px; /* Rounded borders */
+	padding: 16px; /* Padding */
+	position: fixed; /* Sit on top of the screen */
+	z-index: 1; /* Add a z-index if needed */
+	/*left: 50%; /* Center the snackbar */
+	/*bottom: 30px; /* 30px from the bottom */
+	top: 50%;
+	left: 30%;
+	font-size: 3em;
+  }
+  
+  /* Show the snackbar when clicking on a button (class added with JavaScript) */
+  #snackbar.show {
+	visibility: visible; /* Show the snackbar */
+	/* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
+	However, delay the fade out process for 2.5 seconds */
+	-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+	animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }
+  
+  /* Animations to fade the snackbar in and out */
+  @-webkit-keyframes fadein {
+	from {bottom: 0; opacity: 0;} 
+	to {bottom: 30px; opacity: 1;}
+  }
+  
+  @keyframes fadein {
+	from {bottom: 0; opacity: 0;}
+	to {bottom: 30px; opacity: 1;}
+  }
+  
+  @-webkit-keyframes fadeout {
+	from {bottom: 30px; opacity: 1;} 
+	to {bottom: 0; opacity: 0;}
+  }
+  
+  @keyframes fadeout {
+	from {bottom: 30px; opacity: 1;}
+	to {bottom: 0; opacity: 0;}
+  }
+/*        /snackbacr                       */
+
+
+
+@media only screen and (max-width: 1100px) {
+	
+    .section {
+        background-color: rgba(187, 153, 125, 0.459);
+    }
+    .pTitles img{
+        margin-right: 5px;
+        margin-top: 5px;
+        height: 80px;
+        width: auto;
+    }
+    .pTitles{
+        font-weight:300;
+        font-size: 1.1em;
+    }
+    #title h1{
+        font-size: 1.5em;
+    }
+  }
+
+
+
+
+
+
+
+
