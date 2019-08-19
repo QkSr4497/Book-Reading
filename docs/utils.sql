@@ -101,17 +101,32 @@ SELECT "answerNum", "answerContent", "answerPic", "isCorrect"
 FROM "Answer"
 WHERE "quizID" = 1 AND "questionNum" = 1;
 									  
-SELECT * FROM "Supervise" 
-WHERE "kidID" = 13 AND "approved" = 'Y';
+SELECT * 
+FROM "Supervise" s INNER JOIN "Person" p ON s."kidID" = p."personID"
+WHERE "supervisorID" = 11 AND "approved" = 'Y';
 									  
 UPDATE "Supervise"
 SET "approved" = 'N'
 WHERE "supervisorID" = 11 AND "kidID" = 13 AND "approved" = 'N';
 
 DELETE FROM "Supervise"
-									  
-									  
-									  
+
+									
+
+SELECT * 
+FROM "Quiz" m INNER JOIN "WritesQuiz" wq ON m."quizID" = wq."quizID"
+	INNER JOIN "Book" b ON wq."bookID" = b."bookID"
+WHERE m."quizID" IN ((SELECT q."quizID" FROM "Quiz" q
+						EXCEPT
+						SELECT tq."quizID"
+						FROM "TakesQuiz" tq
+						WHERE tq."kidID" = 13))									  
+	
+SELECT * 
+FROM "TakesQuiz" tq INNER JOIN "Quiz" q ON tq."quizID" = q."quizID"
+	INNER JOIN "WritesQuiz" wq ON tq."quizID" = wq."quizID"
+	INNER JOIN "Book" b ON wq."bookID" = b."bookID"								  
+WHERE tq."kidID" = 13
 									  
 DELETE
 FROM "Notification" N

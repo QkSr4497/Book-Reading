@@ -80,7 +80,7 @@ function checkAllInputs() {
     var check4 = checkProfilePic();
   
     if (!check1 || !check2 || !check3 || !check4) {
-
+        showSnackbar('יש לתקן את כל השדות שלצידם הערה באדום.');
         // window.alert("Please Correct all Inputs with red comment");
     }
     else {
@@ -170,5 +170,20 @@ function checkProfilePic() {
         returnBoolean = false;
     }
     return returnBoolean;
+
+}
+
+function showSnackbar(message) {
+    // Get the snackbar DIV
+    var x = $('#snackbar');
+
+    // Add the "show" class to DIV
+    x.addClass("show");
+
+    // setting the message in the snackbar
+    x.text(message);
+
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function () { x.removeClass("show") }, 3000);
 
 }

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{userData.userType}} - Kid's Quizes</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+    <!-- Favicon -->
+
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+
+    <!-- Stylesheets -->
+
+    <!-- Main Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="/css/supervisor/kid-quizes.css" />
+
+    {{> grown_up_head}}
+</head>
+
+<body>
+
+    <div class="container" >
+        {{> grown_up_body}}
+        <header>
+            <h1 dir="rtl">רשימת בחנים של {{userData.firstName}} {{userData.lastName}}</h1>
+        </header>
+
+
+        <div id="quizes" class="card-style">
+            <h2 key="quizTakenList" class="quizCategory"> 💯 בחנים שנעשו</h2>
+            <div class="cards">
+                {{#QuizTaken}}
+                    <form method="POST" action="#">
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <img src={{quizPic}} alt="Avatar" style="width:300px;height:300px;">
+                                </div>
+                                <div class="flip-card-back">
+                                    <h1><span> כותרת הבוחן:</span> {{quizTitle}} </h1>
+                                    <h1><span> שם הספר:</span> {{bookName}} </h1>
+                                    <h1><span> משך הבוחן:</span> {{duration}} דקות</h1>
+                                    <h1><span> ציון הבוחן:</span> {{grade}}</h1>
+                                    <h1><span> נקודות שנצברו:</span> {{pointsEarned}}</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                {{/QuizTaken}}
+            </div>
+        </div>
+
+        <div class="navigation-style">
+            <div id="quizes" class="card-style">
+                <h2 key="quizNotTakenList" class="quizCategory"> 💯 בחנים שטרם נעשו</h2>
+                <div class="cards">
+                    {{#QuizNotTaken}}
+                        <form method="POST" action="#">
+                            <div class="flip-card">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <img src={{quizPic}} alt="Avatar" style="width:300px;height:300px;">
+                                    </div>
+                                    <div class="flip-card-back">
+                                        <h1><span> כותרת הבוחן:</span> {{quizTitle}} </h1>
+                                        <h1><span> שם הספר:</span> {{bookName}} </h1>
+                                        <h1><span> משך:</span> {{duration}} דקות</h1>
+                                        <input type="text" name="quizID" value={{quizID}} style="display: none">
+                                        {{!-- <input type="submit" class="" value="התחל את הבוחן" /> --}}
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    {{/QuizNotTaken}}
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+
+    </div><!-- /container -->
+
+
+
+
+    
+
+    {{> grown_up_footer}}
+
+    <!--====== Javascripts & Jquery ======-->
+    <script src="/js/supervisor/kid-quizes-scripts.js"></script>
+
+</body>
+
+</html>

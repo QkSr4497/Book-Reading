@@ -48,6 +48,7 @@ CREATE TABLE "Book" (
  	"bookName" TEXT NOT NULL,
 	"authorFirstName" TEXT NOT NULL,
 	"authorLastName" TEXT NOT NULL,
+	lang TEXT NOT NULL,
 	pic TEXT UNIQUE NOT NULL
 );
 					 

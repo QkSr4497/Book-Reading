@@ -188,7 +188,7 @@ function showSnackbar(message) {
     // Add the "show" class to DIV
     x.addClass("show");
 
-    // setting the mesage in the snackbar
+    // setting the message in the snackbar
     x.text(message);
 
     // After 3 seconds, remove the show class from DIV

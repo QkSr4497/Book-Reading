@@ -1,0 +1,123 @@
+h1 span {
+    font-weight: bold;
+    font-size: 1.2em;
+    
+}
+
+.flip-card-back h1 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+
+.quizCategory {
+	color: rgb(153, 0, 255);
+	font-family: 'Cormorant Garamond';
+	border-bottom: 3px solid #fa8e00;
+	font-size: 48px;
+	font-weight: 400;
+	line-height: 72px;
+	letter-spacing: 35px;
+    margin-bottom: 25px;
+    margin-top: 25px;
+	text-align: center;
+	text-indent: 24px;
+	text-transform: uppercase;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    margin-right: 3%;
+    padding: 3%;
+
+
+  }
+
+  .flip-card {
+    background-color: transparent;
+    width: 300px;
+    height: 300px;
+    perspective: 500px;
+    text-align: center;
+  }
+  h1{
+    margin-right: 3%;
+    
+  }
+  .gamesTitle{
+    margin-top: 3%;
+  }
+  .details{
+    font-size: 150%;
+    padding: 70px 0;
+  }
+  .details h1{
+    padding: 20px 0;
+  }
+  .details input[type=submit]{
+    width: 80%;
+    padding: 20px 0;
+    background-color: #eccc68;
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  }
+  .details input[type=submit]:hover{
+    width: 85%;
+    transform: scale(1.09, 1.09);
+
+
+  }
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  }
+  .flip-card-inner button {
+    background-color: #eccc68;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+  .flip-card-inner button:hover {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.4);
+  }
+
+  .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+  
+  .flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+  }
+  
+  .flip-card-front {
+    background-color: #bbb;
+    color: black;
+  }
+  
+  .flip-card-back {
+    background-color: rgba(106,96,169,0.4);
+    color: white;
+    transform: rotateY(180deg);
+  }

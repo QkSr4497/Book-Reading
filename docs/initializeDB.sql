@@ -70,16 +70,16 @@ INSERT INTO "Kid"("kidID", "birthDate") VALUES('16', '2009-12-01');
 
 ------ Book table ------------------------------
 ALTER SEQUENCE "Book_bookID_seq" RESTART;	-- bookID serial will start with 1
-INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('האיש הקטן', 'אריך', 'קסטנר', '/img/books/the-little-man.png');
-INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('أسكشكش', 'أسكشكان كشكش', 'أسنان كشكش', '/img/books/1.png');
-INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('بيت ميس', 'أسكشكان كشكش','أسكشكان كشكش', '/img/books/2.jpg');
-INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('كريم وفرشاة الأسنان','أسكشكان كشكش','أسكشكان كشكش', '/img/books/3.jpg');
-INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('ملك الفواكه','أسكشكان كشكش','أسكشكان كشكش', '/img/books/4.jpg');
-INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('الفراشات الثلاثة','أسكشكان كشكش','أسكشكان كشكش', '/img/books/5.jpg');
-INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('ماذا تأكل الشّمس؟','أسكشكان كشكش','أسكشكان كشكش', '/img/books/6.png');
-INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('قصة آثار على الثّلج','أسكشكان كشكش','أسكشكان كشكش', '/img/books/7.png');
-INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('رحلة الألوان – اللّون الأخضر','أسكشكان كشكش','أسكشكان كشكش', '/img/books/8.png');
-INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic") VALUES('أسنان كشكش','أسكشكان كشكش','أسكشكان كشكش', '/img/books/9.png');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic", "lang") VALUES('האיש הקטן', 'אריך', 'קסטנר', '/img/books/the-little-man.png', 'hebrew');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic", "lang") VALUES('أسكشكش', 'أسكشكان كشكش', 'أسنان كشكش', '/img/books/1.png', 'arabic');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic", "lang") VALUES('بيت ميس', 'أسكشكان كشكش','أسكشكان كشكش', '/img/books/2.jpg', 'arabic');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic", "lang") VALUES('كريم وفرشاة الأسنان','أسكشكان كشكش','أسكشكان كشكش', '/img/books/3.jpg', 'arabic');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic", "lang") VALUES('ملك الفواكه','أسكشكان كشكش','أسكشكان كشكش', '/img/books/4.jpg', 'arabic');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic", "lang") VALUES('الفراشات الثلاثة','أسكشكان كشكش','أسكشكان كشكش', '/img/books/5.jpg', 'arabic');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic", "lang") VALUES('ماذا تأكل الشّمس؟','أسكشكان كشكش','أسكشكان كشكش', '/img/books/6.png', 'arabic');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic", "lang") VALUES('قصة آثار على الثّلج','أسكشكان كشكش','أسكشكان كشكش', '/img/books/7.png', 'arabic');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic", "lang") VALUES('رحلة الألوان – اللّون الأخضر','أسكشكان كشكش','أسكشكان كشكش', '/img/books/8.png', 'arabic');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic", "lang") VALUES('أسنان كشكش','أسكشكان كشكش','أسكشكان كشكش', '/img/books/9.png', 'arabic');
 --************ /Book table *************************************
 
 

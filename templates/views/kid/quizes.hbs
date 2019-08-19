@@ -34,6 +34,7 @@
                 </div>
                 <div class="flip-card-back">
                   <h1><span> כותרת הבוחן:</span> {{quizTitle}} </h1>
+                  <h1><span> שם הספר:</span> {{bookName}} </h1>
                   <h1><span> משך:</span> {{duration}} דקות</h1>
                   <input type="text" name="quizID" value={{quizID}} style="display: none">
                   <input type="submit" class="" value="התחל את הבוחן" />
@@ -58,6 +59,7 @@
                 </div>
                 <div class="flip-card-back">
                   <h1><span> כותרת הבוחן:</span> {{quizTitle}} </h1>
+                  <h1><span> שם הספר:</span> {{bookName}} </h1>
                   <h1><span> משך הבוחן:</span> {{duration}} דקות</h1>
                   <h1><span>  ציון הבוחן:</span> {{grade}}</h1>
                   <h1><span> נקודות שהרווחתי:</span> {{pointsEarned}}</h1>
@@ -78,16 +80,19 @@
   </div>
  
 
+ 
+
+  
+
+  {{> kid_footer}}
+
+  <!--====== Javascripts & Jquery ======-->
+
   <script>
     var langPreferred = {{{ json userData.langPreferred }}};  // global variable which is used in language.js file
   </script>
 
-  <!--====== Javascripts & Jquery ======-->
   <script src="/js/kid/quizes.js"></script>
-
-  {{> kid_footer}}
-
-   
 
 </body>
 

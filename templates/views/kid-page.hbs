@@ -7,8 +7,11 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>{{userData.userType}} - Home page</title>
     {{> kid_head}}
+
       <!-- Main Stylesheets -->
     <link rel="stylesheet" type="text/css" href="/css/teacher/books.css" />
+    <link rel="stylesheet" type="text/css" href="/css/kid/kid-page.css" />
+
 </head>
 
 <body>
@@ -20,6 +23,18 @@
     {{> kid_topNav}}
     <div class="home-style">
         <div class="home-container">
+          {{#if errorMsg}}
+            <div class="alert alert-warning input-feedback" role="alert" dir="rtl">
+              <h1>{{errorMsg}}</h1>
+            </div>
+          {{/if}}
+          {{#if infoMsg}}
+            <div class="alert alert-warning input-feedback" role="alert" dir="rtl">
+              <h1>{{infoMsg}}</h1>
+            </div>
+          {{/if}}
+
+
             <h2 class="lang" key="readingToday">מה תרצה לקרוא היום?</h2>
           <form class="search-container">
           <input type="text" name="search" id="searchInput"  onkeyup="myFunction()" placeholder="🔍">
@@ -87,13 +102,16 @@ function myFunction() {
 
 <script>
   var langPreferred = {{{json userData.langPreferred}}};  // global variable which is used in language.js file
+
+  var data1 = {{{json Book}}};
+  console.log(data1)
 </script>
 
-<!--====== Javascripts & Jquery ======-->
+
 
 {{> kid_footer}}
 
- 
+ <!--====== Javascripts & Jquery ======-->
 
 </body>
 

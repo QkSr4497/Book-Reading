@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{userData.userType}} - Books page</title>
+  <title>{{userData.userType}} - Kids Supervised page</title>
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
@@ -17,7 +17,7 @@
     <!-- Stylesheets -->
 
     <!-- Main Stylesheets -->
-    <link rel="stylesheet" type="text/css" href="/css/teacher/books.css" />
+    <link rel="stylesheet" type="text/css" href="/css/supervisor/my-kids.css" />
   
   {{> grown_up_head}}
 </head>
@@ -27,24 +27,26 @@
   <div class="container">
     {{> grown_up_body}}
     <header>
-      <h1>ספריה</h1>
+      <h1>ילדים בפיקוחי</h1>
     </header>
 
 
     <div class="cards-list">
-      {{#books}}
-      <a href="single-book-page/{{bookID}}">
-        <div class="card {{bookID}}" style="border-radius: 40px ;background-color: black">
-          <div class="card_image"> <img src="{{pic}}"
+      {{#myKidsList}}
+      <a href="/supervisor/kid-quizes/{{kidID}}">
+        <div class="card {{kidID}}" style="border-radius: 40px ;background-color: black">
+          <div class="card_image"> <img src="{{profilePic}}"
               onerror="this.onerror=null;this.src='/img/books/default-book.gif';" /></div>
           <div class="card_title title-white">
-            <p>{{bookName}}</p>
+            <p>{{firstName}} {{lastName}}</p>
           </div>
         </div>
         <br><br>
       </a>
-      {{/books}}
+      {{/myKidsList}}
     </div>
+
+    
   </div><!-- /container -->
 
 
@@ -55,7 +57,7 @@
   {{> grown_up_footer}}
 
   <!--====== Javascripts & Jquery ======-->
-  <script src="/js/teacher/books-scripts.js"></script>
+  <script src="/js/supervisor/my-kids-scripts.js"></script>
 
 </body>
 

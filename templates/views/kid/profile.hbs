@@ -92,8 +92,13 @@
         <button class="cancelbtn lang" key="cancel" type="button"onclick="document.getElementById('editProfile').style.display='none'">ביטול</button>
       </div>
     </form>
+
+    <div id="snackbar">יש לתקן את כל השדות שלצידם הערה <span style='color: rgb(255, 0, 0)'>באדום</span>.</div>
+
   </div>
 </div>
+
+
 
 <script>
   var langPreferred = {{{json userData.langPreferred}}};  // global variable which is used in language.js file
@@ -101,12 +106,12 @@
   var userDataJson = {{{json userData}}};
 </script>
 
-  <!--====== Javascripts & Jquery ======-->
-  <script src="/js/kid/kid-profile-scripts.js"></script>
+  
 
  {{> kid_footer}}
 
- 
+  <!--====== Javascripts & Jquery ======-->
+  <script src="/js/kid/kid-profile-scripts.js"></script>
   
 </body>
 </html>

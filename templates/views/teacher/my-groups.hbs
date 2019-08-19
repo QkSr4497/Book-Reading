@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{userData.userType}} - My Group List page</title>
+
+
+
+<!-- Stylesheets -->
+
+<!-- Main Stylesheets -->
+<link rel="stylesheet" type="text/css" href="/css/teacher/my-groups.css" />
+
+	{{> grown_up_head}}
+</head>
+
+<body>
+	<div class="container">
+		
+		{{> grown_up_body}}
+
+		
+
+		<header>
+			<h1>  👨‍👩‍👧‍👦 &nbsp; קבוצות בניהולי</h1>
+		</header>
+
+
+		<div class="cards-list">
+			{{#myGroupsList}}
+			<a href="/teacher/single-group/{{groupID}}">
+				<div class="card {{groupID}}" style="border-radius: 40px ;background-color: black">
+					<div class="card_image"> <img src="{{pic}}"onerror="this.onerror=null;this.src='/img/groups/default-group-1.gif';" /></div>
+					<div class="card_title title-white">
+						<p>{{groupName}}</p>
+					</div>
+				</div>
+				<br><br>
+			</a>
+			{{/myGroupsList}}
+		</div>
+
+	</div><!-- /container -->
+
+	 
+
+	{{> grown_up_footer}}
+
+	<!--====== Javascripts & Jquery ======-->
+	<script src="/js/teacher/my-groups-scripts.js"></script>
+
+	<script>
+		var data1 = {{{json myGroupsList}}}
+		console.log(data1)
+	</script>
+	
+</body>
+
+</html>

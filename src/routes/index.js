@@ -62,10 +62,10 @@ router.get('/', authenticationMiddleware(), function (req, res) {
         else {
           // res.redirect('/signUp.html');
           if (userData.userType === 'kid') {
-            res.render('kid-page', { "Book": result.rows,  userData });
+            res.render('kid-page', { "Book": result.rows,  userData , errorMsg: req.flash('errorMessage'), infoMsg: req.flash('infoMessage')});
           }
           else if (userData.userType === 'teacher' || userData.userType === 'supervisor' || userData.userType === 'admin') {
-            res.render('teacher/home', { userData });
+            res.render('teacher/home', { userData , errorMsg: req.flash('errorMessage'), infoMsg: req.flash('infoMessage') });
           }
         }
       });
@@ -1018,7 +1018,13 @@ router.post('/post/add', authenticationMiddleware(), function (req, res) {
         console.log(error.stack);
       } else {
         
-        res.redirect('/kid/single-group-page/'+req.body.groupID);
+        if (userData.userType == 'kid') {
+          res.redirect('/kid/single-group-page/'+req.body.groupID);
+        }
+        else {
+          res.redirect('/teacher/single-group/'+req.body.groupID);
+        }
+        
       }
     });
   });
@@ -1515,6 +1521,80 @@ router.get('/supervisor/add-kid', authenticationMiddleware(), function (req, res
   });
 });
 
+
+//============================================================
+router.get('/supervisor/my-kids', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+
+    if (userData.userType == 'supervisor') {  // only supervisors can view this page
+      // callback - checkout a client
+      pool.connect((err, client, done) => {
+        if (err) throw err
+        client.query(`SELECT * 
+                    FROM "Supervise" s INNER JOIN "Person" p ON s."kidID" = p."personID"
+                    WHERE "supervisorID" = $1 AND "approved" = $2`, [req.user, 'Y'], (error, result) => {
+            done();
+            if (error) {
+              console.log(error.stack);
+            } else {
+
+
+              res.render('supervisor/my-kids', { "myKidsList": result.rows, userData });
+            }
+          });
+      });
+    }
+    else {  // other users goto homepage
+      res.redirect('/');
+    }
+
+
+  });
+});
+
+
+//============================================================
+router.get('/supervisor/kid-quizes/:kidID', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+
+    try {
+      var isAuthorizedQuery = false;  // this query is possible only if the kid is supervisor's list of kids
+      const kidsSupervised = await queries.getSupervisorKids(req.user);
+      // console.log(kidsSupervised);
+      kidsSupervised.forEach(function (item) {
+        if (item.kidID == req.params.kidID) {
+          isAuthorizedQuery = true;
+        }
+      });
+      if (isAuthorizedQuery) {
+        // console.log(req.params);
+        const quizes = await queries.getAllQuizesNotTaken(req.params.kidID);
+        res.render('supervisor/kid-quizes', { "QuizNotTaken": quizes.notTaken, "QuizTaken": quizes.taken, userData });
+      }
+      else {
+        req.flash('errorMessage', 'מידע על בחנים ניתן לראות רק עבור ילדים שנמצאים ברשימת הפיקוח שלך!');
+        res.redirect('/');
+      }
+    } catch (e) {
+      console.error(e);
+      req.flash('errorMessage', e)
+      res.redirect('/');
+    }
+  });
+});
+
 //============================================================
 router.post('/supervisor/addSupervisionReq', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
@@ -1586,7 +1666,9 @@ router.post('/query/addNewQuiz', authenticationMiddleware(), function (req, res)
 
         try {
           await queries.insertNewQuiz(req.body, req.user, req.files);
+          req.flash('infoMessage', 'בוחן חדש נוסף בהצלחה!');
         } catch (e) {
+          req.flash('errorMessage', '.היתה שגיאה בעת נסיון יצירת בוחן חדש');
           console.error(e);
         } 
         res.redirect('/');
@@ -1598,9 +1680,81 @@ router.post('/query/addNewQuiz', authenticationMiddleware(), function (req, res)
       }
     }
   });
+});
 
+
+//============================================================
+router.get('/teacher/my-groups', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+
+    if (userData.userType == 'teacher') {  // only teachers can view this page
+
+      try {
+        var myGroupsList = await queries.getGroupsCreatedAndAdminedByUser(req.user);
+      } catch (e) {
+        console.error(e);
+        req.flash('errorMessage', 'אירעה שגיאה בעת נסיון כניסה לדף הקבוצות.');
+        res.redirect('/');
+        
+      }
+      res.render('teacher/my-groups', { userData, myGroupsList });
+    }
+    else {  // not authorized to make this request
+      req.flash('errorMessage', 'רק למורים יש גישה לקבוצות.');
+      res.redirect('/');
+    }
+   
+  });
+});
+
+
+//============================================================
+router.get('/teacher/single-group/:groupID', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+
+  queries.getUserById(req.user, async (userData) => {
+  pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err)
+    process.exit(-1)
+  })
+
+  if (userData.userType == 'teacher') {  // only teachers can view this page
+
+    try {
+      var checkPermission = await queries.checkUserAccessToGroup(req.user, req.params.groupID);
+      if (checkPermission) {
+        queries.getAllAboutGroup(req.params.groupID, (allAboutGroup)=>{
+
+          res.render('teacher/single-group', {allAboutGroup,userData });
+         
+       })
+
+      }
+      else {
+        req.flash('errorMessage', 'אין לך גישה לקבוצה זו.');
+        res.redirect('/');
+      }
+    } catch (e) {
+      console.error(e);
+      req.flash('errorMessage', 'אירעה שגיאה בעת נסיון כניסה לדף הקבוצות.');
+      res.redirect('/');   
+    }
+  }
+  else {  // not authorized to make this request
+    req.flash('errorMessage', 'רק למורים יש גישה לקבוצות.');
+    res.redirect('/');
+  }
+  
 
   
+});
 });
 
 

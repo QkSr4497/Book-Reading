@@ -12,19 +12,31 @@
 <body>
 	<div class="container">
 		
-	{{> grown_up_body}}
+		{{> grown_up_body}}
 
+		
 
 		<header>
 			<h1>{{userData.userName}} ברוך הבא<span> </span> <a href="/">דף</a></a> הבית</span></h1>
 		</header>
+
+		{{#if errorMsg}}
+			<div class="alert alert-warning input-feedback" role="alert" dir="rtl">
+				<h1>{{errorMsg}}</h1>
+			</div>
+		{{/if}}
+		{{#if infoMsg}}
+			<div class="alert alert-warning input-feedback" role="alert" dir="rtl">
+				<h1>{{infoMsg}}</h1>
+			</div>
+		{{/if}}
 	</div><!-- /container -->
 
-	 <!--====== Javascripts & Jquery ======-->
+	 
 
 	{{> grown_up_footer}}
 
-	
+	<!--====== Javascripts & Jquery ======-->
 	
 </body>
 

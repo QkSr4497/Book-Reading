@@ -100,15 +100,19 @@
 
 
 
-    <script>
-  var langPreferred = {{{json userData.langPreferred}}};  // global variable which is used in language.js file
-</script>  
+    
     
 
-    <!--====== Javascripts & Jquery ======-->
-     <script src="/js/kid/book-review-scripts.js"></script>
+    
+  {{> kid_footer}}
 
-     {{> kid_footer}}
+  <!--====== Javascripts & Jquery ======-->
+
+  <script>
+    var langPreferred = {{{ json userData.langPreferred }}};  // global variable which is used in language.js file
+  </script>
+
+  <script src="/js/kid/book-review-scripts.js"></script>
    
 </body>
 </html>

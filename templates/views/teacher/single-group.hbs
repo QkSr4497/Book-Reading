@@ -1,29 +1,29 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" class="no-js">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{userData.userType}} - Group: {{allAboutGroup.groupData.groupName}} page</title>
-    {{> kid_head}}
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{userData.userType}} - Group page</title>
 
-    	<!-- Main Stylesheets -->
-    <link rel="stylesheet" type="text/css" href="/css/kid/single-group-page.css" />
-    <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
 
+
+<!-- Stylesheets -->
+
+<!-- Main Stylesheets -->
+<link rel="stylesheet" type="text/css" href="/css/teacher/single-group.css" />
+
+	{{> grown_up_head}}
 </head>
 
 <body>
-  
-  <div class="navigation-style">
-  {{> kid_sideNav}}
-
-    <div id="main">
-      {{> kid_topNav}}
-
-            {{!-- {{#groupData}} --}}
-         
-            <div class="wrapper">
+    {{> grown_up_body}}
+	<div class="container" >
+		
+		
+<br><br>
+		<div class="wrapper" >
                 <div id="one"><img src="{{allAboutGroup.groupData.pic}}"
                         onerror="this.onerror=null;this.src='/img/groups/default-group.gif';" /></div>
                 <div id="two">
@@ -32,7 +32,7 @@
                 </div>
             </div>
          
-            <div class="row">
+            <div class="row" >
                 <div class="column80">
                  <h2 class="lang" key="posts" style="margin-right: 3%; font-size:120%; font-weight:bold;">פוסטים:</h2>
                  <div class="container">
@@ -42,17 +42,17 @@
                       <input type="text" name="groupID" value={{allAboutGroup.groupData.groupID}} style="display: none">
                       <textarea name="content" id="postContent" cols="80" rows="2" required></textarea>
                       <br>
-                      {{!-- <input class="lang" key="addPost" id="addPost"type="submit" value=""> --}}
+            
                       <button class="lang" key="addPost" id="addPost"type="submit" value="">הוסף פוסט</button>
                     </form>
                   </div>
             
 
                     {{#each allAboutGroup.groupPosts}}
-                    <div class="container">
+                    <div class="container post">
                       <img id="postImg" src="../../img/icons/chat_3.png"  alt="Avatar">
                       <p class="postCreator">{{userName}}</p>
-                      {{!-- <p>{{postDate}}</p> --}}
+        
                       <p>{{content}}</p>
                     </div>
                     {{/each }}
@@ -61,7 +61,7 @@
 
 
 
-                {{!-- admin and kids --}}
+               
                 <div class="column20">
                    <div class="lang" key="admin" class="typeMember"> <h2>אדמין: </h2> </div>
                 {{#each allAboutGroup.groupAdminMembers}}
@@ -79,25 +79,21 @@
                 </div>
             </div>
 
-          {{!-- {{/groupData}} --}}
-
-         </div>
-    </div>
 
 
- 
-    
 
-    
 
-    {{> kid_footer}}
 
-    <!--====== Javascripts & Jquery ======-->
-    <script>
-      var langPreferred = {{{ json userData.langPreferred }}};  // global variable which is used in language.js file
-    </script>  
+	</div><!-- /container -->
 
-    
-   
+	 
+
+	{{> grown_up_footer}}
+
+	<!--====== Javascripts & Jquery ======-->
+	<script src="/js/teacher/single-group-scripts.js"></script>
+
+	
 </body>
+
 </html>

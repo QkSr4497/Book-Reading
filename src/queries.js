@@ -339,17 +339,25 @@ const insertNewQuiz = async (data, writerID, imgArr) => { // using async/await
 
 
   const getAllQuizesNotTaken = async (userID) => { // using async/await
-    const { rows: notTaken } = await db.query(`SELECT * FROM "Quiz" m
-                                            WHERE m."quizID" IN ((SELECT q."quizID" FROM "Quiz" q
-                                                                    EXCEPT
-                                                                    SELECT tq."quizID" FROM "TakesQuiz" tq
-                                                                    WHERE tq."kidID" = $1))`,
+    const { rows: notTaken } = await db.query(`SELECT * 
+                                                FROM "Quiz" m INNER JOIN "WritesQuiz" wq ON m."quizID" = wq."quizID"
+                                                    INNER JOIN "Book" b ON wq."bookID" = b."bookID"
+                                                WHERE m."quizID" IN ((SELECT q."quizID" FROM "Quiz" q
+                                                                        EXCEPT
+                                                                        SELECT tq."quizID"
+                                                                        FROM "TakesQuiz" tq
+                                                                        WHERE tq."kidID" = $1))`,
                                                                     [userID]);
+
+
+                                                                    
 
     const { rows: taken } = await db.query(`SELECT * 
                                             FROM "TakesQuiz" tq INNER JOIN "Quiz" q ON tq."quizID" = q."quizID"
+                                                INNER JOIN "WritesQuiz" wq ON tq."quizID" = wq."quizID"
+                                                INNER JOIN "Book" b ON wq."bookID" = b."bookID"								  
                                             WHERE tq."kidID" = $1`,
-                                                [userID]);
+                                [userID]);
     var quizList = {}
     quizList.notTaken = notTaken;
     quizList.taken = taken;
@@ -444,6 +452,13 @@ const getKidSupervisors = async (kidID) => { // using async/await
                                           WHERE "kidID" = $1 AND "approved" = 'Y'`,
                                           [kidID]);
     return supervisors;
+}
+
+const getSupervisorKids = async (supervisorID) => { // using async/await
+    var { rows: kids} = await db.query(`SELECT "kidID" FROM "Supervise" 
+                                                WHERE "supervisorID" = $1 AND "approved" = 'Y'`,
+                                    [supervisorID]);
+    return kids;
 }
 
 const getNotificationTypeIdByName = async (notificationName) => { // using async/await
@@ -924,18 +939,18 @@ const getBookInfoAndReviews= (bookID, callback) => {
 
 //===========================================
 const getGroupData = (groupID, callback) => {
-    console.log('groupID Info '+groupID);
+    // console.log('groupID Info '+groupID);
     pool.query(`SELECT g.*, p.*
     FROM "Group" g INNER JOIN "Person" p ON g."personID"=p."personID"
     WHERE g."groupID" = $1 `, [groupID], (error, results) => {
     if (error) {
         throw error
     }
-    callback(results.rows);
+    callback(results.rows[0]);
  });
 }
 const getGroupAdminMembers = (groupID, callback) => {
-    console.log('groupID Admin ' + groupID);
+    // console.log('groupID Admin ' + groupID);
     pool.query(`SELECT ig.*, p.*
     FROM "InGroup" ig INNER JOIN "Person" p ON ig."personID"=p."personID"
     WHERE ig."groupID" = $1 AND ig."type"=$2 AND ig."approved"= $3`, [groupID, 'admin', 'Y'], (error, results) => {
@@ -946,7 +961,7 @@ const getGroupAdminMembers = (groupID, callback) => {
  });
 }
 const getGroupKidMembers = (groupID, callback) => {
-    console.log('groupID member ' + groupID);
+    // console.log('groupID member ' + groupID);
     pool.query(`SELECT ig.*, p.*
     FROM "InGroup" ig INNER JOIN "Person" p ON ig."personID"=p."personID"
     WHERE ig."groupID" = $1 AND ig."type"=$2 AND ig."approved"= $3`, [groupID, 'kid', 'Y'], (error, results) => {
@@ -958,15 +973,60 @@ const getGroupKidMembers = (groupID, callback) => {
 }
 
 const getGroupPosts = (groupID, callback) => {
-    console.log('groupID Post ' + groupID);
+    // console.log('groupID Post ' + groupID);
     pool.query(`SELECT po.*, p.*
     FROM "Post" po INNER JOIN "Person" p ON po."personID"=p."personID"
-    WHERE po."groupID" = $1 `, [groupID], (error, results) => {
+    WHERE po."groupID" = $1 
+    ORDER BY po."postID" DESC`, [groupID], (error, results) => {
     if (error) {
         throw error
     }
     callback(results.rows);
  });
+}
+
+const getGroupsCreatedAndAdminedByUser = async (userID) => {
+    try {
+        
+        var { rows: groupList} = await db.query(`   SELECT * 
+                                                    FROM "Group" gr
+                                                    WHERE gr."personID" = $1
+                                                UNION
+                                                    SELECT gr.* 
+                                                    FROM "InGroup" ig INNER JOIN "Group" gr ON ig."groupID" = gr."groupID"
+                                                    WHERE  ig."type" = $2  AND ig."personID" = $3`, [userID, 'admin', userID]); // get all groups that user has created or is an admin in them
+    } 
+    catch (err) {
+        console.log(err);
+        throw err;
+    }
+    return groupList;
+
+}
+
+const checkUserAccessToGroup = async (userID, groupID) => {
+    try {
+        
+        var { rowCount: check} = await db.query(`   SELECT * 
+                                                    FROM "Group" gr
+                                                    WHERE gr."personID" = $1 AND gr."groupID" = $2
+                                                UNION
+                                                    SELECT gr.* 
+                                                    FROM "InGroup" ig INNER JOIN "Group" gr ON ig."groupID" = gr."groupID"
+                                                    WHERE  ig."type" = $3  AND ig."personID" = $4 AND gr."groupID" = $5`, [userID, groupID, 'admin', userID, groupID]); // check if user can access the group
+    } 
+    catch (err) {
+        console.log(err);
+        throw err;
+    }
+    if (check >= 1) {   // if any rows return then access is allowed
+        return true;
+    }
+    else {   // if no rows return then access is denied
+        return false;
+    }
+    return groupList;
+
 }
 // const getGroupPostComments = (groupID, callback) => {
 //     console.log('groupID '+groupID);
@@ -1125,6 +1185,9 @@ module.exports = {
     removeAllUserNotifications,
     respondToSupervisionReq,
     addSupervisionReq,
-    editKidProfile
+    editKidProfile,
+    getSupervisorKids,
+    getGroupsCreatedAndAdminedByUser,
+    checkUserAccessToGroup
 
 }
