@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{userData.userType}} - Add a new Group page</title>
+
+    <!-- Favicon -->
+
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+
+
+    <!-- Stylesheets -->
+
+
+    <!-- Main Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="/css/teacher/add-group.css" />
+
+
+    {{> grown_up_head}}
+
+</head>
+
+<body>
+    
+
+    <div class="container">
+        {{> grown_up_body}}
+
+        
+        <header>
+            <h1>הוספת קבוצה חדשה
+                <span>בחלק זה ניתן להוסיף קבוצה חדשה בניהולך</span>
+            </h1>
+        </header>
+
+
+
+        <form method="POST" id="addGroupForm" name="addGroupForm" action="/teacher/addNewGroup" enctype="multipart/form-data">
+            {{!------------ Group details -----------------------}}
+            <div class="wrap">
+                <div class="background">
+                    <div id="title">
+                        <h1 id="formTitle">פרטי הקבוצה</h1>
+                    </div>
+
+                    <p class="pTitles">
+                            <input name="groupName" id="groupName" type="text" class="section" placeholder="שם הקבוצה" required>
+                            *:שם הקבוצה
+                    </p>
+
+                    <p class="pTitles">
+                        <img class="imgPrev" src="#" alt="" id="groupPic">
+                        <input class="imgPrevInput" type="file" id="groupPicInput" name="groupPicInput" class="section" accept="image/*"
+                            alt="your image"  />
+
+                        *:תמונת הקבוצה
+                    </p>
+                </div>
+            </div>
+        </form>
+
+        <div id="snackbar">יש למלא את כל השדות שממוסגרים <span style='color: rgb(255, 0, 0)'>באדום</span>.</div>
+
+        <button type="submit" value="Submit" id="submintBtn">הוסף קבוצה</button>
+    </div> <!-- /container -->
+
+
+    
+
+    {{> grown_up_footer}}
+
+    <!--====== Javascripts & Jquery ======-->
+    
+    
+    <script src="/js/teacher/add-group-scripts.js"></script>
+   
+
+</body>
+
+</html>

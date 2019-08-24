@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    $("#bookPic").hide();
+    $("#groupPic").hide();
+
 
 });
 
@@ -14,79 +15,25 @@ $('#submintBtn').on('click', function () {
 
 //   ==========Check all inputs for valid info ================
 function checkAllInputs() {
-    var check1, check2, check3, check4, check5, allClear;
-    check1 = checkBookName();
-    check2 = checkAuthorFirstName();
-    check3 = checkAuthorLastName();
-    check4 = checkLangSelected();
-    check5 = checkBookPicInput();
+    var check1, check2, allClear;
+    check1 = checkgroupName();
+    check2 = checkGroupPicInput();
 
-    allClear = (check1 && check2 && check3 && check4 && check5);
+    allClear = (check1 && check2);
     if (!allClear) {
         showSnackbar('יש למלא את כל השדות שממוסגרים באדום.');
         return;  // if any of the checks fails then don't continue
     } 
-    $("#addBookForm").submit();
+    $("#addGroupForm").submit();
 }
 
 
-function checkBookName() {  // checking that a title of the book was entered
-    input = $('#bookName');
+function checkgroupName() {  // checking that a title of the book was entered
+    input = $('#groupName');
     input.attr('data-placement', 'left');   // placement of the data
     input.attr('data-toggle', 'tooltip');   // title will appear in a tooltip
     if (input.val() == '') {    // if no book title was given
-        input.attr('title', `יש להוסיף את שם הספר.`);
-        input.addClass('invalid');  // invalid class has a unique style 
-        input.tooltip('show');  // showing the tooltip
-        return false;
-    }
-    else {
-        input.removeClass('invalid');  // invalid class has a unique style 
-        input.tooltip('dispose');  // disabling the tooltip
-        return true;
-    }
-}
-
-function checkAuthorFirstName() {  // checking that author's first name was entered
-    input = $('#authorFirstName');
-    input.attr('data-placement', 'left');   // placement of the data
-    input.attr('data-toggle', 'tooltip');   // title will appear in a tooltip
-    if (input.val() == '') {    // if no first name was given
-        input.attr('title', `יש להוסיף את שמו הפרטי של הסופר.`);
-        input.addClass('invalid');  // invalid class has a unique style 
-        input.tooltip('show');  // showing the tooltip
-        return false;
-    }
-    else {
-        input.removeClass('invalid');  // invalid class has a unique style 
-        input.tooltip('dispose');  // disabling the tooltip
-        return true;
-    }
-}
-
-function checkAuthorLastName() {  // checking that author's last name was entered
-    input = $('#authorLastName');
-    input.attr('data-placement', 'left');   // placement of the data
-    input.attr('data-toggle', 'tooltip');   // title will appear in a tooltip
-    if (input.val() == '') {    // if no last name was given
-        input.attr('title', `יש להוסיף את שם משפחת הסופר.`);
-        input.addClass('invalid');  // invalid class has a unique style 
-        input.tooltip('show');  // showing the tooltip
-        return false;
-    }
-    else {
-        input.removeClass('invalid');  // invalid class has a unique style 
-        input.tooltip('dispose');  // disabling the tooltip
-        return true;
-    }
-}
-
-function checkLangSelected() {  // checking that a languege for of the book was selected
-    input = $('#langSelect');
-    input.attr('data-placement', 'left');   // placement of the data
-    input.attr('data-toggle', 'tooltip');   // title will appear in a tooltip
-    if (input.val() == 'title') {    // if no language was chosen
-        input.attr('title', `יש לבחור את שפת הספר.`);
+        input.attr('title', `יש להוסיף את שם הקבוצה.`);
         input.addClass('invalid');  // invalid class has a unique style 
         input.tooltip('show');  // showing the tooltip
         return false;
@@ -99,12 +46,12 @@ function checkLangSelected() {  // checking that a languege for of the book was 
 }
 
  
-function checkBookPicInput() {  // checking that bookPicInput is not empty
-    input = $('#bookPicInput');
+function checkGroupPicInput() {  // checking that bookPicInput is not empty
+    input = $('#groupPicInput');
     input.attr('data-placement', 'left');   // placement of the data
     input.attr('data-toggle', 'tooltip');   // title will appear in a tooltip
     if (input.val() == '') {    // if no picture for the quiz was chosen
-        input.attr('title', `.תמונת הספר הינה הכרחית`);
+        input.attr('title', `.תמונת הקבוצה הינה הכרחית`);
         input.addClass('invalid');  // invalid class has a unique style 
         input.tooltip('show');  // showing the tooltip
         return false;
@@ -114,11 +61,8 @@ function checkBookPicInput() {  // checking that bookPicInput is not empty
     }
 }
 
-
-
-
-
 /****** ==========/Check all inputs for valid info ================**********/ 
+
 
 function showSnackbar(message) {
     // Get the snackbar DIV
@@ -136,10 +80,7 @@ function showSnackbar(message) {
 
 
 
-
-
-
-// $('#bookPic').on('error', function (e) {
+// $('#groupPic').on('error', function (e) {
 //     $(this).attr('src', '/img/books/default-book.gif');
 // });
 
@@ -155,26 +96,6 @@ function readURL(input, element) { // allow preview of uploaded pic
         reader.readAsDataURL(input.files[0]);
     }
 }
-
-// $("#quizPicInput").change(function () {
-//     var select = $("#quizPic");
-//     readURL(this, select);
-// });
-
-// $("#q1picInput").change(function () {
-//     var select = $("#q1pic");
-//     readURL(this, select);
-// });
-
-// $("#q1ans1picInput").change(function () {
-//     var select = $("#q1ans1pic");
-//     readURL(this, select);
-// });
-
-// $("#q1ans2picInput").change(function () {
-//     var select = $("#q1ans2pic");
-//     readURL(this, select);
-// });
 
 
 $(document).on('change', '.imgPrevInput', function (event) {  // preview of image next to file input
@@ -195,7 +116,7 @@ $(document).on('change', '.imgPrevInput', function (event) {  // preview of imag
             element.attr('src', '');
         }
         else {
-            $('#bookPic').show();
+            $('#groupPic').show();
             $(this).attr('title', 'גודל הקובץ תקין');
             var element = $(this).prev();   // element is the img element
             readURL(input, element);
@@ -215,4 +136,7 @@ $(document).on('change', '.imgPrevInput', function (event) {  // preview of imag
 $('#langSelect').on('change', function () {
     $("#langSelect option[value='title']").remove();
 });
+
+
+
 

@@ -127,7 +127,7 @@ INSERT INTO "WritesQuiz"("bookID", "quizID", "personID") VALUES('1','1','5'); --
 
 
 -----------------Group table---------------------------------------
-INSERT INTO "Group" ("groupName","personID") VALUES ('Lions','5');
+INSERT INTO "Group" ("groupName","personID", "pic") VALUES ('Lions','5', '/img/groups/default-group-1.gif');
 --************ /Group table *************************************
 
 -----------------InGroup table----------------------------------------------

@@ -12,11 +12,28 @@ SELECT * FROM "UserSessions";
 
 SELECT * FROM "Book";
 
+SELECT * FROM "Group";
+
+SELECT * FROM "InGroup";
+
+DELETE FROM "InGroup" WHERE "personID" = 13
+
+SELECT * FROM "Notification";
+
+DELETE FROM "Notification" WHERE "recieverID" = 13
+
+UPDATE "Group"
+SET "pic" = '/img/groups/default-group-1.gif' WHERE "groupID" = 1
+
+SELECT 
+* FROM "Group" g INNER JOIN "Person" p ON g."personID" = p."personID"
+
 SELECT * FROM "TakesQuiz";
 
 UPDATE "Person" p INNER JOIN "Kid" k ON p."personID" = k."kidID" 
 SET k."firstName" = 'try' WHERE p."personID" = 13
 
+SELECT last_value FROM "Book_bookID_seq"
 
 UPDATE "Person" 
 SET "pic" = '/img/users/defaultProfilePics/kidF.png'
@@ -105,11 +122,15 @@ SELECT *
 FROM "Supervise" s INNER JOIN "Person" p ON s."kidID" = p."personID"
 WHERE "supervisorID" = 11 AND "approved" = 'Y';
 									  
+SELECT s."supervisorID", p2."userName" as "su UN", s."kidID", p1."userName" as "kid UN" 
+FROM "Supervise" s INNER JOIN "Person" p1 ON s."kidID" = p1."personID"
+	INNER JOIN "Person" p2 ON s."supervisorID" = p2."personID"
+									  
 UPDATE "Supervise"
 SET "approved" = 'N'
 WHERE "supervisorID" = 11 AND "kidID" = 13 AND "approved" = 'N';
 
-DELETE FROM "Supervise"
+DELETE FROM "Supervise" WHERE "supervisorID" = 11 AND "kidID" = 16
 
 									
 
@@ -145,8 +166,7 @@ WHERE N."recieverID" = 13 AND NT."typeN" = 'supervision' AND N."senderID" = 12 A
 UPDATE "Notification"
 SET "recieverRes" = 'N'
 WHERE "recieverID" = 13;
-								  							  
-									  
+								  							  								  
 									  
 SELECT * FROM "NotificationType"; 
 									  

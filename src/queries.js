@@ -227,10 +227,10 @@ function searchArr(array, key, prop){
 }
 
 const editKidProfile = async (data, userID, imgArr) => { // using async/await
-    console.log(data);
-    console.log(userID);
-    console.log(imgArr);
-    console.log(imgArr.length);
+    // console.log(data);
+    // console.log(userID);
+    // console.log(imgArr);
+    // console.log(imgArr.length);
     try {
         
 
@@ -562,7 +562,13 @@ const sendNotification = async (senderID, recieverID, notificationDate, content,
         }  
     }
     else if (typeName == 'group') {
-        
+        try {
+            res = await sendGroupInvantationNotification(senderID, recieverID, notificationDate, content, typeName);
+        } 
+        catch (err) {
+            console.log(err);
+            return err;
+        }  
     }
     return res;
     
@@ -644,11 +650,9 @@ const getSupervisionReqInfo = async (supervisorID, kidID) => {
     else {
         return undefined;
     }
-    
-
 }
 
-const addSupervisionReq = async (supervisorID, kidEmail, langPreferred) => {
+const addSupervisionReq = async (supervisorID, kidEmail) => {
     // console.log(supervisorID, kidEmail);
     var infoMsg;
     var isEmail = validator.isEmail(kidEmail);  // checking email format
@@ -668,6 +672,7 @@ const addSupervisionReq = async (supervisorID, kidEmail, langPreferred) => {
             console.log(supervisionInfo);
             var date = new Date();
             var content = `Supervision request`;
+            var langPreferred = await getLanguatgePreferredByUserID(kidID);
             if (langPreferred == 'hebrew') {
                 content = 'בקשת פיקוח'
             }
@@ -677,14 +682,20 @@ const addSupervisionReq = async (supervisorID, kidEmail, langPreferred) => {
                 var approved = 'N';
                 await db.query(`INSERT INTO "Supervise"("supervisorID", "kidID", "approved") VALUES($1, $2, $3)`,
                     [supervisorID, kidID, approved]);
-                var res = await sendNotification(supervisorID, kidID, date, content, type);
-                console.log(res);
-                return `בקשת פיקוח נשלחה בהצלחה וממתינה לאישור הילד/ה.`;
+                var res = await sendNotification(supervisorID, kidID, date, content, type); 
+                if (res == undefined) {
+                    return `בקשת פיקוח נשלחה בהצלחה וממתינה לאישור הילד/ה.`;
+                } 
+                return res;
             }
             else if(supervisionInfo.approved == 'N') {
-                var res = await sendNotification(supervisorID, kidID, date, content, type);
-                console.log(res);
-                return `בקשת פיקוח נשלחה בהצלחה וממתינה לאישור הילד/ה.`;
+                var res = await sendNotification(supervisorID, kidID, date, content, type); 
+                if (res == undefined) {
+                    return `בקשת פיקוח נשלחה בהצלחה וממתינה לאישור הילד/ה.`;
+                } 
+                return res;
+
+
             }
             else if (supervisionInfo.approved == 'Y') {
                 return `הילדה/ה כבר נמצאים ברשימת הפיקוח שלך.`;
@@ -1134,19 +1145,288 @@ const getKidBooksForNotes = (personID, callback) => {
  });
 }
 
-const getAllAboutNote= (personID, callback) => { 
-    getNotes(personID,(getNoteData)=>{ 
-		getKidBooksForNotes(personID,(getbBooksForNote)=>{  
-            getNotesAboutBook(personID,(getNoteAboutBook)=>{  
-		  callback({
-			getNoteData,
-            getbBooksForNote,
-            getNoteAboutBook
-			});
-		}); 
+const getAllAboutNote = (personID, callback) => {
+    getNotes(personID, (getNoteData) => {
+        getKidBooksForNotes(personID, (getbBooksForNote) => {
+            getNotesAboutBook(personID, (getNoteAboutBook) => {
+                callback({
+                    getNoteData,
+                    getbBooksForNote,
+                    getNoteAboutBook
+                });
+            });
+        });
     });
-});
 }
+
+
+
+const insertNewBook = async (data, imgArr) => { // using async/await
+    // console.log(data);
+    // console.log(imgArr);
+    // console.log(imgArr.length);
+    try {
+        if (imgArr.length == 0) {    // inserting a book with a default image
+            defualtImgDbPath = '/img/books/default-book.gif';
+            await db.query(`INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "lang", "pic") VALUES($1, $2, $3, $4, $5)`,
+                [data.bookName, data.authorFirstName, data.authorLastName, data.bookLang, defualtImgDbPath]);
+
+        }
+        else {    // inserting a book with an image uploaded by user
+            var {rows: [{last_value}]} = await db.query(`SELECT last_value FROM "Book_bookID_seq"`);  // getting the last inserted serial number of bookID
+            const bookID = ++last_value; // id of the new book
+            var storagePath = getStoragePath(imgArr[0].path, `books\\book${bookID}`, imgArr[0].fieldname);
+            var isOverWrite = true;
+            await moveFile(imgArr[0].path, storagePath, isOverWrite);
+            data.bookPicDbPath = getDbPath(storagePath);
+            
+            await db.query(`INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "lang", "pic") VALUES($1, $2, $3, $4, $5)`,
+                [data.bookName, data.authorFirstName, data.authorLastName, data.bookLang, data.bookPicDbPath]);
+        }
+      } catch (err) {
+        console.error(err) 
+        throw err;
+      }
+}
+
+
+const insertNewGroup = async (data, creatorID, imgArr) => { // using async/await
+    console.log(data);
+    console.log(creatorID);
+    console.log(imgArr);
+    console.log(imgArr.length);
+    try {
+        var {rows: [{last_value}]} = await db.query(`SELECT last_value FROM "Group_groupID_seq"`);  // getting the last inserted serial number of groupID
+        const groupID = ++last_value; // id of the new group
+
+        if (imgArr.length == 0) {    // inserting a group with a default image
+            defualtImgDbPath = '/img/groups/default-group-pic.png';
+            await db.query(`INSERT INTO "Group"("groupName", "pic", "personID") VALUES($1, $2, $3)`,
+                [data.groupName, defualtImgDbPath, creatorID]);
+
+        }
+        else {    // inserting a group with an image uploaded by user
+            
+            var storagePath = getStoragePath(imgArr[0].path, `groups\\group${groupID}`, imgArr[0].fieldname);
+            var isOverWrite = true;
+            await moveFile(imgArr[0].path, storagePath, isOverWrite);
+            data.groupPicDbPath = getDbPath(storagePath);
+            
+            await db.query(`INSERT INTO "Group"("groupName", "pic", "personID") VALUES($1, $2, $3)`,
+                [data.groupName, data.groupPicDbPath, creatorID]);
+        }
+
+
+        await db.query(`INSERT INTO "InGroup"("groupID", "type", "approved", "personID") VALUES($1, $2, $3, $4)`,
+                [groupID, 'admin', 'Y', creatorID]);
+
+      } catch (err) {
+        console.error(err) 
+        throw err;
+      }
+}
+
+const getDataOfMyGroups = async (userID) => { // using async/await
+    try {
+        var myGroupsList = await getGroupsCreatedAndAdminedByUser(userID);
+        // console.log(myGroupsList);
+        var groupsData = [];
+        
+            for(var i = 0; i < myGroupsList.length; i++) {
+                var curr = await getAllAboutGroupPromise(myGroupsList[i].groupID);
+                groupsData.push(curr);
+             }
+            return groupsData;
+      } catch (e) {
+        console.error(e);
+        throw e;
+      }
+}
+
+function getAllAboutGroupPromise(groupID){
+    return new Promise((resolve, reject) => {
+        getAllAboutGroup(groupID, (allAboutGroup) => {
+            resolve(allAboutGroup);
+           //  console.dir(groupsData, { depth: null }); // `depth: null` ensures unlimited recursion 
+         });
+    })
+  }
+
+
+const getAllRegisteredUsersEmail = async () => { // using async/await getting a list of emails of all registered users
+    try {
+        var { rows: userList } = await db.query(`SELECT P."email" 
+                                                FROM "Person" P`);  // checking if there is a kid with this email
+        return userList;
+    }
+
+    catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
+
+const addUserToGroupReq = async (teacherID, groupID, kidEmail, permissionType) => {
+    var infoMsg;
+    var isEmail = validator.isEmail(kidEmail);  // checking email format
+    if (!isEmail) {    // if email is invalid
+        infoMsg = `האימייל שנשלח ${kidEmail} איננו תקין. אנא הכנס אימייל תקין ונסה שנית.`;
+        return infoMsg;
+    }
+    try {
+        kidID = await getUserIdbyEmail(kidEmail);
+        if (kidID == undefined) {    // if there is no kid with this email
+            infoMsg = `לא קיים ילד במערכת עם האימייל שהוכנס ${kidEmail} אנא נסה שנית עם האימייל שעמו הילד רשום במערכת.`;
+            return infoMsg;
+        }
+        else {  // if there is a kid with this email
+            var inGroupInfo = await getInGroupReqInfo(groupID, kidID);
+            var date = new Date();
+            var groupName = await getGroupNameByGroupID(groupID);
+            var content = `Invitation to Group: ${groupName}`;
+            var langPreferred = await getLanguatgePreferredByUserID(kidID);
+            if (langPreferred == 'hebrew') {
+                content = `הזמנת הצטרפות לקבוצת: ${groupName} [${groupID}]`;   // square brackets are crucial for retrieving group information from the notification
+            }
+            
+            var type = 'group';
+            if (inGroupInfo == undefined) {
+                var approved = 'N';
+                await db.query(`INSERT INTO "InGroup"("groupID", "personID", "approved", "type") VALUES($1, $2, $3, $4)`,
+                    [groupID, kidID, approved, permissionType]);
+                var res = await sendNotification(teacherID, kidID, date, content, type);
+                if (res == undefined) {
+                    return `הזמנת הצטרפות לקבוצת: ${groupName}, נשלחה בהצלחה וממתינה לאישור הילד/ה`;
+                }
+                return res;
+            }
+            else if(inGroupInfo.approved == 'N') {
+                var res = await sendNotification(teacherID, kidID, date, content, type);
+                if (res == undefined) {
+                    return `הזמנת הצטרפות לקבוצת: ${groupName}, נשלחה בהצלחה וממתינה לאישור הילד/ה`;
+                }
+                return res;
+            }
+            else if (inGroupInfo.approved == 'Y') {
+                return `הילד/ה כבר נמצאים בקבוצת: ${groupName}`;
+            }
+        }
+    }
+    catch (err) {
+        infoMsg = `אירעה שגיאה`;
+        console.log(err);
+        return infoMsg;
+    }
+
+}
+
+const getInGroupReqInfo = async (groupID, kidID) => {
+    var { rows: res} = await db.query(`SELECT * FROM "InGroup" ig 
+                                        WHERE ig."groupID" = $1 AND ig."personID" = $2`,
+        [groupID, kidID]);
+    if (res.length > 0) {
+        return res[0];  // only one row should exist with the same supervisor and kid
+    }
+    else {
+        return undefined;
+    }
+}
+
+const getGroupNameByGroupID = async (groupID) => { // using async/await
+    try {
+        var { rows: groupData } = await db.query(`SELECT G."groupName" 
+                                                FROM "Group" G
+                                                WHERE G."groupID" = $1`,
+            [groupID]);
+        return groupData[0].groupName;
+    }
+
+    catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
+const getLanguatgePreferredByUserID = async (userID) => { // using async/await
+    try {
+        var { rows: UserData } = await db.query(`SELECT P."lang" 
+                                                FROM "Person" P
+                                                WHERE P."personID" = $1`,
+            [userID]);
+        return UserData[0].lang;
+    }
+
+    catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
+
+const sendGroupInvantationNotification = async (teacherID, kidID, notificationDate, content, typeName) => {
+    try {
+        var notificationTypeID = await getNotificationTypeIdByName(typeName);
+        if (!notificationTypeID) return 'Invalid notification type';
+
+        var checkExistingNotifcation = await checkExistingGroupInvantationNotification(teacherID, kidID, typeName, content);
+        if (checkExistingNotifcation) {  // there is a notification to which the kid responded : N(ot read), R(ead), A(approved) ==> no need to send another notification
+            return 'There is already an active notification.';
+        }    
+
+        var recieverResponse = 'N';
+    
+        await db.query(`INSERT INTO "Notification"("notificationDate", "content", "recieverRes", "recieverID", "senderID", "notificationTypeID") VALUES($1, $2, $3, $4, $5, $6)`,
+            [notificationDate, content, recieverResponse, kidID, teacherID, notificationTypeID]);
+    } 
+    catch (err) {
+        console.log(err);
+        return err;
+    }
+    return undefined;
+}
+
+
+const checkExistingGroupInvantationNotification = async (supervisorID, kidID, typeName, content) => {
+    var { rows: res} = await db.query(`SELECT * FROM "Notification" N INNER JOIN "NotificationType" NT
+                                        ON N."notificationTypeID" = NT."notificationTypeID"
+                                        WHERE N."recieverID" = $1 AND NT."typeN" = $2 AND N."senderID" = $3 AND N."recieverRes" IN ($4, $5, $6)
+                                            AND N."content" = $7`,
+        [kidID, typeName, supervisorID, 'N','R','A', content]);
+    if (res.length > 0) {   // there is a notification to which the kid responded : N(ot read), R(ead), A(approved)
+        return true;
+    }
+    else {
+        return false;
+    }
+
+}
+
+const respondToAddGroupReq = async (teacherID, kidID, groupID, notificationResponse, notificationID, content) => {  // updating the response to Group invitation in the "InGroup" table and in "Notification" table
+    try {
+        var invitationResponse = (notificationResponse == 'A') ? 'Y' : 'N';
+        await db.query(`UPDATE "InGroup"
+                        SET "approved" = $1
+                        WHERE "personID" = $2 AND "groupID" = $3`, [invitationResponse, kidID, groupID]);  // updating approval of group invitation according to kid's decision
+        
+        await db.query(`UPDATE "Notification"
+                        SET "recieverRes" = $1
+                        WHERE "recieverID" = $2 AND "notificationID" = $3 
+                        AND "recieverRes" IN ($4, $5)
+                        AND "content" = $6`, [notificationResponse, kidID, notificationID, 'N', 'R', content]);   // updating notification's status according to kid's response
+    } 
+    catch (err) {
+        console.log(err);
+        return err;
+    }
+    return `kid #${kidID} responded ${invitationResponse} to group invitation from teacher #${teacherID}`;
+}
+
+
+  
+
+
+
 module.exports = {
     getUsers,
     getUserTypeById,
@@ -1188,6 +1468,12 @@ module.exports = {
     editKidProfile,
     getSupervisorKids,
     getGroupsCreatedAndAdminedByUser,
-    checkUserAccessToGroup
+    checkUserAccessToGroup,
+    insertNewBook,
+    insertNewGroup,
+    getDataOfMyGroups,
+    getAllRegisteredUsersEmail,
+    addUserToGroupReq,
+    respondToAddGroupReq
 
 }

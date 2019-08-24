@@ -1363,7 +1363,7 @@ router.get('/grown-up/notifications', authenticationMiddleware(), function (req,
       console.error('Unexpected error on idle client', err)
       process.exit(-1)
     })
-    if (userData.userType == 'supervisor' || userData.userType == 'teacher') {  // only supervisors and teachers can view this page
+    if (userData.userType == 'supervisor' || userData.userType == 'teacher' || userData.userType == 'admin') {  // only supervisors and teachers can view this page
 
       var notifications;
       try {
@@ -1512,7 +1512,7 @@ router.get('/supervisor/add-kid', authenticationMiddleware(), function (req, res
       console.error('Unexpected error on idle client', err)
       process.exit(-1)
     })
-    if (userData.userType == 'supervisor') {  // only supervisors can view this page
+    if (userData.userType == 'supervisor' || userData.userType == 'admin') {  // only supervisors can view this page
       res.render('supervisor/add-kid', { userData, message: req.flash('info') });
     }
     else {  // other users goto homepage
@@ -1532,7 +1532,7 @@ router.get('/supervisor/my-kids', authenticationMiddleware(), function (req, res
       process.exit(-1)
     })
 
-    if (userData.userType == 'supervisor') {  // only supervisors can view this page
+    if (userData.userType == 'supervisor' || userData.userType == 'admin') {  // only supervisors can view this page
       // callback - checkout a client
       pool.connect((err, client, done) => {
         if (err) throw err
@@ -1604,11 +1604,12 @@ router.post('/supervisor/addSupervisionReq', authenticationMiddleware(), functio
       process.exit(-1)
     })
 
-    if (userData.userType == 'supervisor') {  // only supervisors can make this request
+    if (userData.userType == 'supervisor' || userData.userType == 'admin') {  // only supervisors can make this request
       try {
         var kidEmail = req.body.kidEmail;
         var infoMsg;
-        infoMsg = await queries.addSupervisionReq(req.user, kidEmail, userData.langPreferred);
+        infoMsg = await queries.addSupervisionReq(req.user, kidEmail);
+        console.log(infoMsg);
       } catch (e) {
         console.error(e);
       }
@@ -1692,7 +1693,7 @@ router.get('/teacher/my-groups', authenticationMiddleware(), function (req, res)
       process.exit(-1)
     })
 
-    if (userData.userType == 'teacher') {  // only teachers can view this page
+    if (userData.userType == 'teacher' || userData.userType == 'admin') {  // only teachers can view this page
 
       try {
         var myGroupsList = await queries.getGroupsCreatedAndAdminedByUser(req.user);
@@ -1724,16 +1725,16 @@ router.get('/teacher/single-group/:groupID', authenticationMiddleware(), functio
     process.exit(-1)
   })
 
-  if (userData.userType == 'teacher') {  // only teachers can view this page
+  if (userData.userType == 'teacher' || userData.userType == 'admin') {  // only teachers can view this page
 
     try {
       var checkPermission = await queries.checkUserAccessToGroup(req.user, req.params.groupID);
-      if (checkPermission) {
+      if (checkPermission || userData.userType == 'admin') {
         queries.getAllAboutGroup(req.params.groupID, (allAboutGroup)=>{
 
           res.render('teacher/single-group', {allAboutGroup,userData });
          
-       })
+       });
 
       }
       else {
@@ -1763,18 +1764,190 @@ router.get('/grown-up/add-book', authenticationMiddleware(), function (req, res)
       console.error('Unexpected error on idle client', err)
       process.exit(-1)
     })
-    if (userData.userType == 'supervisor' || userData.userType == 'teacher') {  // only supervisors and teachers can view this page
-
-     
-
+    if (userData.userType == 'supervisor' || userData.userType == 'teacher' || userData.userType == 'admin') {  // only supervisors and teachers can view this page
       res.render('grown-up/add-book', { userData });
     }
     else {  // other users goto homepage
+      req.flash('errorMessage', 'אין לך גישה לדף זה.');
       res.redirect('/');
     } 
   });
 });
 
+//=======================================================
+router.post('/grown-up/addNewBook', authenticationMiddleware(), function (req, res) {
+  app.upload(req, res, async function (err) {
+    if (err) {
+      console.log('Error-->');
+      console.log(err);
+      res.json({ "status": "Failure", "message": 'There was a problem uploading your files.' + err });
+      return;
+    }
+    else {
+      // console.log("fieldname " + req.files);
+      if (req.files.length != 0) {
+        console.log('Files uploaded!');
+
+        try {
+          await queries.insertNewBook(req.body, req.files);
+          req.flash('infoMessage', 'ספר חדש נוסף בהצלחה!');
+        } catch (e) {
+          req.flash('errorMessage', '.היתה שגיאה בעת נסיון הוספת ספר חדש');
+          console.error(e);
+        }
+        res.redirect('/');
+      }
+      else {  // has to be at least 1 pic, the pic of the book
+        console.log("No file uploaded. Ensure at least 1 pic is uploaded, the pic of the book");
+        res.json({ "status": "Failure", "message": 'No file uploaded. Ensure at least 1 pic is uploaded, the pic of the book' });
+
+      }
+    }
+  });
+});
+
+
+//============================================================
+router.get('/teacher/add-group', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+
+    if (userData.userType == 'teacher' || userData.userType == 'admin') {  // only teachers can view this page
+      res.render('teacher/add-group', { userData });
+    }
+    else {  // not authorized to make this request
+      req.flash('errorMessage', 'רק למורים יש גישה לקבוצות.');
+      res.redirect('/');
+    }
+  });
+});
+
+
+//=======================================================
+router.post('/teacher/addNewGroup', authenticationMiddleware(), function (req, res) {
+  app.upload(req, res, async function (err) {
+    if (err) {
+      console.log('Error-->');
+      console.log(err);
+      res.json({ "status": "Failure", "message": 'There was a problem uploading your files.' + err });
+      return;
+    }
+    else {
+      // console.log("fieldname " + req.files);
+      if (req.files.length != 0) {
+        console.log('Files uploaded!');
+
+        try {
+          await queries.insertNewGroup(req.body, req.user, req.files);
+          req.flash('infoMessage', 'קבוצה חדשה נוספה בהצלחה!');
+        } catch (e) {
+          req.flash('errorMessage', '.היתה שגיאה בעת נסיון הוספת קבוצה חדשה');
+          console.error(e);
+        }
+        res.redirect('/');
+      }
+      else {  // has to be at least 1 pic, the pic of the group
+        console.log("No file uploaded. Ensure at least 1 pic is uploaded, the pic of the group");
+        res.json({ "status": "Failure", "message": 'No file uploaded. Ensure at least 1 pic is uploaded, the pic of the group' });
+      }
+    }
+  });
+});
+
+//============================================================
+router.get('/teacher/config-group', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+
+    if (userData.userType == 'teacher' || userData.userType == 'admin') {  // only teachers can view this page
+
+      try {
+        var allMyGroupData = await queries.getDataOfMyGroups(userData.userID);
+        var emailsList = await queries.getAllRegisteredUsersEmail();
+        res.render('teacher/config-group', { userData, allMyGroupData, emailsList, errorMsg: req.flash('errorMessage'), infoMsg: req.flash('infoMessage') });
+      } catch (e) {
+        console.error(e);
+        req.flash('errorMessage', 'אירעה שגיאה בעת נסיון כניסה לדף הגדרות הקבוצות.');
+        res.redirect('/');
+        
+      }
+      // res.json({allMyGroupData});
+    }
+    else {  // not authorized to make this request
+      req.flash('errorMessage', 'רק למורים יש גישה לדף הגדרות הקבוצות.');
+      res.redirect('/');
+    }
+  });
+});
+
+
+//============================================================
+router.post('/teacher/addUserToGroupReq', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+
+    if (userData.userType == 'teacher' || userData.userType == 'admin') {  // only teachers can make this request
+      try {
+        console.log(req.body);
+        var groupID = req.body.selectedGroupID;
+        var kidEmail = req.body.userEmailChosen;
+        var permissionType = req.body.permissionType;
+        var infoMsg;
+        infoMsg = await queries.addUserToGroupReq(req.user, groupID, kidEmail, permissionType );
+        console.log(infoMsg);
+      } catch (e) {
+        console.error(e);
+      }
+      req.flash('infoMessage', infoMsg)
+      res.redirect('/teacher/config-group');
+    }
+    else {  // not authorized to make this request
+      res.sendStatus(203);
+    }
+  });
+});
+
+
+//============================================================
+router.post('/kid/respondToAddGroupReq', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+    try {
+      console.log(req.body);
+      var teacherID = req.body.teacherID; 
+      var kidID = req.body.kidID;
+      var kidResponse = req.body.notificationResponse;
+      var kidID = req.body.kidID;
+      var groupID = req.body.groupID;
+      var notificationID = req.body.notificationID;
+      var content = req.body.content;
+      await queries.respondToAddGroupReq(teacherID, kidID, groupID, kidResponse, notificationID, content);
+    } catch (e) {
+      console.error(e);
+    }
+    res.sendStatus(200);
+  });
+});
 
 /**/////////////////// Passport ////////////////////////////////////////////// */
 
@@ -1845,3 +2018,23 @@ async function f() {
 }
 
 // f();
+
+async function gg() {
+  var data = await queries.getDataOfMyGroups(5);
+  console.dir(data, { depth: null }); // `depth: null` ensures unlimited recursion 
+
+}
+// gg();
+
+async function gg2() {
+  var data = await queries.getGroupNameByGroupID(1);
+  console.dir(data, { depth: null }); // `depth: null` ensures unlimited recursion 
+}
+// gg2();
+
+async function gg3() {
+  var data = await queries.getLanguatgePreferredByUserID(7);
+  console.dir(data, { depth: null }); // `depth: null` ensures unlimited recursion 
+}
+
+// gg3();

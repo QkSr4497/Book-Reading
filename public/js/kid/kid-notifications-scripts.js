@@ -71,25 +71,45 @@ $(document).ready(function() {  // when approved button of a specific notificati
   $(".userApproveBtn").click(function(){
       var rowNum = $(this).attr("data-row");  // getting row num
       var notificationClicked = userNotifications[rowNum - 1];  // getting the data of the notification clicked
-      var supervisorID = notificationClicked.senderID;
+      var supervisorID = userNotifications[rowNum - 1].senderID;
+      var teacherID = userNotifications[rowNum - 1].senderID;
       var kidID = notificationClicked.recieverID;
       var notificationResponse = 'A';
       var notificationID = notificationClicked.notificationID;
       if (notificationClicked.typeN == 'supervision') { // when supervision approval is clicked then send a response
         respondToSupervisionReq(supervisorID, kidID, notificationResponse, notificationID);
       }
-
+      else if (notificationClicked.typeN == 'group') { // when group approval is clicked then send a response
+        var openingSquareBracketIndex = notificationClicked.content.indexOf('[');
+        var closingSquareBracketIndex = notificationClicked.content.indexOf(']');
+        var groupID = parseInt(notificationClicked.content.substring(openingSquareBracketIndex + 1, closingSquareBracketIndex)); 
+        console.log(groupID);
+        respondToAddGroupReq(teacherID, kidID, groupID, notificationResponse, notificationID, notificationClicked.content);
+      }
   }); 
 });
 
 $(document).ready(function() {
   $(".userDeclilneBtn").click(function(){
       var rowNum = $(this).attr("data-row");
+      var notificationClicked = userNotifications[rowNum - 1];  // getting the data of the notification clicked
       var supervisorID = userNotifications[rowNum - 1].senderID;
+      var teacherID = userNotifications[rowNum - 1].senderID;
       var kidID = userNotifications[rowNum - 1].recieverID;
       var notificationResponse = 'D';
       var notificationID = userNotifications[rowNum - 1].notificationID;
-      respondToSupervisionReq(supervisorID, kidID, notificationResponse, notificationID)
+
+      if (notificationClicked.typeN == 'supervision') { // when supervision decline is clicked then send a response
+        respondToSupervisionReq(supervisorID, kidID, notificationResponse, notificationID);
+      }
+      else if (notificationClicked.typeN == 'group') { // when group decline is clicked then send a response
+        var openingSquareBracketIndex = notificationClicked.content.indexOf('[');
+        var closingSquareBracketIndex = notificationClicked.content.indexOf(']');
+        var groupID = parseInt(notificationClicked.content.substring(openingSquareBracketIndex + 1, closingSquareBracketIndex)); 
+        console.log(groupID);
+        respondToAddGroupReq(teacherID, kidID, groupID, notificationResponse, notificationID, notificationClicked.content);
+      }
+      
   }); 
 });
 
@@ -100,6 +120,22 @@ function respondToSupervisionReq(supervisorID, kidID, notificationResponse, noti
     url: url,
     type: 'POST',
     data: { supervisorID: supervisorID, kidID: kidID, notificationResponse: notificationResponse, notificationID: notificationID },
+    success: function (result) {
+
+    },
+    error: function (err) {
+
+    }
+  });
+}
+
+
+function respondToAddGroupReq(teacherID, kidID, groupID, notificationResponse, notificationID, content) {  // sending a response to group invitation request and updating notification status (approved/declined)
+  var url = '/kid/respondToAddGroupReq';
+  $.ajax({
+    url: url,
+    type: 'POST',
+    data: { teacherID: teacherID, kidID: kidID, groupID: groupID, notificationResponse: notificationResponse, notificationID: notificationID, content: content },
     success: function (result) {
 
     },
