@@ -896,23 +896,4 @@ body {
 .group-style .container {
   padding: 2px 16px; }
 
-  /**************** badge number of new notifications  *************************/
-  .notificationNumBadge {
-    position:relative;
- }
- .notificationNumBadge[data-notificationNumBadge]:after {
-    content:attr(data-notificationNumBadge);
-    position:absolute;
-    top:4px;
-    left: -2px;
-    font-size:.7em;
-    background:rgb(0, 179, 0);
-    color:white;
-    width:18px;height:18px;
-    text-align:center;
-    line-height:18px;
-    border-radius:50%;
-    box-shadow:0 0 1px #333;
-    
- }
-   /**************** /badge number of new notifications  *************************/
+ 

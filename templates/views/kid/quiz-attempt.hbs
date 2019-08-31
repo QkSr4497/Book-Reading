@@ -33,26 +33,26 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                                     id="quitQuiz">&times;</button>
                                 <img src="{{quizData.quizPic}}" alt="">
-                                <h2 class="modal-title w-100" id="modalTitle"> <span>נסיון לפתרון בוחן:</span>
+                                <h2 class="modal-title w-100" id="modalTitle"> <span class="lang" key="quizAttempt">נסיון לפתרון בוחן:</span>
                                     {{quizData.quizTitle}}</h2>
 
                             </div>
                             <div class="modal-body">
-                                <h4 class="modal-title"> <span>שם הספר:</span> {{quizData.bookName}}</h4>
+                                <h4 class="modal-title"> <span class="lang" key="bookName">שם הספר:</span> {{quizData.bookName}}</h4>
                                 <br>
-                                <h4 class="modal-title"> <span>שם הסופר:</span> {{quizData.bookAuthorLastName}}
+                                <h4 class="modal-title"> <span class="lang" key="authorName">שם הסופר:</span> {{quizData.bookAuthorLastName}}
                                     {{quizData.bookAuthorFirstName}}</h4>
                                 <br>
-                                <h4 class="modal-title"> <span>הבוחן נכתב ע"י:</span> {{quizData.quizCreaterFirstName}}
+                                <h4 class="modal-title"> <span class="lang" key="quizWrittenBy">הבוחן נכתב ע"י:</span> {{quizData.quizCreaterFirstName}}
                                     {{quizData.quizCreaterLastName}}</h4>
                                 <br>
-                                <h4 class="modal-title"> <span>מספר שאלות:</span> {{quizData.totalQuestionsNum}}</h4>
+                                <h4 class="modal-title"> <span class="lang" key="numOfQuestions">מספר שאלות:</span> {{quizData.totalQuestionsNum}}</h4>
                                 <br>
-                                <h4 class="modal-title text-warning"> <span>זמן מוקצב למענה:</span>
+                                <h4 class="modal-title text-warning"> <span class="lang" key="quizTimeAllowed">זמן מוקצב למענה:</span>
                                     {{quizData.duration}}
                                     דקות</h4>
                                 <br>
-                                <h4 class="modal-title text-info"> לאחר לחיצה על כפתור התחל הבוחן יחל מייד</h4>
+                                <h4 class="modal-title text-info lang" key="afterPressStartQuiz"> לאחר לחיצה על כפתור התחל הבוחן יחל מייד</h4>
                                 <br>
                             </div>
                             <div class="modal-footer">
