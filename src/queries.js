@@ -2,6 +2,7 @@ const db = require('./db'); // postgresql database connection pool
 const path = require('path');
 const fse = require('fs-extra');
 const validator = require('validator');
+const __ = require('multi-lang')('language-server.json'); // Import module with language-server.json file
 const pool = db.pg_pool;
 
 const getUsers = (request, response) => {
@@ -673,10 +674,7 @@ const addSupervisionReq = async (supervisorID, kidEmail) => {
             var date = new Date();
             var content = `Supervision request`;
             var langPreferred = await getLanguatgePreferredByUserID(kidID);
-            if (langPreferred == 'hebrew') {
-                content = 'בקשת פיקוח'
-            }
-            
+            content = __('SupervisionRequest', langPreferred);  // translation using 'multi-lang npm
             var type = 'supervision';
             if (supervisionInfo == undefined) {
                 var approved = 'N';
@@ -1286,9 +1284,10 @@ const addUserToGroupReq = async (teacherID, groupID, kidEmail, permissionType) =
             var groupName = await getGroupNameByGroupID(groupID);
             var content = `Invitation to Group: ${groupName}`;
             var langPreferred = await getLanguatgePreferredByUserID(kidID);
-            if (langPreferred == 'hebrew') {
-                content = `הזמנת הצטרפות לקבוצת: ${groupName} [${groupID}]`;   // square brackets are crucial for retrieving group information from the notification
-            }
+
+                content = __('groupInvitation', {groupName: groupName, groupID: groupID}, langPreferred);  // translation using 'multi-lang npm
+                                                                                                           // square brackets are crucial for retrieving group information from the notification
+
             
             var type = 'group';
             if (inGroupInfo == undefined) {

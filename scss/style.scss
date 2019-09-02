@@ -7,6 +7,12 @@ body{
     box-sizing: border-box;
    }
 
+   .topnav #profilePic {
+      overflow: hidden;		  width: 30px; 
+      box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);		  padding-top:10px;
+      background-color: #6a60a9; 
+   }		
+
  /**************** badge number of new notifications  *************************/
  .notificationNumBadge {
     position:relative;
@@ -24,9 +30,8 @@ body{
     line-height:18px;
     border-radius:50%;
     box-shadow:0 0 1px #333;
-    
  }
-   /**************** /badge number of new notifications  *************************/
+/**************** /badge number of new notifications  *************************/
 
 @import 'navigation-style';
 

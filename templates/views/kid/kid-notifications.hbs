@@ -24,15 +24,15 @@
       {{> kid_topNav}}
 
       <div class="wrapper">
-        <h1>רשימת התראות</h1>
+        <h1 class="lang" key="notificationsList">רשימת התראות</h1>
         <table class="c-table">
           <thead class="c-table__header">
             <tr>
               <th class="c-table__col-label">#</th>
-              <th class="c-table__col-label">תוכן</th>
-              <th class="c-table__col-label">נשלח ע"י</th>
-              <th class="c-table__col-label">תאריך ושעה</th>
-              <th class="c-table__col-label">פעולות</th>
+              <th class="c-table__col-label lang" key="content">תוכן</th>
+              <th class="c-table__col-label lang" key="sentBy">נשלח ע"י</th>
+              <th class="c-table__col-label lang" key="dateHour">תאריך ושעה</th>
+              <th class="c-table__col-label lang" key="actions">פעולות</th>
               <th class="c-table__col-label" style="display:none">תגובה</th>
               <th class="c-table__col-label" style="display:none">מקבל</th>
               <th class="c-table__col-label" style="display:none">שולח</th>
@@ -76,7 +76,7 @@
           </tbody>
         </table>
         <div class="container">
-          <button class="btn-4 designedBtn" id="removeAllNotifications">מחק את כל ההתראות</button>
+          <button class="btn-4 designedBtn lang" id="removeAllNotifications" key="removeAllNotifications">מחק את כל ההתראות</button>
         </div>
       </div>
 

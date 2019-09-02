@@ -52,42 +52,20 @@ body {
   background-color: #f1f1f1;
   box-sizing: border-box; }
 
-.topnav #profilePic {
-  overflow: hidden;
-  width: 30px;
-  box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
-  padding-top: 10px;
-  background-color: #6a60a9; }
-
-/**************** badge number of new notifications  *************************/
-.notificationNumBadge {
-  position: relative; }
-
-.notificationNumBadge[data-notificationNumBadge]:after {
-  content: attr(data-notificationNumBadge);
-  position: absolute;
-  top: 4px;
-  left: -2px;
-  font-size: .7em;
-  background: #00b300;
-  color: white;
-  width: 18px;
-  height: 18px;
-  text-align: center;
-  line-height: 18px;
-  border-radius: 50%;
-  box-shadow: 0 0 1px #333; }
-
-/**************** /badge number of new notifications  *************************/
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   background-color: #f1f1f1; }
 
-.topnav {
-  overflow: hidden;
-  box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
-  background-color: #6a60a9; }
+.topnav #profilePic {
+  width: 30px; 
+  padding-top:10px;
+}
+
+  .topnav {
+    overflow: hidden;
+    box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
+    background-color: #6a60a9; }
 
 .topnav a {
   float: right;
@@ -582,7 +560,10 @@ body {
   /* When the input field gets focus, change its width to 100% */ }
   .my-profile-style .profilePic {
     vertical-align: middle;
-    width: 200px; }
+    width: 200px;
+    /* height: 200px;  */
+  }
+    
   .my-profile-style .container {
     width: 90%;
     height: auto;
@@ -914,3 +895,5 @@ body {
 
 .group-style .container {
   padding: 2px 16px; }
+
+ 
