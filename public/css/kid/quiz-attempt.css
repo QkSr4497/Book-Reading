@@ -1,3 +1,11 @@
+.dropdown-content {
+    position: fixed;
+}
+
+#welcomeTitle, #pointsTitle {
+    color: white;
+}
+
 /* modal */
 
 .bs-example{
@@ -142,7 +150,7 @@ select, input {
 
 
 
-.pTitles span{
+.pTitles .langTitles{
     text-align: right;
     color: #706fd3;
     font-weight:300;
@@ -159,6 +167,8 @@ select, input {
     width: auto;
     vertical-align: middle
 }
+
+
 
 
 
@@ -436,6 +446,11 @@ button:focus , button:hover {
     }
     #title h1{
         font-size: 1.5em;
+    }
+
+    .pTitles{
+        font-weight: bold;
+        
     }
   }
 

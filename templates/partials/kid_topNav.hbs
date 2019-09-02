@@ -1,9 +1,9 @@
     <div  class="topnav" id="myTopnav">
     <div class="left-nav"> 
     <img id="profilePic" src="{{userData.profilePic}}" alt="ProfilePic" class="profilePic">
-    <a class="tablinks" class="lang" key="welcome"id="welcomeTitle">ברוך הבא {{userData.userName}}</a>
+    <a class="tablinks" class="lang" key="welcome" id="welcomeTitle" dir="rtl"><span class="lang" key="welcome">ברוך הבא </span> {{userData.userName}}</a>
     {{#if userData.points}}
-    <a class="tablinks" class="lang" key="myPoints" id="pointsTitle">נקודות שלי: {{userData.points}}</a>
+    <a class="tablinks" class="lang" key="myPoints" id="pointsTitle"><span class="lang" key="myPoints">נקודות שלי: </span> {{userData.points}}</a>
     {{/if}}
     </div>
     

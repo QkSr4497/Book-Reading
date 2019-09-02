@@ -23,7 +23,7 @@ var pointEarned = 0;
 $('#startQuiz').on('click', function () {
     $('#quizContainer').show();
     buildQuiz();
-
+    translateThePage();    // function from language.js
     jQuery(function ($) {
         var quizTime = 60 * quizData.duration,
             display = $('#time');
@@ -65,13 +65,13 @@ function buildQuiz() {    // update the books select
         myString = `
                 <div class="wrap question" id="q${qNum}">
                     <div class="background">
-                        <div class="questionTitle">
-                            <h1 class="qTitle" id="q${qNum}-title">שאלה ${qNum}</h1>
+                        <div class="questionTitle">   
+                            <h1 class="qTitle" id="q${qNum}-title"><span class="lang" key="question">שאלה </span> ${qNum}</h1>
                         </div>
 
                         <p class="pTitles" id="q${qNum}content">
                             <span><img src="${currQst.questionPic}" alt="" id="q${qNum}pic"></span>
-                            ${currQst.questionContent}
+                            <span dir="rtl">${currQst.questionContent}</span>
                         </p>
                 `;
         var numOfAnswers = currQst.answersNum;
@@ -85,7 +85,7 @@ function buildQuiz() {    // update the books select
                         <div class="mainDivAns" id="q${qNum}ans${aNum}div">
                             <div class="divAns"><img src="${currAns.answerPic}" alt="" id="q${qNum}ans${aNum}pic"></div>
                             <div class="divAns">
-                                <p> <span>תשובה ${aNum}:</span> ${currAns.answerContent}</p>
+                                <p> <span><span class="lang" key="answer">תשובה </span> ${aNum}:</span> ${currAns.answerContent}</p>
                             </div>
                             <div class="divAns"><input type="radio" id="q${qNum}ans${aNum}radio" name="q${qNum}ansRadio" value="${aNum}" /></div>
                         </div>
@@ -97,7 +97,7 @@ function buildQuiz() {    // update the books select
                         <div class="mainDivAns" id="q${qNum}ans${aNum}div">
                             <div class="divAns"><img src="${currAns.answerPic}" alt="" id="q${qNum}ans${aNum}pic"></div>
                             <div class="divAns">
-                                <p> <span>תשובה ${aNum}:</span> ${currAns.answerContent}</p>
+                                <p> <span><span class="lang" key="answer">תשובה </span> ${aNum}:</span> ${currAns.answerContent}</p>
                             </div>
                             <div class="divAns"><input id="q${qNum}ans${aNum}checkbox" type="checkbox" name="q${qNum}ans${aNum}checkbox" value="${checked}" /></div>
                         </div>

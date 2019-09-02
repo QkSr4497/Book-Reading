@@ -23,7 +23,8 @@
     <div id="main">
       {{> kid_topNav}}
       <div id="quizes" class="card-style">
-        <h2 key="quizNotTakenList" class="quizCategory"> 💯בחנים שלא עשיתי</h2>
+        
+        <h2 key="quizNotTakenList" class="quizCategory"> <span class="lang" key="quizNotTakenList">בחנים שלא עשיתי</span>💯</h2>
         <div class="cards">
           {{#QuizNotTaken}}
           <form method="POST" action="/kid/start-quiz">
@@ -33,11 +34,11 @@
                   <img src={{quizPic}} alt="Avatar" style="width:300px;height:300px;">
                 </div>
                 <div class="flip-card-back">
-                  <h1><span> כותרת הבוחן:</span> {{quizTitle}} </h1>
-                  <h1><span> שם הספר:</span> {{bookName}} </h1>
-                  <h1><span> משך:</span> {{duration}} דקות</h1>
+                  <h1><span class="lang" key="quizName"> כותרת הבוחן:</span> {{quizTitle}} </h1>
+                  <h1><span class="lang" key="bookName"> שם הספר:</span> {{bookName}} </h1>
+                  <h1><span class="lang" key="quizTime"> משך הבוחן:</span> {{duration}} דקות</h1>
                   <input type="text" name="quizID" value={{quizID}} style="display: none">
-                  <input type="submit" class="" value="התחל את הבוחן" />
+                  <button type="submit" class="lang" key="beginQuiz">התחל את הבוחן</input>
                 </div>
               </div>
             </div>
@@ -48,7 +49,7 @@
 
 
       <div id="quizes" class="card-style">
-        <h2 key="quizTakenList" class="quizCategory"> 💯בחנים שכבר עשיתי</h2>
+        <h2 key="quizTakenList" class="quizCategory"> <span class="lang" key="quizTakenList">בחנים שכבר עשיתי</span>💯</h2>
         <div class="cards">
           {{#QuizTaken}}
           <form method="POST" action="/kid/start-quiz">
@@ -58,11 +59,11 @@
                   <img src={{quizPic}} alt="Avatar" style="width:300px;height:300px;">
                 </div>
                 <div class="flip-card-back">
-                  <h1><span> כותרת הבוחן:</span> {{quizTitle}} </h1>
-                  <h1><span> שם הספר:</span> {{bookName}} </h1>
-                  <h1><span> משך הבוחן:</span> {{duration}} דקות</h1>
-                  <h1><span>  ציון הבוחן:</span> {{grade}}</h1>
-                  <h1><span> נקודות שהרווחתי:</span> {{pointsEarned}}</h1>
+                  <h1><span class="lang" key="quizName"> כותרת הבוחן:</span> {{quizTitle}} </h1>
+                  <h1><span class="lang" key="bookName"> שם הספר:</span> {{bookName}} </h1>
+                  <h1><span class="lang" key="quizTime"> משך הבוחן:</span> {{duration}}<span class="lang" key="minutes"> דקות</h1>
+                  <h1><span class="lang" key="quizGrade"> ציון הבוחן:</span> {{grade}}</h1>
+                  <h1><span class="lang" key="pointsEarned"> נקודות שהרווחתי:</span> {{pointsEarned}}</h1>
                 </div>
               </div>
             </div>

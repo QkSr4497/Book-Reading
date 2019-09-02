@@ -12,6 +12,7 @@
 
     <!-- Main Stylesheets -->
     <link rel="stylesheet" type="text/css" href="/css/kid/quiz-attempt.css" />
+   
 
 
 </head>
@@ -43,7 +44,7 @@
                                 <h4 class="modal-title"> <span class="lang" key="authorName">שם הסופר:</span> {{quizData.bookAuthorLastName}}
                                     {{quizData.bookAuthorFirstName}}</h4>
                                 <br>
-                                <h4 class="modal-title"> <span class="lang" key="quizWrittenBy">הבוחן נכתב ע"י:</span> {{quizData.quizCreaterFirstName}}
+                                <h4 class="modal-title" dir="rtl"> <span class="lang" key="quizWrittenBy">הבוחן נכתב ע"י:</span> {{quizData.quizCreaterFirstName}}
                                     {{quizData.quizCreaterLastName}}</h4>
                                 <br>
                                 <h4 class="modal-title"> <span class="lang" key="numOfQuestions">מספר שאלות:</span> {{quizData.totalQuestionsNum}}</h4>
@@ -56,7 +57,7 @@
                                 <br>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                <button type="button" class="btn btn-primary lang" data-dismiss="modal" key="starQuizBtn"
                                     id="startQuiz">התחל</button>
                             </div>
                         </div>
@@ -68,9 +69,9 @@
 
             <input type="hidden" id="inputQuizID" name="custId" value="{{quizData.quizID}}">
 
-            <input type="hidden" id="inputKidID" name="custId" value="{{userData.userID}}">
+            <input type="hidden" id="inputKidID" name="custId" value="{{userData.userID}}">    
 
-            <div id="timeDiv">הזמן שנותר: <span id="time"></span></div>
+            <div id="timeDiv"><span class="lang" key="remainingTime">הזמן שנותר: </span><span id="time"></span></div>
 
             <div class="container" id="quizContainer">
                 <header>
@@ -105,25 +106,24 @@
                 <div class="wrap">
                     <div class="background">
                         <div id="title">
-                            <h1 id="formTitle">פרטי הבוחן</h1>
+                            <h1 id="formTitle" class="lang" key="quizDetails">פרטי הבוחן</h1>
                         </div>
                         <p class="pTitles">
-                            <img src="{{quizData.bookPic}}" alt="" id="bookPic">
-                            שם הספר: <span>{{quizData.bookName}}</span>
+                            <img src="{{quizData.bookPic}}" alt="" id="bookPic"> 
+                           <span class="langTitles lang" key="bookName"> שם הספר: </span> <span>{{quizData.bookName}}</span>
                         </p>
                         <p class="pTitles">
                             <img src="{{quizData.quizPic}}" alt="" id="bookPic">
-                            שם הבוחן: <span>{{quizData.quizTitle}}</span>
+                            <span class="langTitles lang" key="quizName">שם הבוחן: </span> <span>{{quizData.quizTitle}}</span>
+                        </p>
+                        <p class="pTitles" dir="rtl">
+                             <span class="langTitles lang" key="quizWrittenBy">הבוחן נכתב ע"י: </span> <span>{{quizData.quizCreaterFirstName}} {{quizData.quizCreaterLastName}}</span>
                         </p>
                         <p class="pTitles">
-                            <span>{{quizData.quizCreaterFirstName}} {{quizData.quizCreaterLastName}}</span> :הבוחן נכתב
-                            ע"י
+                            <span class="langTitles lang" key="numOfQuestions">מספר שאלות: </span> <span>{{quizData.totalQuestionsNum}}</span>
                         </p>
                         <p class="pTitles">
-                            מספר שאלות: <span>{{quizData.totalQuestionsNum}}</span>
-                        </p>
-                        <p class="pTitles">
-                            זמן מוקצב למענה:<span> {{quizData.duration}} דקות</span>
+                            <span class="langTitles lang" key="quizTimeAllowed">מספר שאלות: </span> <span> {{quizData.duration}} דקות</span>
                         </p>
 
                     </div>
@@ -134,7 +134,7 @@
 
 
                 </form>
-                <button type="submit" value="Submit" id="submintBtn">סיום בוחן</button>
+                <button type="submit" value="Submit" id="submintBtn" class="lang" key="finishQuizBtn">סיום בוחן</button>
             </div> <!-- /container -->
 
         </div>
