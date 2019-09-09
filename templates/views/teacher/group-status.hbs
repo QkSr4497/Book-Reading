@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <link rel="Stylesheet" href="/css/teacher/group-status.css" />
+    <title>{{userData.userType}} - Group status</title>
+
+    <!-- Favicon -->
+
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+    <!-- Stylesheets -->
+
+    {{> grown_up_head}}
+</head>
+
+<body>
+    
+
+
+    <div class="container">
+        {{> grown_up_body}}
+
+        <header>
+            <h1>מצב הקבוצה לפי מבחנים</h1>
+        </header>
+
+        <div class="quiz_section">
+                <select name="" id="quizSelected" onchange="getSelected()" dir="rtl"> 
+                    <option value="">הכל</option>
+                    {{#each getGroupStatusQuiz.getGroupQuizes}}
+                    <option class="quizName" value="">{{quizTitle}}</option>
+                    {{/each}}
+                </select>
+        </div>
+
+     <div class="resultsSection">
+        <table id="QuizResults">
+            <tr>
+                <th>ציון של בוחן</th>
+                <th>בוחן</th> 
+                <th>שם של ילד</th>          
+            </tr>
+            {{#each getGroupStatusQuiz.getGroupStatus}}
+            <tr >
+                <td>{{grade}}</td>
+                <td class="quizName" vlaue="{{quizTitle}}">{{quizTitle}}</td>
+                <td>{{firstName}} {{lastName}}</td>
+            </tr>
+            {{/each}}
+        </table>
+    </div>
+
+
+
+    </div> <!-- /container -->
+
+
+    
+
+    {{> grown_up_footer}}
+
+    <!--====== Javascripts & Jquery ======-->
+   
+</body>
+<script>
+
+
+function getSelected(){
+	var e = document.getElementById("quizSelected");
+	var result =e.options[e.selectedIndex].text;
+    var input, filter, tr, a, i, txtValue,table,td;
+    table = document.getElementById("QuizResults");
+    tr = table.getElementsByTagName('tr');
+
+  for (i = 1; i < tr.length; i++) {
+    td=tr[i].getElementsByTagName('td');
+    //a = tr[i].getElementsByClassName("quizName").textContent;
+    a = td[1].textContent;
+     console.log("a  "+a);
+    if (result==a) {
+     tr[i].style.display = "";
+    } else if(result=="הכל") {
+      tr[i].style.display = "";
+    }else {
+      tr[i].style.display = "none";
+    }
+  }
+}
+</script>
+</script>
+</html>
