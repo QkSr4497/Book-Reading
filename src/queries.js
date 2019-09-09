@@ -1422,8 +1422,103 @@ const respondToAddGroupReq = async (teacherID, kidID, groupID, notificationRespo
 }
 
 
+  //=============================== group status ===================
   
+  const getGroupStatus=(groupID,callback) => {
+    pool.query(`SELECT  q."quizTitle",p."firstName",p."lastName",ig."groupID", tq."grade"
+    FROM "InGroup" ig INNER JOIN "Person" p on ig."personID"=p."personID" 
+    INNER JOIN "TakesQuiz" tq on p."personID"=tq."kidID" 
+    INNER JOIN "Quiz" q on tq."quizID" = q."quizID"
+    WHERE ig."approved"=$1 AND ig."groupID"=$2
+	ORDER BY  tq."grade" DESC `
+    ,['Y',groupID], (error, results) => {
+    if (error) {
+        throw error
+    }
+    callback(results.rows);
+ });
+}
 
+const getGroupQuizes = (groupID,callback) => {
+    pool.query(`SELECT  DISTINCT q."quizTitle"
+    FROM "InGroup" ig INNER JOIN "Person" p on ig."personID"=p."personID" 
+    INNER JOIN "TakesQuiz" tq on p."personID"=tq."kidID" 
+    INNER JOIN "Quiz" q on tq."quizID" = q."quizID"
+    WHERE ig."approved"=$1 AND ig."groupID"=$2 `,['Y',groupID], (error, results) => {
+    if (error) {
+        throw error
+    }
+    callback(results.rows);
+ });
+}
+
+const getGroupStatusQuiz = (groupID, callback) => {
+    getGroupStatus(groupID, (getGroupStatus) => {
+            getGroupQuizes(groupID,(getGroupQuizes) => {
+                callback({
+                    getGroupStatus,
+                    getGroupQuizes
+                });
+            });
+});
+}
+//==============================Insert kid notes=====================
+
+const insertNote_book = async (data,userID,imgArr) => { // using async/await
+    var nowDate = new Date(); 
+    var date = nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate(); 
+    try{
+        if (imgArr.length == 0) {    // no new pic
+            await db.query(`INSERT INTO "Note"("date","personID", "bookID","title","content","type") VALUES($1, $2, $3,$4,$5,$6)`,
+              [date,userID,data.bookID,data.title,data.content,'private']);
+                
+    
+        }
+        else{
+            var { rowCount: currNoteCount} = await db.query(`SELECT * FROM "Note"`);
+            const noteID = ++currNoteCount; // id of the new quiz
+            var storagePath = getStoragePath(imgArr[0].path, `users\\user${userID}\\notes\\note${noteID}`, imgArr[0].fieldname);
+            moveFile(imgArr[0].path, storagePath);
+            data.notePicInput = getDbPath(storagePath);
+            console.log(data);
+            var nowDate = new Date(); 
+            var date = nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate(); 
+            await db.query(`INSERT INTO "Note"("date","personID", "bookID","title","content","type","notePic") VALUES($1, $2, $3,$4,$5,$6,$7)`,
+              [date,userID,data.bookID,data.title,data.content,'private',data.notePicInput]);
+        }
+    } catch (err) {
+        console.error(err) 
+        return err;
+      }
+}
+
+const insertNote_noBook = async (data,userID,imgArr) => { // using async/await
+    var nowDate = new Date(); 
+    var date = nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate(); 
+    try{
+        if (imgArr.length == 0) {    // no new pic
+            await db.query(`INSERT INTO "Note"("date","personID","title","content","type") VALUES($1, $2, $3,$4,$5)`,
+              [date,userID,data.title,data.content,'private']);
+                
+    
+        }
+        else{
+            var { rowCount: currNoteCount} = await db.query(`SELECT * FROM "Note"`);
+            const noteID = ++currNoteCount; // id of the new quiz
+            var storagePath = getStoragePath(imgArr[0].path, `users\\user${userID}\\notes\\note${noteID}`, imgArr[0].fieldname);
+            moveFile(imgArr[0].path, storagePath);
+            data.notePicInput = getDbPath(storagePath);
+            console.log(data);
+            var nowDate = new Date(); 
+            var date = nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate(); 
+            await db.query(`INSERT INTO "Note"("date","personID","title","content","type","notePic") VALUES($1, $2, $3,$4,$5,$6)`,
+              [date,userID,data.title,data.content,'private',data.notePicInput]);
+        }
+    } catch (err) {
+        console.error(err) 
+        return err;
+      }
+}
 
 
 module.exports = {
@@ -1473,6 +1568,11 @@ module.exports = {
     getDataOfMyGroups,
     getAllRegisteredUsersEmail,
     addUserToGroupReq,
-    respondToAddGroupReq
+    respondToAddGroupReq,
+    getGroupStatus,
+    getGroupQuizes,
+    getGroupStatusQuiz,
+    insertNote_book,
+    insertNote_noBook
 
 }
