@@ -141,7 +141,7 @@ CREATE TABLE "Note" (
 	"title" TEXT NOT NULL,
  	"content" TEXT NOT NULL,
 	"type" TEXT CHECK (type IN ('public','private')) NOT NULL,
-	"pic"  TEXT
+	"notePic"  TEXT
 );
 
 CREATE TABLE "Image" (
