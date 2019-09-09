@@ -82,20 +82,21 @@
                 <div class="wrap" id="quizResults">
                     <div class="background">
                         <div id="title">
-                            <h1>תוצאות הבוחן</h1>
+                            <h1 class="lang" key="quizResults">תוצאות הבוחן</h1>
                         </div>
-                        <p class="pTitles">
-                            ציון הבוחן: <span id="quizGrade"></span>
+                        <p class="pTitles lang" key="quizGrade">
+                            ציון הבוחן: 
                         </p>
-                        <p class="pTitles">
-                            בבוחן זה הרווחת: <span id="quizPointsEarned"></span>
+                        <span id="quizGrade"></span>
+                        <p class="pTitles lang" key="quizPointsEarned">
+                            בבוחן זה הרווחת: 
                         </p>
-                
-                        <p class="pTitles" dir="rtl">  ליד כל תשובה ניתן לראות:</p>
+                        <span id="quizPointsEarned"></span>
+                        <p class="pTitles lang" dir="rtl" key="resultsKey">  ליד כל תשובה ניתן לראות:</p>
                         <ul dir="rtl">
-                            <li style="color:#218c74">מסגרת מסומנת בירוק אם התשובה שסומנה נכונה</li>
-                            <li style="color: red">מסגרת מסומנת באדום אם התשובה איננה נכונה</li>
-                            <li>מסגרת מהבהבת אם התשובה שסומנה איננה נכונה</li>
+                            <li class="lang" key="greenAnswer" style="color:#218c74">מסגרת מסומנת בירוק אם התשובה שסומנה נכונה</li>
+                            <li class="lang" key="redAnswer" style="color: red">מסגרת מסומנת באדום אם התשובה איננה נכונה</li>
+                            <li class="lang" key="flickeringAnswer">מסגרת מהבהבת אם התשובה שסומנה איננה נכונה</li>
                         </ul>
                     </div>
                 </div>

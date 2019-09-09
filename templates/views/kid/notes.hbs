@@ -16,22 +16,47 @@
     <div id="main">
     {{> kid_topNav}}
 
-     <div class="notes-style">
+ <div class="notes-style">
       <h1 class="lang" key="myNotes"> 📝התרשמויות ומחשבות שלי </h1>
       <button type="button" name="button" id="add-note-btn" class="lang" key="addNote" onclick="document.getElementById('newnote').style.display='block'">
         מחשבה חדשה</button>
         <div class="notesContainer">
           {{#each notesData.getNoteData}}     
              <button class="collapsible"><span class="arrow"><i class='fas fa-angle-down'></i>&nbsp;&nbsp;&nbsp;</span>
-             {{title}} 
+               <span>{{title}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span >{{moment noteDate format="DD/MM/YYYY"}}</span>
              </button>
-              <div class="content">
-                <p>{{content}}</p>
-                <img src={{pic}} alt="">
+              <div class="content">              
+                <br>
+                <p class="noteContent">{{content}}</p>
+                <br>
+                <img class="noteImage" src={{notePic}} alt="">
+                <br>
                 <button style="font-size:24px" class="updateNote" name="{{noteID}}" 
                 data-id="{{noteID}}" 
                 data-title="{{title}}"
                 data-content="{{content}}"
+                onclick="document.getElementById('updatenote').style.display='block'"><i class="fa fa-edit"></i></button>
+                <button style="font-size:24px" class="deleteNote" name="{{noteID}}" data-id="{{noteID}}"><i class="fa fa-trash"></i></button>
+              </div>   
+          {{/each}}
+            {{#each notesData.getNoteAboutBook}}     
+             <button class="collapsible"><span class="arrow"><i class='fas fa-angle-down'></i>&nbsp;&nbsp;&nbsp;</span>
+               <span>{{title}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span >{{moment noteDate format="DD/MM/YYYY"}}</span>
+             </button>
+              <div class="content">
+                <p>{{bookName}}</p>
+                <br>
+                <p>{{content}}</p>
+                <br>
+                <img src={{notePic}} alt="">
+                <br>
+                <button style="font-size:24px" class="updateNote" name="{{noteID}}" 
+                data-id="{{noteID}}" 
+                data-title="{{title}}"
+                data-bookID="{{bookID}}"
+                data-bookName="{{bookName}}"
+                data-content="{{content}}"
+                data-content="{{notePic}}"
                 onclick="document.getElementById('updatenote').style.display='block'"><i class="fa fa-edit"></i></button>
                 <button style="font-size:24px" class="deleteNote" name="{{noteID}}" data-id="{{noteID}}"><i class="fa fa-trash"></i></button>
               </div>   
@@ -42,33 +67,44 @@
 
       <div class="modal-style">
       <div id="newnote" class="modal">
-      <form class="modal-content animate" method="POST" action="/kid/notes/add">
+      <form class="modal-content animate" method="POST" action="/kid/notes/add" enctype="multipart/form-data">
         <div class="container">
-          <h3 key="addNote">  ✍🏻מחשבה חדשה </h3>
+          <h3 class="lang" key="newNote">✍🏻מחשבה חדשה </h3>
           <br>
           <hr>
-          <label for="title"><b>כותרת</b></label>
+          <label for="title" class="lang" key="noteTitle"><b>כותרת</b></label>
           <input type="text"  name="title" required value="" autocomplete="off">
-          <label for="title"><b>ספר</b></label>
+          <label for="title" class="lang" key="noteTitle" ><b>ספר</b></label>
          
-          <select>
-            <option value="">none</option>
+          <select id="bookSelect" onchange="getSelected()">
+            <option value="" selected="selected">none</option>
              {{#each notesData.getbBooksForNote}}  
-             <option name="bookID" value="{{bookID}}"> {{bookName}}</option>
+             <option  value="{{bookID}}"> {{bookName}}</option>
              {{/each }}  
           </select>
+          <input id="bookName" type="text" name="bookID" style="display: none">
+
           <label for="content"><b>תוכן </b></label>
           <textarea name="content" rows="8" cols="100" required value=""></textarea>
 
-          <label for="file"><b>🎨 ציורים שלך </b></label>
-          <input value=""   type="file" id="group-image" name="pic" placeholder="Add a title image" accept="image/gif, image/jpeg, image/jpg, image/svg+xml, image/svg, image/png, image/x-png, image/pjpeg">
-           <button type="submit" name="button" class="okbtn">הוסף</button>
+        <div class="imgcontainer">       
+          {{!-- <img id="modalNotePic" src="{{notePic}}" alt="notePic" class="profilePic">
+          <br>
+          <label class="lang" key="notePic" for="title"><b></b>ציור שלי</b> <a href="#" class="close"></a></label>
+          <li id="liClose" class="ele" style="visibility:hidden;">
+            <div class="close spin large"><b></b><b></b><b></b><b></b></div>
+          </li>
+          <input class="imgPrevInput" type="file" id="newNotePicInput" name="notePic" class="section" accept="image/*" alt="your image" />          --}}
+        </div>
+  <input value=""   type="file" id="group-image" name="notePic" placeholder="Add a title image" accept="image/gif, image/jpeg, image/jpg, image/svg+xml, image/svg, image/png, image/x-png, image/pjpeg">
+          <button type="submit" name="button" class="okbtn">הוסף</button>
           <button type="button" onclick="document.getElementById('newnote').style.display='none'" class="cancelbtn">ביטול</button>
          
          </div>
        </form>
      </div>
    </div>
+
       <div class="modal-style">
       <div id="updatenote" class="modal">
       <form class="modal-content animate" method="POST" action="/kid/notes/edit">
@@ -76,17 +112,22 @@
           <h3 key="updateNote"> ✍🏻עדכן סיכום</h3>
           <br>
           <hr>
-
-          <input id="updateNoteID" type="text"  value="{{noteID}}" style="display: none">
+          <input id="updateNoteID" type="text"  name="noteID" value="{{noteID}}" style="display: block">
           
           <label for="title"><b>כותרת</b></label>
           <input id="updateTitle" type="text"  name="title" required value="">
 
           <label for="title"><b>תוכן</b></label>
           <textarea id= "updateContent" name="content" rows="8" cols="100"   required value=""></textarea>
+         
+          <label for="bookName"><b>ספר</b></label>
+          <input id="updateBookName" type="text"  name="bookName" required value="">
+          
+          <img src="" alt="" id="updateNotePic">
 
           <label for="file"><b>ציורים שלך 🎨</b></label>
           <input  id="updatePictures" value="" type="file" id="group-image" name="img" placeholder="Add a title image" accept="image/gif, image/jpeg, image/jpg, image/svg+xml, image/svg, image/png, image/x-png, image/pjpeg">
+          
           <button type="submit" name="button" class="okbtn">עדכן</button>
           <button type="button" onclick="document.getElementById('updatenote').style.display='none'" class="cancelbtn">ביטול</button>
           
@@ -95,42 +136,10 @@
      </div>
    </div>
 
-
-
        
   </div>
 </div>
-<script>
-  $(document).ready(function() {
-    $('.deleteNote').on('click', function() {    // function will run on click
-        var id = $(this).data('id');    // gettin the id from the data-id attribute
-        var url = '/kid/notes/delete/' + id;
-       // if (confirm('Delete Game?')) {    // confirming the delete
-            $.ajax({
-                url: url,
-                type:'DELETE',
-                success: function(result) {
-                    console.log('Deleting Note...');
-                   window.location.href = '/kid/notes'; // redirection
-                },
-                error: function(err) {
-                    console.log(err);
-                }
-            });
-       // recalculateCart();
-      //  }
-    });
 
-});
-
-
-    $(document).ready(function() {$('.updateNote').on('click', function() {
-        $('#updateTitle').val($(this).data('title'));
-        $('#updateContent').val($(this).data('content'));
-        $('#updateNoteID').val($(this).data('id'));
-    });
-  });
-</script>
 
 
 
@@ -160,7 +169,7 @@
   {{> kid_footer}}
 
   <!--====== Javascripts & Jquery ======-->
-
+ <script src="/js/kid/kid-notes-scripts.js"></script>
 </body>
 
 </html>
