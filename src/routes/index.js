@@ -1784,19 +1784,19 @@ router.get('/teacher/group-status/:groupID', authenticationMiddleware(), functio
 
   if (userData.userType == 'teacher' || userData.userType == 'admin') {  // only teachers can view this page
     try {
-     // if (checkPermission || userData.userType == 'admin') {
+      var checkPermission = await queries.checkUserAccessToGroup(req.user, req.params.groupID);
+      if (checkPermission || userData.userType == 'admin') {
         queries.getGroupStatusQuiz(req.params.groupID, (getGroupStatusQuiz)=>{
           res.render('teacher/group-status', {getGroupStatusQuiz,userData });
          
        });
 
-    //  }
-    //  else {
-     //   req.flash('errorMessage', 'אין לך גישה לקבוצה זו.');
-     //   res.redirect('/');
       }
-  //  } 
-    catch (e) {
+      else {
+        req.flash('errorMessage', 'אין לך גישה לקבוצה זו.');
+        res.redirect('/');
+      }
+    } catch (e) {
       console.error(e);
       req.flash('errorMessage', 'אירעה שגיאה בעת נסיון כניסה לדף הקבוצות.');
       res.redirect('/');   
