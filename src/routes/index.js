@@ -791,7 +791,39 @@ router.post('/kid/games/add:gameID', authenticationMiddleware(), function (req, 
 
   });
 });
+//===========================================================
+router.get('/kid/supervisors', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
 
+    if (userData.userType == 'kid') {  // only kids can view this page
+      // callback - checkout a client
+      pool.connect((err, client, done) => {
+        if (err) throw err
+        client.query(`SELECT * 
+                    FROM "Supervise" s INNER JOIN "Person" p ON s."supervisorID" = p."personID"
+                    WHERE "kidID" = $1 AND "approved" = $2`, [userData.userID, 'Y'], (error, result) => {
+            done();
+            if (error) {
+              console.log(error.stack);
+            } else {
+              res.render('kid/supervisors', { "mySupervisorsList": result.rows, userData });
+            }
+          });
+      });
+    }
+    else {  // other users goto homepage
+      res.redirect('/');
+    }
+
+
+  });
+});
 //============================================================
 router.get('/kid/notes', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
@@ -812,49 +844,34 @@ router.get('/kid/notes', authenticationMiddleware(), function (req, res) {
 
 //============================================================
 router.post('/kid/notes/add', authenticationMiddleware(), function (req, res) {
-  // the pool with emit an error on behalf of any idle clients
-  // it contains if a backend error or network partition happens
-  queries.getUserById(req.user, (userData) => {
-  pool.on('error', (err, client) => {
-    console.error('Unexpected error on idle client', err)
-    process.exit(-1)
-  })
-  var nowDate = new Date(); 
-  var date = nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate(); 
-  // callback - checkout a client
-  if(req.body.bookID!=""){
-    console.log("bookID"+req.body.bookID);
-    pool.connect((err, client, done) => {
-      if (err) throw err
-      client.query('INSERT INTO "Note" ("date","personID", "bookID","title", "content","type","pic" ) VALUES($1, $2,$3,$4,$5,$6,$7)',[date,userData.userID,req.body.bookID,req.body.title, req.body.content, 'private',req.body.pic], (error, result) => {
-        done();
-        if (error) {
-          console.log(error.stack);
-        } else {
-          
-          //res.render('/kid/notes', { "myNotes": result.rows ,userData});
-          res.redirect('/kid/notes');
-        }
-      }); 
-       });
+  app.upload(req, res, function (err) {
+  if (err) {
+    console.log('Error-->');
+    console.log(err);
+    res.json({ "status": "Failure", "message": 'There was a problem uploading your files.' + err });
+    return;
   }
   else {
-    pool.connect((err, client, done) => {
-      if (err) throw err
-      client.query('INSERT INTO "Note" ("date","personID","title", "content","type","pic" ) VALUES($1, $2,$3,$4,$5,$6)',[date,userData.userID,req.body.title, req.body.content, 'private',req.body.pic], (error, result) => {
-        done();
-        if (error) {
-          console.log(error.stack);
-        } else {
-          
-          //res.render('/kid/notes', { "myNotes": result.rows ,userData});
-          res.redirect('/kid/notes');
-        }
-      }); 
-       });
+    console.log(req.body);
+    console.log("req.file"+req.files);
+    console.log("fieldname" + req.file);
+    if (req.file != 0) {
+      console.log('File uploaded!');
+      if(req.body.bookID!=""){
+        queries.insertNote_book(req.body, req.user, req.files);
+        res.redirect('/kid/notes');
+      }
+      if(req.body.bookID==""){
+        queries.insertNote_noBook(req.body, req.user, req.files);
+        res.redirect('/kid/notes');
+      }
+   }
+    else {  // has to be a least 1 pic, the pic of the quiz
+      console.log("No file uploaded. Ensure file is uploaded.");
+      res.json({ "status": "Failure", "message": 'No file uploaded. Ensure file is uploaded.' });
+    }
   }
-
-    });
+});
 });
 
 //============================================================
@@ -869,6 +886,7 @@ router.post('/kid/notes/edit', authenticationMiddleware(), function (req, res) {
 //console.log('req.body.id'+req.body.noteID);
   // callback - checkout a client
   pool.connect((err, client, done) => {
+    console.log(req.body);
     if (err) throw err
     client.query('UPDATE "Note" SET "title"=$1, "content"=$2, "type"=$3 WHERE "personID"=$4 AND "noteID"=$5 ',[ req.body.title, req.body.content, 'private',userData.userID,req.body.noteID], (error, result) => {
       done();
@@ -1742,6 +1760,43 @@ router.get('/teacher/single-group/:groupID', authenticationMiddleware(), functio
         res.redirect('/');
       }
     } catch (e) {
+      console.error(e);
+      req.flash('errorMessage', 'אירעה שגיאה בעת נסיון כניסה לדף הקבוצות.');
+      res.redirect('/');   
+    }
+  }
+  else {  // not authorized to make this request
+    req.flash('errorMessage', 'רק למורים יש גישה לקבוצות.');
+    res.redirect('/');
+  }
+});
+});
+//=============================================================
+router.get('/teacher/group-status/:groupID', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+
+  queries.getUserById(req.user, async (userData) => {
+  pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err)
+    process.exit(-1)
+  })
+
+  if (userData.userType == 'teacher' || userData.userType == 'admin') {  // only teachers can view this page
+    try {
+     // if (checkPermission || userData.userType == 'admin') {
+        queries.getGroupStatusQuiz(req.params.groupID, (getGroupStatusQuiz)=>{
+          res.render('teacher/group-status', {getGroupStatusQuiz,userData });
+         
+       });
+
+    //  }
+    //  else {
+     //   req.flash('errorMessage', 'אין לך גישה לקבוצה זו.');
+     //   res.redirect('/');
+      }
+  //  } 
+    catch (e) {
       console.error(e);
       req.flash('errorMessage', 'אירעה שגיאה בעת נסיון כניסה לדף הקבוצות.');
       res.redirect('/');   

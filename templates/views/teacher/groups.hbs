@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Kid Cart</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+     <link rel="Stylesheet" href="/css/style.css" />
+  {{> kid_head}}
+
+</head>
+<body>
+   <div  class="navigation-style">
+    <div  id="main">
+      {{> kid_topNav}}
+          
+      <div id="kid-groups" class="group-style"> 
+        <h1 style="margin-right: 3%; margin-top:3%;">👨‍👩‍👧‍👦 הקבוצות שלי  </h1> 
+           <button onclick="document.getElementById('newGroupForm').style.display='block'">Add new Group</button>  
+            <div class="cards"> 
+              {{#Groups}}      
+              <a href="single-group-page/{{groupID}}">
+                <div class="card">
+                <img class="card_image" src="{{pic}}"
+              onerror="this.onerror=null;this.src='../img/groups/teamwork.png';" alt="Avatar" style="width:100%">
+                <div class="container">
+                <h4><b>{{groupName}}</b></h4> 
+                </div>
+              </div>
+              </a>
+            {{/Groups}}  
+          </div> 
+      </div>
+         
+    </div> {{!-- main --}}
+ </div>
+    <div class="modal-style">
+      <div id="newGroupForm" class="modal">
+      <form class="modal-content animate" method="POST" action="/teacher/create-group" enctype="multipart/form-data">
+        <div class="container">
+          <h3 key="newGroup">  new group</h3>
+          <br>
+          <hr>
+          <label for="title"><b>group name</b></label>
+          <input type="text"  name="groupName" required value="" autocomplete="off">
+          <label for="title"><b>ספר</b></label>
+         
+          <label for="file"><b>picture</b></label>
+          <input value=""   type="file" id="group-image" name="pic" placeholder="Add a title image" accept="image/gif, image/jpeg, image/jpg, image/svg+xml, image/svg, image/png, image/x-png, image/pjpeg">
+          
+          <button type="submit" name="button" class="okbtn">הוסף</button>
+          <button type="button" onclick="document.getElementById('newGroupForm').style.display='none'" class="cancelbtn">ביטול</button>
+         
+         </div>
+       </form>
+     </div>
+   </div>
+ {{> kid_footer}}
+</body>
+</html>

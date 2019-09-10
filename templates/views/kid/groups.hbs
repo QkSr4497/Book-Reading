@@ -21,7 +21,8 @@
               {{#myGroups}}      
               <a href="single-group-page/{{groupID}}">
                 <div class="card">
-                <img src="/img/groups/default-group-pic.png" alt="Avatar" style="width:100%">
+               <img class="card_image" src="{{pic}}"
+               onerror="this.onerror=null;this.src='../img/groups/teamwork.png';" alt="Avatar" style="width:100%">
                 <div class="container">
                 <h4><b>{{groupName}}</b></h4> 
                 </div>

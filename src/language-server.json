@@ -1,10 +1,10 @@
 {
   "SupervisionRequest": {
     "hebrew": "בקשת פיקוח",
-    "arabic": "سلام اسم من"
+    "arabic": "طلب إرشاد"
   },
   "groupInvitation": {
     "hebrew": "הזמנת הצטרפות לקבוצת: %{groupName} [%{groupID}]",
-    "arabic": "سلام سلام سلام: %{groupName} [%{groupID}]"
+    "arabic": "دعوة إنصمام لمجموعة: %{groupName} [%{groupID}]"
   }
 }

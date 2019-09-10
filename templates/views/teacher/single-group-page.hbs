@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Kid-Read: {{bookData.bookName}}</title>
+    {{> kid_head}}
+    	<!-- Main Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="/css/kid/single-group-page.css" />
+    <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="navigation-style">
+
+
+    <div id="main">
+    <div  class="topnav" id="myTopnav">
+    <div class="left-nav"> 
+    <a class="tablinks" class="lang" key="welcome"id="welcomeTitle">ברוך הבא {{userData.userName}}</a>
+    {{#if userData.points}}
+    <a class="tablinks" class="lang" key="myPoints" id="pointsTitle">נקודות שלי: {{userData.points}}</a>
+    {{/if}}
+    </div>
+    
+    <a href="#" id="openNav" class="active" onclick="openSideNav()"><i class='far fa-user'></i></a>     
+    <a href="#">KidsRead</a>
+    <a href="../../books" class="lang" key="books">ספריה</a>
+    <a href="../../games" class="lang" key="store">חנות</a>
+    <div class="dropdown">
+      <button class="dropbtn lang " key="language">שפה 
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content">
+        <a  class="translate lang" id="arb"  key="arabic">ערבית</a>
+        <a  class="translate lang" id="heb"  key="hebrew">עברית</a>
+      </div>
+    </div> 
+    <a href="javascript:void(0);" class="icon" onclick="responsiveNav()">
+    <i class="fa fa-bars"></i>
+    </a>
+    </div>
+          {{!-- {{#groupData}} --}}
+          {{#each allAboutGroup.groupData}}
+            <div class="wrapper">
+                <div id="one"><img src="{{pic}}"
+                        onerror="this.onerror=null;this.src='/img/groups/default-group.gif';" /></div>
+                <div id="two">
+                    <h1>שם הקבוצה: {{groupName}} </h1>
+                    <span id="createdBy">נוצר ע"י:  {{userName}}</span>
+                </div>
+            </div>
+          <div class="btn-group">
+          <button onclick="document.getElementById('inviteForm').style.display='block'" >Invite</button>
+          <button onclick="document.getElementById('sendMessageForm').style.display='block'" >Send message</button>
+          <button>update</button>
+        </div>
+            <div class="row">
+                <div class="column80">
+                 <h2 style="margin-right: 3%; font-size:120%; font-weight:bold;">פוסטים:</h2>
+                 <div class="container">
+                   
+                 
+                    <form method="POST" action="/post/add">
+                      <input type="text" name="groupID" value={{groupID}} style="display: none">
+                      <textarea name="content" id="postContent" cols="80" rows="2" required></textarea>
+                      <br>
+                      <input id="addPost"type="submit" value="כתב פוסט">
+                    </form>
+                  </div>
+            {{/each }}
+
+
+
+                    {{#each allAboutGroup.groupPosts}}
+                    <div class="container">
+                      <img id="postImg" src="../../img/icons/chat_3.png"  alt="Avatar">
+                      <p>{{userName}}</p>
+                      {{!-- <p>{{postDate}}</p> --}}
+                      <p>{{content}}</p>
+                    </div>
+                    {{/each }}
+             </div>
+
+
+
+
+                {{!-- admin and kids --}}
+                <div class="column20">
+                   <div class="typeMember"> <h2>אדמין: </h2> </div>
+                {{#each allAboutGroup.groupAdminMembers}}
+                  <ul>
+                    <li>{{userName}}</li>
+                  </ul>
+                {{/each }}
+
+                   <div class="typeMember"> <h2>חברי קבוצה: </h2> </div>
+                  {{#each allAboutGroup.groupKidMembers}}
+                  <ul>
+                    <li>{{userName}}</li>
+                  </ul>
+                   {{/each }}
+                </div>
+            </div>
+
+          {{!-- {{/groupData}} --}}
+
+         </div>
+    </div>
+         
+     <div class="modal-style">
+      <div id="inviteForm" class="modal">
+      <form class="modal-content animate" method="POST" action="/teacher/inviteToGroup">
+        <div class="container">
+          <h3 key="newMember"> new member </h3>
+          <br>
+          <hr>
+          {{#each allAboutGroup.groupData}}
+         <input name="groupID" value="{{groupID}}" type="text">
+          {{/each }}
+          <select id="typeSelect" onchange="getSelected()"> 
+            <option id="kidOption" value="kid" selected="selected" >kid</option>
+            <option id="adminOption" value="admin">Admin</option>
+          </select>
+
+          <input id="memeberType" type="text" name="type" value="kid">
+
+          <div class="searchForMembers">
+          <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+          <ul id="myUL"> 
+            {{#each allAboutGroup.notGroupMembers}}
+            <li><a href="#">{{userName}} {{email}}</a> <button class="inviteBtn" name="personID" value="{{personID}}" id="">Invite</button></li>
+            {{/each }}
+          </ul>
+          </div>       
+          <button type="button" onclick="document.getElementById('inviteForm').style.display='none'" class="cancelbtn">ביטול</button>        
+         </div>
+       </form>
+     </div>
+   </div>
+
+
+     <div class="modal-style">
+      <div id="sendMessageForm" class="modal">
+      <form class="modal-content animate" method="POST" action="/teacher/sendMessage">
+        <div class="container">
+          <h3 key="newMessage"> new message </h3>
+          <br>
+          <hr>
+          <label for="">Group</label>
+        {{#each allAboutGroup.groupData}}
+         <input name="groupID" value="{{groupID}}" type="text">
+          {{/each }}
+
+
+         <label for="">Subject</label>
+         <input name="subject" type="text">
+
+          <input name="date" type="text" value="2019-10-06">
+         <label for="">Content</label>
+          <textarea name="" id="" cols="30" rows="10" name="content" value="aaaaaaaaaaaaaaaaa"></textarea>
+
+          <button type="submit" name="button" class="okbtn">הוסף</button>
+          <button type="button" onclick="document.getElementById('sendMessageForm').style.display='none'" class="cancelbtn">ביטול</button>        
+         </div>
+       </form>
+     </div>
+   </div>
+
+    {{> kid_footer}}
+   <script>
+function myFunction() {
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myUL");
+    li = ul.getElementsByTagName("li");
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        txtValue = a.textContent || a.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+</script>
+
+<script>
+function getSelected(){
+	var e = document.getElementById("typeSelect");
+	var result =e.options[e.selectedIndex].text;
+  document.getElementById("memeberType").value=result;
+}
+
+</script>
+
+</body>
+</html>

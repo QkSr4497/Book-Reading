@@ -25,7 +25,10 @@
 <br><br>
 		<div class="wrapper" >
                 <div id="one"><img src="{{allAboutGroup.groupData.pic}}"
-                        onerror="this.onerror=null;this.src='/img/groups/default-group.gif';" /></div>
+                        onerror="this.onerror=null;this.src='/img/groups/default-group.gif';" />
+                  <a id="groupStatusLink" href="/teacher/group-status/{{allAboutGroup.groupData.groupID}}" >Group-Status</a>
+                </div>
+                
                 <div id="two">
                    <span><h1 class="lang" key="groupName">שם הקבוצה:</h1><h1>{{allAboutGroup.groupData.groupName}} </h1></span>
                     <span class="lang" key="createdBy" id="createdBy">נוצרה ע"י:</span><span>{{allAboutGroup.groupData.userName}}</span>
@@ -63,6 +66,7 @@
 
                
                 <div class="column20">
+
                    <div class="lang" key="admin" class="typeMember"> <h2>אדמין: </h2> </div>
                 {{#each allAboutGroup.groupAdminMembers}}
                   <ul>
