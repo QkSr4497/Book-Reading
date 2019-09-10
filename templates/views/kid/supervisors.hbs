@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{{userData.userType}} - Supervisor</title>
+ {{> kid_head}}
+</head>
+
+<body>
+  <div class="navigation-style">
+    {{> kid_sideNav}}
+
+    <div id="main">
+    {{> kid_topNav}}
+
+      <div id="kid-supervisors" class="group-style"> 
+        <h1 class="lang" key="mySupervisors" style="margin-right: 3%; margin-top:3%;"> 🙋‍המפקחים שלי </h1>   
+            <div class="cards"> 
+              {{#mySupervisorsList}}      
+                <div class="card">
+                <img class="card_image" src="{{profilePic}}"
+                  onerror="this.onerror=null;this.src='../img/groups/teamwork.png';" alt="Avatar" style="width:100%">
+                <div class="container">
+                <h4><b> <p>{{firstName}} {{lastName}}</p></b></h4> 
+                </div>
+              </div>
+            {{/mySupervisorsList}}  
+          </div> 
+      </div>     
+  </div>
+</div>
+
+
+
+ {{> kid_footer}}
+
+ <!--====== Javascripts & Jquery ======-->
+ <script>
+  var langPreferred = {{{json userData.langPreferred}}};  // global variable which is used in language.js file
+</script>
+
+</body>
+
+</html>
