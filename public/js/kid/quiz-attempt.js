@@ -39,6 +39,7 @@ $('#quitQuiz').on('click', function () {
 
 
 const getQuizData = (quizID) => {
+    $("#startQuiz").attr("disabled", true);
     var url = '/kid/quiz/getQuizData';
     $.ajax({
         url: url,
@@ -46,6 +47,8 @@ const getQuizData = (quizID) => {
         data: { quizID: quizID },
         success: function (result) {
             quizData = result;
+            $("#startQuiz").attr("disabled", false);
+            $("#rollerStartQuiz").hide();
         },
         error: function (err) {
 

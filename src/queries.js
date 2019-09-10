@@ -2,7 +2,7 @@ const db = require('./db'); // postgresql database connection pool
 const path = require('path');
 const fse = require('fs-extra');
 const validator = require('validator');
-const __ = require('multi-lang')('language-server.json'); // Import module with language-server.json file
+const __ = require('multi-lang')('src/language-server.json'); // Import module with language-server.json file
 const pool = db.pg_pool;
 
 const getUsers = (request, response) => {
@@ -174,7 +174,8 @@ const getStoragePath = (originalPath, pathInImg, newFileName) => { // getting st
                                                                    // also updating the file name
     var newPathArr = originalPath.split(path.sep);
     var ImgArr = pathInImg.split(path.sep);
-    newPathArr.spliceArray(3, 1, ImgArr); // removing 1 element at index 3 and then concatenating imgArr elements
+    console.log(newPathArr);
+    newPathArr.spliceArray(2, 1, ImgArr); // removing 1 element at index 2 and then concatenating imgArr elements
     var newPathString = newPathArr.join(path.sep);  // array to path string
     var newPathParse = path.parse(newPathString);   // parsing path to fields
     newPathParse.base = newFileName + newPathParse.ext; // changing file name to newFileName
@@ -187,7 +188,7 @@ Array.prototype.spliceArray = function (index, n, array) {  // deleting n elemen
 
 const getDbPath = (storagePath) => {    // getting DB path from storagePath
     var newPathArr = storagePath.split(path.sep);
-    newPathArr.splice(0, 2);        // Removes the first two element of newPathArr
+    newPathArr.splice(0, 1);        // Removes the first element of newPathArr
     var newPathString = newPathArr.join(path.sep);  // array to path string
     newPathString = path.sep + newPathString;
     return newPathString;   // returning new path String
@@ -270,6 +271,8 @@ const insertNewQuiz = async (data, writerID, imgArr) => { // using async/await
     var {rows: [{last_value}]} = await db.query(`SELECT last_value FROM "Quiz_quizID_seq"`);  // getting the last inserted serial number of quizID
     const quizID = ++last_value; // id of the new quiz
     var storagePath = getStoragePath(imgArr[0].path, `quizes\\quiz${quizID}`, imgArr[0].fieldname);
+    console.log("storagePath: " + storagePath);
+    console.log("imgArr[0].path: " + imgArr[0].path);
     moveFile(imgArr[0].path, storagePath, false);
     data.quizPicInput = getDbPath(storagePath);
     console.log(data);

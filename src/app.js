@@ -53,6 +53,13 @@ const db = require('./db.js');    // postgresql database connection pool
 
 const pool = db.pg_pool;
 
+const {
+  PORT = 3000,  // default value if it is not provided in process.env
+  NODE_ENV = 'development'  // default value if it is not provided in process.env
+} = process.env;
+
+const IN_PROD = NODE_ENV === 'production';  // true if in production
+
 // Body Parser Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -129,7 +136,7 @@ passport.use(new LocalStrategy({passReqToCallback : true}, function (req, userna
 // Set Storage Engine
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './../public/img/uploads_tmp');
+    cb(null, './public/img/uploads_tmp');
   },
   filename: function (req, file, cb) {
     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname) );
@@ -145,8 +152,8 @@ app.use('/', index);
 
 
 // Server
-app.listen(3000, function () {
-  console.log('Server Started On Port 3000')
+app.listen(PORT, function () {
+  console.log(`Server Started On Port ${PORT}`)
 });
 
 

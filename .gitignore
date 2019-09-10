@@ -1,6 +1,6 @@
 # Dependency directory
-src/node_modules
+node_modules
 
 # Local env file with credentials
-src/.env
+.env
 
