@@ -49,16 +49,23 @@ app.use(express.static(publicDirectoryPath));  // use is a way to customize our 
 
 require('dotenv').config(); // using env file
 
+const {
+  PORT = 3000,  // default value if it is not provided in process.env
+  NODE_ENV = 'development',  // default value if it is not provided in process.env
+  SQL_PORT = 5432
+} = process.env;
+
+const IN_PROD = NODE_ENV === 'production';  // true if in production
+
+if (process.env.INSTANCE_CONNECTION_NAME && IN_PROD) {
+  process.env.SQL_HOST = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
+}
+
 const db = require('./db.js');    // postgresql database connection pool
 
 const pool = db.pg_pool;
 
-const {
-  PORT = 3000,  // default value if it is not provided in process.env
-  NODE_ENV = 'development'  // default value if it is not provided in process.env
-} = process.env;
 
-const IN_PROD = NODE_ENV === 'production';  // true if in production
 
 // Body Parser Middleware
 app.use(bodyParser.json());

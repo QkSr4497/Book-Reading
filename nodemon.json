@@ -1,4 +1,6 @@
 {
-    "watch": ["/"],
-    "ext": "js hbs"
-  }
+  "watch": [
+    "./"
+  ],
+  "ext": "js hbs"
+}
