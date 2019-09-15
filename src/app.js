@@ -7,6 +7,7 @@ const express = require('express'),
   flash = require('connect-flash'),
   helpers = require('handlebars-helpers')(),  // More than 130 Handlebars helpers in ~20 categories. Helpers can be used with Assemble, Generate, Verb, Ghost, gulp-handlebars, grunt-handlebars, consolidate, or any node.js/Handlebars project.
   app = express();
+  
 
 // Authentication Packages
 var session = require('express-session');
@@ -49,22 +50,16 @@ app.use(express.static(publicDirectoryPath));  // use is a way to customize our 
 
 require('dotenv').config(); // using env file
 
-const {
-  PORT = 3000,  // default value if it is not provided in process.env
-  NODE_ENV = 'development',  // default value if it is not provided in process.env
-  SQL_PORT = 5432
+const {  // default values if they are not provided in process.env
+  PORT = 3000,
+  NODE_ENV = 'development'
 } = process.env;
 
 const IN_PROD = NODE_ENV === 'production';  // true if in production
 
-if (process.env.INSTANCE_CONNECTION_NAME && IN_PROD) {
-  process.env.SQL_HOST = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
-}
-
 const db = require('./db.js');    // postgresql database connection pool
 
 const pool = db.pg_pool;
-
 
 
 // Body Parser Middleware
@@ -96,8 +91,6 @@ app.use( function(req, res, next) {
                                                       // guide on how to use: https://www.youtube.com/watch?v=mFVqL5aIjSE&t=1s
   next();
 });
-
-
 
 
 passport.use(new LocalStrategy({passReqToCallback : true}, function (req, username, password, done) { // we can access username and password because the inputs in the front end page have exactly the same name

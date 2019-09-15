@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-runtime: nodejs8
+runtime: nodejs10
 
 # [START gae_postgres_env]
 # The following env variables may contain sensitive information that grants
@@ -21,6 +21,11 @@ env_variables:
   SQL_USER: postgres
   SQL_PASSWORD: 28p0tXm9hFb3BJZNy78N
   SQL_DATABASE: postgres
+  SQL_HOST: /cloudsql/kidsread:europe-west2:kid-book-reading-db
+  SESSION_SECRET: jdsfdsvkjh3483743463767#$#$#$fkjdfjhdfh&sd)#;995
+  SQL_PORT: 5432
+  GCLOUD_STORAGE_BUCKET: kidsread
+
   # e.g. my-awesome-project:us-central1:my-cloud-sql-instance
   INSTANCE_CONNECTION_NAME: kidsread:europe-west2:kid-book-reading-db
 # [END gae_postgres_env]
