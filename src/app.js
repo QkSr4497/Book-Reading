@@ -7,7 +7,13 @@ const express = require('express'),
   flash = require('connect-flash'),
   helpers = require('handlebars-helpers')(),  // More than 130 Handlebars helpers in ~20 categories. Helpers can be used with Assemble, Generate, Verb, Ghost, gulp-handlebars, grunt-handlebars, consolidate, or any node.js/Handlebars project.
   app = express();
-  
+
+// By default, the client will authenticate using the service account file
+// specified by the GOOGLE_APPLICATION_CREDENTIALS environment variable and use
+// the project specified by the GOOGLE_CLOUD_PROJECT environment variable. See
+// https://github.com/GoogleCloudPlatform/google-cloud-node/blob/master/docs/authentication.md
+// These environment variables are set automatically on Google App Engine
+const {Storage} = require('@google-cloud/storage');
 
 // Authentication Packages
 var session = require('express-session');
@@ -132,20 +138,36 @@ passport.use(new LocalStrategy({passReqToCallback : true}, function (req, userna
   }
 ));
 
+if (IN_PROD) {
+  // Instantiate a storage client
+  const storage = new Storage();
 
-// Set Storage Engine
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './public/img/uploads_tmp');
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname) );
-  }
-});
+  // init Upload (as global variable)
+  upload = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+      fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
+    },
+  }).any();
 
-// init Upload
-var upload = multer({ storage: storage }).any();
+  // A bucket is a container for objects (files).
+  const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
+}
+else {
+  // Set Storage Engine
+  var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './public/img/uploads_tmp');
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+  });
 
+  // init Upload (as global variable)
+  upload = multer({ storage: storage }).any();
+
+}
 
 
 app.use('/', index);
@@ -153,7 +175,15 @@ app.use('/', index);
 
 // Server
 app.listen(PORT, function () {
-  console.log(`Server Started On Port ${PORT}`)
+  if (IN_PROD) {
+    console.log(`App listening on port ${PORT}`);
+    console.log('Press Ctrl+C to quit.');
+  }
+  else {
+    console.log(`Server Started On Port ${PORT}`);
+  }
+
+
 });
 
 

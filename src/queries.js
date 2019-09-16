@@ -5,6 +5,23 @@ const validator = require('validator');
 const __ = require('multi-lang')('src/language-server.json'); // Import module with language-server.json file
 const pool = db.pg_pool;
 
+// By default, the client will authenticate using the service account file
+// specified by the GOOGLE_APPLICATION_CREDENTIALS environment variable and use
+// the project specified by the GOOGLE_CLOUD_PROJECT environment variable. See
+// https://github.com/GoogleCloudPlatform/google-cloud-node/blob/master/docs/authentication.md
+// These environment variables are set automatically on Google App Engine
+const {Storage} = require('@google-cloud/storage');
+
+// Instantiate a storage client
+const storage = new Storage();
+
+const app = require('./app');
+
+const IN_PROD =  process.env.NODE_ENV === 'production';  // true if in production
+
+// A bucket is a container for objects (files).
+const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
+
 const getUsers = (request, response) => {
     pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
         if (error) {
@@ -234,8 +251,6 @@ const editKidProfile = async (data, userID, imgArr) => { // using async/await
     // console.log(imgArr);
     // console.log(imgArr.length);
     try {
-        
-
         if (imgArr.length == 0) {    // no new profile pic
             await db.query(`UPDATE "Person" 
                             SET "firstName" = $1, "lastName" = $2
@@ -245,10 +260,20 @@ const editKidProfile = async (data, userID, imgArr) => { // using async/await
 
         }
         else {  // new profile pic
-            var storagePath = getStoragePath(imgArr[0].path, `users\\user${userID}`, imgArr[0].fieldname);
-            var isOverWrite = true;
-            await moveFile(imgArr[0].path, storagePath, isOverWrite);
-            data.profilePicDbPath = getDbPath(storagePath);
+
+            if (IN_PROD) {  // uploading files to the cloud when in PRODUCTION mode
+                data.profilePicDbPath = await uploadToCloud(imgArr[0], `users/user${userID}`);   
+            }
+            else {  // uploading files locally when in DEVELOPMENT mode
+                console.log('!!!!');
+                console.log(imgArr);
+                console.log('!!!!');
+
+                var storagePath = getStoragePath(imgArr[0].path, `users\\user${userID}`, imgArr[0].fieldname);
+                var isOverWrite = true;
+                await moveFile(imgArr[0].path, storagePath, isOverWrite);
+                data.profilePicDbPath = getDbPath(storagePath);
+            }
             
             await db.query(`UPDATE "Person" 
                             SET "firstName" = $1, "lastName" = $2, "profilePic" = $3
@@ -270,21 +295,38 @@ const editKidProfile = async (data, userID, imgArr) => { // using async/await
 const insertNewQuiz = async (data, writerID, imgArr) => { // using async/await
     var {rows: [{last_value}]} = await db.query(`SELECT last_value FROM "Quiz_quizID_seq"`);  // getting the last inserted serial number of quizID
     const quizID = ++last_value; // id of the new quiz
-    var storagePath = getStoragePath(imgArr[0].path, `quizes\\quiz${quizID}`, imgArr[0].fieldname);
-    console.log("storagePath: " + storagePath);
-    console.log("imgArr[0].path: " + imgArr[0].path);
-    moveFile(imgArr[0].path, storagePath, false);
-    data.quizPicInput = getDbPath(storagePath);
+
+    if (IN_PROD) {  // uploading files to the cloud when in PRODUCTION mode
+        data.quizPicInput = await uploadToCloud(imgArr[0], `quizes/quiz${quizID}`);   
+    }
+    else {  // uploading files locally when in DEVELOPMENT mode
+        var storagePath = getStoragePath(imgArr[0].path, `quizes\\quiz${quizID}`, imgArr[0].fieldname);
+        var isOverWrite = false;
+        console.log("storagePath: " + storagePath);
+        console.log("imgArr[0].path: " + imgArr[0].path);
+        await moveFile(imgArr[0].path, storagePath, isOverWrite);
+        data.quizPicInput = getDbPath(storagePath);
+    }
     console.log(data);
+
+
     await db.query(`INSERT INTO "Quiz"("quizTitle", "quizLanguage", "quizPic", duration) VALUES($1, $2, $3, $4)`,
       [data.quizTitle, data.quizLang, data.quizPicInput, data.quizTime]);
     var qPic;
     for (var i = 1; i <= data.totalQuestionsNum; i++) {
         qPic = searchArr(imgArr, `q${i}picInput`, 'fieldname');
         if (qPic) {
-            storagePath = getStoragePath(qPic.path, `quizes\\quiz${quizID}`, qPic.fieldname);
-            moveFile(qPic.path, storagePath, false);
-            qPic.dbPath = getDbPath(storagePath);
+
+            if (IN_PROD) {  // uploading files to the cloud when in PRODUCTION mode
+                qPic.dbPath = await uploadToCloud(qPic, `quizes/quiz${quizID}`);   
+            }
+            else {  // uploading files locally when in DEVELOPMENT mode
+                storagePath = getStoragePath(qPic.path, `quizes\\quiz${quizID}`, qPic.fieldname);
+                var isOverWrite = false;
+                await moveFile(qPic.path, storagePath, isOverWrite);
+                qPic.dbPath = getDbPath(storagePath);
+            }
+
         }
         else {
             qPic = {};
@@ -324,9 +366,17 @@ const insertNewQuiz = async (data, writerID, imgArr) => { // using async/await
 
             qPic = searchArr(imgArr, `q${i}ans${j}picInput`, 'fieldname');
             if (qPic) {
-                storagePath = getStoragePath(qPic.path, `quizes\\quiz${quizID}`, qPic.fieldname);
-                moveFile(qPic.path, storagePath, false);
-                qPic.dbPath = getDbPath(storagePath);
+
+                if (IN_PROD) {  // uploading files to the cloud when in PRODUCTION mode
+                    qPic.dbPath = await uploadToCloud(qPic, `quizes/quiz${quizID}`);   
+                }
+                else {  // uploading files locally when in DEVELOPMENT mode
+                    storagePath = getStoragePath(qPic.path, `quizes\\quiz${quizID}`, qPic.fieldname);
+                    var isOverWrite = false;
+                    await moveFile(qPic.path, storagePath, isOverWrite);
+                    qPic.dbPath = getDbPath(storagePath);
+                }
+
             }
             else {
                 qPic = {};
@@ -1176,10 +1226,16 @@ const insertNewBook = async (data, imgArr) => { // using async/await
         else {    // inserting a book with an image uploaded by user
             var {rows: [{last_value}]} = await db.query(`SELECT last_value FROM "Book_bookID_seq"`);  // getting the last inserted serial number of bookID
             const bookID = ++last_value; // id of the new book
-            var storagePath = getStoragePath(imgArr[0].path, `books\\book${bookID}`, imgArr[0].fieldname);
-            var isOverWrite = true;
-            await moveFile(imgArr[0].path, storagePath, isOverWrite);
-            data.bookPicDbPath = getDbPath(storagePath);
+
+            if (IN_PROD) {  // uploading files to the cloud when in PRODUCTION mode
+                data.bookPicDbPath = await uploadToCloud(imgArr[0], `books/book${bookID}`);   
+            }
+            else {  // uploading files locally when in DEVELOPMENT mode
+                var storagePath = getStoragePath(imgArr[0].path, `books\\book${bookID}`, imgArr[0].fieldname);
+                var isOverWrite = true;
+                await moveFile(imgArr[0].path, storagePath, isOverWrite);
+                data.bookPicDbPath = getDbPath(storagePath);
+            }
             
             await db.query(`INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "lang", "pic") VALUES($1, $2, $3, $4, $5)`,
                 [data.bookName, data.authorFirstName, data.authorLastName, data.bookLang, data.bookPicDbPath]);
@@ -1207,11 +1263,18 @@ const insertNewGroup = async (data, creatorID, imgArr) => { // using async/await
 
         }
         else {    // inserting a group with an image uploaded by user
-            
-            var storagePath = getStoragePath(imgArr[0].path, `groups\\group${groupID}`, imgArr[0].fieldname);
-            var isOverWrite = true;
-            await moveFile(imgArr[0].path, storagePath, isOverWrite);
-            data.groupPicDbPath = getDbPath(storagePath);
+
+
+
+            if (IN_PROD) {  // uploading files to the cloud when in PRODUCTION mode
+                data.groupPicDbPath = await uploadToCloud(imgArr[0], `groups/group${groupID}`);   
+            }
+            else {  // uploading files locally when in DEVELOPMENT mode
+                var storagePath = getStoragePath(imgArr[0].path, `groups\\group${groupID}`, imgArr[0].fieldname);
+                var isOverWrite = true;
+                await moveFile(imgArr[0].path, storagePath, isOverWrite);
+                data.groupPicDbPath = getDbPath(storagePath);
+            }
             
             await db.query(`INSERT INTO "Group"("groupName", "pic", "personID") VALUES($1, $2, $3)`,
                 [data.groupName, data.groupPicDbPath, creatorID]);
@@ -1480,9 +1543,17 @@ const insertNote_book = async (data,userID,imgArr) => { // using async/await
         else{
             var { rowCount: currNoteCount} = await db.query(`SELECT * FROM "Note"`);
             const noteID = ++currNoteCount; // id of the new quiz
-            var storagePath = getStoragePath(imgArr[0].path, `users\\user${userID}\\notes\\note${noteID}`, imgArr[0].fieldname);
-            moveFile(imgArr[0].path, storagePath);
-            data.notePicInput = getDbPath(storagePath);
+
+
+            if (IN_PROD) {  // uploading files to the cloud when in PRODUCTION mode
+                data.notePicInput = await uploadToCloud(imgArr[0], `users/user${userID}/notes/note${noteID}`);   
+            }
+            else {  // uploading files locally when in DEVELOPMENT mode
+                var storagePath = getStoragePath(imgArr[0].path, `users\\user${userID}\\notes\\note${noteID}`, imgArr[0].fieldname);
+                var isOverWrite = true;
+                moveFile(imgArr[0].path, storagePath);
+                data.notePicInput = getDbPath(storagePath);
+            }
             console.log(data);
             var nowDate = new Date(); 
             var date = nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate(); 
@@ -1508,9 +1579,17 @@ const insertNote_noBook = async (data,userID,imgArr) => { // using async/await
         else{
             var { rowCount: currNoteCount} = await db.query(`SELECT * FROM "Note"`);
             const noteID = ++currNoteCount; // id of the new quiz
-            var storagePath = getStoragePath(imgArr[0].path, `users\\user${userID}\\notes\\note${noteID}`, imgArr[0].fieldname);
-            moveFile(imgArr[0].path, storagePath);
-            data.notePicInput = getDbPath(storagePath);
+
+
+            if (IN_PROD) {  // uploading files to the cloud when in PRODUCTION mode
+                data.notePicInput = await uploadToCloud(imgArr[0], `users/user${userID}/notes/note${noteID}`);   
+            }
+            else {  // uploading files locally when in DEVELOPMENT mode
+                var storagePath = getStoragePath(imgArr[0].path, `users\\user${userID}\\notes\\note${noteID}`, imgArr[0].fieldname);
+                var isOverWrite = true;
+                moveFile(imgArr[0].path, storagePath);
+                data.notePicInput = getDbPath(storagePath);
+            }
             console.log(data);
             var nowDate = new Date(); 
             var date = nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate(); 
@@ -1521,6 +1600,50 @@ const insertNote_noBook = async (data,userID,imgArr) => { // using async/await
         console.error(err) 
         return err;
       }
+}
+
+
+const uploadToCloud = async (imgData, pathInImg) => {
+
+    return new Promise((resolve, reject) => {
+        // Create a new blob in the bucket and upload the file data.
+        const blob = bucket.file(imgData.originalname);
+        const blobStream = blob.createWriteStream({
+            resumable: false,
+        });
+
+        blobStream.on('error', err => {
+            next(err);
+        });
+
+        blobStream.on('finish', () => {
+            // The public URL can be used to directly access the file via HTTP.
+            const bucketName = bucket.name;
+            const srcFilename = blob.name;
+            const newFileName = imgData.fieldname + '.' + imgData.originalname.slice((imgData.originalname.lastIndexOf(".") - 1 >>> 0) + 2);    // changing file name and adding the same extension name as the original name
+            const destFilename = `public/img/${pathInImg}/${newFileName}`;
+            const publicUrl = `https://storage.cloud.google.com/${bucket.name}/${destFilename}`;
+
+            // Moves the file within the bucket
+            storage
+                .bucket(bucketName)
+                .file(srcFilename)
+                .move(destFilename)
+                .then(() => {
+                    console.log(
+                        `gs://${bucketName}/${srcFilename} moved to gs://${bucketName}/${destFilename}.`
+                    );
+                })
+                .catch(err => {
+                    console.error('ERROR:', err);
+                });
+
+
+            resolve(publicUrl);
+        });
+        blobStream.end(imgData.buffer);
+    })
+
 }
 
 

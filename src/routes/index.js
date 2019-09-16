@@ -20,6 +20,7 @@ const queries = require('./../queries');
 
 const app = require('./../app');
 
+
 // // Set Storage Engine
 // var storage = multer.diskStorage({
 //   destination: function (req, file, cb) {
@@ -661,6 +662,9 @@ router.post('/kid/edit-profile', authenticationMiddleware(), function (req, res)
       return;
     }
     else {
+      
+      console.log(req.files);
+      console.log('****');
       // console.log("fieldname " + req.files);
       
 
