@@ -1492,11 +1492,11 @@ const respondToAddGroupReq = async (teacherID, kidID, groupID, notificationRespo
   
   const getGroupStatus=(groupID,callback) => {
     pool.query(`SELECT  q."quizTitle",p."firstName",p."lastName",ig."groupID", tq."grade"
-    FROM "InGroup" ig INNER JOIN "Person" p on ig."personID"=p."personID" 
-    INNER JOIN "TakesQuiz" tq on p."personID"=tq."kidID" 
-    INNER JOIN "Quiz" q on tq."quizID" = q."quizID"
+    FROM "Person" p  INNER JOIN  "InGroup" ig  on ig."personID"=p."personID" 
+    LEFT OUTER JOIN  "TakesQuiz" tq on p."personID"=tq."kidID" 
+    LEFT OUTER JOIN "Quiz" q on tq."quizID" = q."quizID"
     WHERE ig."approved"=$1 AND ig."groupID"=$2
-	ORDER BY  tq."grade" DESC `
+	ORDER BY  tq."grade" ASC`
     ,['Y',groupID], (error, results) => {
     if (error) {
         throw error
