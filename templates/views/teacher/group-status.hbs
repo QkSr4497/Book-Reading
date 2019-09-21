@@ -40,15 +40,15 @@
      <div class="resultsSection">
         <table id="QuizResults">
             <tr>
-                <th>ציון של בוחן</th>
-                <th>בוחן</th> 
-                <th>שם של ילד</th>          
+                <th style="background-color: #A77CF5">ציון של בוחן</th>
+                <th  style="background-color: #BD9DF7">בוחן</th> 
+                <th  style="background-color: #C9B1F5">שם של ילד</th>          
             </tr>
             {{#each getGroupStatusQuiz.getGroupStatus}}
             <tr >
-                <td>{{grade}}</td>
-                <td class="quizName" vlaue="{{quizTitle}}">{{quizTitle}}</td>
-                <td>{{firstName}} {{lastName}}</td>
+                <td style="background-color:#E6E2ED " >{{grade}}</td>
+                <td style="background-color: #E6E2ED" class="quizName" vlaue="{{quizTitle}}">{{quizTitle}}</td>
+                <td style="background-color:#E6E2ED ">{{firstName}} {{lastName}}</td>
             </tr>
             {{/each}}
         </table>
