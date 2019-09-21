@@ -46,6 +46,8 @@ WHERE "kidID" = 13
 SELECT * 
 FROM "Person" p INNER JOIN "Kid" k ON p."personID" = k."kidID";
 
+SELECT EXISTS(SELECT 1 FROM "Person" p WHERE p.email = 'qksr72@gmail.com');
+
 SELECT * 
 FROM "Person" p INNER JOIN "Teacher" t ON p."personID" = t."teacherID";
 

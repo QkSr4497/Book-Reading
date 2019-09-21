@@ -22,6 +22,39 @@ const IN_PROD =  process.env.NODE_ENV === 'production';  // true if in productio
 // A bucket is a container for objects (files).
 const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
 
+const checkEmailExists = async (emailChecked) => {
+    try {
+
+        var infoMsg;
+        var isEmail = validator.isEmail(emailChecked);  // checking email format
+        if (!isEmail) {    // if email is invalid
+            infoMsg = `האימייל שנשלח ${emailChecked} איננו תקין. אנא הכנס אימייל תקין ונסה שנית.`;
+            throw infoMsg;
+        }
+
+        var { rows: check } = await db.query(`SELECT EXISTS(SELECT * FROM "Person" p WHERE p.email = $1)`, [emailChecked]); // check there is a user registered with this email
+        // console.log(check[0].exists)
+        if (!check[0].exists) {
+            throw `האימייל שנשלח ${emailChecked} איננו רשום באתר. אנא נסה/י אימייל אחר.`;
+            return;
+        }
+        return;
+    }
+    catch (err) {
+        console.log(err);
+        throw err;
+    }
+    
+    // if (check >= 1) {   // if any rows return then access is allowed
+    //     return true;
+    // }
+    // else {   // if no rows return then access is denied
+    //     return false;
+    // }
+    // return groupList;
+
+}
+
 const getUsers = (request, response) => {
     pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
         if (error) {
@@ -265,10 +298,6 @@ const editKidProfile = async (data, userID, imgArr) => { // using async/await
                 data.profilePicDbPath = await uploadToCloud(imgArr[0], `users/user${userID}`);   
             }
             else {  // uploading files locally when in DEVELOPMENT mode
-                console.log('!!!!');
-                console.log(imgArr);
-                console.log('!!!!');
-
                 var storagePath = getStoragePath(imgArr[0].path, `users\\user${userID}`, imgArr[0].fieldname);
                 var isOverWrite = true;
                 await moveFile(imgArr[0].path, storagePath, isOverWrite);
@@ -302,8 +331,8 @@ const insertNewQuiz = async (data, writerID, imgArr) => { // using async/await
     else {  // uploading files locally when in DEVELOPMENT mode
         var storagePath = getStoragePath(imgArr[0].path, `quizes\\quiz${quizID}`, imgArr[0].fieldname);
         var isOverWrite = false;
-        console.log("storagePath: " + storagePath);
-        console.log("imgArr[0].path: " + imgArr[0].path);
+        // console.log("storagePath: " + storagePath);
+        // console.log("imgArr[0].path: " + imgArr[0].path);
         await moveFile(imgArr[0].path, storagePath, isOverWrite);
         data.quizPicInput = getDbPath(storagePath);
     }
@@ -723,7 +752,7 @@ const addSupervisionReq = async (supervisorID, kidEmail) => {
         }
         else {  // if there is a kid with this email
             supervisionInfo = await getSupervisionReqInfo(supervisorID, kidID);
-            console.log(supervisionInfo);
+            // console.log(supervisionInfo);
             var date = new Date();
             var content = `Supervision request`;
             var langPreferred = await getLanguatgePreferredByUserID(kidID);
@@ -963,7 +992,7 @@ const getBooksAccordingToTypes= (userID, callback) => {
 }
 //==========================================
 const getBookReviews = (bookID, callback) => {
-    console.log('bookID '+bookID);
+    // console.log('bookID '+bookID);
     pool.query(`SELECT kb.* ,p.*
     FROM "KidBook" kb INNER JOIN "Person" p ON kb."kidID"=p."personID"
     WHERE kb."bookID" = $1 AND kb."review" IS NOT NULL`, [bookID], (error, results) => {
@@ -975,7 +1004,7 @@ const getBookReviews = (bookID, callback) => {
 }
 //==========================================
 const BookByID = (bookID, callback) => {
-    console.log('bookID '+bookID);
+    // console.log('bookID '+bookID);
     pool.query(`SELECT b.* 
     FROM "Book" b 
     WHERE b."bookID" = $1 `, [bookID], (error, results) => {
@@ -1248,10 +1277,10 @@ const insertNewBook = async (data, imgArr) => { // using async/await
 
 
 const insertNewGroup = async (data, creatorID, imgArr) => { // using async/await
-    console.log(data);
-    console.log(creatorID);
-    console.log(imgArr);
-    console.log(imgArr.length);
+    // console.log(data);
+    // console.log(creatorID);
+    // console.log(imgArr);
+    // console.log(imgArr.length);
     try {
         var {rows: [{last_value}]} = await db.query(`SELECT last_value FROM "Group_groupID_seq"`);  // getting the last inserted serial number of groupID
         const groupID = ++last_value; // id of the new group
@@ -1554,7 +1583,7 @@ const insertNote_book = async (data,userID,imgArr) => { // using async/await
                 moveFile(imgArr[0].path, storagePath);
                 data.notePicInput = getDbPath(storagePath);
             }
-            console.log(data);
+            // console.log(data);
             var nowDate = new Date(); 
             var date = nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate(); 
             await db.query(`INSERT INTO "Note"("date","personID", "bookID","title","content","type","notePic") VALUES($1, $2, $3,$4,$5,$6,$7)`,
@@ -1590,7 +1619,7 @@ const insertNote_noBook = async (data,userID,imgArr) => { // using async/await
                 moveFile(imgArr[0].path, storagePath);
                 data.notePicInput = getDbPath(storagePath);
             }
-            console.log(data);
+            // console.log(data);
             var nowDate = new Date(); 
             var date = nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate(); 
             await db.query(`INSERT INTO "Note"("date","personID","title","content","type","notePic") VALUES($1, $2, $3,$4,$5,$6)`,
@@ -1649,6 +1678,7 @@ const uploadToCloud = async (imgData, pathInImg) => {
 
 module.exports = {
     getUsers,
+    checkEmailExists,
     getUserTypeById,
     getUserById,
     getAllBooks,

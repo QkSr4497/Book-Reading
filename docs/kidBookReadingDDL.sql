@@ -7,7 +7,9 @@ CREATE TABLE "Person" (
 	email TEXT UNIQUE NOT NULL,
 	pwd TEXT NOT NULL,
 	lang TEXT NOT NULL,
-	"profilePic" TEXT NOT NULL
+	"profilePic" TEXT NOT NULL,
+	"resetPasswordToken" TEXT DEFAULT NULL,
+	"resetPasswordExpires" TIMESTAMP DEFAULT NULL
 ); 
 
 CREATE TABLE "Admin" (

@@ -21,6 +21,7 @@
     "multi-lang": "^0.1.2",
     "node-gyp": "^5.0.3",
     "node-sass": "^4.12.0",
+    "nodemailer": "^6.3.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",

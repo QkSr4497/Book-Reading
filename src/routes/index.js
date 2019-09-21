@@ -4,6 +4,8 @@ var passport = require('passport');
 var hbs = require('hbs');
 var path = require('path');
 var multer = require('multer');
+const nodemailer = require('nodemailer'); // sending emails
+const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;  // the number of rounds that the module will go through to hash your data
                         // higher means slower
@@ -198,6 +200,31 @@ router.get('/logout', function (req, res) {
   req.logout(); // logging out the user 
   req.session.destroy();  // deleting the session in the database
   res.redirect('login');
+});
+
+//=============================================================
+router.get('/forgot', function (req, res) {
+  res.render('forgot',  { errorMsg: req.flash('errorMessage') });
+});
+
+//=============================================================
+router.post('/forgot', async function (req, res) {
+  // Synchronous
+  const buf = crypto.randomBytes(20);
+  var token = buf.toString('hex');
+  console.log(`${buf.length} bytes of random data: ${buf.toString('hex')}`);
+  console.log(token);
+  try {
+    await queries.checkEmailExists(req.body.email);
+
+    
+    
+  } catch (error) {
+    console.error(error);
+    req.flash('errorMessage', error);
+    return res.redirect('/forgot');
+  }
+  
 });
 
 //=============================================================
