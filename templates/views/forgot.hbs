@@ -1,97 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>YelpCamp</title>
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-      <link rel="stylesheet" href="/stylesheets/main.css">
-  </head>
-  <body>
-  <nav class="navbar navbar-default">
-      <div class="container">
-          <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
 
-              <a class="navbar-brand" href="/">YelpCamp</a>
-          </div>
-          <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-              <li class="<%= typeof page !== 'undefined' && page === 'campgrounds' ? 'active' : '' %>"><a href="/campgrounds">Home</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                {{!-- <% if(!currentUser){ %>
-                    <li class="<%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>"><a href="/login">Login</a></li>
-                    <li class="<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>"><a href="/register">Sign Up</a></li>
-                <% } else { %>
-                    <li><a href="#">Signed In As <%= currentUser.username %></a></li>
-                    <li><a href="/logout">Logout</a></li>
-                <% } %> --}}
-            </ul>
-          </div>
-      </div>
-  </nav>
-  
-  <div class="container">
-      {{#if errorMsg}}
-			<div class="alert alert-danger input-feedback" role="alert" dir="rtl">
-				<h1>{{errorMsg}}</h1>
-			</div>
-		{{/if}}
-		{{#if infoMsg}}
-			<div class="alert alert-success input-feedback" role="alert" dir="rtl">
-				<h1>{{infoMsg}}</h1>
-			</div>
-		{{/if}}
-     {{!-- <% if(error && error.length > 0) { %>
-       <div class="alert alert-danger"><p><%=error %></p></div>
-     <% } %>
-     
-     <% if(success && success.length > 0) { %>
-       <div class="alert alert-success"><p><%= success %></p></div>
-     <% } %> --}}
-  </div>
-  <div class="container">
+<head>
+	<title>Forgot password page</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="pages/Login/images/icons/favicon.ico" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="pages/Login/vendor/bootstrap/css/bootstrap.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="pages/Login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="pages/Login/vendor/animate/animate.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="pages/Login/vendor/css-hamburgers/hamburgers.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="pages/Login/vendor/select2/select2.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="pages/Login/css/util.css">
+	<link rel="stylesheet" type="text/css" href="pages/Login/css/main.css">
+	<!--===============================================================================================-->
+
+	<!-- STYLE CSS -->
+	<link rel="Stylesheet" href="/css/style.css" />
+  <link rel="Stylesheet" href="/css/forgot.css" />
 
 
+	{{!-- this file contains a function for choosing a random photo,  it must be placed in head--}}
+	<script src="js/login-scripts.js"></script>
 
+</head>
 
-<div class="row">
-	<div class="col-md-12">
-		<form action="/forgot" method="POST">
-			<legend>Forgot Password</legend>
-			<div class="form-group">
-				<label for="email">Email</label>
-				<input type="email" name="email" autofocus class="form-control">
-			</div>
-			<div class="form-group">
-				<input type="submit" class="btn btn-primary" value="Reset Password">
-			</div>
-		</form>
+<body>
+	<div class="navbar">
+		{{> header }}
 	</div>
+
+
+
+	<div class="limiter">
+
+		<div class="container-login100">
+
+			<div class="wrap-login100">
+
+        <div class="container">
+  {{#if errorMsg}}
+    <div class="alert alert-danger input-feedback" role="alert" dir="rtl">
+      <h1>{{errorMsg}}</h1>
+    </div> <br> <br> <br>
+  {{/if}}
+  {{#if infoMsg}}
+    <div class="alert alert-success input-feedback" role="alert" dir="rtl">
+      <h1>{{infoMsg}}</h1>
+    </div> <br> <br> <br>
+  {{/if}}
 </div>
 
+				<div class="login100-pic js-tilt" data-tilt>
+					{{!-- <img src="pages/Login/images/img-04.png" alt="IMG"> --}}
+					<script type="text/javascript">getRandomImage(random_images_array);</script>
+				</div>
 
-        </div><!-- /.container -->
-        <footer class="footer">
-          <div class="container">
-            <p class="text-muted">&copy; YelpCamp 2017 | <a href="/campgrounds">Home</a> | <a href="/campgrounds/new">New Campground</a></p>
-          </div>
-        </footer>
-        <!-- jQuery CDN -->
-        <script
-          src="https://code.jquery.com/jquery-3.1.1.min.js"
-          integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-          crossorigin="anonymous"></script>
-        <!-- Custom JS for search feature -->
-        <script src="/scripts/search.js" async defer></script>
-        <!-- Bootstrap JS CDN -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    </body>
+				<form method="POST" class="login100-form validate-form" action="/forgot">
+					<span class="login100-form-title">
+						Forgot Password
+					</span>
+
+					<div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+						<input class="input100" type="email" name="email" autofocus placeholder="Email">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn">
+							Reset Password
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<!--===============================================================================================-->
+	<script src="pages/Login/vendor/jquery/jquery-3.2.1.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="pages/Login/vendor/bootstrap/js/popper.js"></script>
+	<script src="pages/Login/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="pages/Login/vendor/select2/select2.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="pages/Login/vendor/tilt/tilt.jquery.min.js"></script>
+	<script>
+		$('.js-tilt').tilt({
+			scale: 1.1
+		})
+	</script>
+	<!--===============================================================================================-->
+	<script src="pages/Login/js/main.js"></script>
+
+</body>
+
 </html>

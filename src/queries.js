@@ -3,6 +3,9 @@ const path = require('path');
 const fse = require('fs-extra');
 const validator = require('validator');
 const __ = require('multi-lang')('src/language-server.json'); // Import module with language-server.json file
+const bcrypt = require('bcrypt');
+const saltRounds = 10;  // the number of rounds that the module will go through to hash your data
+                        // higher means slower
 const pool = db.pg_pool;
 
 // By default, the client will authenticate using the service account file
@@ -67,7 +70,7 @@ const getUserDataByValidToken = async (token) => {
 
         var currentTime = new Date();
 
-        var { rows: res} = await db.query(`SELECT "personID", lang, "userName", "resetPasswordExpires" 
+        var { rows: res} = await db.query(`SELECT "personID", lang, "userName", "resetPasswordExpires", email 
                                             FROM "Person" p 
                                             WHERE p."resetPasswordToken" = $1 `, [token]);
 
@@ -86,6 +89,24 @@ const getUserDataByValidToken = async (token) => {
             throw __('illegalTokenFlashMessage', 'hebrew');  // translation using 'multi-lang npm;
         }
         
+    }
+    catch (err) {
+        console.error(err);
+        throw `אירעה שגיאה: ${err}`;
+    }
+}
+
+const ChangeUserPassoword = async (userID, newPassword) => {
+    try {
+        bcrypt.hash(newPassword, saltRounds, async function (error, hash) { // auto-gen a salt and hash with bcrypt
+            if (error) throw error;
+            else {
+                await db.query(`UPDATE "Person" 
+                        SET "resetPasswordToken" = $1, "resetPasswordExpires" = $2, pwd = $3
+                        WHERE "personID" = $4`, [null, null, hash, userID]);
+            }
+            
+          });
     }
     catch (err) {
         console.error(err);
@@ -934,46 +955,6 @@ const getAllBooks = (callback) => {
 
 
 
-
-
-const createUser = (request, response) => {
-    const { name, email } = request.body
-
-    pool.query('INSERT INTO users (name, email) VALUES ($1, $2)', [name, email], (error, results) => {
-        if (error) {
-            throw error
-        }
-        response.status(201).send(`User added with ID: ${result.insertId}`)
-    })
-}
-
-const updateUser = (request, response) => {
-    const id = parseInt(request.params.id)
-    const { name, email } = request.body
-
-    pool.query(
-        'UPDATE users SET name = $1, email = $2 WHERE id = $3',
-        [name, email, id],
-        (error, results) => {
-            if (error) {
-                throw error
-            }
-            response.status(200).send(`User modified with ID: ${id}`)
-        }
-    )
-}
-
-const deleteUser = (request, response) => {
-    const id = parseInt(request.params.id)
-
-    pool.query('DELETE FROM users WHERE id = $1', [id], (error, results) => {
-        if (error) {
-            throw error
-        }
-        response.status(200).send(`User deleted with ID: ${id}`)
-    })
-}
-
 const getMyIntrestedBooks = (userID, callback) => {
     pool.query(`SELECT * 
     FROM "KidBook" kb INNER JOIN "Book" b ON kb."bookID" = b."bookID"
@@ -1710,12 +1691,10 @@ module.exports = {
     checkEmailExists,
     updateUserResetPasswordToken,
     getUserDataByValidToken,
+    ChangeUserPassoword,
     getUserTypeById,
     getUserById,
     getAllBooks,
-    createUser,
-    updateUser,
-    deleteUser,
     getMyIntrestedBooks,
     getMyReadingBooks,
     getMyFinishedBooks,

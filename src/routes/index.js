@@ -264,45 +264,61 @@ router.get('/reset/:token', async function(req, res) {
 
   try {
     userData = await queries.getUserDataByValidToken(token); // if this is a valid token then user's data is returned, otherwise an error is thrown
-    console.log(userData);
-    res.render('reset', { token: req.params.token });
+    // console.log(userData);
+    res.render('reset', { token: req.params.token, errorMsg: req.flash('errorMessage'), infoMsg: req.flash('infoMessage') });
   } catch (error) {
     console.error(error);
     req.flash('errorMessage', error);
     return res.redirect('/forgot');
   }
   
-
-
-  // User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
-  //   if (!user) {
-  //     req.flash('error', 'Password reset token is invalid or has expired.');
-  //     return res.redirect('/forgot');
-  //   }
-  //   res.render('reset', {token: req.params.token});
-  // });
 });
 
 
-router.post('/reset/:token', function(req, res) {
+router.post('/reset/:token', async function (req, res) {
   var token = req.params.token;
-  
-  if(req.body.password === req.body.confirm) {
-    user.setPassword(req.body.password, function(err) {
-      user.resetPasswordToken = undefined;
-      user.resetPasswordExpires = undefined;
 
-      user.save(function(err) {
-        req.logIn(user, function(err) {
-          done(err, user);
+  if (req.body.password === req.body.confirm) {
+    var newPassword = req.body.password;
+    try {
+      userData = await queries.getUserDataByValidToken(token); // if this is a valid token then user's data is returned, otherwise an error is thrown
+
+      await queries.ChangeUserPassoword(userData.personID, newPassword);
+
+      console.log(`${userData.userName} - user #${userData.personID} has successfully changed his password`);
+      req.login(userData.personID, function (err) {  // storing personID to the session using the function in passport.serializeUser
+        var langPreferred = userData.lang;
+        var userEmail = userData.email;
+        var userName = userData.userName;
+        var smtpTransport = nodemailer.createTransport({
+          service: 'Gmail',
+          auth: {
+            user: 'kidsread.appspot@gmail.com',
+            pass: process.env.GMAILPW
+          }
+        });
+        var mailOptions = {
+          to: userEmail,
+          from: 'kidsread.appspot@gmail.com',
+          subject: __('passwordChangedEmailSubject', {userName: userName}, langPreferred),  // translation using 'multi-lang npm
+          text: __('passwordChangedEmailContent', {userName: userName}, langPreferred)  // translation using 'multi-lang npm
+        };
+        smtpTransport.sendMail(mailOptions, function(err) {
+          req.flash('infoMessage', __('passwordChangedFlashMessage', langPreferred));
+          res.redirect('/');
         });
       });
-    })
-  } else {
-      req.flash("error", "Passwords do not match.");
+
+    } catch (error) {
+      console.error(error);
+      req.flash('errorMessage', error);
       return res.redirect('back');
+    }
+  } else {
+    req.flash("errorMessage", "Passwords do not match.");
+    return res.redirect('back');
   }
-  
+
 });
 
 //=============================================================

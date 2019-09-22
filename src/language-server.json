@@ -15,6 +15,22 @@
     "hebrew": "kidsread -  איפוס סיסמא עבור %{userName}",
     "arabic": "kidsread -  איפוס סיסמא עבור %{userName}"
   },
+  "passwordChangedEmailContent": {
+    "hebrew": "שלום %{userName}, \n\n סיסמתך עבור אתר KeadsRead שונתה בהצלחה.\n",
+    "arabic": "שלום %{userName}, \n\n סיסמתך עבור אתר KeadsRead שונתה בהצלחה.\n"
+  },
+  "passwordChangedEmailSubject": {
+    "hebrew": "kidsread -  סיסמא שונתה בהצלחה עבור %{userName}",
+    "arabic": "kidsread -  סיסמא שונתה בהצלחה עבור %{userName}"
+  },
+  "passwordResetFlashMessage": {
+    "hebrew": "נשלח אימייל אל: %{userEmail} עם הוראות להשלמת איפוס הסיסמא.",
+    "arabic": "נשלח אימייל אל: %{userEmail} עם הוראות להשלמת איפוס הסיסמא."
+  },
+  "passwordChangedFlashMessage": {
+    "hebrew": "הסיסמא שונתה בהצלחה.",
+    "arabic": "הסיסמא שונתה בהצלחה."
+  },
   "invalidTokenFlashMessage": {
     "hebrew": "מפתח הגישה פג תוקף.",
     "arabic": "מפתח הגישה פג תוקף."
