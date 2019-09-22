@@ -6,5 +6,24 @@
   "groupInvitation": {
     "hebrew": "הזמנת הצטרפות לקבוצת: %{groupName} [%{groupID}]",
     "arabic": "دعوة إنصمام لمجموعة: %{groupName} [%{groupID}]"
+  },
+  "passwordResetEmailContent": {
+    "hebrew": "מייל זה נשלח אלייך מכיוון שביקשת לאפס את הסיסמא עבור חשבונך באתר KeadsRead.\n\n אנא לחץ על הלינק הבא או העתק אותו אל הדפדפן: http://%{host}/reset/%{token}\n\n אם לא שלחת בקשה להחלפת סיסמא אנא התעלם מהודעה זו. \n",
+    "arabic": "מייל זה נשלח אלייך מכיוון שביקשת לאפס את הסיסמא עבור חשבונך באתר KeadsRead.\n\n אנא לחץ על הלינק הבא או העתק אותו אל הדפדפן: http://%{host}/reset/%{token}\n\n אם לא שלחת בקשה להחלפת סיסמא אנא התעלם מהודעה זו. \n"
+  },
+  "passwordResetEmailSubject": {
+    "hebrew": "kidsread -  איפוס סיסמא עבור %{userName}",
+    "arabic": "kidsread -  איפוס סיסמא עבור %{userName}"
+  },
+  "invalidTokenFlashMessage": {
+    "hebrew": "מפתח הגישה פג תוקף.",
+    "arabic": "מפתח הגישה פג תוקף."
+  },
+  "illegalTokenFlashMessage": {
+    "hebrew": "מפתח הגישה איננו חוקי.",
+    "arabic": "מפתח הגישה איננו חוקי."
   }
 }
+
+
+

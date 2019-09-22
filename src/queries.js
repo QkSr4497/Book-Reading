@@ -32,37 +32,67 @@ const checkEmailExists = async (emailChecked) => {
             throw infoMsg;
         }
 
-        var { rows: check } = await db.query(`SELECT EXISTS(SELECT * FROM "Person" p WHERE p.email = $1)`, [emailChecked]); // check there is a user registered with this email
-        // console.log(check[0].exists)
-        if (!check[0].exists) {
+
+
+        var { rows: res} = await db.query(`SELECT "personID", lang, "userName" 
+                                            FROM "Person" p WHERE p.email = $1`, [emailChecked]); // check there is a user registered with this email
+        if (res.length == 0) { // no user registered with this email
             throw `האימייל שנשלח ${emailChecked} איננו רשום באתר. אנא נסה/י אימייל אחר.`;
-            return;
         }
-        return;
+        return res[0];
     }
     catch (err) {
         console.log(err);
         throw err;
     }
-    
-    // if (check >= 1) {   // if any rows return then access is allowed
-    //     return true;
-    // }
-    // else {   // if no rows return then access is denied
-    //     return false;
-    // }
-    // return groupList;
-
 }
 
-const getUsers = (request, response) => {
-    pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
-        if (error) {
-            throw error
+const updateUserResetPasswordToken = async (userID ,token, expirationTime) => {
+
+    try {
+        await db.query(`UPDATE "Person" 
+                        SET "resetPasswordToken" = $1, "resetPasswordExpires" = $2
+                        WHERE "personID" = $3`, [token, expirationTime, userID]);
+        
+    }
+    catch (err) {
+        console.error(err);
+        throw `אירעה שגיאה: ${err}`;
+    }
+}
+
+const getUserDataByValidToken = async (token) => {
+
+    try {
+
+        var currentTime = new Date();
+
+        var { rows: res} = await db.query(`SELECT "personID", lang, "userName", "resetPasswordExpires" 
+                                            FROM "Person" p 
+                                            WHERE p."resetPasswordToken" = $1 `, [token]);
+
+        var currentTime = new Date();
+        
+        if (res.length > 0) {
+            var langPreferred = res[0].lang;
+            if ( ( res[0].resetPasswordExpires > currentTime) ) {
+                return res[0];
+            }
+            else {
+                throw __('invalidTokenFlashMessage', langPreferred);  // translation using 'multi-lang npm;
+            }  
         }
-        response.status(200).json(results.rows)
-    })
+        else {
+            throw __('illegalTokenFlashMessage', 'hebrew');  // translation using 'multi-lang npm;
+        }
+        
+    }
+    catch (err) {
+        console.error(err);
+        throw `אירעה שגיאה: ${err}`;
+    }
 }
+
 
 const getUserTypeById = (userID, callback) => {
     pool.query(`SELECT * 
@@ -1677,8 +1707,9 @@ const uploadToCloud = async (imgData, pathInImg) => {
 
 
 module.exports = {
-    getUsers,
     checkEmailExists,
+    updateUserResetPasswordToken,
+    getUserDataByValidToken,
     getUserTypeById,
     getUserById,
     getAllBooks,

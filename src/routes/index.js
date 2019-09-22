@@ -10,6 +10,8 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;  // the number of rounds that the module will go through to hash your data
                         // higher means slower
 
+const __ = require('multi-lang')('src/language-server.json'); // Import module with language-server.json file
+
 require('dotenv').config(); // using env file
 
 const db = require('./../db.js'); // postgresql database connection pool
@@ -204,7 +206,7 @@ router.get('/logout', function (req, res) {
 
 //=============================================================
 router.get('/forgot', function (req, res) {
-  res.render('forgot',  { errorMsg: req.flash('errorMessage') });
+  res.render('forgot',  { errorMsg: req.flash('errorMessage'), infoMsg: req.flash('infoMessage') });  
 });
 
 //=============================================================
@@ -212,17 +214,93 @@ router.post('/forgot', async function (req, res) {
   // Synchronous
   const buf = crypto.randomBytes(20);
   var token = buf.toString('hex');
-  console.log(`${buf.length} bytes of random data: ${buf.toString('hex')}`);
-  console.log(token);
+  // console.log(`${buf.length} bytes of random data: ${buf.toString('hex')}`);
+  // console.log(token);
   try {
-    await queries.checkEmailExists(req.body.email);
+    
+    var userData  = await queries.checkEmailExists(req.body.email); // if email exists then userID is returned, otherwise a error is thrown
+    var userID = userData.personID;
+    var userEmail = req.body.email;
+    var langPreferred = userData.lang;
+    var userName = userData.userName;
 
-    
-    
+    var oneHour = 60*60*1000; // in milliseconds
+    var expirationTimeMs = Date.now() + oneHour;
+    var expirationTime = new Date(expirationTimeMs);
+
+    await queries.updateUserResetPasswordToken(userID, token, expirationTime);
+
+    var smtpTransport = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: 'kidsread.appspot@gmail.com',
+        pass: process.env.GMAILPW
+      }
+    });
+    var mailOptions = {
+      to: userEmail,
+      from: 'kidsread.appspot@gmail.com',
+      subject: __('passwordResetEmailSubject', {userName: userName}, langPreferred),  // translation using 'multi-lang npm
+      text: __('passwordResetEmailContent', {host: req.headers.host, token: token}, langPreferred)  // translation using 'multi-lang npm
+    };
+    smtpTransport.sendMail(mailOptions, function(err) {
+      console.log('Resert password request email has been sent to ' + userEmail)
+      req.flash('infoMessage', __('passwordResetFlashMessage', {userEmail: userEmail}, langPreferred) );
+      res.redirect('/forgot');
+    });
+
+
   } catch (error) {
     console.error(error);
     req.flash('errorMessage', error);
     return res.redirect('/forgot');
+  }
+  
+});
+
+//=============================================================
+router.get('/reset/:token', async function(req, res) {
+  var token = req.params.token;
+
+  try {
+    userData = await queries.getUserDataByValidToken(token); // if this is a valid token then user's data is returned, otherwise an error is thrown
+    console.log(userData);
+    res.render('reset', { token: req.params.token });
+  } catch (error) {
+    console.error(error);
+    req.flash('errorMessage', error);
+    return res.redirect('/forgot');
+  }
+  
+
+
+  // User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+  //   if (!user) {
+  //     req.flash('error', 'Password reset token is invalid or has expired.');
+  //     return res.redirect('/forgot');
+  //   }
+  //   res.render('reset', {token: req.params.token});
+  // });
+});
+
+
+router.post('/reset/:token', function(req, res) {
+  var token = req.params.token;
+  
+  if(req.body.password === req.body.confirm) {
+    user.setPassword(req.body.password, function(err) {
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpires = undefined;
+
+      user.save(function(err) {
+        req.logIn(user, function(err) {
+          done(err, user);
+        });
+      });
+    })
+  } else {
+      req.flash("error", "Passwords do not match.");
+      return res.redirect('back');
   }
   
 });
@@ -2124,3 +2202,26 @@ async function gg3() {
 }
 
 // gg3();
+
+
+async function gg4() {
+  var oneHour = 60 * 60 * 1000; // in milliseconds
+  var expirationTimeMs = Date.now() + oneHour;
+  var expirationTime = new Date(expirationTimeMs);
+  console.log(expirationTimeMs)
+  console.log(expirationTime)
+
+  try {
+    var data = await queries.getUserDataByValidToken('2220153d9e999c1d899af7cebe0789f4b4917c76');
+    var currentTime = new Date();
+    console.log(data);
+    console.log(typeof data.resetPasswordExpires);
+    console.log(currentTime);
+    console.log(typeof currentTime);
+    console.log( data.resetPasswordExpires < currentTime)
+  } catch (err) {
+    console.log(err); // TypeError: failed to fetch
+  }
+}
+  
+  // gg4();
