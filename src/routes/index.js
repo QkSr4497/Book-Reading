@@ -97,6 +97,8 @@ router.post('/signUp/signUpNewUser', function (req, res) {
     process.exit(-1)
   })
 
+  console.log(req.body)
+
 
   const userName = req.body.userName;
   const firstName = req.body.firstName;
@@ -104,7 +106,7 @@ router.post('/signUp/signUpNewUser', function (req, res) {
   const email = req.body.email;
   const pwd = req.body.pwd;
   const langS = req.body.languageSelected;
-  const gender = req.body.gender;
+  const gender = req.body.genderSelected;
   const userRole = req.body.role;
   var profilePicPath;
 
@@ -147,7 +149,7 @@ router.post('/signUp/signUpNewUser', function (req, res) {
   pool.connect((err, client, done) => {
     if (err) throw err;
     bcrypt.hash(pwd, saltRounds, function (err, hash) { // auto-gen a salt and hash with bcrypt
-      client.query('INSERT INTO "Person"("userName", "firstName", "lastName", email, pwd, lang, gender, profilePic) VALUES($1, $2, $3, $4, $5, $6, $7, $8)',    // inserting into person
+      client.query('INSERT INTO "Person"("userName", "firstName", "lastName", email, pwd, lang, gender, "profilePic") VALUES($1, $2, $3, $4, $5, $6, $7, $8)',    // inserting into person
         [userName, firstName, lastName, email, hash, langS, gender, profilePicPath], (error) => {
           if (error) {
             console.log(error.stack);
