@@ -182,6 +182,9 @@ DELETE FROM "WritesQuiz" WHERE "quizID" = 16;
 DELETE FROM "Answer" WHERE "quizID" = 16;
 DELETE FROM "Question" WHERE "quizID" = 16;
 DELETE FROM "Quiz" WHERE "quizID" = 16;
+									  
+DELETE FROM "Teacher" WHERE "teacherID" = 22;									  
+DELETE FROM "Person" WHERE email = 'qksr720@gmail.com';
 
 /*
 -- be careful this will delete all users sessions and quizes

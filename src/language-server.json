@@ -15,6 +15,10 @@
     "hebrew": "kidsread -  איפוס סיסמא עבור %{userName}",
     "arabic": "kidsread -  איפוס סיסמא עבור %{userName}"
   },
+  "passwordResetFlashMessage": {
+    "hebrew": "נשלח אימייל אל: %{userEmail} עם הוראות להשלמת איפוס הסיסמא.",
+    "arabic": "נשלח אימייל אל: %{userEmail} עם הוראות להשלמת איפוס הסיסמא."
+  },
   "passwordChangedEmailContent": {
     "hebrew": "שלום %{userName}, \n\n סיסמתך עבור אתר KeadsRead שונתה בהצלחה.\n",
     "arabic": "שלום %{userName}, \n\n סיסמתך עבור אתר KeadsRead שונתה בהצלחה.\n"
@@ -22,10 +26,6 @@
   "passwordChangedEmailSubject": {
     "hebrew": "kidsread -  סיסמא שונתה בהצלחה עבור %{userName}",
     "arabic": "kidsread -  סיסמא שונתה בהצלחה עבור %{userName}"
-  },
-  "passwordResetFlashMessage": {
-    "hebrew": "נשלח אימייל אל: %{userEmail} עם הוראות להשלמת איפוס הסיסמא.",
-    "arabic": "נשלח אימייל אל: %{userEmail} עם הוראות להשלמת איפוס הסיסמא."
   },
   "passwordChangedFlashMessage": {
     "hebrew": "הסיסמא שונתה בהצלחה.",
@@ -38,7 +38,33 @@
   "illegalTokenFlashMessage": {
     "hebrew": "מפתח הגישה איננו חוקי.",
     "arabic": "מפתח הגישה איננו חוקי."
+  },
+
+
+  "signUpEmailContentKid": {
+    "hebrew": "שלום %{userName}, \n\n נרשמת בהצלחה לאתר KeadsRead בתור ילד/ה.\n\n זה הזמן להתחיל לנהל את רשימת ספריך בצורה מהנה! \n\n קישור לאתר: https://kidsread.appspot.com \n",
+    "arabic": "שלום %{userName}, \n\n נרשמת בהצלחה לאתר KeadsRead בתור ילד/ה.\n\n זה הזמן להתחיל לנהל את רשימת ספריך בצורה מהנה! \n\n קישור לאתר: https://kidsread.appspot.com \n"
+  },
+  "signUpEmailContentSupervisor": {
+    "hebrew": "שלום %{userName}, \n\n נרשמת בהצלחה לאתר KeadsRead בתור מפקח/ת.\n\n כעת תוכל לעודד את ילדיך לקרוא ספרים בעזרת הכלים שבאתר. \n\n קישור לאתר: https://kidsread.appspot.com \n",
+    "arabic": "שלום %{userName}, \n\n נרשמת בהצלחה לאתר KeadsRead בתור מפקח/ת.\n\n כעת תוכל לעודד את ילדיך לקרוא ספרים בעזרת הכלים שבאתר. \n\n קישור לאתר: https://kidsread.appspot.com \n"
+  },
+  "signUpEmailContentTeacher": {
+    "hebrew": "שלום %{userName}, \n\n נרשמת בהצלחה לאתר KeadsRead בתור מורה.\n\n כעת תוכל לנהל קבוצות קריאה ולעודד כיתות שלמות לקרוא ספרים. \n\n קישור לאתר: https://kidsread.appspot.com \n",
+    "arabic": "שלום %{userName}, \n\n נרשמת בהצלחה לאתר KeadsRead בתור מורה.\n\n כעת תוכל לנהל קבוצות קריאה ולעודד כיתות שלמות לקרוא ספרים. \n\n קישור לאתר: https://kidsread.appspot.com \n"
+  },
+  "signUpEmailSubject": {
+    "hebrew": "ברוכים הבאים %{userName} לאתר KeadsRead",
+    "arabic": "ברוכים הבאים %{userName} לאתר KeadsRead"
+  },
+  "signUpFlashMessage": {
+    "hebrew": "ברוכים הבאים %{userName} לאתר KeadsRead",
+    "arabic": "ברוכים הבאים %{userName} לאתר KeadsRead"
   }
+  
+  
+  
+  
 }
 
 

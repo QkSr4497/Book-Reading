@@ -97,9 +97,6 @@ router.post('/signUp/signUpNewUser', function (req, res) {
     process.exit(-1)
   })
 
-  console.log(req.body)
-
-
   const userName = req.body.userName;
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
@@ -109,8 +106,11 @@ router.post('/signUp/signUpNewUser', function (req, res) {
   const gender = req.body.genderSelected;
   const userRole = req.body.role;
   var profilePicPath;
+  var signUpEmailContent;
+  var signUpEmailSubject = __('signUpEmailSubject', {userName: userName}, langS);  // translation using 'multi-lang npm
 
   if (userRole == 'kid') {
+    signUpEmailContent = __('signUpEmailContentKid', {userName: userName}, langS);  // translation using 'multi-lang npm
     if (gender == 'M') {
       profilePicPath = '/img/users/defaultProfilePics/kidM.png';
     }
@@ -119,6 +119,7 @@ router.post('/signUp/signUpNewUser', function (req, res) {
     }
   }
   else if (userRole == 'supervisor') {
+    signUpEmailContent = __('signUpEmailContentSupervisor', {userName: userName}, langS);  // translation using 'multi-lang npm
     if (gender == 'M') {
       profilePicPath = '/img/users/defaultProfilePics/supervisorM.png';
     }
@@ -127,6 +128,7 @@ router.post('/signUp/signUpNewUser', function (req, res) {
     }
   }
   else if (userRole == 'teacher') {
+    signUpEmailContent = __('signUpEmailContentTeacher', {userName: userName}, langS);  // translation using 'multi-lang npm
     if (gender == 'M') {
       profilePicPath = '/img/users/defaultProfilePics/teacherM.jpg';
     }
@@ -178,8 +180,26 @@ router.post('/signUp/signUpNewUser', function (req, res) {
                     [personID, birthdate]);
                 }
                 console.log('new user-id: ' + personID);
+
                 req.login(personID, function (err) {  // storing personID to the session using the function in passport.serializeUser
-                  res.redirect('/');
+                  var smtpTransport = nodemailer.createTransport({
+                    service: 'Gmail',
+                    auth: {
+                      user: 'kidsread.appspot@gmail.com',
+                      pass: process.env.GMAILPW
+                    }
+                  });
+                  var mailOptions = {
+                    to: email,
+                    from: 'kidsread.appspot@gmail.com',
+                    subject: signUpEmailSubject,
+                    text: signUpEmailContent
+                  };
+                  smtpTransport.sendMail(mailOptions, function(err) {
+                    req.flash('infoMessage', __('signUpFlashMessage', langS));
+                    res.redirect('/');
+                  });
+                  
                 });
               }
             });
@@ -246,7 +266,7 @@ router.post('/forgot', async function (req, res) {
       text: __('passwordResetEmailContent', {host: req.headers.host, token: token}, langPreferred)  // translation using 'multi-lang npm
     };
     smtpTransport.sendMail(mailOptions, function(err) {
-      console.log('Resert password request email has been sent to ' + userEmail)
+      console.log('Reset password request email has been sent to ' + userEmail)
       req.flash('infoMessage', __('passwordResetFlashMessage', {userEmail: userEmail}, langPreferred) );
       res.redirect('/forgot');
     });

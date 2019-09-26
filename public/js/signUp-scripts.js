@@ -74,7 +74,7 @@ function checkDuplicates() {
                 }
                 else if (emailData == 'free') {   
                     emailExceptionText = "";
-                    window.alert("Update is successful");
+                    // window.alert("Update is successful");
                     document.myForm.submit(); // Form will be submitted by it's name
                 }  
             });
