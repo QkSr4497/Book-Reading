@@ -42,10 +42,7 @@ header {
        padding-top: 30px;
       color: #2c2c54;
   }
-  #author {
-      color: #2c2c54;
-  }
-  
+
   
 
   
@@ -62,6 +59,10 @@ header {
   .review_section{
       margin-right: 3%;
   }
+  .bookInformation{
+    margin-top:50px;
+    font-size: 25px;
+  }
   #two #addToList{
     background-color: #ffc048;
     align-items: center;
@@ -74,6 +75,7 @@ header {
     box-shadow: 0px 0px 10px 2px  rgb(220,221,225);
     position: relative;
     right: 30%;
+    margin-top:30px;
   }
    #addToList:hover{
     transform: scale(1.1,1.1);
@@ -144,12 +146,15 @@ header {
   
   .container img {
     float: right;
-    margin-right: 20px;
+    margin-right: 10px;
     vertical-align: middle;
     width: 50px;
     height: 50px;
     border-radius: 50%;
     background-color: #ffff;
+  }
+  .container p{
+    margin-right:80px;
   }
   
   .container span {
