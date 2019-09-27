@@ -89,7 +89,7 @@ INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic", "lang
 INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic", "lang") VALUES('المكواة', 'نبيهة', 'راشد جبارين', '/img/books/iron.jpg', 'arabic');
 INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic", "lang") VALUES('أنا لست فراشة', 'هديل', 'ناشف', '/img/books/i-am-not-a-butterfly.jpg', 'arabic');
 INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic", "lang") VALUES('أحب أن أغني', 'رافع ', 'يحيى', '/img/books/i_like_to_sing.jpg', 'arabic');
-INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic", "lang") VALUES('جدي', 'أيمان', 'أيو فارس', '/img/books/grandpa.jpg', 'arabic');
+INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic", "lang") VALUES('جدي', 'أيمان', 'أيو فارس', '/img/books/grandpa.png', 'arabic');
 INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic", "lang") VALUES('هدية لأمي في عيدها', 'نادية', 'صالح', '/img/books/gift.jpg', 'arabic');
 INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic", "lang") VALUES('ملك الفواكه', 'محمد علي', 'طه', '/img/books/fruits-king.jpg', 'arabic');
 INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic", "lang") VALUES('اكتشفتُ شيئًا', 'ميساء', 'الصَّح', '/img/books/found-something.jpg', 'arabic');
