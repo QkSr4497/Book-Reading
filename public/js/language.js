@@ -86,6 +86,7 @@ var  arrLang={
     'beginQuiz':'إبدأ الإختبار',
     'quizGrade':'علامة الإختبار:',
     'pointsEarned':'مجموع النقاط:',
+    'points':'نقاط',
     'minutes':'دقائق',
     'content':'الموضوع',
     'sentBy':'المرسل',

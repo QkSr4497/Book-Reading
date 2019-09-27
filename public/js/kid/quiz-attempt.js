@@ -221,7 +221,8 @@ function gradeTheQuiz(score) {
     var numOfQuestions = quizData.totalQuestionsNum;
     $('#quizGrade').text(score);
     pointEarned = numOfQuestions * score;
-    $('#quizPointsEarned').text(pointEarned + ' נקודות');
+   // $('#quizPointsEarned').text(pointEarned + ' נקודות');
+    $('#quizPointsEarned').text(pointEarned);
     updateGradeAndPointsDB();
     sendNotificationToSupervisors();
     $(window).scrollTop(0);
