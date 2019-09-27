@@ -25,23 +25,35 @@
       <div id="quizes" class="card-style">
         
         <h2 key="quizNotTakenList" class="quizCategory"> <span class="lang" key="quizNotTakenList">בחנים שלא עשיתי</span>💯</h2>
-        <div class="cards">
+          <form class="search-container">
+           <input type="text" name="search" id="searchInput"  onkeyup="searchQuiz()" placeholder="🔍">
+          </form>
+
+        <div class="cards" id="myQuizes">
           {{#QuizNotTaken}}
           <form method="POST" action="/kid/start-quiz">
-            <div class="flip-card">
-              <div class="flip-card-inner">
-                <div class="flip-card-front">
-                  <img src={{quizPic}} alt="Avatar" style="width:300px;height:300px;">
-                </div>
-                <div class="flip-card-back">
-                  <h1><span class="lang" key="quizName"> כותרת הבוחן:</span> {{quizTitle}} </h1>
-                  <h1><span class="lang" key="bookName"> שם הספר:</span> {{bookName}} </h1>
-                  <h1><span class="lang" key="quizTime"> משך הבוחן:</span> {{duration}} דקות</h1>
-                  <input type="text" name="quizID" value={{quizID}} style="display: none">
-                  <button type="submit" class="lang" key="beginQuiz">התחל את הבוחן</input>
+            <ul id="quizUL">
+              <li>
+              <div class="flip-card" >
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                      <div class="card_title title-white">
+                        <p style="color: #2c2c54">{{bookName}}</p>
+                      </div>
+                    <img src={{quizPic}} alt="Avatar" style="width:300px;height:300px;">
+                  </div>
+                  <div class="flip-card-back">
+                    <h1><span class="lang" key="quizName"> כותרת הבוחן:</span> {{quizTitle}} </h1>
+                    <h1><span class="lang" key="bookName"> שם הספר:</span> {{bookName}} </h1>
+                    <h1><span class="lang" key="quizTime"> משך הבוחן:</span> {{duration}} דקות</h1>
+                    <input type="text" name="quizID" value={{quizID}} style="display: none">
+                    <button type="submit" class="lang" key="beginQuiz">התחל את הבוחן</input>
+                  </div>
                 </div>
               </div>
-            </div>
+              </li>
+            </ul>
+
           </form>
           {{/QuizNotTaken}}
         </div>
@@ -50,12 +62,20 @@
 
       <div id="quizes" class="card-style">
         <h2 key="quizTakenList" class="quizCategory"> <span class="lang" key="quizTakenList">בחנים שכבר עשיתי</span>💯</h2>
+          <form class="search-container">
+           <input type="text" name="search" id="searchInputDoneQuiz"  onkeyup="searchDoneQuiz()" placeholder="🔍">
+          </form>
         <div class="cards">
           {{#QuizTaken}}
           <form method="POST" action="/kid/start-quiz">
+          <ul id="doneQuizUL">
+            <li>
             <div class="flip-card">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
+                  <div class="card_title title-white">
+                    <p style="color: #2c2c54">{{bookName}}</p>
+                  </div>
                   <img src={{quizPic}} alt="Avatar" style="width:300px;height:300px;">
                 </div>
                 <div class="flip-card-back">
@@ -67,6 +87,8 @@
                 </div>
               </div>
             </div>
+            </li>
+          </ul>
           </form>
           {{/QuizTaken}}
         </div>
