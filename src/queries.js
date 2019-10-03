@@ -480,8 +480,8 @@ const insertNewQuiz = async (data, writerID, imgArr) => { // using async/await
                                                                         EXCEPT
                                                                         SELECT tq."quizID"
                                                                         FROM "TakesQuiz" tq
-                                                                        WHERE tq."kidID" = $1))`,
-                                                                    [userID]);
+                                                                        WHERE tq."kidID" = $1 AND tq."quizFinished" = $2))`,
+                                                                    [userID, 'Y']);
 
 
                                                                     
@@ -490,8 +490,8 @@ const insertNewQuiz = async (data, writerID, imgArr) => { // using async/await
                                             FROM "TakesQuiz" tq INNER JOIN "Quiz" q ON tq."quizID" = q."quizID"
                                                 INNER JOIN "WritesQuiz" wq ON tq."quizID" = wq."quizID"
                                                 INNER JOIN "Book" b ON wq."bookID" = b."bookID"								  
-                                            WHERE tq."kidID" = $1`,
-                                [userID]);
+                                            WHERE tq."kidID" = $1 AND tq."quizFinished" = $2`,
+                                [userID, 'Y']);
     var quizList = {}
     quizList.notTaken = notTaken;
     quizList.taken = taken;
@@ -507,12 +507,13 @@ const getFullQuizDataByQuizID = async (quizID) => { // using async/await
     const { rows: result} = await db.query(`SELECT * FROM "Quiz" qz
                                             WHERE qz."quizID" = $1`,
                                             [quizID]);
-
     Quiz.quizID = quizID;
     Quiz.quizTitle = result[0].quizTitle;
     Quiz.quizLang = result[0].quizLanguage;
     Quiz.quizPic = result[0].quizPic;
     Quiz.duration = result[0].duration;
+    Quiz.quizStartTime = result[0].quizStartTime;
+    Quiz.quizFinished = result[0].quizFinished;
     
 
     const questionsData =  await getQuestionsByQuizID(quizID);
@@ -526,7 +527,6 @@ const getFullQuizDataByQuizID = async (quizID) => { // using async/await
     Quiz.quizCreaterID = bookAndCreater.personID;
     Quiz.quizCreaterFirstName = bookAndCreater.firstName;
     Quiz.quizCreaterLastName = bookAndCreater.lastName;
-
     Quiz.questions = questionsData;
     return Quiz;
 }
@@ -567,14 +567,65 @@ const getAnswersBy_QuizID_QstNum = async (quizID, questionNum) => { // using asy
 }
 
 const updateQuizAndPoints = async (kidID, quizID, grade, score) => { // using async/await
-    await db.query(`INSERT INTO "TakesQuiz"("kidID", "quizID", "grade", "pointsEarned") VALUES($1, $2, $3, $4)`,
-        [kidID, quizID, grade, score]);
+    await db.query(`UPDATE "TakesQuiz"
+                    SET "grade" = $1, "pointsEarned" = $2, "quizFinished" = $3
+                    WHERE "kidID" = $4 AND "quizID" = $5`, [grade, score, 'Y', kidID, quizID]);
+    
+  
     var { rows: result } = await db.query(`SELECT k."points" From "Kid" k WHERE k."kidID" = $1`, [kidID]);
     var currentPoints = result[0].points;
     var updatedPointsScore = parseInt(currentPoints) + parseInt(score);
     await db.query(`UPDATE "Kid" SET points = $1 WHERE "kidID" = $2`,
         [updatedPointsScore, kidID]);
 }
+
+
+const updateQuizStatus = async (kidID, quizID) => { // using async/await
+    var result = {};
+    var currentTime = new Date();
+    var { rows: checkQuiz} = await db.query(`SELECT * 
+                                            FROM "TakesQuiz" tq INNER JOIN "Quiz" q ON tq."quizID" = q."quizID"
+                                            WHERE tq."kidID" = $1 AND tq."quizID" = $2`, [kidID, quizID]);
+    
+    if (checkQuiz.length > 0 && checkQuiz[0].quizFinished == 'N') {    // if the quiz has been started
+        console.log(checkQuiz[0].duration);
+        console.log(currentTime);
+        console.log(checkQuiz[0].quizStartTime);
+        console.log((currentTime - checkQuiz[0].quizStartTime)/1000);
+        const timeLeft = 60 * (checkQuiz[0].duration) - (currentTime - checkQuiz[0].quizStartTime)/1000;
+        if (timeLeft > 0) { // there is still time for the quiz
+            result.quizStatus = 'active';
+            result.quizFinished = "N";
+            result.timeLeft = timeLeft;
+        }
+        else { // there is no remaining time for the quiz
+            await db.query(`UPDATE "TakesQuiz"
+                            SET "quizFinished" = $1
+                            WHERE "kidID" = $2 AND "quizID" = $3`, ['Y', kidID, quizID]);
+            result.quizStatus = 'finished';
+            result.quizFinished = 'Y';
+            result.timeLeft = timeLeft;
+        }
+    }
+    else if (checkQuiz.length > 0 && checkQuiz[0].quizFinished == 'Y') {    // if the quiz has finished
+        result.quizStatus = 'finished';
+        result.quizFinished = 'Y';
+        result.timeLeft = timeLeft;
+
+    }
+    else {  // first time starting the quiz ==> update start time
+        await db.query(`INSERT INTO "TakesQuiz"("kidID", "quizID", "grade", "pointsEarned", "quizStartTime", "quizFinished") VALUES($1, $2, $3, $4, $5, $6)`,
+            [kidID, quizID, -1, -1, currentTime, 'N']);
+
+        var { rows: quizDuration} = await db.query(`SELECT duration FROM "Quiz"
+                                                    WHERE "quizID" = $1`, [quizID]);
+        result.quizStatus = 'started';
+        result.quizFinished = 'N';    
+        result.timeLeft = 60 * (quizDuration[0].duration);
+    }
+    return result; 
+}
+
 
 const updateLanguagePreferred = async (userID, language) => { // using async/await
     await db.query(`UPDATE "Person" SET lang = $1 WHERE "personID" = $2`,
@@ -1717,6 +1768,7 @@ module.exports = {
     getKidBooksForNotes,
     getAllAboutNote,
     getNotesAboutBook,
+    updateQuizStatus,
     updateQuizAndPoints,
     updateLanguagePreferred,
     sendNotification,

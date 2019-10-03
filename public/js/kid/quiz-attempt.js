@@ -21,11 +21,14 @@ var pointEarned = 0;
 
 
 $('#startQuiz').on('click', function () {
+    checkQuizStatus(quizData.quizID);
     $('#quizContainer').show();
+    
+    
     buildQuiz();
     translateThePage();    // function from language.js
     jQuery(function ($) {
-        var quizTime = 60 * quizData.duration,
+        var quizTime = quizData.timeLeft ,
             display = $('#time');
         startTimer(quizTime, display);
     });
@@ -36,6 +39,23 @@ $('#quitQuiz').on('click', function () {
 });
 
 
+const checkQuizStatus = (quizID) => {
+    var url = '/kid/quiz/checkQuizStatus';
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: { quizID: quizID },
+        async: false,
+        success: function (result) {
+            quizData.quizStatus = result.quizStatus;
+            quizData.quizFinished = result.quizFinished;
+            quizData.timeLeft = result.timeLeft;
+        },
+        error: function (err) {
+
+        }
+    });
+}
 
 
 const getQuizData = (quizID) => {
@@ -57,7 +77,6 @@ const getQuizData = (quizID) => {
 }
 
 function buildQuiz() {    // update the books select
-    //console.log(quizData);
     var numOfQuestions = quizData.totalQuestionsNum;
     //console.log(numOfQuestions);
 
@@ -142,7 +161,7 @@ function startTimer(duration, display) {
 
         if (--timer < 0) {
             finishQuiz();
-            timer = duration * 1000;
+            timer = 10000;
         }
     }, 1000);
 }

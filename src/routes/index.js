@@ -1433,6 +1433,22 @@ router.post('/kid/quiz/getQuizData', authenticationMiddleware(), function (req, 
 });
 
 //============================================================
+router.post('/kid/quiz/checkQuizStatus', authenticationMiddleware(), function (req, res) {
+  // the pool with emit an error on behalf of any idle clients
+  // it contains if a backend error or network partition happens
+  queries.getUserById(req.user, async (userData) => {
+    pool.on('error', (err, client) => {
+      console.error('Unexpected error on idle client', err)
+      process.exit(-1)
+    })
+    const kidID = req.user;
+    const quizID = req.body.quizID;
+    const quizStatus = await queries.updateQuizStatus(kidID, quizID);
+    res.send(quizStatus);
+  });
+});
+
+//============================================================
 router.post('/kid/quiz/updateGradeAndPoints', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens

@@ -16,6 +16,8 @@ SELECT * FROM "Group";
 
 SELECT * FROM "InGroup";
 
+SELECT * FROM "Quiz";
+
 DELETE FROM "InGroup" WHERE "personID" = 13
 
 SELECT * FROM "Notification";
@@ -29,6 +31,12 @@ SELECT
 * FROM "Group" g INNER JOIN "Person" p ON g."personID" = p."personID"
 
 SELECT * FROM "TakesQuiz";
+
+SELECT * 
+FROM "TakesQuiz" tq INNER JOIN "Quiz" q ON tq."quizID" = q."quizID"
+WHERE tq."kidID" = 7 AND tq."quizID" = 1
+
+DELETE FROM "TakesQuiz";
 
 UPDATE "Person" p INNER JOIN "Kid" k ON p."personID" = k."kidID" 
 SET k."firstName" = 'try' WHERE p."personID" = 13

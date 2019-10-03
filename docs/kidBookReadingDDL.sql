@@ -236,6 +236,8 @@ CREATE TABLE "TakesQuiz" (
 	"quizID" INTEGER REFERENCES "Quiz" ("quizID"),
 	"grade" INTEGER NOT NULL,
 	"pointsEarned" INTEGER NOT NULL,
+	"quizStartTime" TIMESTAMP DEFAULT NULL,
+	"quizFinished" CHAR(1) CHECK ("quizFinished" IN ('Y','N')) NOT NULL,
 	PRIMARY KEY ("kidID", "quizID")									   
 );
 
