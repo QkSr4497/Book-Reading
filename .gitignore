@@ -4,3 +4,5 @@ node_modules
 # Local env file with credentials
 .env
 
+# Googel yaml file
+app.standard.yaml
