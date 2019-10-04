@@ -136,17 +136,54 @@ INSERT INTO "Game"("gameName","pic","price","link") VALUES('Tower Bulding','/fun
 ------ Quiz table ------------------------------
 ALTER SEQUENCE "Quiz_quizID_seq" RESTART;	-- personID serial will start with 1
 INSERT INTO "Quiz"("quizTitle","quizLanguage","quizPic", "duration") VALUES('האיש הקטן במבחן קצר','hebrew','/img/quizes/quiz1/quiz1pic.png','7'); -- quiz 1
+INSERT INTO "Quiz"("quizTitle","quizLanguage","quizPic", "duration") VALUES('إختبار الهدية السحرية','arabic','/img/quizes/quiz2/quiz2pic.jpg','8'); -- quiz 2
+INSERT INTO "Quiz"("quizTitle","quizLanguage","quizPic", "duration") VALUES('إختبار قصة من يلاعبني؟','arabic','/img/quizes/quiz3/quiz3pic.jpg','4'); -- quiz 3
+INSERT INTO "Quiz"("quizTitle","quizLanguage","quizPic", "duration") VALUES('المكواة','arabic','/img/quizes/quiz4/quiz4pic.jpg','5'); -- quiz 4
+INSERT INTO "Quiz"("quizTitle","quizLanguage","quizPic", "duration") VALUES(' إختبار قصة الشمس والقمر','arabic','/img/quizes/quiz5/quiz5pic.jpg','7'); -- quiz 5
+
 --************ /Quiz table *************************************
 
 
 ------ Question table ------------------------------
+--quiz1
 INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('1','1','מה שמו של גיבור הספר?','/img/quizes/quiz1/q1pic.png','single'); -- quiz1 q1
 INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('1','2','מהו גובהו של גיבור הספר?','/img/quizes/quiz1/q2pic.png','single'); -- quiz1 q2
 INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('1','3','איך השפיע גובהו של גיבור הספר על חייו?','','multi'); -- quiz1 q3
+--quiz 2
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('2','1','من هي شادن؟','','single');
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('2','2','في أي صف شادن؟','','single'); 
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('2','3','ما هي المناسبة السعيدة لشادن في القصة؟','','single'); 
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('2','4','إشترى بابا رامي لشادن ثوبًا ________','','single');
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('2','5','حضرت ماما منال لشادن كعكًا لذيذًا __________','','single'); 
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('2','6','ماذا أحضرت الجدة عليا هدية لشادن؟','','single');
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('2','7','ماذا شاهدت شادن في الأردن؟','/img/quizes/quiz2/q7pic.jpg','single');
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('2','8','ماذا شاهدت شادن في فلسطين؟','/img/quizes/quiz2/q8pic.jpg','single'); 
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('2','9','ما هي الأماكن التي لم تزرها شادن؟','','multi');
+
+--quiz 3
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('3','1','من هي الشخصية المركزية في القصة؟','','multi');
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('3','2','ماذا تسأل البنت الصغيرة؟','','multi'); 
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('3','3','ماذا يفعل الوالدان؟','','single'); 
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('3','4','بماذا الإخوة مشغولون؟','','single');
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('3','5','ماذا تتمنى البنت الصغيرة؟','','single');
+
+--quiz 4
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('4','1','ماذا تريد أن تفعل لمى؟','','multi');
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('4','2','ماذا ستشتري الأم للمى في الغد؟','','single'); 
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('4','3','ما هو الغد؟','/img/quizes/quiz4/q3pic.jpg','single'); 
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('4','4','ماذا لم تفهم لمى؟','','single');
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('4','5','ماذا سيكون في اليوم التالي؟','','multi');
+--quiz 5
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('5','1',':من هي الشخصية المذكورة في القصة','','multi');
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('5','2','شهر شباط ما في على كلامه ______','','single'); 
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('5','3','من هي جارة القمر؟','','single');
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('5','4','ما هو الحرف الشمسي بإسم القمر؟','','single');
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('5','5','ما هو الحرف القمري بإسم الشمس؟','','single');
+INSERT INTO "Question"("quizID","questionNum","questionContent", "questionPic", "questType") VALUES('5','6','ما هي لغة الضاد؟','','single');
+
 --************ /Question table *************************************
-
-
 ------ Answer table ------------------------------
+-- quiz 1
 INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('1','1','1','דודי קליינר','','N');  -- quiz1 q1ans1
 INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('1','1','2','מקסי פיכלשטיינר','','Y');  -- quiz1 q1ans2
 INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('1','1','3','פיטר פן','','N');  -- quiz1 q1ans3
@@ -158,11 +195,139 @@ INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answe
 INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('1','3','1','הגובה לא השפיע עליו כלל','','N');  -- quiz1 q3ans1
 INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('1','3','2','בשל גובהו הילדים האחרים הציקו לו','','Y');  -- quiz1 q3ans2
 INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('1','3','3','כדי להפוך דף בספר עליו לרדת בסולם ושוב לעלות כדי לקרוא ממרחק סביר','','Y');  -- quiz1 q3ans3
+
+--quiz 2
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','1','1','','/img/quizes/quiz2/pic2.jpg','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','1','2','','/img/quizes/quiz2/pic1.jpg','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','1','3','','/img/quizes/quiz2/pic3.jpg','N'); 
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','2','1','الصف الأول','','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','2','2','الصف الثاني','','N');
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','2','3','الصف الثالث','','N');
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','2','4','الصف الرابع','','N');
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','3','1','حفلة تخرج','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','3','2','حفلة زفاف','','N');
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','3','3','عيد ميلاد','','Y');
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','3','4','عيد الفطر','','N');
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','4','1','أخضر','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','4','2','أصفر','','N');
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','4','3','أبيض','','N');
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','4','4','أحمر','','Y');
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','5','1','بالشوكلاتة والبرتقال','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','5','2','بالشوكولاتة والسكر','','Y');
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','5','3','بالسكر والتوت','','N');
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','5','4','بالشوكولاتة والكرز','','N');
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','6','1','كتاب قديم','','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','6','2','سيارة حمراء','','N');
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','6','3','معجون ملون','','N');
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','6','4','لعبة تغني سنة حلوة يا جميل','','N');
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','7','1','الاهرامات','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','7','2','البحر','','N');
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','7','3','النجوم','','N');
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','7','4','البتراء','','Y');
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','8','1','المسجد الأقصى','','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','8','2','البتراء','','N');
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','8','3','البحر','','N');
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','8','4','الكواكب','','N');
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','9','1','القطب الشمالي','','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','9','2','الحرش','','N');
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','9','3','الحجاز','','N');
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('2','9','4','الغابات الاستوائية','','Y');
+
+--quiz 3
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('3','1','1','','/img/quizes/quiz3/q1a1.jpg','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('3','1','2','','/img/quizes/quiz3/q1a2.jpg','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('3','1','3','','/img/quizes/quiz3/q1a3.jpg','Y'); 
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('3','2','1','لماذا لا أحد يلاعبني؟','','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('3','2','2','لماذا لا أحد يُلبسني؟','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('3','2','3','لماذا لا أحد يشاركني؟','','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('3','2','4','لماذا لا أحد يحادثني؟','','Y');
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('3','3','1','يُحضران الطعام','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('3','3','2','يقرآن الكتب','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('3','3','3','يُنظفان البيت','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('3','3','4','يتراسلان على الفيسبوك','','Y');
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('3','4','1','الإخوة مشغولون بالتلفاز والنقال','','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('3','4','2',' الإخوة مشغولون بالتلفاز وقراءة القصص','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('3','4','3',' الإخوة مشغولون بالنقال وشرب العصير','','N'); 
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('3','5','1','أن تشاهد التلفاز مع إخوتها','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('3','5','2','أن تتشارك مع عائلتها أيامها','','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('3','5','3','أن تتراسل على الفيسبوك','','N'); 
+
+
+--quiz 4
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','1','1','أن تكوي ملابسها','','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','1','2','أن تشرب الماء','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','1','3','أن تكوي ملابس دميتها','','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','1','4','أن تأكل الحلوى','','N');
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','2','1','خلاط كهربائي','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','2','2','ملابس جديدة','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','2','3','دُمية جديدة','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','2','4','مكواة بلاستيكية','','Y');
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','3','1','اليوم السابق','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','3','2','اليوم الأخير في الاسبوع','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','3','3','اليوم التالي','','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','3','4','يوم العيد','','N');
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','4','1','اليوم','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','4','2','البارحة','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','4','3','الظهيرة','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','4','4','الغد','','Y');
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','5','1','شراء مكواة','','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','5','2','المدرسة','',,'N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','5','3','العيد','','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','5','4','شراء ملابس جديدة','','N');
+
+
+--quiz 5
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('5','1','1','القمر','','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('5','1','2','الوردة','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('5','1','3','الشمس','','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('5','1','4','الشجرة','','N');
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('5','1','5','النجمة','','Y');
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('5','2','1','ضباط','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('5','2','2','رباط','','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('5','2','3','نقاط','','N'); 
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('5','3','1','الشجرة','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('5','3','2','النجمة','','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('5','3','3','الوردة','','N'); 
+
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('5','4','1','ق','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('5','4','2','م','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('5','4','3','ر','','Y'); 
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('5','5','1','ش','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('5','5','2','م','','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('5','5','3','س','','N'); 
+
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('5','6','1','اللغة العربية','','Y'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('5','6','2','اللغة العبرية','','N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('5','6','3','اللغة الإنجليزية','','N'); 
 --************ /Answer table *************************************
 
 
 ------ WritesQuiz table ------------------------------
 INSERT INTO "WritesQuiz"("bookID", "quizID", "personID") VALUES('1','1','5'); -- quiz1
+INSERT INTO "WritesQuiz"("bookID", "quizID", "personID") VALUES('11','2','2'); -- quiz2
+INSERT INTO "WritesQuiz"("bookID", "quizID", "personID") VALUES('3','3','2'); -- quiz3
+INSERT INTO "WritesQuiz"("bookID", "quizID", "personID") VALUES('17','4','2'); -- quiz4
+INSERT INTO "WritesQuiz"("bookID", "quizID", "personID") VALUES('4','5','2'); -- quiz4
 --************ /WritesQuiz table *************************************
 
 
@@ -210,3 +375,4 @@ INSERT INTO "NotificationType"("typeN") VALUES('quiz');
 ------ Note table ------------------------------
 --INSERT INTO "Note"("personID","title","content","type") VALUES('7','أول تجربة لي في القراءة','عندما بدأت بقراءة الكتاب, لم افهم في البداية عما تدور القصة لكت كلما تقدمت احببت القصة أكثر فأكثر','private');
 --************ /Note table *************************************
+
