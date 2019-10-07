@@ -59,7 +59,9 @@ function checkDuplicates() {
         emailExceptionText = "";
         userExceptionText = "";
         if (userData == 'taken') {
-            userExceptionText = "User Name is taken.";
+            var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+            userExceptionText = arrLang[langPref]['userExceptionText'];
+            // userExceptionText = "User Name is taken.";
             showSnackbar();
             document.getElementById("userNameException").innerHTML = userExceptionText;  
         }
@@ -68,7 +70,9 @@ function checkDuplicates() {
             email = document.getElementById("email").value;;
             checkEmailDuplicates(email , (error, emailData) => {
                 if (emailData == 'taken') {
-                    emailExceptionText = "Email already registered.";
+                    var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+                    emailExceptionText = arrLang[langPref]['emailExceptionText'];
+                    // emailExceptionText = "Email already registered.";
                     showSnackbar();
                     document.getElementById("emailException").innerHTML = emailExceptionText;
                 }
@@ -129,11 +133,15 @@ function checkFirstName() {
     var firstName, ExceptionText, returnBoolean;
     firstName = document.getElementById("firstName").value;
     if (firstName === "") {
-        ExceptionText = "First Name is required!";
+        var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+        ExceptionText = arrLang[langPref]['firstNameRequired'];
+        // ExceptionText = "First Name is required!";
         returnBool = false;
     }
     else if (!/^[a-zA-Z]+$/.test(firstName)) {
-        ExceptionText = "First Name must contain only letters.";
+        var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+        ExceptionText = arrLang[langPref]['firstNameLetters'];
+        // ExceptionText = "First Name must contain only letters.";
         returnBoolean = false;
     }
     else {
@@ -148,11 +156,15 @@ function checkLastName() {
     var lastName, ExceptionText, returnBoolean;
     lastName = document.getElementById("lastName").value;
     if (lastName === "") {
-        ExceptionText = "Last Name is required!";
+        var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+        ExceptionText = arrLang[langPref]['lastNameRequired'];
+        // ExceptionText = "Last Name is required!";
         returnBool = false;
     }
     else if (!/^[a-zA-Z]+$/.test(lastName)) {
-        ExceptionText = "Last Name must contain only letters.";
+        var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+        ExceptionText = arrLang[langPref]['lastNameLetters'];
+        // ExceptionText = "Last Name must contain only letters.";
         returnBoolean = false;
     }
     else {
@@ -191,11 +203,15 @@ function checkDateOfBirth() {
     if ($("#role").val() == 'kid') {
         birthDate = document.getElementById("birthdate").value;
         if (birthDate === "") {
-            ExceptionText = "Birthdate is required!";
+            var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+            ExceptionText = arrLang[langPref]['birthDateRequired'];
+            // ExceptionText = "Birthdate is required!";
             returnBoolean = false;
         }
         else if (new Date(birthDate).getTime() > ToDate.getTime()) {
-            ExceptionText = "Your Birthdate must be former than now.";
+            var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+            ExceptionText = arrLang[langPref]['birthDateInvalid'];
+            // ExceptionText = "Your Birthdate must be former than now.";
             returnBoolean = false;
         }
         else {
@@ -300,11 +316,15 @@ function checkEmail() {
     var emailPattern = /^(?:[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/;
     email = document.getElementById("email").value;
     if (email === "") {
-        ExceptionText = "Email is required!";
+        var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+        ExceptionText = arrLang[langPref]['emailRequired'];
+        // ExceptionText = "Email is required!";
         returnBoolean = false;
     }
     else if (emailPattern.test(email) === false) {
-        ExceptionText = "Email must be in valid format like a@b.com";
+        var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+        ExceptionText = arrLang[langPref]['emailInvalid'];
+        // ExceptionText = "Email must be in valid format like a@b.com";
         returnBoolean = false;
     }
     else {
@@ -319,17 +339,23 @@ function checkUserName() {
     var userName, ExceptionText, returnBoolean;
     userName = document.getElementById("userName").value;
     if (userName === "") {
-        ExceptionText = "Username is required!";
+        var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+        ExceptionText = arrLang[langPref]['userNameRequired'];
+        // ExceptionText = "Username is required!";
         returnBoolean = false;
     }
 
     else if (/\s/.test(userName)) {  // check if there are any whitespaces
-        ExceptionText = "Username must not contain any whitespaces.";
+        var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+        ExceptionText = arrLang[langPref]['userNameSpaces'];
+        // ExceptionText = "Username must not contain any whitespaces.";
         returnBoolean = false;
     }
     else if(userName.length < 4)
     {
-        ExceptionText = "Username must contain at least 4 characters.";
+        var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+        ExceptionText = arrLang[langPref]['userNameLength'];
+        // ExceptionText = "Username must contain at least 4 characters.";
         returnBoolean = false;
     }
     else {
@@ -347,22 +373,30 @@ function checkPassword() {
     var re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{6,}$/; // at least six characters and at least one number, one lowercase, one uppercase letter.
     
     if (pass1 === "") {
-        ExceptionText1 = "Password is required!";
+        var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+        ExceptionText1 = arrLang[langPref]['passRequired'];
+        // ExceptionText1 = "Password is required!";
         ExceptionText2 = "";
         returnBoolean = false;
     }
     else if(!re.test(pass1)) {
-        ExceptionText1 = "Password must contain at least 6 characters and at least one number, one lowercase and one uppercase letter.";
+        var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+        ExceptionText1 = arrLang[langPref]['passInvalid'];
+        // ExceptionText1 = "Password must contain at least 6 characters and at least one number, one lowercase and one uppercase letter.";
         ExceptionText2 = "";
         returnBoolean = false;
     }
     else if(pass2 === "") {
         ExceptionText1 = "";
-        ExceptionText2 = "Repeating password is required!";
+        var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+        ExceptionText2 = arrLang[langPref]['confirmPassRequired'];
+        // ExceptionText2 = "Repeating password is required!";
     }
     else if(pass1 != pass2) {
         ExceptionText1 = "";
-        ExceptionText2 = "Passwords Don't Match!";
+        var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+        ExceptionText2 = arrLang[langPref]['passMatchInvalid'];
+        // ExceptionText2 = "Passwords Don't Match!";
     }
     else {
         ExceptionText1 = "";
@@ -378,7 +412,9 @@ function checkRole() {
     var role, ExceptionText, returnBoolean;
     role = document.getElementById("role").value;
     if (role === "none") {
-        ExceptionText = "Role is required!";
+        var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+        ExceptionText = arrLang[langPref]['roleRequired'];
+        // ExceptionText = "Role is required!";
         returnBool = false;
     }
     else {
@@ -396,11 +432,15 @@ function checkPhone() {
     if ($("#role").val() != 'kid') {
         phone = document.getElementById("phone").value;
         if (phone === "") {
-            ExceptionText = "Phone Number is required!";
+            var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+            ExceptionText = arrLang[langPref]['phoneRequired'];
+            // ExceptionText = "Phone Number is required!";
             returnBoolean = false;
         }
         else if (phonePattern.test(phone) === false || phone.length < 9 || phone.length > 10) {
-            ExceptionText = "Phone number must be 9-10 digits long and contain digits only.";
+            var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+            ExceptionText = arrLang[langPref]['phoneInvalid'];
+            // ExceptionText = "Phone number must be 9-10 digits long and contain digits only.";
             returnBoolean = false;
         }
         else {

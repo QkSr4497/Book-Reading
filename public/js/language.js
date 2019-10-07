@@ -7,6 +7,7 @@ var  arrLang={
     'language':'إختر لغة',
     'notifications':'إشعارات',
     'home':'🏠 الصفحة الرئيسية',
+    'home2':'الصفحة الرئيسية',
     'myProfile':'👦 حسابي الشخصي',
     'myBooks':'📚 كتبي',
     'myQuizes':'⏱️ اختباراتي ',
@@ -102,6 +103,68 @@ var  arrLang={
     'redAnswer':'إجابة غير صحيحة',
     'flickeringAnswer':'لم تختر هذه الإجابة الصحيحة',
     '':'',
+    'login':'?כניסה',
+    'registration':'הרשמה?',
+    'registrationPage':'דף הרשמה?',
+    'role':'תפקיד *?',
+    'selectRole':'?בחר/י תפקיד',
+    'kid':'ילד/ה?',
+    'teacher':'מורה?',
+    'supervisor':'מפקח/ת?',
+    'firstNameRegistration':'שם פרטי *?',
+    'firstNameHolder':'שם פרטי...?',
+    'lastNameRegistration':'שם משפחה *?',
+    'lastNameHolder':'שם משפחה...?',
+    'emailRegistration':'אימייל *',
+    'emailHolder':'כתובת אימייל לדוגמה: johndoe@gmail.com?',
+    'userNameRegistration':' שם משתמש *?',
+    'userNameHolder':'שם משתמש...?',
+    'birthdateRegistration':'תאריך לידה *?',
+    'genderRegistration':'מין *?',
+    'male':'זכר?',
+    'female':'נקבה?',
+    'phoneRegistration':'טלפון *?',
+    'phoneHolder':'מספר טלפון...?',
+    'languageRegistration':'שפה מועדפת *?',
+    'passRegistration':'סיסמה *?',
+    'confirmPassRegistration':'הכנס/י שוב סיסמה *?',
+    'registerBtn':'הירשם עכשיו?',
+    'firstNameRequired':'שם פרטי הוא שדה חובה?',
+    'userExceptionText':'שם המשתמש תפוס.?',
+    'emailExceptionText':'האימייל כבר רשום באתר.?',
+    'firstNameLetters':'שם פרטי מוכרח להכיל אותיות באנגלית בלבד.?',
+    'lastNameRequired':'שם משפחה הוא שדה חובה?',
+    'lastNameLetters':'שם משפחה מוכרח להכיל אותיות באנגלית בלבד.?',
+    'birthDateRequired':'תאריך לידה הוא שדה חובה?',
+    'birthDateInvalid':'תאריך הלידה שנבחר איננו חוקי.?',
+    'emailRequired':'כתובת אימייל היא שדה חובה?',
+    'emailInvalid':'כתובת האימייל חייבת להיות מהצורה: a@b.com?',
+    'userNameRequired':'שם משתמש הוא שדה חובה?',
+    'userNameSpaces':'שם המשתמש איננו יכול להכיל רווחים.?',
+    'userNameLength':'שם המשתמש מוכרח להכיל 4 תווים לפחות?',
+    'passRequired':'סיסמה היא שדה חובה?',
+    'passInvalid':'סיסמה חייבת להכיל 6 תווים ובהם לפחות ספרה אחת, אות אחת גדולה ואות אחת קטנה באנגלית.?',
+    'confirmPassRequired':'חובה לאשר את הסיסמה שנית?',
+    'passMatchInvalid':'הסיסמאות אינן תואמות.?',
+    'roleRequired':'תפקיד הוא שדה חובה?',
+    'phoneRequired':'טלפון הוא שדה חובה?',
+    'phoneInvalid':'מספר טלפון חייב להכיל 9-10 ספרות?',
+    'snackbar':'יש לתקן את כל השדות שלצידם הערה באדום?',
+    '':'',
+    'memberLogin':'כניסה לאתר?',
+    'forgot':'שכחתי?',
+    'userPass':'שם משתמש / סיסמא ?',
+    'createAccount':'צור חשבון?',
+    '':'',
+    'forgotPass':'שכחתי סיסמא?',
+    'email':'אימייל?',
+    'resetPass':'איפוס סיסמה?',
+    'confirmPass':'אשר סיסמה?',
+    'updatePass':'עדכן סיסמה?',
+    '':'',
+    '':'',
+    '':'',
+    '':'',
     '':'',
     '':'',
   },
@@ -113,6 +176,7 @@ var  arrLang={
     'language':' שפה ',
     'notifications':'התראות',
     'home':'🏠דף הבית ',
+    'home2':'דף הבית',
     'myProfile':'👦פרופיל',
     'myBooks':'📚 רשימת הספרים ',
     'myQuizes':'⏱️בחנים',
@@ -129,7 +193,7 @@ var  arrLang={
     'userName':'שם משתמש',
     'firstName':'שם פרטי',
     'lastName':'שם משפחה',
-    'password':'סיסמא',
+    'password':'סיסמה',
     'birthDate':'תאריך לידה',
     'points':'נקודות',
     'update':'עדכן',
@@ -200,7 +264,71 @@ var  arrLang={
     'greenAnswer':'מסומנת בירוק אם התשובה שסומנה נכונה',
     'redAnswer':'מסגרת מסומנת באדום אם התשובה איננה נכונה',
     'flickeringAnswer':'מסגרת מהבהבת אם התשובה שסומנה איננה נכונה',
-
+    '':'',
+    'login':'כניסה',
+    'registration':'הרשמה',
+    'registrationPage':'דף הרשמה',
+    'role':'תפקיד *',
+    'selectRole':'בחר/י תפקיד',
+    'kid':'ילד/ה',
+    'teacher':'מורה',
+    'supervisor':'מפקח/ת',
+    'firstNameRegistration':'שם פרטי *',
+    'firstNameHolder':'שם פרטי...',
+    'lastNameRegistration':'שם משפחה *',
+    'lastNameHolder':'שם משפחה...',
+    'emailRegistration':'אימייל *',
+    'emailHolder':'כתובת אימייל לדוגמה: johndoe@gmail.com',
+    'userNameRegistration':' שם משתמש *',
+    'userNameHolder':'שם משתמש...',
+    'birthdateRegistration':'תאריך לידה *',
+    'genderRegistration':'מין *',
+    'male':'זכר',
+    'female':'נקבה',
+    'phoneRegistration':'טלפון *',
+    'phoneHolder':'מספר טלפון...',
+    'languageRegistration':'שפה מועדפת *',
+    'passRegistration':'סיסמה *',
+    'confirmPassRegistration':'הכנס/י שוב סיסמה *',
+    'registerBtn':'הירשם עכשיו',
+    'firstNameRequired':'שם פרטי הוא שדה חובה',
+    'userExceptionText':'שם המשתמש תפוס.',
+    'emailExceptionText':'האימייל כבר רשום באתר.',
+    'firstNameLetters':'שם פרטי מוכרח להכיל אותיות באנגלית בלבד.',
+    'lastNameRequired':'שם משפחה הוא שדה חובה',
+    'lastNameLetters':'שם משפחה מוכרח להכיל אותיות באנגלית בלבד.',
+    'birthDateRequired':'תאריך לידה הוא שדה חובה',
+    'birthDateInvalid':'תאריך הלידה שנבחר איננו חוקי.',
+    'emailRequired':'כתובת אימייל היא שדה חובה',
+    'emailInvalid':'כתובת האימייל חייבת להיות מהצורה: a@b.com',
+    'userNameRequired':'שם משתמש הוא שדה חובה',
+    'userNameSpaces':'שם המשתמש איננו יכול להכיל רווחים.',
+    'userNameLength':'שם המשתמש מוכרח להכיל 4 תווים לפחות',
+    'passRequired':'סיסמה היא שדה חובה',
+    'passInvalid':'סיסמה חייבת להכיל 6 תווים ובהם לפחות ספרה אחת, אות אחת גדולה ואות אחת קטנה באנגלית.',
+    'confirmPassRequired':'חובה לאשר את הסיסמה שנית',
+    'passMatchInvalid':'הסיסמאות אינן תואמות.',
+    'roleRequired':'תפקיד הוא שדה חובה',
+    'phoneRequired':'טלפון הוא שדה חובה',
+    'phoneInvalid':'מספר טלפון חייב להכיל 9-10 ספרות',
+    'snackbar':'יש לתקן את כל השדות שלצידם הערה באדום',
+    '':'',
+    'memberLogin':'כניסת לאתר',
+    'forgot':'שכחתי',
+    'userPass':'שם משתמש / סיסמא ?',
+    'createAccount':'צור חשבון',
+    '':'',
+    'forgotPass':'שכחתי סיסמא',
+    'email':'אימייל',
+    'resetPass':'איפוס סיסמה',
+    'confirmPass':'אשר סיסמה',
+    'updatePass':'עדכן סיסמה',
+    '':'',
+    '':'',
+    '':'',
+    '':'',
+    '':'',
+    '':'',
 
   }
 };
@@ -218,10 +346,18 @@ $(document).ready(function() {  // translating the page according to the clicked
   $('.translate').click(function(){
     var clicked = $(this).attr('id');
     var langClicked = (clicked == 'heb') ? 'hebrew' : 'arabic';
+    langPreferred = langClicked;
     updateLangPreferred(langPreferred, langClicked);
     $('.lang').each(function(index ,element){
       $(this).text(arrLang[clicked][$(this).attr('key')]);
     });
+    $('.inputHolder').each(function(index ,element){  // translating Place holder of an input
+      $(this).attr("placeholder", arrLang[clicked][$(this).attr('key')]);
+    });
+    $('.validate-input').each(function(index ,element){  // translating data-validate attribute
+      $(this).attr('data-validate', arrLang[clicked][$(this).attr('key')]);
+    });
+
   });
 });
 
@@ -245,6 +381,11 @@ function translateThePage() {  // getting the langueage preferred by the user fr
   var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
     $('.lang').each(function(index ,element){
       $(this).text(arrLang[langPref][$(this).attr('key')]);
-      
+    });
+    $('.inputHolder').each(function(index ,element){  // translating Place holder of an input
+      $(this).attr("placeholder", arrLang[clicked][$(this).attr('key')]);
+    });
+    $('.validate-input').each(function(index ,element){  // translating data-validate attribute
+      $(this).attr('data-validate', arrLang[clicked][$(this).attr('key')]);
     });
 }

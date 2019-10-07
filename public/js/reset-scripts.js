@@ -31,10 +31,12 @@ function checkPassword() {
     var re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{6,}$/; // at least six characters and at least one number, one lowercase, one uppercase letter.
     
     if (pass1 === "") {
-        console.log($("#pass1").parent().data('validate'));
-        console.log($("#pass2").parent().data('validate'));
+        // console.log($("#pass1").parent().data('validate'));
+        // console.log($("#pass2").parent().data('validate'));
         
-        ExceptionText1 = "Password is required!";
+        var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+        ExceptionText1 = arrLang[langPref]['passRequired'];
+        // ExceptionText1 = "Password is required!";
         ExceptionText2 = "";
         $('#pass1').parent().attr('data-validate', ExceptionText1);
         $('#pass2').parent().attr('data-validate', ExceptionText2);
@@ -42,7 +44,9 @@ function checkPassword() {
         returnBoolean = false;
     }
     else if(!re.test(pass1)) {
-        ExceptionText1 = "Password must contain at least 6 characters and at least one number, one lowercase and one uppercase letter.";
+        var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+        ExceptionText1 = arrLang[langPref]['passInvalid'];
+        // ExceptionText1 = "Password must contain at least 6 characters and at least one number, one lowercase and one uppercase letter.";
         ExceptionText2 = "";
         $('#pass1').parent().attr('data-validate', ExceptionText1);
         $('#pass2').parent().attr('data-validate', ExceptionText2);
@@ -51,7 +55,9 @@ function checkPassword() {
     }
     else if(pass2 === "") {
         ExceptionText1 = "";
-        ExceptionText2 = "Repeating password is required!";
+        // ExceptionText2 = "Repeating password is required!";
+        var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+        ExceptionText2 = arrLang[langPref]['confirmPassRequired'];
         $('#pass1').parent().attr('data-validate', ExceptionText1);
         $('#pass2').parent().attr('data-validate', ExceptionText2);
         showValidate(input2);
@@ -59,7 +65,9 @@ function checkPassword() {
     }
     else if(pass1 != pass2) {
         ExceptionText1 = "";
-        ExceptionText2 = "Passwords Don't Match!";
+        // ExceptionText2 = "Passwords Don't Match!";
+        var langPref = (langPreferred == 'hebrew') ? 'heb' : 'arb';
+        ExceptionText2 = arrLang[langPref]['passMatchInvalid'];
         $('#pass1').parent().attr('data-validate', ExceptionText1);
         $('#pass2').parent().attr('data-validate', ExceptionText2);
         showValidate(input2);

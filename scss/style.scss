@@ -15,7 +15,7 @@ body{
 
    #KidsReadLogo {
       width: 15vw;
-      margin-right: 40vw;
+      margin-left: 40vw;
    }
 
    #aKidsReadLogo {
@@ -30,6 +30,13 @@ body{
       background-color: transparent;
    }
 
+   #navbar-unauthenticated {
+      background-color: #cea7f9;
+    }
+
+    #myTopnav-unauthenticated {
+       border-radius: 10px;
+    }
    
 
  /**************** badge number of new notifications  *************************/

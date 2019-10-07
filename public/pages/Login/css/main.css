@@ -134,15 +134,15 @@ iframe {
 /*//////////////////////////////////////////////////////////////////
 [ Utility ]*/
 .txt1 {
-  font-family: Poppins-Regular;
-  font-size: 13px;
+  font-family: 'Arial Black', Times, serif;
+  font-size: 16px;
   line-height: 1.5;
   color: #999999;
 }
 
 .txt2 {
-  font-family: Poppins-Regular;
-  font-size: 13px;
+  font-family: 'Arial Black', Times, serif;
+  font-size: 16px;
   line-height: 1.5;
   color: #666666;
 }
@@ -209,12 +209,12 @@ iframe {
 }
 
 .login100-form-title {
-  font-family: Poppins-Bold;
-  font-size: 24px;
+  font-family: 'Arial Black', Times, serif;
+  font-size: 39px;
   color: #333333;
   line-height: 1.2;
   text-align: center;
-
+  font-weight: 600;
   width: 100%;
   display: block;
   padding-bottom: 54px;
@@ -234,7 +234,7 @@ iframe {
   font-size: 15px;
   line-height: 1.5;
   color: #666666;
-
+  text-align: right;
   display: block;
   width: 100%;
   background: #e6e6e6;
@@ -323,8 +323,8 @@ iframe {
 }
 
 .login100-form-btn {
-  font-family: Montserrat-Bold;
-  font-size: 15px;
+  font-family: 'Arial Black', Times, serif;
+  font-size: 23px;
   line-height: 1.5;
   color: #fff;
   text-transform: uppercase;

@@ -18,7 +18,7 @@ body {
   font-size: 13px;
   margin: 0; }
 
-input, textarea, select, button {
+input, textarea, select, #registerBtn {
   font-family: "Muli-Regular";
   color: #333;
   font-size: 13px; }
@@ -54,10 +54,10 @@ a:hover {
   background: url("/img/SignUp-pic1.jpg"); }
   .inner h3 {
     text-transform: uppercase;
-    font-size: 22px;
-    font-family: "Muli-Bold";
+    font-size: 38px;
+    font-family: 'Times New Roman', Times, serif;
     text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: 20px;
     color: #333;
     letter-spacing: 2px; }
 
@@ -85,7 +85,7 @@ form {
   height: 40px;
   padding: 0 20px;
   border-radius: 20px;
-  font-family: "Muli-Bold";
+  font-family: 'Times New Roman', Times, serif;
   background: none; }
   .form-control:focus {
     border: 1px solid #ae3c33; }
@@ -98,7 +98,7 @@ select {
   select option[value=""][disabled] {
     display: none; }
 
-button {
+#registerBtn {
   border: none;
   width: 152px;
   height: 40px;
@@ -124,7 +124,7 @@ button {
   transition-property: color;
   -webkit-transition-duration: 0.5s;
   transition-duration: 0.5s; }
-  button:before {
+  #registerBtn:before {
     content: "";
     position: absolute;
     z-index: -1;
@@ -143,7 +143,7 @@ button {
     transition-duration: 0.5s;
     -webkit-transition-timing-function: ease-out;
     transition-timing-function: ease-out; }
-  button:hover:before {
+  #registerBtn:hover:before {
     -webkit-transform: scaleX(1);
     transform: scaleX(1);
     -webkit-transition-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
@@ -203,7 +203,8 @@ button {
 
 .validation-remark { 
   color: #f11a09;
-  
+  float: right;
+  margin-right: 1vw;
 }
 
   
@@ -261,6 +262,12 @@ input::-webkit-calendar-picker-indicator {
   color: black;
   opacity: 1;
 }
+
+.form-wrapper p {
+  float: right;
+  font-weight: 500;
+}
+
 
 /*                 snackbar                 */
 /* The snackbar - position it at the bottom and in the middle of the screen */

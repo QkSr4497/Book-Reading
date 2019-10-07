@@ -10,6 +10,9 @@
 	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="pages/Login/vendor/bootstrap/css/bootstrap.min.css">
 	<!--===============================================================================================-->
+	<!-- JQuery  -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="pages/Login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="pages/Login/vendor/animate/animate.css">
@@ -31,9 +34,9 @@
 </head>
 
 <body>
-	<div class="navbar">
-		{{> header }}
-	</div>
+
+	{{> unauthenticated_topNav }}
+
 
 
 
@@ -49,20 +52,20 @@
 				</div>
 
 				<form method="POST" class="login100-form validate-form" action="/login">
-					<span class="login100-form-title">
+					<span class="login100-form-title lang" key="memberLogin">
 						Member Login
 					</span>
 
-					<div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
-						<input class="input100" type="text" name="username" placeholder="User Name">
+					<div id="userName" class="wrap-input100 validate-input" key="userNameRequired" data-validate="שם משתמש הוא שדה חובה.">
+						<input class="input100 inputHolder" type="text" name="username" key="userName" placeholder="שם משתמש">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-user" aria-hidden="true"></i>
 						</span>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate="Password is required">
-						<input class="input100" type="password" name="password" placeholder="Password">
+					<div class="wrap-input100 validate-input" key="passRequired" data-validate="סיסמה היא שדה חובה">
+						<input class="input100 inputHolder" type="password" name="password" key="password" placeholder="סיסמה">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
@@ -76,32 +79,33 @@
 					{{/if}}
 
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
+						<button class="login100-form-btn lang" key="login">
 							Login
 						</button>
 					</div>
 
 					<div class="text-center p-t-12">
-						<span class="txt1">
-							Forgot
-						</span>
-						<a class="txt2" href="./forgot">
+						<a class="txt2 lang" href="./forgot" key="userPass" dir="rtl">
 							Username / Password?
 						</a>
+						<span class="txt1 lang" key="forgot" dir="rtl">
+							Forgot
+						</span>
 					</div>
 
 					<div class="text-center p-t-136">
-						<a class="txt2" href="/signUp/signUpPage">
+						<i class="fa fa-long-arrow-left m-l-5" aria-hidden="true"></i>
+						<a class="txt2 lang" key="createAccount" href="/signUp/signUpPage">
 							Create your Account
-							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
 						</a>
+						
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
 
-
+	{{> unauthenticated_footer}}
 
 
 

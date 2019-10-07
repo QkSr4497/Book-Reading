@@ -10,6 +10,9 @@
 	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="../pages/Login/vendor/bootstrap/css/bootstrap.min.css">
 	<!--===============================================================================================-->
+	<!-- JQuery  -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="../pages/Login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="../pages/Login/vendor/animate/animate.css">
@@ -33,9 +36,9 @@
 </head>
 
 <body>
-	<div class="navbar">
-		{{> header }}
-	</div>
+
+	{{> unauthenticated_topNav }}
+
 
 
 
@@ -60,16 +63,16 @@
 
 				<div class="login100-pic js-tilt" data-tilt>
 					{{!-- <img src="pages/Login/images/img-04.png" alt="IMG"> --}}
-					<script type="text/javascript">getRandomImage(random_images_array);</script>
+					<script type="text/javascript">getRandomImage(random_images_array, attribution_a_content_array);</script>
 				</div>
 
 				<form method="POST" name="myForm" class="login100-form validate-form" action="/reset/{{token}}">
-					<span class="login100-form-title">
+					<span class="login100-form-title lang" key="resetPass">
 						Reset Password
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate="what">
-						<input id="pass1" class="input100" type="password" name="password" placeholder="Password">
+						<input id="pass1" class="input100 inputHolder" key="password" type="password" name="password" placeholder="סיסמה">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-user" aria-hidden="true"></i>
@@ -77,7 +80,7 @@
 					</div>
 
           <div class="wrap-input100 validate-input" data-validate="what">
-						<input id="pass2" class="input100" type="password" name="confirm" placeholder="Confirm password">
+						<input id="pass2" class="input100 inputHolder" key="confirmPass" type="password" name="confirm" placeholder="אשר סיסמה">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-user" aria-hidden="true"></i>
@@ -85,19 +88,23 @@
 					</div>
 
 					<div class="container-login100-form-btn">
-						<button type="button" class="login100-form-btn" onclick=" return checkAllInputs()">
+						<button type="button" class="login100-form-btn lang" key="updatePass" onclick=" return checkAllInputs()">
 							Update Password
 						</button>
 					</div>
 				</form>
 
-        <div id="snackbar">Please Correct all Inputs with <span style='color: rgb(255, 0, 0)'>red</span> comment .</div>
+        <div id="snackbar" class="lang" key="snackbar">Please Correct all Inputs with <span style='color: rgb(255, 0, 0)'>red</span> comment .</div>
 
 			</div>
 		</div>
 	</div>
 
+	{{> unauthenticated_footer}}
 
+	<script>
+		var langPreferred = 'hebrew'  // global variable which is used in language.js file
+	</script>
 
 
 	<!--===============================================================================================-->

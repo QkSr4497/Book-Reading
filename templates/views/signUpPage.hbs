@@ -12,120 +12,116 @@
 	<!-- JQuery  -->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
 		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-
+	
 	<!-- for date format  -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
-
+	
 	<!-- MATERIAL DESIGN ICONIC FONT -->
 	<link rel="stylesheet" href="/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
-
+	
 	<!-- signUp page STYLE CSS -->
 	<link rel="stylesheet" href="/css/signUp.css">
-
+	
 	<!-- STYLE CSS -->
-	 <link rel="Stylesheet" href="/css/style.css" />
+	<link rel="Stylesheet" href="/css/style.css" />
 
 
 
 </head>
 
 <body>
-	<div class="navbar">
-		{{> header }}
-	</div>
-	<div class="wrapper" style="background-image: url('/img/SignUp-bg.jpg');">
+	
+	{{> unauthenticated_topNav }}
+	
+	<div class="wrapper" style="background-image: url('/img/SignUp-bg.jpg');" dir="rtl">
 		<div class="inner">
-			<form method="POST" name="myForm" action="/signUp/signUpNewUser">
-				<h3>Registration Form</h3>
+			<form method="POST" name="myForm" action="/signUp/signUpNewUser" >
+				<h3 class="lang" key="registrationPage">דף הרשמה</h3>
 				<div class="form-wrapper">
-					<p>Role *
-						<span class="validation-remark" id="roleException"></span>
-					</p>
+					<p class="lang" key="role">Role *</p>
+					<span class="validation-remark" id="roleException"></span>
 					<select id="role" class="form-control" name="role">
-						<option value="none" default selected>Select Your Role</option>
-						<option value="kid">Kid</option>
-						<option value="teacher">Teacher</option>
-						<option value="supervisor">Supervisor</option>
+						<option value="none" default selected class="lang" key="selectRole">Select Your Role</option>
+						<option value="kid" class="lang" key="kid">Kid</option>
+						<option value="teacher" class="lang" key="teacher">Teacher</option>
+						<option value="supervisor" class="lang" key="supervisor">Supervisor</option>
 					</select>
 				</div>
 
 				<div class="form-wrapper">
-					<p>First Name *
-						<span class="validation-remark" id="firstNameException"></span>
-					</p>
-					<input type="text" id="firstName" name="firstName" class="form-control" placeholder="First Name...">
+					<p class="lang" key="firstNameRegistration">First Name *</p> 
+					<span class="validation-remark" id="firstNameException"></span>
+					<input type="text" id="firstName" name="firstName" class="form-control inputHolder" key="firstNameHolder" placeholder="שם פרטי...">
 				</div>
 				<div class="form-wrapper">
-					<p>Last Name *
-						<span class="validation-remark" id="lastNameException"></span>
-					</p>
-					<input type="text" id="lastName" name="lastName" class="form-control" placeholder="Last Name...">
+					<p class="lang" key="lastNameRegistration">Last Name *</p>
+					<span class="validation-remark" id="lastNameException"></span>
+					<input type="text" id="lastName" name="lastName" class="form-control inputHolder" key="lastNameHolder" placeholder="שם משפחה...">
 				</div>
 				<div class="form-wrapper">
-					<p>Email *
-						<span class="validation-remark" id="emailException"></span>
-					</p>
-					<input type="text" id="email" name="email" class="form-control"
-						placeholder="Email address. for example: johndoe@gmail.com">
+					<p class="lang" key="emailRegistration">Email *</p>
+					<span class="validation-remark" id="emailException"></span>
+					<input type="text" id="email" name="email" class="form-control inputHolder" key="emailHolder"
+						placeholder="כתובת אימייל לדוגמה: johndoe@gmail.com">
 				</div>
 				<div class="form-wrapper">
-					<p>User Name *
-						<span class="validation-remark" id="userNameException"></span>
-					</p>
-					<input type="text" id="userName" name="userName" class="form-control" placeholder="Username...">
+					<p class="lang" key="userNameRegistration">User Name *</p>
+					<span class="validation-remark" id="userNameException"></span>
+					<input type="text" id="userName" name="userName" class="form-control inputHolder" key="userNameHolder" placeholder="שם משתמש...">
 				</div>
 
 				<div class="form-wrapper">
-					<p id="birthdateTitle">Brithdate *
-						<span class="validation-remark" id="birthDateException"></span>
-					</p>
+					<p id="birthdateTitle" class="lang" key="birthdateRegistration">Brithdate *</p>
+					<span class="validation-remark" id="birthDateException"></span>
 					<span class="input-group-addon"><i class="fas fa-user"></i></span>
 					<input type="date" class="form-control" id="birthdate" name="birthdate" name="birthdate"
 						data-date="" data-date-format="DD MMMM YYYY" value="2019-08-01" required="" value="">
 				</div>
 
 				<div class="form-wrapper">
-					<p>Gender *</p>
+					<p class="lang" key="genderRegistration">Gender *</p>
 					<select id="genderSelected" class="form-control" name="genderSelected">
-						<option value="M">Male</option>
-						<option value="F">Female</option>
+						<option value="M" class="lang" key="male">Male</option>
+						<option value="F" class="lang" key="female">Female</option>
 					</select>
 				</div>
 
 				<div class="form-wrapper">
-					<p id="phoneTitle">Phone *
-						<span class="validation-remark" id="phoneException"></span>
-					</p>
-					<input type="text" id="phone" name="phone" class="form-control" placeholder="Phone Number...">
+					<p id="phoneTitle" class="lang" key="phoneRegistration">Phone *</p>
+					<span class="validation-remark" id="phoneException"></span>
+					<input type="text" id="phone" name="phone" class="form-control inputHolder" key="phoneHolder" placeholder="מספר טלפון...">
 				</div>
 
 				<div class="form-wrapper">
-					<p>Preferred Language *</p>
+					<p class="lang" key="languageRegistration">Preferred Language *</p>
 					<select id="languageSelected" class="form-control" name="languageSelected">
-						<option value="hebrew">Hebrew</option>
-						<option value="Arabic">Arabic</option>
+						<option value="hebrew" class="lang" key="hebrew">Hebrew</option>
+						<option value="Arabic" class="lang" key="arabic">Arabic</option>
 					</select>
 				</div>
 
 				<div class="form-wrapper">
-					<p>Password *
-						<span class="validation-remark" id="pass1Exception"></span>
-					</p>
+					<p class="lang" key="passRegistration">Password *</p>
+					<span class="validation-remark" id="pass1Exception"></span>
 					<input type="password" id="pass1" name="pwd" class="form-control" placeholder="**********">
 				</div>
 				<div class="form-wrapper">
-					<p>Confirm Password *
-						<span class="validation-remark" id="pass2Exception"></span>
-					</p>
+					<p class="lang" key="confirmPassRegistration">Confirm Password *</p>
+					<span class="validation-remark" id="pass2Exception"></span>
 					<input type="password" id="pass2" class="form-control" placeholder="**********">
 				</div>
-				<button type="button" onclick=" return checkAllInputs()">Register Now</button>
+				<button type="button" id="registerBtn" onclick=" return checkAllInputs()" class="lang" key="registerBtn">Register Now</button>
 			</form>
 
-			<div id="snackbar">Please Correct all Inputs with <span style='color: rgb(255, 0, 0)'>red</span> comment .</div>
+			<div id="snackbar" class="lang" key="snackbar">Please Correct all Inputs with <span style='color: rgb(255, 0, 0)'>red</span> comment .</div>
 		</div>
 	</div>
 
+	{{> unauthenticated_footer}}
+
+	<script>
+		var langPreferred = 'hebrew'  // global variable which is used in language.js file
+	</script>
 
 	<!-- Javascripts  -->
 	<!-- placing the script at the end makes sure that the script runs after all the elemnts are available -->
