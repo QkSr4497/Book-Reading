@@ -287,7 +287,7 @@ INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answe
 INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','4','4','الغد','','Y');
 
 INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','5','1','شراء مكواة','','Y'); 
-INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','5','2','المدرسة','',,'N'); 
+INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','5','2','المدرسة','','N'); 
 INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','5','3','العيد','','Y'); 
 INSERT INTO "Answer"("quizID","questionNum", "answerNum","answerContent", "answerPic", "isCorrect") VALUES('4','5','4','شراء ملابس جديدة','','N');
 
