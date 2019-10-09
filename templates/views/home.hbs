@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Register to Kid Read</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<!-- JQuery  -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	
+	<!-- for date format  -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+	
+	<!-- MATERIAL DESIGN ICONIC FONT -->
+	<link rel="stylesheet" href="/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">	
+	
+    
+    <link href="https://fonts.googleapis.com/css?family=Anton&display=swap" rel="stylesheet">
+    <!-- STYLE CSS -->
+	<link rel="Stylesheet" href="/css/style.css" />
+    <link rel="Stylesheet" href="/css/homeStyle.css" />
+
+
+
+</head>
+
+<body>
+	
+	{{> unauthenticated_topNav }}
+    <div class="mainDiv">
+		<div class="container_about">
+            <div class="header"><span id="part1">Kids</span> <span id="part2">Read</span></div>
+            <br><br><br>
+            <p class="lang" key="websiteADV">
+                האתר לנהל קריאת ספרים בצורה מהנה בבית וגם בבית הספר
+            </p>
+            <br><br><br>
+            <img class="images"src="../img/icons/kids_read2.png" alt="">
+            <br><br><br>
+
+             {{!-- <div class="">
+                <p>מה יכולים לעשות<p>
+                    <ul>
+                        <li>ניהול קריאת ספרים.</li>
+                        <li> ניהול בחנים.</li>
+                        <li>ניהול נקודות.</li>
+                        <li>ניהול קניית משחקים</li>
+                        <li>ניהול רשמים על ספרים והעלאת ציורים.</li>
+                        <li>ניהול מאגר ספרים.</li>
+                    </ul>
+            </div> --}}
+             <div class="container_userGuide">
+                <p class="lang" key="userGuidePressButton">לחץ על התמונה כדי להוריד את מדריך המשתמש<p>
+                    <br><br>
+                <a href="../img/icons/userGuide.pdf" download>
+                <img src="/img/icons/download1.png" alt="userGuide" width="100" height="100" id="fileImg">
+                </a>       
+            </div>
+
+		</div>
+
+        <div class="footer">
+            <p>Yevgini Kichen & Maram Khatib</p>
+            <p>Haifa University, Information System department 2019 </p>
+        </div>
+        
+    </div>
+{{!-- main div --}}
+	{{> unauthenticated_footer}}
+
+	<script>
+		var langPreferred = 'hebrew'  // global variable which is used in language.js file
+	</script>
+</body>
+
+</html>

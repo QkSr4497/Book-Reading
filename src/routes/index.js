@@ -81,6 +81,10 @@ router.get('/', authenticationMiddleware(), function (req, res) {
 
 
 //=============================================================
+router.get('/home', function (req, res) {
+  res.render('home', { });
+});
+
 router.get('/login', function (req, res) {
   res.render('login', { message: req.flash('loginMessage') });
 });
@@ -1020,9 +1024,41 @@ router.post('/kid/notes/add', authenticationMiddleware(), function (req, res) {
   }
 });
 });
+//===========================================================
+router.post('/kid/notes/edit', authenticationMiddleware(), function (req, res) {
+  app.upload(req, res, function (err) {
+  if (err) {
+    console.log('Error-->');
+    console.log(err);
+    res.json({ "status": "Failure", "message": 'There was a problem uploading your files.' + err });
+    return;
+  }
+  else {
+    console.log(req.body);
+    console.log("req.file"+req.files);
+    console.log("fieldname" + req.file);
+    if (req.file != 0) {
+      console.log('File uploaded!');
+      if(req.body.bookID!=""){
+        console.log("booook"+req.body.bookID)
+        queries.updateNote_book(req.body, req.user, req.files);
+        res.redirect('/kid/notes');
+      }
+      if(req.body.bookID==""){
+        queries.updateNote_noBook(req.body, req.user, req.files);
+        res.redirect('/kid/notes');
+      }
+   }
+    else {  // has to be a least 1 pic, the pic of the quiz
+      console.log("No file uploaded. Ensure file is uploaded.");
+      res.json({ "status": "Failure", "message": 'No file uploaded. Ensure file is uploaded.' });
+    }
+  }
+});
+});
 
 //============================================================
-router.post('/kid/notes/edit', authenticationMiddleware(), function (req, res) {
+router.post('/kid/notes/edit/aa', authenticationMiddleware(), function (req, res) {
   // the pool with emit an error on behalf of any idle clients
   // it contains if a backend error or network partition happens
   queries.getUserById(req.user, (userData) => {

@@ -1257,9 +1257,9 @@ const getAllMessages= (personID, callback) => {
 //  });
 // }
 const getNotes = (personID, callback) => {
-    pool.query(`SELECT n.*
-    FROM "Note" n
-    WHERE n."personID" = $1 AND "bookID" IS NULL`, [personID], (error, results) => {
+    pool.query(`SELECT n.*,b.*
+    FROM "Note" n,"Book" b
+    WHERE n."personID" = $1 AND n."bookID" IS NULL`, [personID], (error, results) => {
     if (error) {
         throw error
     }
@@ -1267,7 +1267,7 @@ const getNotes = (personID, callback) => {
  });
 }
 const getNotesAboutBook = (personID, callback) => {
-    pool.query(`SELECT *
+    pool.query(`SELECT n.*, b.*
     FROM "Note" n INNER JOIN "Book" b on n."bookID"=b."bookID"
     WHERE n."personID" = $1`, [personID], (error, results) => {
     if (error) {
@@ -1692,7 +1692,74 @@ const insertNote_noBook = async (data,userID,imgArr) => { // using async/await
         return err;
       }
 }
+//=========================================================
+const updateNote_book = async (data,userID,imgArr) => { // using async/await
+    var nowDate = new Date(); 
+    var date = nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate(); 
+    try{
+        if (imgArr.length == 0) {    // no new pic
+            await db.query(`UPDATE "Note" SET "date"=$1,"bookID"=$2, "title"=$3, "content"=$4, "type"=$5   WHERE "personID"=$6 AND "noteID"=$7`,
+              [date,data.bookID,data.title,data.content,'private',userID,data.noteID]);
+                
+    
+        }
+        else{
+            const noteID = data.noteID
+            if (IN_PROD) {  // uploading files to the cloud when in PRODUCTION mode
+                data.notePicInput = await uploadToCloud(imgArr[0], `users/user${userID}/notes/note${noteID}`);   
+            }
+            else {  // uploading files locally when in DEVELOPMENT mode
+                var storagePath = getStoragePath(imgArr[0].path, `users\\user${userID}\\notes\\note${noteID}`, imgArr[0].fieldname);
+                var isOverWrite = true;
+                moveFile(imgArr[0].path, storagePath);
+                data.notePicInput = getDbPath(storagePath);
+            }
+            // console.log(data);
+            var nowDate = new Date(); 
+            var date = nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate(); 
+            await db.query(`UPDATE "Note" SET "date"=$1,"bookID"=$2, "title"=$3, "content"=$4, "type"=$5,"notePic"=$6   WHERE "personID"=$7 AND "noteID"=$8`,
+              [date,data.bookID,data.title,data.content,'private',data.notePic,userID,data.noteID]);
+        }
+    } catch (err) {
+        console.error(err) 
+        return err;
+      }
+}
 
+
+const updateNote_noBook = async (data,userID,imgArr) => { // using async/await
+    var nowDate = new Date(); 
+    var date = nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate(); 
+    try{
+        if (imgArr.length == 0) {    // no new pic
+            await db.query(`UPDATE "Note" SET "date"=$1, "title"=$2, "content"=$3, "type"=$4   WHERE "personID"=$5 AND "noteID"=$6`,
+              [date,data.title,data.content,'private',userID,data.noteID]);
+                
+    
+        }
+        else{
+            const noteID = data.noteID
+            if (IN_PROD) {  // uploading files to the cloud when in PRODUCTION mode
+                data.notePicInput = await uploadToCloud(imgArr[0], `users/user${userID}/notes/note${noteID}`);   
+            }
+            else {  // uploading files locally when in DEVELOPMENT mode
+                var storagePath = getStoragePath(imgArr[0].path, `users\\user${userID}\\notes\\note${noteID}`, imgArr[0].fieldname);
+                var isOverWrite = true;
+                moveFile(imgArr[0].path, storagePath);
+                data.notePicInput = getDbPath(storagePath);
+            }
+            // console.log(data);
+            var nowDate = new Date(); 
+            var date = nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate(); 
+            await db.query(`UPDATE "Note" SET "date"=$1,"bookID"=$2, "title"=$3, "content"=$4, "type"=$5,"notePic"=$6   WHERE "personID"=$7 AND "noteID"=$8`,
+              [date,data.bookID,data.title,data.content,'private',data.notePic,userID,data.noteID]);
+        }
+    } catch (err) {
+        console.error(err) 
+        return err;
+      }
+}
+//=========================================================
 
 const uploadToCloud = async (imgData, pathInImg) => {
 
@@ -1791,6 +1858,8 @@ module.exports = {
     getGroupQuizes,
     getGroupStatusQuiz,
     insertNote_book,
-    insertNote_noBook
+    insertNote_noBook,
+    updateNote_book,
+    updateNote_noBook
 
 }
