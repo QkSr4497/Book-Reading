@@ -59,7 +59,8 @@ CREATE TABLE "Game" (
  	"gameName" TEXT NOT NULL,
 	pic TEXT NOT NULL,
 	price INTEGER CHECK (price > 0) NOT NULL,
-	link TEXT NOT NULL
+	link TEXT NOT NULL,
+	source TEXT
 );
 					 
 CREATE TABLE "Quiz" (

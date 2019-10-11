@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HTML5 Tetris</title>
+        <link rel='stylesheet' href='style.css' />
+        <link rel="stylesheet" href="../../css/kid/navbar.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      
+    </head>
+    <body>
+            <div id="main">
+                    <div  class="topnav" id="myTopnav">   
+                      <a href="#" id="openNav" class="active" onclick="openSideNav()"><i class='far fa-user'></i></a>     
+                      <a href="#">KidsRead</a>
+                      <a href="/kid/games" class="lang" key="books"><i class="fa fa-arrow-circle-right" style="font-size:20px"></i></a>
+                      <a href="javascript:void(0);" class="icon" onclick="responsiveNav()">
+                      <i class="fa fa-bars"></i>
+                      </a>
+                      </div>
+                  </div>
+        <audio id="clearsound" src="sound/pop.ogg" preload="auto"></audio>
+        <canvas width='300' height='600'></canvas>
+        <button id="playbutton" onclick="playButtonClicked();">Play</button>
+        <script src='js/tetris.js'></script>
+        <script src='js/controller.js'></script>
+        <script src='js/render.js'></script>
+    </body>
+</html>

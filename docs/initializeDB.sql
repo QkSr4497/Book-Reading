@@ -124,12 +124,15 @@ INSERT INTO "Book"("bookName", "authorFirstName", "authorLastName", "pic", "lang
 
 
 ------ Game table ------------------------------
-INSERT INTO "Game"("gameName","pic","price","link") VALUES('HexGL','/funGames/HexGL/hexgl.jpg', '500','/funGames/HexGL/index.html');
-INSERT INTO "Game"("gameName","pic","price","link") VALUES('Hextris', '/funGames/Hextris/hextris.png','200','/funGames/Hextris/index.html');
-INSERT INTO "Game"("gameName","pic","price","link") VALUES('Pacman','/funGames/Pacman/pacman.png', '150','/funGames/Pacman/index.html');
-INSERT INTO "Game"("gameName","pic","price","link") VALUES('Racer','/funGames/Racer/racer.png', '200','/funGames/Racer/index.html');
-INSERT INTO "Game"("gameName","pic","price","link") VALUES('Radius','/funGames/Radius/radius.png', '250','/funGames/Radius/index.html');
-INSERT INTO "Game"("gameName","pic","price","link") VALUES('Tower Bulding','/funGames/tower_game/towerBuilding.png', '200','/funGames/tower_game/index.html');
+INSERT INTO "Game"("gameName","pic","price","link","source") VALUES('HexGL','/funGames/HexGL/hexgl.jpg', '800','/funGames/HexGL/index.html','https://github.com/BKcore/HexGL');
+INSERT INTO "Game"("gameName","pic","price","link","source") VALUES('Radius','/funGames/Radius/radius.png', '700','/funGames/Radius/index.html','https://github.com/jackrugile/radius-raid-js13k');
+INSERT INTO "Game"("gameName","pic","price","link","source") VALUES('Hextris', '/funGames/Hextris/hextris.png','400','/funGames/Hextris/index.html','https://github.com/Hextris/hextris');
+INSERT INTO "Game"("gameName","pic","price","link","source") VALUES('Pacman','/funGames/Pacman/pacman.png', '250','/funGames/Pacman/index.html','https://github.com/daleharvey/pacman');
+INSERT INTO "Game"("gameName","pic","price","link","source") VALUES('Racer','/funGames/Racer/racer.png', '500','/funGames/Racer/index.html','https://github.com/jakesgordon/javascript-racer/');
+INSERT INTO "Game"("gameName","pic","price","link","source") VALUES('Tower Bulding','/funGames/tower_game/towerBuilding.png', '350','/funGames/tower_game/index.html','https://github.com/iamkun/tower_game');
+INSERT INTO "Game"("gameName","pic","price","link","source") VALUES('2048','/funGames/2048-master/image1.png', '600','/funGames/2048-master/index.html','https://github.com/gabrielecirulli/2048');
+INSERT INTO "Game"("gameName","pic","price","link","source") VALUES('Canvas Tetris','/funGames/canvas-tetris-master/image1.png', '200','/funGames/canvas-tetris-master/index.html','https://github.com/dionyziz/canvas-tetris');
+INSERT INTO "Game"("gameName","pic","price","link","source") VALUES('AlienInvasion','/funGames/AlienInvasion-master/image1.png', '250','/funGames/AlienInvasion-master/index.html','https://github.com/cykod/AlienInvasion');
 --************ /Game table *************************************
 
 
