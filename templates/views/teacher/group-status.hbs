@@ -25,7 +25,7 @@
         {{> grown_up_body}}
 
         <header>
-            <h1>מצב הקבוצה לפי מבחנים</h1>
+            <h1>מצב הקבוצה לפי בחנים</h1>
         </header>
 
         <div class="quiz_section">
@@ -38,7 +38,7 @@
         </div>
 
      <div class="resultsSection">
-        <table id="QuizResults">
+        <table id="AllQuizResults">
             <tr>
                 <th style="background-color: #A77CF5">ציון של בוחן</th>
                 <th  style="background-color: #BD9DF7">בוחן</th> 
@@ -51,9 +51,17 @@
                 <td style="background-color:#E6E2ED ">{{firstName}} {{lastName}}</td>
             </tr>
             {{/each}}
+            {{!-- {{#each getGroupStatusQuiz.getGroupMembers}}
+            <tr id="restMembers" style="display: none" >
+                <td style="background-color:#E6E2ED " >{{grade}}</td>
+                <td style="background-color: #E6E2ED" class="quizName" vlaue="{{quizTitle}}">{{quizTitle}}</td>
+                <td style="background-color:#E6E2ED ">{{firstName}} {{lastName}}</td>
+            </tr>
+            {{/each}} --}}
         </table>
-    </div>
 
+       
+    </div>
 
 
     </div> <!-- /container -->
@@ -73,9 +81,9 @@ function getSelected(){
 	var e = document.getElementById("quizSelected");
 	var result =e.options[e.selectedIndex].text;
     var input, filter, tr, a, i, txtValue,table,td;
-    table = document.getElementById("QuizResults");
+    table = document.getElementById("AllQuizResults");
     tr = table.getElementsByTagName('tr');
-
+    //restMembersTr=document.getElementById("restMembers");
   for (i = 1; i < tr.length; i++) {
     td=tr[i].getElementsByTagName('td');
     //a = tr[i].getElementsByClassName("quizName").textContent;
@@ -83,6 +91,7 @@ function getSelected(){
      console.log("a  "+a);
     if (result==a) {
      tr[i].style.display = "";
+     //restMembersTr.style.display="block";
     } else if(result=="הכל") {
       tr[i].style.display = "";
     }else {

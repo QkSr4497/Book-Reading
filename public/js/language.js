@@ -138,7 +138,7 @@ var  arrLang={
     'birthDateRequired':'تاريخ الميلاد مطلوب',
     'birthDateInvalid':'تاريخ الميلاد الذي تم إدخاله غير قانوني',
     'emailRequired':'البريد الالكتروني مطلوب',
-    'emailInvalid':'البرد الالكتروني يجب أن يكون كهذه الصورة: a@b.com?',
+    'emailInvalid':'البرد الالكتروني يجب أن يكون كهذه الصورة: a@b.com',
     'userNameRequired':'اسم المستخدم مطلوب',
     'userNameSpaces':'لا يجب أن يكون فراغات بإسم المستخدم',
     'userNameLength':'اسم المستخدم يجب أن يكون على الاقل من 4 خانات',

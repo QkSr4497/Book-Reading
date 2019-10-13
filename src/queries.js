@@ -1257,8 +1257,8 @@ const getAllMessages= (personID, callback) => {
 //  });
 // }
 const getNotes = (personID, callback) => {
-    pool.query(`SELECT n.*,b.*
-    FROM "Note" n,"Book" b
+    pool.query(`SELECT n.*
+    FROM "Note" n
     WHERE n."personID" = $1 AND n."bookID" IS NULL`, [personID], (error, results) => {
     if (error) {
         throw error
@@ -1586,9 +1586,9 @@ const respondToAddGroupReq = async (teacherID, kidID, groupID, notificationRespo
     FROM "Person" p  INNER JOIN  "InGroup" ig  on ig."personID"=p."personID" 
     LEFT OUTER JOIN  "TakesQuiz" tq on p."personID"=tq."kidID" 
     LEFT OUTER JOIN "Quiz" q on tq."quizID" = q."quizID"
-    WHERE ig."approved"=$1 AND ig."groupID"=$2
+    WHERE ig."approved"=$1 AND ig."groupID"=$2 AND ig."type"=$3
 	ORDER BY  tq."grade" ASC`
-    ,['Y',groupID], (error, results) => {
+    ,['Y',groupID,'kid'], (error, results) => {
     if (error) {
         throw error
     }
@@ -1608,7 +1608,22 @@ const getGroupQuizes = (groupID,callback) => {
     callback(results.rows);
  });
 }
-
+const getGroupMembers=(groupID,callback) => {
+    pool.query(`SELECT  p."firstName",p."lastName",p."personID"
+    FROM "Person" p  INNER JOIN  "InGroup" ig  on ig."personID"=p."personID" 
+    WHERE ig."approved"=$1 AND ig."groupID"=$2 AND p."personID" NOT IN(
+		SELECT  p1."personID"
+    FROM "Person" p1  INNER JOIN  "InGroup" ig  on ig."personID"=p1."personID" 
+    INNER JOIN  "TakesQuiz" tq on p."personID"=tq."kidID" 
+    INNER JOIN "Quiz" q on tq."quizID" = q."quizID"
+    WHERE ig."approved"=$1 AND ig."groupID"=$2);`
+    ,['Y',groupID], (error, results) => {
+    if (error) {
+        throw error
+    }
+    callback(results.rows);
+ });
+}
 const getGroupStatusQuiz = (groupID, callback) => {
     getGroupStatus(groupID, (getGroupStatus) => {
             getGroupQuizes(groupID,(getGroupQuizes) => {
@@ -1711,7 +1726,7 @@ const updateNote_book = async (data,userID,imgArr) => { // using async/await
             else {  // uploading files locally when in DEVELOPMENT mode
                 var storagePath = getStoragePath(imgArr[0].path, `users\\user${userID}\\notes\\note${noteID}`, imgArr[0].fieldname);
                 var isOverWrite = true;
-                moveFile(imgArr[0].path, storagePath);
+                await moveFile(imgArr[0].path, storagePath, isOverWrite);
                 data.notePicInput = getDbPath(storagePath);
             }
             // console.log(data);
@@ -1719,6 +1734,7 @@ const updateNote_book = async (data,userID,imgArr) => { // using async/await
             var date = nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate(); 
             await db.query(`UPDATE "Note" SET "date"=$1,"bookID"=$2, "title"=$3, "content"=$4, "type"=$5,"notePic"=$6   WHERE "personID"=$7 AND "noteID"=$8`,
               [date,data.bookID,data.title,data.content,'private',data.notePic,userID,data.noteID]);
+              console.log("book pic");
         }
     } catch (err) {
         console.error(err) 
@@ -1737,6 +1753,7 @@ const updateNote_noBook = async (data,userID,imgArr) => { // using async/await
                 
     
         }
+        
         else{
             const noteID = data.noteID
             if (IN_PROD) {  // uploading files to the cloud when in PRODUCTION mode
@@ -1745,7 +1762,7 @@ const updateNote_noBook = async (data,userID,imgArr) => { // using async/await
             else {  // uploading files locally when in DEVELOPMENT mode
                 var storagePath = getStoragePath(imgArr[0].path, `users\\user${userID}\\notes\\note${noteID}`, imgArr[0].fieldname);
                 var isOverWrite = true;
-                moveFile(imgArr[0].path, storagePath);
+                await moveFile(imgArr[0].path, storagePath, isOverWrite);
                 data.notePicInput = getDbPath(storagePath);
             }
             // console.log(data);
@@ -1856,6 +1873,7 @@ module.exports = {
     respondToAddGroupReq,
     getGroupStatus,
     getGroupQuizes,
+    getGroupMembers,
     getGroupStatusQuiz,
     insertNote_book,
     insertNote_noBook,

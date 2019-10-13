@@ -1008,11 +1008,11 @@ router.post('/kid/notes/add', authenticationMiddleware(), function (req, res) {
     console.log("fieldname" + req.file);
     if (req.file != 0) {
       console.log('File uploaded!');
-      if(req.body.bookID!=""){
+      if(req.body.bookID!="-1"){
         queries.insertNote_book(req.body, req.user, req.files);
         res.redirect('/kid/notes');
       }
-      if(req.body.bookID==""){
+      if(req.body.bookID=="-1"){
         queries.insertNote_noBook(req.body, req.user, req.files);
         res.redirect('/kid/notes');
       }
@@ -1039,12 +1039,12 @@ router.post('/kid/notes/edit', authenticationMiddleware(), function (req, res) {
     console.log("fieldname" + req.file);
     if (req.file != 0) {
       console.log('File uploaded!');
-      if(req.body.bookID!=""){
+      if(req.body.bookID != "-1"){
         console.log("booook"+req.body.bookID)
         queries.updateNote_book(req.body, req.user, req.files);
         res.redirect('/kid/notes');
       }
-      if(req.body.bookID==""){
+      if(req.body.bookID=="-1"){
         queries.updateNote_noBook(req.body, req.user, req.files);
         res.redirect('/kid/notes');
       }

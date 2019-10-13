@@ -84,7 +84,7 @@ function checkAllInputs() {
         // window.alert("Please Correct all Inputs with red comment");
     }
     else {
-        $("#profileForm").submit()
+        $("#profileForm").submit();
     }
 }
 
