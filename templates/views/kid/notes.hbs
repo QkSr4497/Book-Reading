@@ -23,41 +23,49 @@
         <div class="notesContainer">
           {{#each notesData.getNoteData}}     
              <button class="collapsible"><span class="arrow"><i class='fas fa-angle-down'></i>&nbsp;&nbsp;&nbsp;</span>
-               <span>{{title}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span >{{moment noteDate format="DD/MM/YYYY"}}</span>
+               <span>{{title}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="float: left" >{{moment noteDate format="DD/MM/YYYY"}}</span>
              </button>
               <div class="content">              
+                <p class="contentSection lang" key="noteContent"><span>תוכן </span><span>{{content}}</span></p>
                 <br>
-                <p class="noteContent">{{content}}</p>
-                <br>
-                <img class="noteImage" src={{notePic}} alt="">
-                <br>
+                <p class="lang" key ="myPaints">ציור שלי</p> 
+                <img class="noteImage"   src={{notePic}}  onerror="this.onerror=null; this.src='../img/icons/note.png';" alt="" width="50%" height="50%">
+                <br><br>
                 <button style="font-size:24px" class="updateNote" name="{{noteID}}" 
                 data-id="{{noteID}}" 
                 data-title="{{title}}"
-                data-content="{{content}}"
+                data-content="{{content}}"           
+                data-notePic="{{notePic}}"
+                data-bookID="{{bookID}}"
+                data-bookName="{{bookName}}"  
                 onclick="document.getElementById('updatenote').style.display='block'"><i class="fa fa-edit"></i></button>
                 <button style="font-size:24px" class="deleteNote" name="{{noteID}}" data-id="{{noteID}}"><i class="fa fa-trash"></i></button>
               </div>   
           {{/each}}
+
+
+
             {{#each notesData.getNoteAboutBook}}     
              <button class="collapsible"><span class="arrow"><i class='fas fa-angle-down'></i>&nbsp;&nbsp;&nbsp;</span>
-               <span>{{title}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span >{{moment noteDate format="DD/MM/YYYY"}}</span>
+               <span>{{title}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="float: left" >{{moment noteDate format="DD/MM/YYYY"}}</span>
              </button>
               <div class="content">
-                <p>{{bookName}}</p>
+                <p class="bookSection lang" key="noteBook"><span> </span>  <span>{{bookName}}</span></p>
                 <br>
-                <p>{{content}}</p>
+                <p class="contentSection lang" key="noteContent"><span></span><span>{{content}}</span></p>
                 <br>
-                <img src={{notePic}} alt="">
-                <br>
+               <p class="lang" key="myPaints"> </p> 
+               <img class="noteImage"   src={{notePic}}  onerror="this.onerror=null; this.src='../img/icons/note.png';" alt="" width="50%" height="50%">
+                <br><br>
+
                 <button style="font-size:24px" class="updateNote" name="{{noteID}}" 
                 data-id="{{noteID}}" 
                 data-title="{{title}}"
-                data-bookID="{{bookID}}"
-                data-bookName="{{bookName}}"
                 data-content="{{content}}"
-                data-content="{{notePic}}"
-                onclick="document.getElementById('updatenote').style.display='block'"><i class="fa fa-edit"></i></button>
+                data-bookID="{{bookID}}"
+                data-bookName="{{personID}}"             
+                data-notePic="{{notePic}}"
+                onclick="document.getElementById('updatenote').style.display='block'"><i class="fa fa-edit"></i>{{bookID}}</button>
                 <button style="font-size:24px" class="deleteNote" name="{{noteID}}" data-id="{{noteID}}"><i class="fa fa-trash"></i></button>
               </div>   
           {{/each}}
@@ -65,78 +73,85 @@
       </div>
 
 
-      <div class="modal-style">
-      <div id="newnote" class="modal">
-      <form class="modal-content animate" method="POST" action="/kid/notes/add" enctype="multipart/form-data">
-        <div class="container">
-          <h3 class="lang" key="newNote">✍🏻מחשבה חדשה </h3>
-          <br>
-          <hr>
-          <label for="title" class="lang" key="noteTitle"><b>כותרת</b></label>
-          <input type="text"  name="title" required value="" autocomplete="off">
-          <label for="title" class="lang" key="noteTitle" ><b>ספר</b></label>
-         
-          <select id="bookSelect" onchange="getSelected()">
-            <option value="" selected="selected">none</option>
-             {{#each notesData.getbBooksForNote}}  
-             <option  value="{{bookID}}"> {{bookName}}</option>
-             {{/each }}  
-          </select>
-          <input id="bookName" type="text" name="bookID" style="display: none">
-
-          <label for="content"><b>תוכן </b></label>
-          <textarea name="content" rows="8" cols="100" required value=""></textarea>
-
-        <div class="imgcontainer">       
-          {{!-- <img id="modalNotePic" src="{{notePic}}" alt="notePic" class="profilePic">
-          <br>
-          <label class="lang" key="notePic" for="title"><b></b>ציור שלי</b> <a href="#" class="close"></a></label>
-          <li id="liClose" class="ele" style="visibility:hidden;">
-            <div class="close spin large"><b></b><b></b><b></b><b></b></div>
-          </li>
-          <input class="imgPrevInput" type="file" id="newNotePicInput" name="notePic" class="section" accept="image/*" alt="your image" />          --}}
-        </div>
-  <input value=""   type="file" id="group-image" name="notePic" placeholder="Add a title image" accept="image/gif, image/jpeg, image/jpg, image/svg+xml, image/svg, image/png, image/x-png, image/pjpeg">
-          <button type="submit" name="button" class="okbtn">הוסף</button>
-          <button type="button" onclick="document.getElementById('newnote').style.display='none'" class="cancelbtn">ביטול</button>
-         
-         </div>
-       </form>
-     </div>
-   </div>
+{{!-- update note -----------------------------------------------------------------------------}}
 
       <div class="modal-style">
       <div id="updatenote" class="modal">
-      <form class="modal-content animate" method="POST" action="/kid/notes/edit">
+      <form class="modal-content animate" method="POST" action="/kid/notes/edit" enctype="multipart/form-data">
         <div class="container">
-          <h3 key="updateNote"> ✍🏻עדכן סיכום</h3>
+          <h3 class="lang" key="updateNote">  </h3>
           <br>
           <hr>
-          <input id="updateNoteID" type="text"  name="noteID" value="{{noteID}}" style="display: block">
-          
-          <label for="title"><b>כותרת</b></label>
+          <input id="updateNoteID" type="text"  name="noteID" value="{{noteID}}" style="display: none">
+         
+          <label for="title" class="lang" key="noteTitle"><b></b></label>
           <input id="updateTitle" type="text"  name="title" required value="">
 
-          <label for="title"><b>תוכן</b></label>
+          <label for="title" class="lang" key="noteContent"><b></b></label>
           <textarea id= "updateContent" name="content" rows="8" cols="100"   required value=""></textarea>
          
-          <label for="bookName"><b>ספר</b></label>
-          <input id="updateBookName" type="text"  name="bookName" required value="">
+          <label for="" class="lang" key="noteBook"><b>ספר</b></label>
+          <select id="updateBookSelect" onchange="getUpdateSelected()">
+            <option id="updateBookName" value="" selected="selected"></option>
+            <option id="" value="-1" class="lang" key="noBook">none</option>
+             {{#each notesData.getbBooksForNote}}  
+             <option  value={{bookID}}> {{bookName}}</option>
+             {{/each }}  
+          </select>
+
+          <input id="updateBookID" type="text"  name="bookID" value="" style="display: none" value="-1">
           
           <img src="" alt="" id="updateNotePic">
-
-          <label for="file"><b>ציורים שלך 🎨</b></label>
-          <input  id="updatePictures" value="" type="file" id="group-image" name="img" placeholder="Add a title image" accept="image/gif, image/jpeg, image/jpg, image/svg+xml, image/svg, image/png, image/x-png, image/pjpeg">
+          <label for="file" class="lang" key="myPaints"><b></b></label>
+          <input  id="updatePictures" value="" type="file" id="group-image" name="notePic" placeholder="Add a title image" accept="image/gif, image/jpeg, image/jpg, image/svg+xml, image/svg, image/png, image/x-png, image/pjpeg">
           
-          <button type="submit" name="button" class="okbtn">עדכן</button>
-          <button type="button" onclick="document.getElementById('updatenote').style.display='none'" class="cancelbtn">ביטול</button>
+          <button type="submit" name="button" class="okbtn lang"  key="updateNote">עדכן</button>
+          <button type="button" onclick="document.getElementById('updatenote').style.display='none'" class="cancelbtn lang" key="cancel">ביטול</button>
           
          </div>
        </form>
      </div>
    </div>
+{{!-- new note -----------------------------------------------------------------------------}}
+    <div class="modal-style">
+      <div id="newnote" class="modal">
+      <form class="modal-content animate" method="POST" action="/kid/notes/add" enctype="multipart/form-data">
+        <div class="container">
+          <h3 class="lang" key="newNote"> </h3>
+          <br>
+          <hr>
+          <label for="title" class="lang" key="noteTitle"><b></b></label>
+          <input type="text"  name="title" required value="" autocomplete="off">
 
-       
+          <label for="title" class="lang" key="noteBook" ><b></b></label>       
+          <select id="bookSelect" onchange="getSelected()">
+            <option value="-1" selected="selected" class="lang" key="noBook"></option>
+             {{#each notesData.getbBooksForNote}}  
+             <option  value={{bookID}}> {{bookName}}</option>
+             {{/each }}  
+          </select>
+          <input id="bookID" type="text" name="bookID" style="display: none" value="-1">
+
+          <label class="lang" key="noteContent" for="content"><b> </b></label>
+          <textarea name="content" rows="8" cols="100" required value=""></textarea>
+
+        <div class="imgcontainer">       
+        </div>
+        <label class="lang" key="myPaints" for="file"><b></b></label>
+         <input value=""   type="file" id="group-image" name="notePic" placeholder="Add a title image" accept="image/gif, image/jpeg, image/jpg, image/svg+xml, image/svg, image/png, image/x-png, image/pjpeg">
+          <button type="submit" name="button" class="okbtn lang" key="addNewNote"></button>
+          <button type="button" onclick="document.getElementById('newnote').style.display='none'" class="cancelbtn lang" key="cancel"></button>       
+         </div>
+       </form>
+     </div>
+   </div>
+
+
+
+
+
+
+
   </div>
 </div>
 
