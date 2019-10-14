@@ -1748,8 +1748,8 @@ const updateNote_noBook = async (data,userID,imgArr) => { // using async/await
     var date = nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate(); 
     try{
         if (imgArr.length == 0) {    // no new pic
-            await db.query(`UPDATE "Note" SET "date"=$1, "title"=$2, "content"=$3, "type"=$4   WHERE "personID"=$5 AND "noteID"=$6`,
-              [date,data.title,data.content,'private',userID,data.noteID]);
+            await db.query(`UPDATE "Note" SET "date"=$1, "title"=$2, "content"=$3, "type"=$4 ,"bookID"=$5  WHERE "personID"=$6 AND "noteID"=$7`,
+              [date,data.title,data.content,'private',null,userID,data.noteID]);
                 
     
         }
@@ -1768,8 +1768,8 @@ const updateNote_noBook = async (data,userID,imgArr) => { // using async/await
             // console.log(data);
             var nowDate = new Date(); 
             var date = nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate(); 
-            await db.query(`UPDATE "Note" SET "date"=$1,"bookID"=$2, "title"=$3, "content"=$4, "type"=$5,"notePic"=$6   WHERE "personID"=$7 AND "noteID"=$8`,
-              [date,data.bookID,data.title,data.content,'private',data.notePic,userID,data.noteID]);
+            await db.query(`UPDATE "Note" SET "date"=$1,"bookID"=$2, "title"=$3, "content"=$4, "type"=$5,"notePic"=$6,"bookID"=$7   WHERE "personID"=$8 AND "noteID"=$9`,
+              [date,data.bookID,data.title,data.content,'private',data.notePic,null,userID,data.noteID]);
         }
     } catch (err) {
         console.error(err) 

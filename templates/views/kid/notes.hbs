@@ -23,13 +23,13 @@
         <div class="notesContainer">
           {{#each notesData.getNoteData}}     
              <button class="collapsible"><span class="arrow"><i class='fas fa-angle-down'></i>&nbsp;&nbsp;&nbsp;</span>
-               <span>{{title}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="float: left" >{{moment noteDate format="DD/MM/YYYY"}}</span>
+               <span>{{title}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="float: left" >{{moment date format="DD/MM/YYYY"}}</span>
              </button>
               <div class="content">              
-                <p class="contentSection lang" key="noteContent"><span>תוכן </span><span>{{content}}</span></p>
+                <p class="contentSection "><span class="lang" key="noteContent"> </span> <br><br><span>{{content}}</span></p>
                 <br>
                 <p class="lang" key ="myPaints">ציור שלי</p> 
-                <img class="noteImage"   src={{notePic}}  onerror="this.onerror=null; this.src='../img/icons/note.png';" alt="" width="50%" height="50%">
+                <img class="noteImage"   src={{notePic}}  onerror="this.onerror=null; this.src='../img/icons/note.png';" alt="" width="450" height="450">
                 <br><br>
                 <button style="font-size:24px" class="updateNote" name="{{noteID}}" 
                 data-id="{{noteID}}" 
@@ -47,15 +47,15 @@
 
             {{#each notesData.getNoteAboutBook}}     
              <button class="collapsible"><span class="arrow"><i class='fas fa-angle-down'></i>&nbsp;&nbsp;&nbsp;</span>
-               <span>{{title}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="float: left" >{{moment noteDate format="DD/MM/YYYY"}}</span>
+               <span>{{title}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="float: left" >{{moment date format="DD/MM/YYYY"}}</span>
              </button>
               <div class="content">
-                <p class="bookSection lang" key="noteBook"><span> </span>  <span>{{bookName}}</span></p>
+                <p class="bookSection" ><span class="lang" key="noteBook"> </span> <br><br> <span>{{bookName}}</span></p>
                 <br>
-                <p class="contentSection lang" key="noteContent"><span></span><span>{{content}}</span></p>
+                <p class="contentSection"><span class="lang"key="noteContent"></span ><br><br> <span>{{content}}</span></p>
                 <br>
                <p class="lang" key="myPaints"> </p> 
-               <img class="noteImage"   src={{notePic}}  onerror="this.onerror=null; this.src='../img/icons/note.png';" alt="" width="50%" height="50%">
+               <img class="noteImage"   src={{notePic}}  onerror="this.onerror=null; this.src='../img/icons/note.png';" alt="" width="450" height="450">
                 <br><br>
 
                 <button style="font-size:24px" class="updateNote" name="{{noteID}}" 
@@ -63,9 +63,9 @@
                 data-title="{{title}}"
                 data-content="{{content}}"
                 data-bookID="{{bookID}}"
-                data-bookName="{{personID}}"             
+                data-bookName="{{bookName}}"             
                 data-notePic="{{notePic}}"
-                onclick="document.getElementById('updatenote').style.display='block'"><i class="fa fa-edit"></i>{{bookID}}</button>
+                onclick="document.getElementById('updatenote').style.display='block'"><i class="fa fa-edit"></i></button>
                 <button style="font-size:24px" class="deleteNote" name="{{noteID}}" data-id="{{noteID}}"><i class="fa fa-trash"></i></button>
               </div>   
           {{/each}}
@@ -92,7 +92,7 @@
          
           <label for="" class="lang" key="noteBook"><b>ספר</b></label>
           <select id="updateBookSelect" onchange="getUpdateSelected()">
-            <option id="updateBookName" value="" selected="selected"></option>
+            {{!-- <option id="updateBookName" value="" selected="selected"></option> --}}
             <option id="" value="-1" class="lang" key="noBook">none</option>
              {{#each notesData.getbBooksForNote}}  
              <option  value={{bookID}}> {{bookName}}</option>

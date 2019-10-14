@@ -1013,6 +1013,7 @@ router.post('/kid/notes/add', authenticationMiddleware(), function (req, res) {
         res.redirect('/kid/notes');
       }
       if(req.body.bookID=="-1"){
+        console.log('without a book');
         queries.insertNote_noBook(req.body, req.user, req.files);
         res.redirect('/kid/notes');
       }
@@ -1045,6 +1046,7 @@ router.post('/kid/notes/edit', authenticationMiddleware(), function (req, res) {
         res.redirect('/kid/notes');
       }
       if(req.body.bookID=="-1"){
+        console.log('without a book');
         queries.updateNote_noBook(req.body, req.user, req.files);
         res.redirect('/kid/notes');
       }
