@@ -26,7 +26,7 @@ var attribution_a_content_array = [
 
 // choosing random picture
 function getRandomImage(imgAr, attributionArr, path) {
-    path = path || '../pages/Login/images/'; // default path here
+    path = path || '/pages/Login/images/'; // default path here
     var num = Math.floor( Math.random() * imgAr.length );
     var img = imgAr[ num ];
     var aContentStr = attributionArr[num];

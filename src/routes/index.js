@@ -2205,6 +2205,15 @@ router.post('/kid/respondToAddGroupReq', authenticationMiddleware(), function (r
   });
 });
 
+
+//=============  404 page -  this route must be the last one! ===============================
+router.get('*', function (req, res) {
+  res.render('404');
+});
+
+
+
+
 /**/////////////////// Passport ////////////////////////////////////////////// */
 
 passport.serializeUser(function (personID, done) { // for writing user data to user session

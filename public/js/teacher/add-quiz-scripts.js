@@ -603,7 +603,7 @@ function updateCorrectAns(questionNum, numOfAnswers, questionType) {
             </label>
             `;
         }
-        checkboxString += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:תשובות נכונות*';
+        checkboxString += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*:תשובות נכונות';
         checkboxString += `</p>`; 
         $(checkboxString).insertAfter($('.pTitles').last());
     }
