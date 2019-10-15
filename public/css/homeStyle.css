@@ -28,6 +28,7 @@ body, html {
     font-size: 70px;
     color: rgb(164, 66, 245);
     font-family: 'Anton', sans-serif;
+    text-shadow: -1px 0 #ffc800, 0 1px #ffbc00, 1px 0 #ffc300, 0 -1px orange;
 }
 #part2{
     font-size: 70px;
