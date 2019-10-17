@@ -77,14 +77,16 @@ $(document).ready(function() {  // when approved button of a specific notificati
       var notificationResponse = 'A';
       var notificationID = notificationClicked.notificationID;
       if (notificationClicked.typeN == 'supervision') { // when supervision approval is clicked then send a response
-        respondToSupervisionReq(supervisorID, kidID, notificationResponse, notificationID);
+        $(`#roller-${rowNum}-Start`).show();  // showing the roller
+        respondToSupervisionReq(supervisorID, kidID, notificationResponse, notificationID, $(this).parent() );
       }
       else if (notificationClicked.typeN == 'group') { // when group approval is clicked then send a response
         var openingSquareBracketIndex = notificationClicked.content.indexOf('[');
         var closingSquareBracketIndex = notificationClicked.content.indexOf(']');
         var groupID = parseInt(notificationClicked.content.substring(openingSquareBracketIndex + 1, closingSquareBracketIndex)); 
         console.log(groupID);
-        respondToAddGroupReq(teacherID, kidID, groupID, notificationResponse, notificationID, notificationClicked.content);
+        $(`#roller-${rowNum}-Start`).show();  // showing the roller
+        respondToAddGroupReq(teacherID, kidID, groupID, notificationResponse, notificationID, notificationClicked.content, $(this).parent() );
       }
   }); 
 });
@@ -92,6 +94,8 @@ $(document).ready(function() {  // when approved button of a specific notificati
 $(document).ready(function() {
   $(".userDeclilneBtn").click(function(){
       var rowNum = $(this).attr("data-row");
+      // console.log($(this).parent());
+      // $(this).parent().html(`<p class="userDeclilnedP">סורב</p> `);
       var notificationClicked = userNotifications[rowNum - 1];  // getting the data of the notification clicked
       var supervisorID = userNotifications[rowNum - 1].senderID;
       var teacherID = userNotifications[rowNum - 1].senderID;
@@ -100,28 +104,35 @@ $(document).ready(function() {
       var notificationID = userNotifications[rowNum - 1].notificationID;
 
       if (notificationClicked.typeN == 'supervision') { // when supervision decline is clicked then send a response
-        respondToSupervisionReq(supervisorID, kidID, notificationResponse, notificationID);
+        $(`#roller-${rowNum}-Start`).show();  // showing the roller
+        respondToSupervisionReq(supervisorID, kidID, notificationResponse, notificationID, $(this).parent() );
       }
       else if (notificationClicked.typeN == 'group') { // when group decline is clicked then send a response
         var openingSquareBracketIndex = notificationClicked.content.indexOf('[');
         var closingSquareBracketIndex = notificationClicked.content.indexOf(']');
         var groupID = parseInt(notificationClicked.content.substring(openingSquareBracketIndex + 1, closingSquareBracketIndex)); 
         console.log(groupID);
-        respondToAddGroupReq(teacherID, kidID, groupID, notificationResponse, notificationID, notificationClicked.content);
+        $(`#roller-${rowNum}-Start`).show();  // showing the roller
+        respondToAddGroupReq(teacherID, kidID, groupID, notificationResponse, notificationID, notificationClicked.content, $(this).parent() );
       }
       
   }); 
 });
 
 
-function respondToSupervisionReq(supervisorID, kidID, notificationResponse, notificationID) {  // sending a response to supervision request and updating notification status (approved/declined)
+function respondToSupervisionReq(supervisorID, kidID, notificationResponse, notificationID, element) {  // sending a response to supervision request and updating notification status (approved/declined)
   var url = '/kid/respondToSupervisionReq';
   $.ajax({
     url: url,
     type: 'POST',
     data: { supervisorID: supervisorID, kidID: kidID, notificationResponse: notificationResponse, notificationID: notificationID },
     success: function (result) {
-
+      if (result == 'A') {
+        element.html(`<p class="userApprovedP">אושר</p> `);  // updating the table cell content
+      }
+      else if (result == 'D') {
+        element.html(`<p class="userDeclilnedP">סורב</p> `);  // updating the table cell content
+      } 
     },
     error: function (err) {
 
@@ -130,13 +141,19 @@ function respondToSupervisionReq(supervisorID, kidID, notificationResponse, noti
 }
 
 
-function respondToAddGroupReq(teacherID, kidID, groupID, notificationResponse, notificationID, content) {  // sending a response to group invitation request and updating notification status (approved/declined)
+function respondToAddGroupReq(teacherID, kidID, groupID, notificationResponse, notificationID, content, element) {  // sending a response to group invitation request and updating notification status (approved/declined)
   var url = '/kid/respondToAddGroupReq';
   $.ajax({
     url: url,
     type: 'POST',
     data: { teacherID: teacherID, kidID: kidID, groupID: groupID, notificationResponse: notificationResponse, notificationID: notificationID, content: content },
     success: function (result) {
+      if (result == 'A') {
+        element.html(`<p class="userApprovedP">אושר</p> `);  // updating the table cell content
+      }
+      else if (result = 'D') {
+        element.html(`<p class="userDeclilnedP">סורב</p> `);  // updating the table cell content
+      } 
 
     },
     error: function (err) {

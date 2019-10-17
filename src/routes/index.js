@@ -1637,7 +1637,7 @@ router.post('/kid/respondToSupervisionReq', authenticationMiddleware(), function
     } catch (e) {
       console.error(e);
     }
-    res.sendStatus(200);
+    res.status(200).send(kidResponse);
   });
 });
 
@@ -2201,7 +2201,7 @@ router.post('/kid/respondToAddGroupReq', authenticationMiddleware(), function (r
     } catch (e) {
       console.error(e);
     }
-    res.sendStatus(200);
+    res.status(200).send(kidResponse);
   });
 });
 

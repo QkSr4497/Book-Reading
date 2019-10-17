@@ -55,7 +55,10 @@
                     if (typeNotification == 'supervision' || typeNotification == 'group') {
                       if (recieverResponse == 'R' || recieverResponse == 'N') {
                         document.write(`<button class="userApproveBtn" data-row="${rowNum}">אשר</button> 
-                                      <button class="userDeclilneBtn" data-row="${rowNum}">סרב</button>`); // escaping script
+                                      <button class="userDeclilneBtn" data-row="${rowNum}">סרב</button>
+                                      <div id="roller-${rowNum}-Start" class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                                      `); // escaping script
+                        $(`#roller-${rowNum}-Start`).show();
                       }
                       else if (recieverResponse == 'A') {
                         document.write(`<p class="userApprovedP">אושר</p> `); // escaping script
@@ -66,6 +69,8 @@
                     }
 
                   </script> 
+                  
+
                 </td>
                 
                 <td class="c-table__cell" style="display:none">{{recieverRes}}</td>
