@@ -58,7 +58,7 @@
                                       <button class="userDeclilneBtn" data-row="${rowNum}">סרב</button>
                                       <div id="roller-${rowNum}-Start" class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                                       `); // escaping script
-                        $(`#roller-${rowNum}-Start`).show();
+                        $(`#roller-${rowNum}-Start`).hide();
                       }
                       else if (recieverResponse == 'A') {
                         document.write(`<p class="userApprovedP">אושר</p> `); // escaping script
