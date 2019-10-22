@@ -258,7 +258,7 @@ CREATE TABLE "KidBook" (
 	PRIMARY KEY ("kidID", "bookID")								   
 );		
 
-		CREATE TABLE "Message" (
+CREATE TABLE "Message" (
  	"messageID" SERIAL PRIMARY KEY,
 	"date" DATE NOT NULL,
 	"personID" INTEGER REFERENCES "Person" ("personID") NOT NULL,
