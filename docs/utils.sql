@@ -18,6 +18,10 @@ SELECT * FROM "InGroup";
 
 SELECT * FROM "Quiz";
 
+SELECT * FROM "Game";
+
+DELETE FROM "Game" WHERE "gameID" > 9;
+
 DELETE FROM "InGroup" WHERE "personID" = 13
 
 SELECT * FROM "Notification";
