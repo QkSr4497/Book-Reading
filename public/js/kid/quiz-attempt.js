@@ -9,6 +9,7 @@ $(document).ready(function () {
 
     const quizID = $('#inputQuizID').val();
     getQuizData(quizID);
+    $('[data-toggle="tooltip"]').tooltip(); // showing tooltip using bootstrap
 
 });
 
@@ -26,6 +27,7 @@ $('#startQuiz').on('click', function () {
     
     
     buildQuiz();
+    // console.log(quizData);
     translateThePage();    // function from language.js
     jQuery(function ($) {
         var quizTime = quizData.timeLeft ,
@@ -83,16 +85,24 @@ function buildQuiz() {    // update the books select
     var myString;
     for (var qNum = 1; qNum <= numOfQuestions; qNum++) {
         var currQst = quizData.questions[qNum - 1];
+        var multiQuestionInfo;
+        if (currQst.questType == 'multi') {
+            multiQuestionInfo = `<i class="fas fa-info-circle toolTip" data-toggle="tooltip" key="multiQuestionInfo" title="Hooray!" ></i>`; 
+        }
+        else {
+            multiQuestionInfo = ``;
+        }
         //console.log(currQst);
         myString = `
                 <div class="wrap question" id="q${qNum}">
                     <div class="background">
                         <div class="questionTitle">   
-                            <h1 class="qTitle" id="q${qNum}-title"><span class="lang" key="question">שאלה </span> ${qNum}</h1>
+                            <h1 class="qTitle" id="q${qNum}-title">  <span class="lang" key="question">שאלה </span> ${qNum}</h1>
                         </div>
-
+                        
                         <p class="pTitles" id="q${qNum}content">
                             <span><img src="${currQst.questionPic}" alt="" id="q${qNum}pic"></span>
+                            ${multiQuestionInfo}
                             <span dir="rtl">${currQst.questionContent}</span>
                         </p>
                 `;

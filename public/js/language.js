@@ -177,7 +177,7 @@ var  arrLang={
     'pageNotFound':'الصفحة غير متوفرة',
     'backToSite':'عُد للموقع الإلكتروني',
     '':'',
-    '':'',
+    'multiQuestionInfo':'לשאלה זו יתכנו כמה תשובות נכונות?',
     '':'',
   },
   'heb':{
@@ -280,7 +280,7 @@ var  arrLang={
     'quizResults':'תוצאות הבוחן',
     'quizPointsEarned':':בבוחן זה הרווחת',
     'resultsKey':' ליד כל תשובה ניתן לראות:',
-    'greenAnswer':'מסומנת בירוק אם התשובה שסומנה נכונה',
+    'greenAnswer':'מסגרת מסומנת בירוק אם התשובה שסומנה נכונה',
     'redAnswer':'מסגרת מסומנת באדום אם התשובה איננה נכונה',
     'flickeringAnswer':'מסגרת מהבהבת אם התשובה שסומנה איננה נכונה',
     '':'',
@@ -352,7 +352,7 @@ var  arrLang={
     'pageNotFound':'הדף לא נמצא',
     'backToSite':'חזור לאתר',
     '':'',
-    '':'',
+    'multiQuestionInfo':'לשאלה זו יתכנו כמה תשובות נכונות',
     '':'',
   }
 };
@@ -381,6 +381,9 @@ $(document).ready(function() {  // translating the page according to the clicked
     $('.validate-input').each(function(index ,element){  // translating data-validate attribute
       $(this).attr('data-validate', arrLang[clicked][$(this).attr('key')]);
     });
+    $('.toolTip').each(function(index ,element){  // translating title attribute for a tooltip
+      $(this).attr('title', arrLang[clicked][$(this).attr('key')]);
+    });
 
   });
 });
@@ -407,9 +410,12 @@ function translateThePage() {  // getting the langueage preferred by the user fr
       $(this).text(arrLang[langPref][$(this).attr('key')]);
     });
     $('.inputHolder').each(function(index ,element){  // translating Place holder of an input
-      $(this).attr("placeholder", arrLang[clicked][$(this).attr('key')]);
+      $(this).attr("placeholder", arrLang[langPref][$(this).attr('key')]);
     });
     $('.validate-input').each(function(index ,element){  // translating data-validate attribute
-      $(this).attr('data-validate', arrLang[clicked][$(this).attr('key')]);
+      $(this).attr('data-validate', arrLang[langPref][$(this).attr('key')]);
+    });
+    $('.toolTip').each(function(index ,element){  // translating title attribute for a tooltip
+      $(this).attr('title', arrLang[langPref][$(this).attr('key')]);
     });
 }

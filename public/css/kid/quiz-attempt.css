@@ -510,6 +510,12 @@ button:focus , button:hover {
     color: #218c74;
 }
 
+.toolTip {
+  font-weight: 900;
+  font-size: 1.2em;
+  color: #087fff;
+}
+
 @media only screen and (max-width: 1100px) {
     .section {
         background-color: rgba(187, 153, 125, 0.459);
